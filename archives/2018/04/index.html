@@ -421,7 +421,7 @@ URLs that includ...
 <p>首先，应该想到两两一组，一组代表一个字符，考虑到DDCTF，”DD”两个字符，在字符串中找到两组相邻的字符串，找到了”c4c4”和”e1e1”：</p>
 <p>d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0<b>c4c4</b>c3d4c6fbb9e1b2e2e5e2b5b4e4b8b  7e6<b>e1e1</b>b6b9e4b5e3b8b1b1e3e5b5b6b4b1b0e4e6b2fd</p>
 <p>进一步分析可知，<b>c4</b>和<b>c3</b>刚好相差1，而<b>D</b>和<b>C</b>的ascii值也相差1，<b>c4c4</b>应该就表示”DD”, 然后以此类推：</p>
-<p><img src="/images/ddctf/20180420150038.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420150038.png" alt="avatar"></p>
 <h1 id="第四扩展FS"><a href="#第四扩展FS" class="headerlink" title="第四扩展FS"></a>第四扩展FS</h1><ol>
 <li>下载下来是一张图片</li>
 </ol>
@@ -435,9 +435,9 @@ URLs that includ...
 <ol start="2">
 <li>然后打开file.txt</li>
 </ol>
-<p><img src="/images/ddctf/20180420151247.png" alt="avatar"><br>可以看到有很多乱序字符，结合题目的提示，<b>日常违规审计中频次有时候非常重要</b>,可以统计一下每个字符串的个数，并排序。</p>
+<p><img src="/assets/ddctf/20180420151247.png" alt="avatar"><br>可以看到有很多乱序字符，结合题目的提示，<b>日常违规审计中频次有时候非常重要</b>,可以统计一下每个字符串的个数，并排序。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -o . file.txt | sort |uniq -c | sort -rn</span><br></pre></td></tr></table></figure>
-<p><img src="/images/ddctf/20180420151941.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420151941.png" alt="avatar"></p>
 <p>然后从新组合一下，就得到flag了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DDCTF&#123;ZuozHengqU3dEshi&#125;</span><br></pre></td></tr></table></figure>
         </div>
@@ -583,6 +583,32 @@ URLs that includ...
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1368,9 +1394,9 @@ URLs that includ...
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
