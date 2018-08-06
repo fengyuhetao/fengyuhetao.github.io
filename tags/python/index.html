@@ -339,6 +339,40 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/posts/54865/" >
+            
+                <span>python多线程和lock和Rlock</span>
+        </a>
+        <div class="abstract-content">
+            在threading模块中，定义两种类型的琐：threading.Lock和threading.RLock。
+RLock允许在同一线程中被多次acquire。而Lock却不允许这种情况。注意：如果使用RLock，那么acquire和release必须成对出现，即调用了n次acquire，必须调用n次的release才能真正释放所占用的琐。
+rlock只能在同一个线程acquire和release
+lock可以在不同的线程acquire和release
+rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，这时候，就必须要使用rlock。
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "python">python</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/posts/40688/" >
             
                 <span>python3和python2 base64的问题</span>
@@ -998,9 +1032,49 @@ b'fcKDfX5vdw=='
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 40
         </div>
         <!-- search  -->
         
@@ -1013,6 +1087,16 @@ b'fcKDfX5vdw=='
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/41139/" >how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/27029/" >0ctf2018-babyheap</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1096,12 +1180,12 @@ b'fcKDfX5vdw=='
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
         </li>
     
     
@@ -1136,12 +1220,12 @@ b'fcKDfX5vdw=='
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
         </li>
     
     
@@ -1209,9 +1293,9 @@ b'fcKDfX5vdw=='
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
@@ -1219,15 +1303,13 @@ b'fcKDfX5vdw=='
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="安全"><span class="iconfont-archer">&#xe606;</span>安全</span>
-    
-        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1263,8 +1345,6 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
-    
-        <span class="sidebar-category-name" data-categories="安全/sql注入"><span class="iconfont-archer">&#xe60a;</span>安全/sql注入</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

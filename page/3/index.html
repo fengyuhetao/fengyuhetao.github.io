@@ -354,6 +354,87 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/posts/50844/" >
+            
+                <span>linux命令执行</span>
+        </a>
+        <div class="abstract-content">
+            linux下执行命令绕过字符串过滤
+字符串拼接
+
+‘l’’s’
+‘ls’’-a’’l’
+
+
+文件名绕过
+
+cat ‘fl’’ag’
+cat ‘fl*’
+cat ‘fl??’
+
+
+
+find命令执行
+find /tmp -iname sth -or -exec ls \;                会多次执行
+find /tmp -iname sth -or -exec ls \; -quit        只执行一次
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/51203/" >
+            
+                <span>LD_PRELOAD</span>
+        </a>
+        <div class="abstract-content">
+            LRE_PAYLOAD绕过open_basedir参考链接:
+利用环境变量LD_PRELOAD绕过disable_function执行系统命令
+PHP绕过open_basedir列目录的研究
+源码:
+123456789101112#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;void payload() &#123;	system(&quot;rm /tmp/check.txt&quot;);&#125;int  geteuid() &#123;	if (getenv(&quot;LD_...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/posts/17498/" >
             
                 <span>mysql忘记密码/修改密码</span>
@@ -438,6 +519,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
             </div>
             <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "linux">linux</a>
+    
+</div>
             
         </div>
     </article>
@@ -545,35 +632,6 @@ docker rm [容器ID]...
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/posts/23527/" >
-            
-                <span>phpinfo解读</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="phpinfo解读"><a href="#phpinfo解读" class="headerlink" title="phpinfo解读"></a>phpinfo解读</h1>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "web">web</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/posts/9764/" >
             
                 <span>rctf2018学习笔记</span>
@@ -591,6 +649,35 @@ docker rm [容器ID]...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/23527/" >
+            
+                <span>phpinfo解读</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="phpinfo解读"><a href="#phpinfo解读" class="headerlink" title="phpinfo解读"></a>phpinfo解读</h1>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
     
 </div>
             
@@ -661,74 +748,6 @@ gcc4.2版本-fstack-protector和-fsta...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/posts/62655/" >
-            
-                <span>cbc翻转</span>
-        </a>
-        <div class="abstract-content">
-            CBC翻转攻击参考链接:
-
-https://blog.csdn.net/csu_vc/article/details/79619309
-http://wooyun.jozxing.cc/static/drops/tips-7828.html
-
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/posts/60875/" >
-            
-                <span>misc思路</span>
-        </a>
-        <div class="abstract-content">
-            <ol>
-<li><p>凯撒13世 rot13</p>
-</li>
-<li><p>roqtp697t95j3 对应键盘下一行</p>
-</li>
-<li><p>栅栏密码</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
             
@@ -1439,9 +1458,49 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 40
         </div>
         <!-- search  -->
         
@@ -1454,6 +1513,16 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/41139/" >how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/27029/" >0ctf2018-babyheap</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1537,12 +1606,12 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
         </li>
     
     
@@ -1577,12 +1646,12 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
         </li>
     
     
@@ -1650,9 +1719,9 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
@@ -1660,15 +1729,13 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="安全"><span class="iconfont-archer">&#xe606;</span>安全</span>
-    
-        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1704,8 +1771,6 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
-    
-        <span class="sidebar-category-name" data-categories="安全/sql注入"><span class="iconfont-archer">&#xe60a;</span>安全/sql注入</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

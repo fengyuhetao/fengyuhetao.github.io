@@ -354,6 +354,77 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/posts/63527/" >
+            
+                <span>ollyice</span>
+        </a>
+        <div class="abstract-content">
+            快捷键记录f9:          运行程序
+f7:          单步步入
+f8:          单步步过
+ctrl+f2:    重新运行
+alt+f1:      命令行
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/09</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "工具手册">工具手册</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/posts/16486/" >
+            
+                <span>web安全备忘录</span>
+        </a>
+        <div class="abstract-content">
+            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
+SELECT into dump: 只能导出一行数据
+如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
+因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
+这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
+总结：
+into outfile:导出内容
+into dumpfile:导出二进制文件
+....
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/posts/29914/" >
             
                 <span>ssrf+gopher</span>
@@ -374,6 +445,12 @@ info.php
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
             </div>
             <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
             
         </div>
     </article>
@@ -497,6 +574,12 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
             </div>
             <!-- tags  -->
             
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "python">python</a>
+    
+</div>
+            
         </div>
     </article>
     
@@ -605,87 +688,6 @@ po...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/posts/50844/" >
-            
-                <span>linux命令执行</span>
-        </a>
-        <div class="abstract-content">
-            linux下执行命令绕过字符串过滤
-字符串拼接
-
-‘l’’s’
-‘ls’’-a’’l’
-
-
-文件名绕过
-
-cat ‘fl’’ag’
-cat ‘fl*’
-cat ‘fl??’
-
-
-
-find命令执行
-find /tmp -iname sth -or -exec ls \;                会多次执行
-find /tmp -iname sth -or -exec ls \; -quit        只执行一次
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/posts/51203/" >
-            
-                <span>LD_PRELOAD</span>
-        </a>
-        <div class="abstract-content">
-            LRE_PAYLOAD绕过open_basedir参考链接:
-利用环境变量LD_PRELOAD绕过disable_function执行系统命令
-PHP绕过open_basedir列目录的研究
-源码:
-123456789101112#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;void payload() &#123;	system(&quot;rm /tmp/check.txt&quot;);&#125;int  geteuid() &#123;	if (getenv(&quot;LD_...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "pwn">pwn</a>
     
 </div>
             
@@ -1396,9 +1398,49 @@ PHP绕过open_basedir列目录的研究
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 40
         </div>
         <!-- search  -->
         
@@ -1411,6 +1453,16 @@ PHP绕过open_basedir列目录的研究
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/41139/" >how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/27029/" >0ctf2018-babyheap</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1494,12 +1546,12 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
         </li>
     
     
@@ -1534,12 +1586,12 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
         </li>
     
     
@@ -1607,9 +1659,9 @@ PHP绕过open_basedir列目录的研究
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
@@ -1617,15 +1669,13 @@ PHP绕过open_basedir列目录的研究
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="安全"><span class="iconfont-archer">&#xe606;</span>安全</span>
-    
-        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1661,8 +1711,6 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
-    
-        <span class="sidebar-category-name" data-categories="安全/sql注入"><span class="iconfont-archer">&#xe60a;</span>安全/sql注入</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
