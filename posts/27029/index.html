@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">135</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">967</span> / Reading time: <span class="post-count">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -400,8 +400,66 @@
 <p>题目连接: <a href="https://github.com/eternalsakura/ctf_pwn/blob/master/0ctf2018/babyheap.tar.gz" rel="external nofollow" target="_blank">https://github.com/eternalsakura/ctf_pwn/blob/master/0ctf2018/babyheap.tar.gz</a> </p>
 <h1 id="利用到的知识点如下"><a href="#利用到的知识点如下" class="headerlink" title="利用到的知识点如下:"></a>利用到的知识点如下:</h1><ul>
 <li>overlapping_chunks</li>
+<li>fastbin attack</li>
 </ul>
-<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><h2 id="版本-amp-保护措施"><a href="#版本-amp-保护措施" class="headerlink" title="版本&amp;保护措施"></a>版本&amp;保护措施</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/0ctf/babyheap2018$ file babyheap</span><br><span class="line">babyheap: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=07335c82a28f73c1c4ac099f3381bfebff27e5e5, stripped</span><br><span class="line"></span><br><span class="line"><span class="meta">pwndbg&gt;</span> checksec</span><br><span class="line">[*] '/home/qianfa/Desktop/0ctf/babyheap2018/babyheap'</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Full RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      PIE enabled</span><br></pre></td></tr></table></figure>
+<p>64位程序，所有保护全部开启。</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/0ctf/babyheap2018$ ./babyheap</span><br><span class="line">    __ __ _____________   __   __    ___    ____</span><br><span class="line">   / //_// ____/ ____/ | / /  / /   /   |  / __ )</span><br><span class="line">  / ,&lt;  / __/ / __/ /  |/ /  / /   / /| | / __  |</span><br><span class="line"> / /| |/ /___/ /___/ /|  /  / /___/ ___ |/ /_/ /</span><br><span class="line">/_/ |_/_____/_____/_/ |_/  /_____/_/  |_/_____/</span><br><span class="line"></span><br><span class="line">===== Baby Heap in 2018 =====</span><br><span class="line">1. Allocate</span><br><span class="line">2. Update</span><br><span class="line">3. Delete</span><br><span class="line">4. View</span><br><span class="line">5. Exit</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>Allocate</p>
+<p>分配指定大小的堆块，大小不超过0x58个字节。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( input_size &gt; <span class="number">88</span> )</span><br><span class="line">	input_size = <span class="number">88</span>;</span><br><span class="line">v3 = <span class="built_in">calloc</span>(input_size, <span class="number">1u</span>LL);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Update</p>
+<p>输入堆块下标和输入数据长度，然后输入数据，这里存在off_by_one漏洞。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">v1 = *(_QWORD *)(<span class="number">24L</span>L * v3 + a1 + <span class="number">8</span>) + <span class="number">1L</span>L;            <span class="comment">// v1 = 当前堆块大小 + 1</span></span><br><span class="line"><span class="keyword">if</span> ( v4 &lt;= v1 )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Content: "</span>);</span><br><span class="line">    sub_1230(*(_QWORD *)(<span class="number">24L</span>L * v3 + a1 + <span class="number">16</span>), v4);</span><br><span class="line">    LODWORD(v1) = <span class="built_in">printf</span>(<span class="string">"Chunk %d Updated\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的v1也就是<code>当前堆块的大小 + 1</code>,v4则是我们输入的长度，很明显，可以多输入一个字节，也就造成off_by_one漏洞。</p>
+</li>
+<li><p>Delete</p>
+<p>根据输入的堆块下标，将该堆块size置0，指针置0，并释放区块，没有问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nodes_1[v2].size = <span class="number">0L</span>L;</span><br><span class="line"><span class="built_in">free</span>((<span class="keyword">void</span> *)nodes_1[v2].data_ptr);</span><br><span class="line">nodes_1[v2].data_ptr = <span class="number">0L</span>L;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>View</p>
+<p>根据输入堆块下标，查看堆块内容。</p>
+</li>
+<li><p>Exit</p>
+</li>
+</ol>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="patch掉alarm函数"><a href="#patch掉alarm函数" class="headerlink" title="patch掉alarm函数"></a>patch掉alarm函数</h2><p><em>功能与作用：alarm()函数的主要功能是设置信号传送闹钟，即用来设置信号SIGALRM在经过参数seconds秒数后发送给目前的进程。如果未设置信号SIGALARM的处理函数，那么alarm()默认处理终止进程。</em></p>
+<p>为了方便后续调试程序，先将该函数所在汇编代码patch掉。</p>
+<p>这里推荐keypatch插件，安装教程可参考: <a href="https://www.cnblogs.com/zhaijiahui/p/7978897.html" rel="external nofollow" target="_blank">https://www.cnblogs.com/zhaijiahui/p/7978897.html</a></p>
+<p>第一步: 将一下两行汇编代码patch为nop。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov     edi, 3Ch ; &apos;&lt;&apos;  ; seconds</span><br><span class="line">call    alarm</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/0ctf/TIM截图20180807171309.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807171500.png" alt=""></p>
+<p>第二步: 保存patch后的程序。</p>
+<p>Edit-&gt; Patch Program -&gt; Apply patches to input file。选中<code>Create backup</code>，保存即可。</p>
+<p><img src="/assets/0ctf/TIM截图20180807172900.png" alt=""></p>
+<p>第三步: 修改保存后的patch程序后缀，添加x权限，运行。</p>
+<h2 id="自定义结构体"><a href="#自定义结构体" class="headerlink" title="自定义结构体"></a>自定义结构体</h2><p>通过阅读伪代码，我们可以很容易看出一个结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_DWORD *)(<span class="number">24L</span>L * i + a1) = <span class="number">1</span>;</span><br><span class="line">*(_QWORD *)(a1 + <span class="number">24L</span>L * i + <span class="number">8</span>) = v2;</span><br><span class="line">*(_QWORD *)(a1 + <span class="number">24L</span>L * i + <span class="number">16</span>) = v3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct struct_node&#123;</span><br><span class="line">  int inUse;</span><br><span class="line">  int size;</span><br><span class="line">  char* ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了方便阅读程序，可以在IDA中自定义结构体，并将其应用到伪代码中。</p>
+<p>第一步：定义结构体。</p>
+<p>​    选择Structures视图:</p>
+<p><img src="/assets/0ctf/TIM截图20180807172159.png" alt=""></p>
+<p>​    输入快键键<code>Insert</code>,设置name。</p>
+<p><img src="/assets/0ctf/TIM截图20180807173437.png" alt=""></p>
+<p>​    选中ends这一行,按大写的<code>D</code>,作为<code>inUse</code>字段。</p>
+<p><img src="/assets/0ctf/TIM截图20180807173703.png" alt=""></p>
+<p>​    由于<code>inUse</code>字段为8个字节，所以需要选中<code>field_0         dq ?</code>,持续按<code>D</code>,直到<code>db</code>变为<code>dq</code>。</p>
+<p><img src="/assets/0ctf/TIM截图20180807174014.png" alt=""></p>
+<p>​    然后在选中ends这一行，按大写的<code>D</code>,作为<code>size</code>字段，同理，将<code>db</code>设置为<code>dq</code>。</p>
+<p><img src="/assets/0ctf/TIM截图20180807174142.png" alt=""></p>
+<p>​    所有字段都设置完毕之后，将三个字段 右键<code>rename</code>一下即可。</p>
+<p><img src="/assets/0ctf/TIM截图20180807174449.png" alt=""></p>
+<p>第二步:  应用结构体。</p>
+<p>​    以allocate函数为例，选中参数<code>a1</code>,右键选择<code>Convert ot struct *</code></p>
+<p><img src="/assets/0ctf/TIM截图20180807174718.png" alt=""></p>
+<p>​    选择我们刚刚定义的<code>struct_node</code>即可，代码可阅读性明显提高，耶！ </p>
+<p><img src="/assets/0ctf/TIM截图20180807175005.png" alt=""></p>
+<h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="泄露libc地址和main-arena地址"><a href="#泄露libc地址和main-arena地址" class="headerlink" title="泄露libc地址和main_arena地址"></a>泄露libc地址和main_arena地址</h2><p>采用overlapping chunk技术。</p>
+<h2 id="泄露heap地址"><a href="#泄露heap地址" class="headerlink" title="泄露heap地址"></a>泄露heap地址</h2><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
 <li><a href="https://cloud.tencent.com/developer/article/1096977" rel="external nofollow" target="_blank">0ctf2018 babystack、babyheap、blackhole解析 —– Chamd5团队</a></li>
 <li><a href="https://bbs.pediy.com/thread-226037.htm" rel="external nofollow" target="_blank">0CTF 2018 BabyHeap—- 看雪</a></li>
 <li><a href="https://amritabi0s.wordpress.com/2018/04/02/0ctf-quals-babyheap-writeup/" rel="external nofollow" target="_blank">https://amritabi0s.wordpress.com/2018/04/02/0ctf-quals-babyheap-writeup/</a></li>
@@ -536,7 +594,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用到的知识点如下"><span class="toc-number">2.</span> <span class="toc-text">利用到的知识点如下:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题目分析"><span class="toc-number">3.</span> <span class="toc-text">题目分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用到的知识点如下"><span class="toc-number">2.</span> <span class="toc-text">利用到的知识点如下:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题目分析"><span class="toc-number">3.</span> <span class="toc-text">题目分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本-amp-保护措施"><span class="toc-number">3.1.</span> <span class="toc-text">版本&amp;保护措施</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能"><span class="toc-number">3.2.</span> <span class="toc-text">功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">4.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#patch掉alarm函数"><span class="toc-number">4.1.</span> <span class="toc-text">patch掉alarm函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义结构体"><span class="toc-number">4.2.</span> <span class="toc-text">自定义结构体</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwn"><span class="toc-number">5.</span> <span class="toc-text">pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露libc地址和main-arena地址"><span class="toc-number">5.1.</span> <span class="toc-text">泄露libc地址和main_arena地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露heap地址"><span class="toc-number">5.2.</span> <span class="toc-text">泄露heap地址</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -549,6 +607,64 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1250,12 +1366,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -1338,9 +1454,9 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     

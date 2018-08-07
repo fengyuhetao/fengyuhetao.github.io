@@ -627,9 +627,9 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
                 <span>pwn前置知识</span>
         </a>
         <div class="abstract-content">
-            <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" rel="external nofollow" target="_blank">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
-<p>本文主要是介绍Linux平台下的漏洞利用, 所以就专注于<code>System V AMD64 ABI</code> 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ cat victim.c</span><br><span class="line">int foo(int a, int b, int c,  int d,  int e,  int f,  int g,  int h) &#123;</span><br><span class="line">    return a + b + c + d + e + f + g + h;</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">    foo(1, 2, 3, 4, 5, 6, 7, 8);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">$ gcc victim.c -o victim</span><br><span class="line">$ objdump -d victim | grep &quot;&lt;main&gt;:&quot; -A 11</span><br><span class="line">00000000000006a0 &lt;main&gt;:</span><br><span class="line"> 6a0:   55                      push   rbp</span><br><span class="line"> 6a1:   48 89 e5                mov    rbp,rsp</span><br><span class="line"> 6a4:   6a 08                   push   0x8</span><br><span class="line"> 6a6:   6a 07                   push   0x7</span><br><span class="line"> 6a8:   41 b9 06 00 00 00       mov    r9d,0x6</span><br><span class="line"> 6ae:   41 b8 05 00 00 00       mov    r8d,0x5</span><br><span class="line"> 6b4:   b9 04 00 00 00          mov    ecx,0x4</span><br><span class="line"> 6b9:   ba 03 00 00 00          mov    edx,0x3</span><br><span class="line"> 6be:   be 02 00 00 00          mov    esi,0x2</span><br><span class="line"> 6c3:   bf 01 00 00 00          mov    edi,0x1</span><br><span class="line"> 6c8:   e8 93 ff ff ff          call   660 &lt;foo&gt;</span><br></pre></td></tr></table></figure>
+            调用约定32位和64位程序的区别, 更多的是体现在调用约定(Calling Convention)上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.
+本文主要是介绍Linux平台下的漏洞利用, 所以就专注于System V AMD64 ABI 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.
+12345678910111213141516171819202122$ cat victim.cint foo(int a, in...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1450,6 +1450,64 @@ po...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 40
@@ -1583,12 +1641,12 @@ po...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -1671,9 +1729,9 @@ po...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
