@@ -10,5 +10,5 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: http://www.molock.cn/sitemap.xml
-Sitemap: http://www.molock.cn/baidusitemap.xml
+Sitemap: https://www.tiandiwuji.top/sitemap.xml
+Sitemap: https://www.tiandiwuji.top/baidusitemap.xml
