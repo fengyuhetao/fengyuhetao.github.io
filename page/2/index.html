@@ -19,8 +19,8 @@
     <!-- 设置密码 -->
     <script>
         (function(){
-            if('{{ page.password }}'){
-                if (prompt('请输入文章密码','') !== '{{ page.password }}'){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
                     alert('密码错误！');
                     history.back();
                 }
@@ -627,7 +627,7 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
                 <span>pwn前置知识</span>
         </a>
         <div class="abstract-content">
-            <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="external nofollow noopener noreferrer">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
+            <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" rel="external nofollow" target="_blank">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
 <p>本文主要是介绍Linux平台下的漏洞利用, 所以就专注于<code>System V AMD64 ABI</code> 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ cat victim.c</span><br><span class="line">int foo(int a, int b, int c,  int d,  int e,  int f,  int g,  int h) &#123;</span><br><span class="line">    return a + b + c + d + e + f + g + h;</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">    foo(1, 2, 3, 4, 5, 6, 7, 8);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">$ gcc victim.c -o victim</span><br><span class="line">$ objdump -d victim | grep &quot;&lt;main&gt;:&quot; -A 11</span><br><span class="line">00000000000006a0 &lt;main&gt;:</span><br><span class="line"> 6a0:   55                      push   rbp</span><br><span class="line"> 6a1:   48 89 e5                mov    rbp,rsp</span><br><span class="line"> 6a4:   6a 08                   push   0x8</span><br><span class="line"> 6a6:   6a 07                   push   0x7</span><br><span class="line"> 6a8:   41 b9 06 00 00 00       mov    r9d,0x6</span><br><span class="line"> 6ae:   41 b8 05 00 00 00       mov    r8d,0x5</span><br><span class="line"> 6b4:   b9 04 00 00 00          mov    ecx,0x4</span><br><span class="line"> 6b9:   ba 03 00 00 00          mov    edx,0x3</span><br><span class="line"> 6be:   be 02 00 00 00          mov    esi,0x2</span><br><span class="line"> 6c3:   bf 01 00 00 00          mov    edi,0x1</span><br><span class="line"> 6c8:   e8 93 ff ff ff          call   660 &lt;foo&gt;</span><br></pre></td></tr></table></figure>
         </div>
@@ -717,7 +717,7 @@ po...
     
         
             
-                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow noopener noreferrer" target="_blank"></a>
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
             
         
     
@@ -803,7 +803,7 @@ po...
     
         
             
-                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow noopener noreferrer" target="_blank"></a>
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
             
         
     
@@ -857,7 +857,7 @@ po...
     
     <!-- powered by Hexo  -->
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow noopener noreferrer">Archer</a></span>
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
     </div>
     <!-- 不蒜子  -->
     
@@ -882,42 +882,6 @@ po...
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1602,12 +1566,12 @@ po...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     

