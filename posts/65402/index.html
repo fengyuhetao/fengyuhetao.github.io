@@ -7,15 +7,26 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="天极">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
-    <meta name="copyright" content="天极">
-    <meta name="keywords" content="天极 | 天极">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="PHP代码审计归纳 | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>PHP代码审计归纳 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if('{{ page.password }}'){
+                if (prompt('请输入文章密码','') !== '{{ page.password }}'){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -68,10 +79,10 @@
 
 </style>
 
-    <link rel="preload" href= /css/style.css?v=20180721 as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= /css/mobile.css?v=20180721 media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -180,12 +191,12 @@
 }( typeof global !== "undefined" ? global : this ) );
 </script>
 
-    <link rel="icon" href= "/assets/favicon.ico" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
     
     <!-- fancybox -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
@@ -207,28 +218,17 @@
     
     <div class="banner">
             <div class="blog-title">
-                <a href="/" >Tianji&#39;s Blog.</a>
+                <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
                 <a href="#" class="post-name">PHP代码审计归纳</a>
             </div>
     </div>
     
-    <a class="home-link" href=/>Tianji's Blog.</a>
+    <a class="home-link" href="/">Tianji's Blog.</a>
 </header>
     <div class="wrapper">
-        <div class="site-intro" style=
-
-
-
-
-
-
-
-
-height:50vh;
-
->
+        <div class="site-intro" style="height:50vh;">
     
     <!-- 主页  -->
     
@@ -259,9 +259,9 @@ height:50vh;
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
-                    <div class= post-intro-tags >
+                    <div class="post-intro-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "web安全">web安全</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
     
 </div>
                 
@@ -392,12 +392,12 @@ height:50vh;
     "/lib/webfontloader.min.js"
   ], asyncCb, asyncErr)
 </script>        
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
         <h1 id="PHP代码审计归纳"><a href="#PHP代码审计归纳" class="headerlink" title="PHP代码审计归纳"></a>PHP代码审计归纳</h1><p>Author: 木禾 ali0th</p>
-<p><a href="https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md" target="_blank" rel="noopener">https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md</a></p>
+<p><a href="https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md</a></p>
 <h2 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h2><h3 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h3><p>该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。条件：若有EXTR_SKIP则不行。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="string">"Original"</span>;</span><br><span class="line">$my_array = <span class="keyword">array</span>(<span class="string">"a"</span> =&gt; <span class="string">"Cat"</span>,<span class="string">"b"</span> =&gt; <span class="string">"Dog"</span>, <span class="string">"c"</span> =&gt; <span class="string">"Horse"</span>);</span><br><span class="line">extract($my_array); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\$a = $a; \$b = $b; \$c = $c"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment"># 结果：$a = Cat; $b = Dog; $c = Horse</span></span><br></pre></td></tr></table></figure></p>
 <p>这里原来是\$a是original，后面通过extract把$a覆盖变成了Cat了,所以这里把原来的变量给覆盖了。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#?shiyan=&amp;flag=1</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">'xxx'</span>; </span><br><span class="line">extract($_GET);</span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">isset</span>($shiyan))</span><br><span class="line"> &#123; </span><br><span class="line">    $content=trim(file_get_contents($flag)); <span class="comment"># content is 0 , flag can be anything,cause file_get_contents cannot open file, return 0</span></span><br><span class="line">    <span class="keyword">if</span>($shiyan==$content)</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'ctf&#123;xxx&#125;'</span>; </span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123; </span><br><span class="line">    <span class="keyword">echo</span><span class="string">'Oh.no'</span>;</span><br><span class="line">   &#125; </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
@@ -409,13 +409,13 @@ height:50vh;
 <p>\$_REQUEST 这个超全局变量的值受 php.ini中request_order的影响，在php5.3.x系列中，request_order默认值为GP，也就是说默认配置下$_REQUEST只包含$_GET和$_POST而不包括$_COOKIE。通过COOKIE就可以提交GLOBALS变量。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// register_globals =ON</span></span><br><span class="line"><span class="comment">//foo.php?GLOBALS[foobar]=HELLO</span></span><br><span class="line"><span class="keyword">echo</span> $foobar;</span><br><span class="line"></span><br><span class="line"><span class="comment">//为了安全取消全局变量</span></span><br><span class="line"><span class="comment">//var.php?GLOBALS[a]=aaaa&amp;b=111</span></span><br><span class="line"><span class="keyword">if</span> (ini_get(<span class="string">"register_globals"</span>)) <span class="keyword">foreach</span>($_REQUEST <span class="keyword">as</span> $k=&gt;$v) <span class="keyword">unset</span>($&#123;$k&#125;);</span><br><span class="line"><span class="keyword">print</span> $a;</span><br><span class="line"><span class="keyword">print</span> $_GET[b];</span><br></pre></td></tr></table></figure>
 <p>经过测试，开了register_globals会卡死</p>
-<h2 id="绕过过滤的空白字符"><a href="#绕过过滤的空白字符" class="headerlink" title="绕过过滤的空白字符"></a>绕过过滤的空白字符</h2><p>原理：<a href="https://baike.baidu.com/item/%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6" target="_blank" rel="noopener">https://baike.baidu.com/item/%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6</a></p>
+<h2 id="绕过过滤的空白字符"><a href="#绕过过滤的空白字符" class="headerlink" title="绕过过滤的空白字符"></a>绕过过滤的空白字符</h2><p>原理：<a href="https://baike.baidu.com/item/%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6" target="_blank" rel="external nofollow noopener noreferrer">https://baike.baidu.com/item/%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">控制码</span><br><span class="line">&quot;\0&quot; &quot;%00&quot; (ASCII  0 (0x00))，空字节符。</span><br><span class="line"></span><br><span class="line">制表符</span><br><span class="line">&quot;\t&quot; (ASCII  9 (0x09))，水平制表符。</span><br><span class="line"></span><br><span class="line">空白字符：</span><br><span class="line">&quot;\n&quot; (ASCII 10 (0x0A))，换行符。</span><br><span class="line">&quot;\v&quot; &quot;\x0b&quot; (ASCII  11 (0x0B))，垂直制表符。</span><br><span class="line">&quot;\f&quot; &quot;%0c&quot; 换页符</span><br><span class="line">&quot;\r&quot; &quot;%0d&quot;(ASCII  13 (0x0D))，回车符。</span><br><span class="line"></span><br><span class="line">空格:</span><br><span class="line">&quot; &quot; &quot;%20&quot; (ASCII  32 (0x20))，普通空格符。</span><br></pre></td></tr></table></figure>
 <p>而trim过滤的空白字符有<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string trim ( string $str [, string $character_mask = <span class="string">" \t\n\r\0\x0B"</span> ] )</span><br></pre></td></tr></table></figure></p>
 <p>其中缺少了\f</p>
 <p>2 函数对空白字符的特性<br>is_numeric函数在开始判断前，会先跳过所有空白字符。这是一个特性。<br>也就是说，is_numeirc(“ \r\n \t 1.2”)是会返回true的。同理，intval(“ \r\n \t 12”)，也会正常返回12。</p>
 <p>案例</p>
-<p><a href="https://github.com/bowu678/php_bugs/blob/master/02%20%E7%BB%95%E8%BF%87%E8%BF%87%E6%BB%A4%E7%9A%84%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6.php" target="_blank" rel="noopener">https://github.com/bowu678/php_bugs/blob/master/02%20%E7%BB%95%E8%BF%87%E8%BF%87%E6%BB%A4%E7%9A%84%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6.php</a><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#?number=%00%0c191</span></span><br><span class="line"><span class="comment"># 1 %00绕过is_numeric</span></span><br><span class="line"><span class="comment"># 2 \f（也就是%0c）在数字前面，trim，intval和is_numeric都会忽略这个字符</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/bowu678/php_bugs/blob/master/02%20%E7%BB%95%E8%BF%87%E8%BF%87%E6%BB%A4%E7%9A%84%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6.php" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/bowu678/php_bugs/blob/master/02%20%E7%BB%95%E8%BF%87%E8%BF%87%E6%BB%A4%E7%9A%84%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6.php</a><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#?number=%00%0c191</span></span><br><span class="line"><span class="comment"># 1 %00绕过is_numeric</span></span><br><span class="line"><span class="comment"># 2 \f（也就是%0c）在数字前面，trim，intval和is_numeric都会忽略这个字符</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="intval整数溢出"><a href="#intval整数溢出" class="headerlink" title="intval整数溢出"></a>intval整数溢出</h2><p>php整数上限溢出绕过intval</p>
 <p>intval 函数最大的值取决于操作系统。<br>32 位系统最大带符号的 integer 范围是 -2147483648 到 2147483647。举例，在这样的系统上， intval(‘1000000000000’) 会返回 2147483647。<br>64 位系统上，最大带符号的 integer 值是 9223372036854775807。</p>
 <h2 id="intval-四舍五入"><a href="#intval-四舍五入" class="headerlink" title="intval 四舍五入"></a>intval 四舍五入</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ?a=1024.1</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($_GET[id]) &#123;</span><br><span class="line">mysql_connect(SAE_MYSQL_HOST_M . <span class="string">':'</span> . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);</span><br><span class="line">mysql_select_db(SAE_MYSQL_DB);</span><br><span class="line">$id = intval($_GET[id]); <span class="comment">## 这里过滤只有一个intval</span></span><br><span class="line">$query = @mysql_fetch_array(mysql_query(<span class="string">"select content from ctf2 where id='$id'"</span>));</span><br><span class="line"><span class="keyword">if</span> ($_GET[id]==<span class="number">1024</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;p&gt;no! try again&lt;/p&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span>($query[content]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -426,16 +426,16 @@ height:50vh;
 <h2 id="截断"><a href="#截断" class="headerlink" title="截断"></a>截断</h2><h3 id="iconv-异常字符截断"><a href="#iconv-异常字符截断" class="headerlink" title="iconv 异常字符截断"></a>iconv 异常字符截断</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 因iconv遇到异常字符就不转后面的内容了，所以可以截断。</span></span><br><span class="line"><span class="comment">## 这里chr(128)到chr(255)都可以截断。</span></span><br><span class="line">$a=<span class="string">'1'</span>.char(<span class="number">130</span>).<span class="string">'2'</span>;</span><br><span class="line"><span class="keyword">echo</span> iconv(<span class="string">"UTF-8"</span>,<span class="string">"gbk"</span>,$a); <span class="comment">//将字符串的编码从UTF-8转到gbk</span></span><br><span class="line"><span class="keyword">echo</span> iconv(<span class="string">'GB2312'</span>, <span class="string">'UTF-8'</span>, $str); <span class="comment">//将字符串的编码从GB2312转到UTF-8</span></span><br></pre></td></tr></table></figure>
 <h3 id="eregi、ereg可用-00截断"><a href="#eregi、ereg可用-00截断" class="headerlink" title="eregi、ereg可用%00截断"></a>eregi、ereg可用%00截断</h3><p>功能：正则匹配过滤<br>条件：要求php&lt;5.3.4</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## http://127.0.0.1/Php_Bug/05.php?password=1e9%00*-*</span></span><br><span class="line"><span class="comment">#GET方式提交password，然后用ereg()正则限制了password的形式，只能是一个或者多个数字、大小写字母，继续strlen()限制了长度小于8并且大小必须大于9999999，继续strpos()对password进行匹配，必须含有-，最终才输出flag</span></span><br><span class="line"><span class="comment">#因为ereg函数存在NULL截断漏洞，导致了正则过滤被绕过,所以可以使用%00截断正则匹配。</span></span><br><span class="line"><span class="comment">#对于另一个难题可以使用科学计数法表示，计算器或电脑表达10的的幂是一般是e，也就是1.99714e13=19971400000000，所以构造 1e8 即 100000000 &gt; 9999999，在加上-。于是乎构造password=1e8%00*-*,成功得到答案</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span> ($_GET[<span class="string">'password'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (ereg (<span class="string">"^[a-zA-Z0-9]+$"</span>,$_GET[<span class="string">'password'</span>]) === <span class="keyword">FALSE</span>)    </span><br><span class="line">       &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'&lt;p&gt;You password must be alphanumeric&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (strlen($_GET[<span class="string">'password'</span>]) &lt; <span class="number">8</span> &amp;&amp; $_GET[<span class="string">'password'</span>] &gt; <span class="number">9999999</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (strpos ($_GET[<span class="string">'password'</span>], <span class="string">'*-*'</span>) !== <span class="keyword">FALSE</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">'Flag: '</span> . $flag);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span>(<span class="string">'&lt;p&gt;*-* have not been found&lt;/p&gt;'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'&lt;p&gt;Invalid password&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="move-uploaded-file-用-0截断"><a href="#move-uploaded-file-用-0截断" class="headerlink" title="move_uploaded_file 用\0截断"></a>move_uploaded_file 用\0截断</h3><p>5.4.x&lt;= 5.4.39, 5.5.x&lt;= 5.5.23, 5.6.x &lt;= 5.6.7<br>原来在高版本（受影响版本中），PHP把长度比较的安全检查逻辑给去掉了，导致了漏洞的发生<br>cve：<br><a href="https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348" target="_blank" rel="noopener">https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348</a></p>
+<h3 id="move-uploaded-file-用-0截断"><a href="#move-uploaded-file-用-0截断" class="headerlink" title="move_uploaded_file 用\0截断"></a>move_uploaded_file 用\0截断</h3><p>5.4.x&lt;= 5.4.39, 5.5.x&lt;= 5.5.23, 5.6.x &lt;= 5.6.7<br>原来在高版本（受影响版本中），PHP把长度比较的安全检查逻辑给去掉了，导致了漏洞的发生<br>cve：<br><a href="https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348" target="_blank" rel="external nofollow noopener noreferrer">https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348</a></p>
 <p><code>move_uploaded_file($_FILES[&#39;x&#39;][&#39;tmp_name&#39;],&quot;/tmp/test.php\x00.jpg&quot;)</code><br>上传抓包修改name为a.php\0jpg（\0是nul字符），可以看到$_FILES[‘xx’][‘name’]存储的字符串是a.php，不会包含\0截断之后的字符，因此并不影响代码的验证逻辑。<br>但是如果通过$_REQUEST方式获取的，则可能出现扩展名期望值不一致的情况，造成“任意文件上传”。</p>
 <h3 id="include用？截断"><a href="#include用？截断" class="headerlink" title="include用？截断"></a>include用？截断</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$name=$_GET[<span class="string">'name'</span>];  </span><br><span class="line">$filename=$name.<span class="string">'.php'</span>;  </span><br><span class="line"><span class="keyword">include</span> $filename;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当输入的文件名包含URL时，问号截断则会发生，并且这个利用方式不受PHP版本限制，原因是Web服务其会将问号看成一个请求参数。<br>测试POC：<br><a href="http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt" target="_blank" rel="noopener">http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt</a>?<br>则会打开secret.txt中的文件内容。本测试用例在PHP5.5.38版本上测试通过。</p>
+<p>当输入的文件名包含URL时，问号截断则会发生，并且这个利用方式不受PHP版本限制，原因是Web服务其会将问号看成一个请求参数。<br>测试POC：<br><a href="http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt" target="_blank" rel="external nofollow noopener noreferrer">http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt</a>?<br>则会打开secret.txt中的文件内容。本测试用例在PHP5.5.38版本上测试通过。</p>
 <h3 id="系统长度截断"><a href="#系统长度截断" class="headerlink" title="系统长度截断"></a>系统长度截断</h3><p>这种方式在PHP5.3以后的版本中都已经得到了修复。<br>win260个字符，linux下4*1024=4096字节</p>
 <h3 id="mysql长度截断"><a href="#mysql长度截断" class="headerlink" title="mysql长度截断"></a>mysql长度截断</h3><p>mysql内的默认字符长度为255，超过的就没了。<br>由于mysql的sql_mode设置为default的时候，即没有开启STRICT_ALL_TABLES选项时，MySQL对于插入超长的值只会提示warning</p>
 <h3 id="mysql中utf-8截断"><a href="#mysql中utf-8截断" class="headerlink" title="mysql中utf-8截断"></a>mysql中utf-8截断</h3><p><code>insert into dvwa.test values (14,concat(&quot;admin&quot;,0xc1,&quot;abc&quot;))</code></p>
 <p>写入为admin</p>
 <h2 id="弱类型比较"><a href="#弱类型比较" class="headerlink" title="弱类型比较"></a>弱类型比较</h2><p>原理</p>
-<p>比较表：<a href="http://php.net/manual/zh/types.comparisons.php" target="_blank" rel="noopener">http://php.net/manual/zh/types.comparisons.php</a></p>
+<p>比较表：<a href="http://php.net/manual/zh/types.comparisons.php" target="_blank" rel="external nofollow noopener noreferrer">http://php.net/manual/zh/types.comparisons.php</a></p>
 <p>以下等式会成立<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">''</span> == <span class="number">0</span> == <span class="keyword">false</span></span><br><span class="line"><span class="string">'123'</span> == <span class="number">123</span></span><br><span class="line"><span class="string">'abc'</span> == <span class="number">0</span></span><br><span class="line"><span class="string">'123a'</span> == <span class="number">123</span></span><br><span class="line"><span class="string">'0x01'</span> == <span class="number">1</span></span><br><span class="line"><span class="string">'0e123456789'</span> == <span class="string">'0e987654321'</span></span><br><span class="line">[<span class="keyword">false</span>] == [<span class="number">0</span>] == [<span class="keyword">NULL</span>] == [<span class="string">''</span>]</span><br><span class="line"><span class="keyword">NULL</span> == <span class="keyword">false</span> == <span class="number">0</span></span><br><span class="line"><span class="keyword">true</span> == <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="、-gt-、-lt-的弱类型比较"><a href="#、-gt-、-lt-的弱类型比较" class="headerlink" title="==、&gt;、&lt;的弱类型比较"></a>==、&gt;、&lt;的弱类型比较</h3><p>这里用到了PHP弱类型的一个特性，当一个整形和一个其他类型行比较的时候，会先把其他类型转换成整型再比。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##方法1</span></span><br><span class="line"><span class="comment">##$a["a1"]="1e8%00";</span></span><br><span class="line"><span class="comment">##这里用%00绕过is_numeric,然后1e8可以比1336大，因此最后能$v1=1</span></span><br><span class="line"><span class="comment">##方法2</span></span><br><span class="line"><span class="comment">##$a["a1"]=["a"];</span></span><br><span class="line"><span class="comment">##使用数组，可以，因为数组恒大于数字或字符串</span></span><br><span class="line"><span class="comment">##方法3</span></span><br><span class="line"><span class="comment">##$a["a1"]=1337a;</span></span><br><span class="line"><span class="comment">##1337a过is_numeric，又由&gt;转成1337与1336比较</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">is_numeric(@$a[<span class="string">"a1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;    </span><br><span class="line"><span class="keyword">if</span>(@$a[<span class="string">"a1"</span>])&#123;</span><br><span class="line">		var_dump($a);</span><br><span class="line">        ($a[<span class="string">"a1"</span>]&gt;<span class="number">1336</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line">var_dump($v1);</span><br></pre></td></tr></table></figure>
@@ -502,7 +502,7 @@ height:50vh;
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ?a=assert</span></span><br><span class="line">call_user_func($_GET[<span class="string">'a'</span>],$b);</span><br></pre></td></tr></table></figure>
 <h2 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">assert()</span><br><span class="line">call_user_func()</span><br><span class="line">call_user_func_array()</span><br><span class="line">create_function()</span><br></pre></td></tr></table></figure>
 <h3 id="eval-和assert-代码执行"><a href="#eval-和assert-代码执行" class="headerlink" title="eval()和assert()代码执行"></a>eval()和assert()代码执行</h3><p>当assert()的参数为字符串时 可执行PHP代码。<br>区别：assert可以不加;，eval不可以不加;。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span>(<span class="string">" phpinfo(); "</span>);【√】 <span class="keyword">eval</span>(<span class="string">" phpinfo() "</span>);【X】</span><br><span class="line">assert(<span class="string">" phpinfo(); "</span>);【√】 assert(<span class="string">" phpinfo() "</span>);【√】</span><br></pre></td></tr></table></figure></p>
-<h2 id="优先级绕过"><a href="#优先级绕过" class="headerlink" title="优先级绕过"></a>优先级绕过</h2><p>原理：<br>如果运算符优先级相同，那运算符的结合方向决定了该如何运算<br><a href="http://php.net/manual/zh/language.operators.precedence.php" target="_blank" rel="noopener">http://php.net/manual/zh/language.operators.precedence.php</a></p>
+<h2 id="优先级绕过"><a href="#优先级绕过" class="headerlink" title="优先级绕过"></a>优先级绕过</h2><p>原理：<br>如果运算符优先级相同，那运算符的结合方向决定了该如何运算<br><a href="http://php.net/manual/zh/language.operators.precedence.php" target="_blank" rel="external nofollow noopener noreferrer">http://php.net/manual/zh/language.operators.precedence.php</a></p>
 <p>优先级：&amp;&amp;/|| 大于 = 大于 AND/OR</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ($test = true) and false; $test2 = (true &amp;&amp; false);</span></span><br><span class="line">$test = <span class="keyword">true</span> <span class="keyword">and</span> <span class="keyword">false</span>; var_dump($test);<span class="comment">//bool(true) </span></span><br><span class="line">$test2 = <span class="keyword">true</span> &amp;&amp; <span class="keyword">false</span>; var_dump($test2); <span class="comment">//bool(false)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当有两个is_numeric判断并用and连接时，and后面的is_numeric可以绕过</span></span><br><span class="line">$test3 = is_numeric(<span class="string">"123"</span>) <span class="keyword">and</span> is_numeric(<span class="string">"anything false"</span>); var_dump($test3); <span class="comment">//bool(true)</span></span><br></pre></td></tr></table></figure>
 <h2 id="getimagesize图片判断绕过"><a href="#getimagesize图片判断绕过" class="headerlink" title="getimagesize图片判断绕过"></a>getimagesize图片判断绕过</h2><p>原理：<br>当用getimagesize判断文件是否为图片,可以判断的文件为gif/png/jpg，如果指定的文件如果不是有效的图像，会返回 false。<br>只要我们在文件头部加入GIF89a后可以上传任意后缀文件。</p>
@@ -660,34 +660,34 @@ height:50vh;
 </table>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## ?file=1&lt;</span></span><br><span class="line"><span class="comment">## ?file=1&gt;</span></span><br><span class="line"><span class="comment">## ?file=1"txt</span></span><br><span class="line">文件名为<span class="number">1.</span>txt</span><br><span class="line"></span><br><span class="line"><span class="comment">## ?file=1234.tx&gt;</span></span><br><span class="line"><span class="comment">## ?file=1234.&lt;</span></span><br><span class="line"><span class="comment">## ?file=1&lt;&lt;</span></span><br><span class="line"><span class="comment">## ?file=1&lt;&lt;"&gt;</span></span><br><span class="line"><span class="comment">## ?file=123&gt;"&gt;</span></span><br><span class="line"><span class="comment">## ?file=&gt;&gt;&gt;4"&gt;</span></span><br><span class="line"><span class="comment">## ?file=&lt;&lt;4"&gt;</span></span><br><span class="line">文件名为<span class="number">1234.</span>txt</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">'shell&lt;'</span>);  </span><br><span class="line"><span class="keyword">include</span>(<span class="string">'shell&lt;&lt;'</span>);</span><br><span class="line"><span class="keyword">include</span>(<span class="string">'shell.p&gt;p'</span>); </span><br><span class="line"><span class="keyword">include</span>(<span class="string">'shell"php'</span>);</span><br><span class="line">fopen(<span class="string">'.htacess'</span>);  <span class="comment">//==&gt;fopen("htacess');</span></span><br><span class="line">file_get_contents(<span class="string">'C:boot.ini'</span>); <span class="comment">//==&gt;  file_get_contents ('C:/boot.ini');</span></span><br><span class="line">file_get_contents(<span class="string">'C:/tmp/con.jpg'</span>); <span class="comment">//此举将会无休无止地从CON设备读取0字节，直到遇到eof</span></span><br><span class="line">file_put_contents(<span class="string">'C:/tmp/con.jpg'</span>,chr(<span class="number">0</span>×<span class="number">07</span>));  <span class="comment">//此举将会不断地使服务器发出类似哔哔的声音</span></span><br></pre></td></tr></table></figure>
 <h2 id="处理value没有处理key"><a href="#处理value没有处理key" class="headerlink" title="处理value没有处理key"></a>处理value没有处理key</h2><p>foreach时,addslashes对获得的value值进行处理，但没有处理key。</p>
-<h2 id="用来目录遍历的特别函数"><a href="#用来目录遍历的特别函数" class="headerlink" title="用来目录遍历的特别函数"></a>用来目录遍历的特别函数</h2><p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088094" target="_blank" rel="noopener">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088094</a><br>lstat 函数</p>
-<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088071" target="_blank" rel="noopener">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088071</a><br>stream_resolve_include_path函数</p>
-<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083688" target="_blank" rel="noopener">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083688</a></p>
-<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083457" target="_blank" rel="noopener">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083457</a></p>
-<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083453" target="_blank" rel="noopener">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083453</a></p>
+<h2 id="用来目录遍历的特别函数"><a href="#用来目录遍历的特别函数" class="headerlink" title="用来目录遍历的特别函数"></a>用来目录遍历的特别函数</h2><p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088094" target="_blank" rel="external nofollow noopener noreferrer">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088094</a><br>lstat 函数</p>
+<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088071" target="_blank" rel="external nofollow noopener noreferrer">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-088071</a><br>stream_resolve_include_path函数</p>
+<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083688" target="_blank" rel="external nofollow noopener noreferrer">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083688</a></p>
+<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083457" target="_blank" rel="external nofollow noopener noreferrer">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083457</a></p>
+<p><a href="http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083453" target="_blank" rel="external nofollow noopener noreferrer">http://wooyun.webbaozi.com/bug_detail.php?wybug_id=wooyun-2014-083453</a></p>
 <h2 id="绕过GD库图片渲染"><a href="#绕过GD库图片渲染" class="headerlink" title="绕过GD库图片渲染"></a>绕过GD库图片渲染</h2><p><a href="file/PHP代码审计_jpg_payload.zip">jpg_payload.zip</a></p>
 <p>jpg_name.jpg是待GD处理的图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php jpg_payload.php &lt;jpg_name.jpg&gt;</span><br></pre></td></tr></table></figure></p>
 <p>生成好的图片，在经过如下代码处理后，依然能保留其中的shell：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    imagecreatefromjpeg(<span class="string">'xxxx.jpg'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="会话固定"><a href="#会话固定" class="headerlink" title="会话固定"></a>会话固定</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($_GET[<span class="string">'phpsessid'</span>])) session_id($_GET[<span class="string">'phpsessid'</span>]);<span class="comment">//通过GET方法传递sessionid</span></span><br></pre></td></tr></table></figure>
 <p>通过get方法来设置session。所以可以通过CSRF：</p>
-<p><a href="http://xxxx/index.php?r=admin/index/index&amp;phpsessid=f4cking123" target="_blank" rel="noopener">http://xxxx/index.php?r=admin/index/index&amp;phpsessid=f4cking123</a></p>
+<p><a href="http://xxxx/index.php?r=admin/index/index&amp;phpsessid=f4cking123" target="_blank" rel="external nofollow noopener noreferrer">http://xxxx/index.php?r=admin/index/index&amp;phpsessid=f4cking123</a></p>
 <p>管理员点了我们就能使用此session进后台了。</p>
 <h2 id="end方法获取元素的问题"><a href="#end方法获取元素的问题" class="headerlink" title="end方法获取元素的问题"></a>end方法获取元素的问题</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$file = <span class="keyword">array</span>(<span class="number">1</span> =&gt; <span class="string">'png'</span>, <span class="number">0</span> =&gt; <span class="string">'php'</span>);</span><br><span class="line"></span><br><span class="line">$ext = $file[count($file) - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">$ext = end($file);</span><br></pre></td></tr></table></figure>
 <p>两者的区别是，前者是通过下标来确定，后者则是返回数组的最后一个元素。前者返回的是$filename[1]也就是png,后者直接返回数组排在最后面的元素php。</p>
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p>PHP代码审计分段讲解</p>
-<p><a href="https://github.com/bowu678/php_bugs" target="_blank" rel="noopener">https://github.com/bowu678/php_bugs</a></p>
-<p><a href="https://github.com/jiangsir404/Audit-Learning" target="_blank" rel="noopener">https://github.com/jiangsir404/Audit-Learning</a></p>
-<p><a href="https://read.douban.com/reader/ebook/16642056/" target="_blank" rel="noopener">https://read.douban.com/reader/ebook/16642056/</a></p>
+<p><a href="https://github.com/bowu678/php_bugs" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/bowu678/php_bugs</a></p>
+<p><a href="https://github.com/jiangsir404/Audit-Learning" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/jiangsir404/Audit-Learning</a></p>
+<p><a href="https://read.douban.com/reader/ebook/16642056/" target="_blank" rel="external nofollow noopener noreferrer">https://read.douban.com/reader/ebook/16642056/</a></p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>原文作者: <a href="http://fengyuhetao.github.io">天极</a>
-            <p>原文链接: <a href="http://fengyuhetao.github.io/posts/65402/">http://fengyuhetao.github.io/posts/65402/</a>
-            <p>发表日期: <a href="http://fengyuhetao.github.io/posts/65402/">April 18th 2018, 10:27:37 am</a>
-            <p>版权声明: 本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+            <p>原文作者: <a href="http://fengyuhetao.github.io">Tianji</a>
+            </p><p>原文链接: <a href="http://fengyuhetao.github.io/posts/65402/">http://fengyuhetao.github.io/posts/65402/</a>
+            </p><p>发表日期: <a href="http://fengyuhetao.github.io/posts/65402/">April 18th 2018, 10:27:37 am</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
@@ -695,7 +695,7 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/posts/22230/" title= ddctf2018 >
+                <a href="/posts/22230/" title="ddctf2018">
                     <div class="nextTitle">ddctf2018</div>
                 </a>
             
@@ -703,7 +703,7 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/posts/52452/" title= xss >
+                <a href="/posts/52452/" title="xss">
                     <div class="prevTitle">xss</div>
                 </a>
             
@@ -736,21 +736,21 @@ height:50vh;
     
         
             
-                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow noopener noreferrer" target="_blank"></a>
             
         
     
         
             
-                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
             
         
     
         
             
-                <span class="iconfont-archer wechat" title=wechat>
+                <span class="iconfont-archer wechat" title="wechat">
                   
-                  <img class="profile-qr" src="/assets/example_qr.png" />
+                  <img class="profile-qr" src="/assets/example_qr.png">
                 </span>
             
         
@@ -790,7 +790,7 @@ height:50vh;
     
     <!-- powered by Hexo  -->
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow noopener noreferrer">Archer</a></span>
     </div>
     <!-- 不蒜子  -->
     
@@ -805,18 +805,7 @@ height:50vh;
     </div>
     <!-- toc -->
     
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
+    <div class="toc-wrapper" style="top:50vh;">
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
@@ -833,6 +822,62 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1407,205 +1452,205 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/41139/" >how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href= "/posts/27029/" >0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/03</span><a class="archive-post-title" href= "/posts/39475/" >ctfzone-ctf</a>
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/posts/13474/" >real-world-ctf</a>
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/posts/6549/" >ISITDTU-CTF</a>
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/posts/46785/" >巅峰极客ctf</a>
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/posts/5109/" >php-命令执行</a>
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/posts/62555/" >RSA学习</a>
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/posts/28940/" >ssti</a>
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/posts/45992/" >php命令执行函数</a>
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href= "/posts/63527/" >ollyice</a>
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/posts/16486/" >web安全备忘录</a>
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/posts/29914/" >ssrf+gopher</a>
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/26</span><a class="archive-post-title" href= "/posts/22546/" >googlectf2018</a>
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href= "/posts/9490/" >proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/21</span><a class="archive-post-title" href= "/posts/32268/" >sctf2018</a>
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/14</span><a class="archive-post-title" href= "/posts/54865/" >python多线程和lock和Rlock</a>
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/54897/" >linux格式化字符串漏洞</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/29112/" >pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/posts/5359/" >sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/posts/50844/" >linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/posts/51203/" >LD_PRELOAD</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LD_PRELOAD</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/posts/17498/" >mysql忘记密码/修改密码</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/posts/56136/" >普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/posts/62889/" >docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/posts/26365/" >suctf2018</a>
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/23527/" >phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href= "/posts/9764/" >rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href= "/posts/32791/" >bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href= "/posts/53269/" >pwn备忘录</a>
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/08</span><a class="archive-post-title" href= "/posts/62655/" >cbc翻转</a>
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/07</span><a class="archive-post-title" href= "/posts/60875/" >misc思路</a>
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/posts/33488/" >简单的命令（shell+python）</a>
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/24</span><a class="archive-post-title" href= "/posts/15636/" >parse_url + curl</a>
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/posts/22230/" >ddctf2018</a>
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/posts/65402/" >PHP代码审计归纳</a>
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/posts/52452/" >xss</a>
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/posts/24854/" >url相对路径和绝对路径</a>
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/posts/40688/" >python3和python2 base64的问题</a>
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/posts/41083/" >sql注入大全</a>
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
         </li>
     
-    </div>
+    </ul></div>
   </div>
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
@@ -1631,10 +1676,10 @@ top:50vh;
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
     3、在根目录_config.yml里添加配置：
     <pre style="color: #787878; font-size: 0.6rem;">
 jsonContent:
@@ -1672,7 +1717,7 @@ jsonContent:
     <script>
     var siteMeta = {
         root: "/",
-        author: "天极"
+        author: "Tianji"
     }
 </script>
     <!-- CDN failover -->
@@ -1693,7 +1738,7 @@ jsonContent:
     
     <!-- CNZZ  -->
     
-    </div>
+    
     <!-- async load share.js -->
     
         <script src="/scripts/share.js" async></script>    
