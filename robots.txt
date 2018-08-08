@@ -10,5 +10,5 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: http://www.tiandiwuji.top/sitemap.xml
-Sitemap: http://www.tiandiwuji.top/baidusitemap.xml
+Sitemap: https://fengyuhetao.github.io/sitemap.xml
+Sitemap: https://fengyuhetao.github.io/baidusitemap.xml
