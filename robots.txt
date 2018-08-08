@@ -10,4 +10,4 @@ Disallow: /fonts/
 Disallow: /fancybox/
 
 Sitemap: https://www.tiandiwuji.top/sitemap.xml
-Sitemap: https://www.tiandiwuji.top/baidusitemap.xml
+Sitemap: https://fengyuhetao.coding.me/baidusitemap.xml
