@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">526</span> / Reading time: <span class="post-count">2 min</span></span>
+                        <span>Word count: <span class="post-count">531</span> / Reading time: <span class="post-count">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -398,14 +398,25 @@
     <article class="article-entry">
         <p>jquery.min.js的绝对路径:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://39.107.33.96:20000/static/js/jquery.min.js</span><br></pre></td></tr></table></figure>
-<h5 id="当前url-http-39-107-33-96-20000-index-php-view"><a href="#当前url-http-39-107-33-96-20000-index-php-view" class="headerlink" title="当前url: http://39.107.33.96:20000/index.php/view/"></a>当前url: <a href="http://39.107.33.96:20000/index.php/view/" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/</a></h5><p>html中引入jquery.min.js,相对路径:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;../static/js/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">```   </span><br><span class="line"></span><br><span class="line">此时: 浏览器解析js的路径:</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://39.107.33.96:20000/index.php/static/js/jquery.min.js" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/static/js/jquery.min.js</a>  找不到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">##### 当前url: http://39.107.33.96:20000/index.php/view</span><br><span class="line"></span><br><span class="line">html中引入jquery.min.js，采用相对路径:</span><br></pre></td></tr></table></figure></p>
-<p><script src="../static/js/jquery.min.js"></script><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">此时: js的路径:   http://39.107.33.96:20000/static/js/jquery.min.js 可以找到</span><br><span class="line"></span><br><span class="line">#### 注意:http://39.107.33.96:20000/index.php/view/article/1152 可访问</span><br><span class="line"></span><br><span class="line">##### 当前url: http://39.107.33.96:20000/index.php/view/article/1152/..%2f..%2f..%2f..%2findex.php</span><br><span class="line"></span><br><span class="line">对于php而言，它获得的请求是url解码后的，%2F会被解码为/，apache和nginx会按照目录的方式来返回我们请求的资源。</span><br><span class="line">也就是访问</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://39.107.33.96:20000/index.php/view/article/1152/../../../../index.php" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152/../../../../index.php</a><br>=&gt;<br><a href="http://39.107.33.96:20000/index.php" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">浏览器在寻找js资源的时候，并没有对%2f进行解码，就认为</span><br><span class="line">..%2f..%2f..%2f..%2findex.php这一坨是一段数据，但是又没有人来接收这段数据，相当于报废。</span><br><span class="line">就好比输入url-https://www.baidu.com?id=1，向百度传递了一个参数id，但它后端没有接收的代码，相当于没有传递</span><br><span class="line"></span><br><span class="line">js的路径：</span><br></pre></td></tr></table></figure></p>
-<p><script src="/static/js/jquery.min.js"></script><br>解析之后:<br><a href="http://39.107.33.96:20000/static/js/jquery.min.js" rel="external nofollow" target="_blank">http://39.107.33.96:20000/static/js/jquery.min.js</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<p><script src="static/js/jquery.min.js"></script><br>解析之后:<br><a href="http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">采用相对路径引入js:</span><br><span class="line">当我们向服务器提交这个请求的时候，服务器会按照phpinfo模式来读取这个url，</span><br><span class="line"></span><br><span class="line">读到..%2f..%2f..%2f..%2findex.php这里就读不下去了，识别不了，退一步，把前面能识别的内容返回回来，也就是http://39.107.33.96:20000/index.php/view/article/1152</span><br><span class="line">也就是url:</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">返回的内容就是:</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://39.107.33.96:20000/index.php/view/article/1152" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152</a><br><code>`</code><br>中返回的内容</p>
+<p>当前url: <a href="http://39.107.33.96:20000/index.php/view/" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/</a></p>
+<p>html中引入jquery.min.js,相对路径:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;../static/js/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>此时: 浏览器解析js的路径:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://39.107.33.96:20000/index.php/static/js/jquery.min.js  找不到</span><br></pre></td></tr></table></figure></p>
+<p>当前url: <a href="http://39.107.33.96:20000/index.php/view" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view</a></p>
+<p>html中引入jquery.min.js，采用相对路径:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;../static/js/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>此时: js的路径:   <a href="http://39.107.33.96:20000/static/js/jquery.min.js" rel="external nofollow" target="_blank">http://39.107.33.96:20000/static/js/jquery.min.js</a> 可以找到</p>
+<p>注意:<a href="http://39.107.33.96:20000/index.php/view/article/1152" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152</a> 可访问</p>
+<p>当前url: <a href="http://39.107.33.96:20000/index.php/view/article/1152/..%2f..%2f..%2f..%2findex.php" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152/..%2f..%2f..%2f..%2findex.php</a></p>
+<p>对于php而言，它获得的请求是url解码后的，%2F会被解码为/，apache和nginx会按照目录的方式来返回我们请求的资源。<br>也就是访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://39.107.33.96:20000/index.php/view/article/1152/../../../../index.php</span><br><span class="line">=&gt;</span><br><span class="line">http://39.107.33.96:20000/index.php</span><br></pre></td></tr></table></figure>
+<p>浏览器在寻找js资源的时候，并没有对%2f进行解码，就认为<br>..%2f..%2f..%2f..%2findex.php这一坨是一段数据，但是又没有人来接收这段数据，相当于报废。<br>就好比输入url-<a href="https://www.baidu.com?id=1，向百度传递了一个参数id，但它后端没有接收的代码，相当于没有传递" target="_blank" rel="noopener">https://www.baidu.com?id=1，向百度传递了一个参数id，但它后端没有接收的代码，相当于没有传递</a></p>
+<p>js的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;/static/js/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">解析之后:</span><br><span class="line">http://39.107.33.96:20000/static/js/jquery.min.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;static/js/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">解析之后:</span><br><span class="line">http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js</span><br></pre></td></tr></table></figure>
+<p>采用相对路径引入js:<br>当我们向服务器提交这个请求的时候，服务器会按照phpinfo模式来读取这个url，</p>
+<p>读到..%2f..%2f..%2f..%2findex.php这里就读不下去了，识别不了，退一步，把前面能识别的内容返回回来，也就是<a href="http://39.107.33.96:20000/index.php/view/article/1152" rel="external nofollow" target="_blank">http://39.107.33.96:20000/index.php/view/article/1152</a><br>也就是url:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://39.107.33.96:20000/index.php/view/article/1152/static/js/jquery.min.js</span><br></pre></td></tr></table></figure>
+<p>返回的内容就是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://39.107.33.96:20000/index.php/view/article/1152</span><br></pre></td></tr></table></figure></p>
+<p>中返回的内容</p>
 
     </article>
     <!-- license  -->
@@ -551,7 +562,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#当前url-http-39-107-33-96-20000-index-php-view"><span class="toc-number">1.</span> <span class="toc-text">当前url: http://39.107.33.96:20000/index.php/view/</span></a></li></ol>
+        
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -564,22 +575,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1166,12 +1161,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -1369,9 +1364,9 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
