@@ -382,32 +382,13 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
         <div class="abstract-content">
             首先我们来看两段代码：
 python2.7:
-
-text = 'system'
-text1 = ''
-for i in text:
-    text1 += chr(ord(i) +10)
-print base64.b64encode(text1)
-
-
+12345text = 'system'text1 = ''for i in text:    text1 += chr(ord(i) +10)print base64.b64encode(text1)
 结果:
-fYN9fm93
-
-
+1fYN9fm93
 python3.5:
-
-text = 'system'
-text1 = ''
-for i in text:
-    text1 += (chr(ord(i) +10))
-print(base64.b64encode(str.encode(text1)))
-
-
+12345text = &apos;system&apos;text1 = &apos;&apos;for i in text:    text1 += (chr(ord(i) +10))print(base64.b64encode(str.encode(text1)))
 结果:
-b'fcKDfX5vdw=='
-
-
-我们可...
+1b&apo...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -518,30 +499,6 @@ b'fcKDfX5vdw=='
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1249,12 +1206,12 @@ b'fcKDfX5vdw=='
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

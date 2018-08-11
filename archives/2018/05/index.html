@@ -514,7 +514,9 @@ docker rm [容器ID]...
                 <span>suctf2018</span>
         </a>
         <div class="abstract-content">
-            <h1 id="SUCTF2018"><a href="#SUCTF2018" class="headerlink" title="SUCTF2018"></a>SUCTF2018</h1>
+            SUCTF2018赛后总结
+docker仓库：
+12345678910111213141516suctf/2018-web-multi_sqlsuctf/2018-web-homeworksuctf/2018-web-hateitsuctf/2018-web-getshellsuctf/2018-web-annonymoussuctf/2018-pwn-notesuctf/2018-pwn-noendsuctf/2018-pwn-lock2suctf/2018-pwn-heapprintsuctf/2018-pwn-heapsuctf/2018-misc-paddingsuctf/201...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -543,7 +545,9 @@ docker rm [容器ID]...
                 <span>rctf2018学习笔记</span>
         </a>
         <div class="abstract-content">
-            <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1>
+            Web赛后总结
+r-cursive源代码:
+1234567891011121314151617&lt;?php$token = sha1($_SERVER[&apos;REMOTE_ADDR&apos;]);$dir = &apos;../sandbox/&apos;.$token.&apos;/&apos;;is_dir($dir) ?: mkdir($dir);is_file($dir.&apos;index.php&apos;) ?: file_put_contents($dir.&apos;index.php&apos;, str_replace(&apos;#SHA1#&apo...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -607,14 +611,10 @@ assert从一...
                 <span>bypassaslr_1</span>
         </a>
         <div class="abstract-content">
-            <h1 id="绕过ASLR–return2plt"><a href="#绕过ASLR–return2plt" class="headerlink" title="绕过ASLR–return2plt"></a>绕过ASLR–return2plt</h1><h2 id="编译代码"><a href="#编译代码" class="headerlink" title="编译代码"></a>编译代码</h2><ol>
-<li><p>源代码</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Eventhough shell() function isnt invoked directly, its needed</span></span><br><span class="line"><span class="comment">   here since 'system@PLT' and 'exit@PLT' stub code should be pres</span></span><br><span class="line"><span class="comment">   ent in executable to successfully exploit it. */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">500</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>,buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>echo 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="meta">$</span>gcc -g -fno-stack-protector -no-pie -o vuln vuln.c</span><br><span class="line"><span class="meta">$</span>sudo chown root vuln</span><br><span class="line"><span class="meta">$</span>sudo chgrp root vuln</span><br><span class="line"><span class="meta">$</span>sudo chmod +s vuln</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+            绕过ASLR–return2plt编译代码
+源代码
+
+12345678910111213141516#include&lt;stdio.h&gt;#include &lt;string.h&gt;/* Eventhough shell() function isnt invoked directly, its needed   here since 'system@PLT' and 'exit@PLT' stub code should be pres   ent in executable to successfully exploit it. */void shell() &#123...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -711,13 +711,25 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
                 <span>misc思路</span>
         </a>
         <div class="abstract-content">
-            <ol>
-<li><p>凯撒13世 rot13</p>
-</li>
-<li><p>roqtp697t95j3 对应键盘下一行</p>
-</li>
-<li><p>栅栏密码</p>
-        </li></ol></div>
+            
+凯撒13世 rot13
+
+roqtp697t95j3 对应键盘下一行
+
+栅栏密码
+
+各种文件头
+JPEG (jpg)，文件头：FFD8FF
+PNG (png)，文件头：89504E47
+GIF (gif)，文件头：47494638
+TIFF (tif)，文件头：49492A00
+Windows Bitmap (bmp)，文件头：424D
+CAD (dwg)，文件头：41433130
+Adobe Photoshop (psd)，文件头：38425053
+Rich Text Format (rtf)，文件头：7B5C727466
+XML (xml)，文件头：3C3F786D6C
+HTML ...
+        </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
@@ -827,30 +839,6 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1558,12 +1546,12 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

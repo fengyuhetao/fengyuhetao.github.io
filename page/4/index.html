@@ -393,13 +393,25 @@ http://wooyun.jozxing.cc/static/drops/tips-7828.html
                 <span>misc思路</span>
         </a>
         <div class="abstract-content">
-            <ol>
-<li><p>凯撒13世 rot13</p>
-</li>
-<li><p>roqtp697t95j3 对应键盘下一行</p>
-</li>
-<li><p>栅栏密码</p>
-        </li></ol></div>
+            
+凯撒13世 rot13
+
+roqtp697t95j3 对应键盘下一行
+
+栅栏密码
+
+各种文件头
+JPEG (jpg)，文件头：FFD8FF
+PNG (png)，文件头：89504E47
+GIF (gif)，文件头：47494638
+TIFF (tif)，文件头：49492A00
+Windows Bitmap (bmp)，文件头：424D
+CAD (dwg)，文件头：41433130
+Adobe Photoshop (psd)，文件头：38425053
+Rich Text Format (rtf)，文件头：7B5C727466
+XML (xml)，文件头：3C3F786D6C
+HTML ...
+        </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
@@ -625,32 +637,13 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
         <div class="abstract-content">
             首先我们来看两段代码：
 python2.7:
-
-text = 'system'
-text1 = ''
-for i in text:
-    text1 += chr(ord(i) +10)
-print base64.b64encode(text1)
-
-
+12345text = 'system'text1 = ''for i in text:    text1 += chr(ord(i) +10)print base64.b64encode(text1)
 结果:
-fYN9fm93
-
-
+1fYN9fm93
 python3.5:
-
-text = 'system'
-text1 = ''
-for i in text:
-    text1 += (chr(ord(i) +10))
-print(base64.b64encode(str.encode(text1)))
-
-
+12345text = &apos;system&apos;text1 = &apos;&apos;for i in text:    text1 += (chr(ord(i) +10))print(base64.b64encode(str.encode(text1)))
 结果:
-b'fcKDfX5vdw=='
-
-
-我们可...
+1b&apo...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -679,17 +672,18 @@ b'fcKDfX5vdw=='
                 <span>sql注入大全</span>
         </a>
         <div class="abstract-content">
-            
+            通用注入语句:
 表名
+
 1select group_concat(distinct table_name) from information_schema.tables where table_schema=database()
 
 列名
+
 1select group_concat(distinct column_name) from information_schema.columns where table_name=[16进制|`table_name`]
 
 数据库
-1select group_concat(schema_name) from information_schema.schemata
 
-表...
+1select group_concat(schema_name) from information_schema.s...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1469,30 +1463,6 @@ b'fcKDfX5vdw=='
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 40
@@ -1626,12 +1596,12 @@ b'fcKDfX5vdw=='
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

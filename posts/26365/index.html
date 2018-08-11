@@ -396,8 +396,7 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="SUCTF2018"><a href="#SUCTF2018" class="headerlink" title="SUCTF2018"></a>SUCTF2018</h1><a id="more"></a>
-<p>赛后总结</p>
+        <h1 id="SUCTF2018"><a href="#SUCTF2018" class="headerlink" title="SUCTF2018"></a>SUCTF2018</h1><p>赛后总结</p>
 <p>docker仓库：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">suctf/2018-web-multi_sql</span><br><span class="line">suctf/2018-web-homework</span><br><span class="line">suctf/2018-web-hateit</span><br><span class="line">suctf/2018-web-getshell</span><br><span class="line">suctf/2018-web-annonymous</span><br><span class="line">suctf/2018-pwn-note</span><br><span class="line">suctf/2018-pwn-noend</span><br><span class="line">suctf/2018-pwn-lock2</span><br><span class="line">suctf/2018-pwn-heapprint</span><br><span class="line">suctf/2018-pwn-heap</span><br><span class="line">suctf/2018-misc-padding</span><br><span class="line">suctf/2018-misc-game</span><br><span class="line">suctf/2018-misc-rsagood</span><br><span class="line">suctf/2018-misc-rsa</span><br><span class="line">suctf/2018-misc-enjoy</span><br><span class="line">suctf/2018-misc-pass</span><br></pre></td></tr></table></figure>
 <h2 id="Anonymous"><a href="#Anonymous" class="headerlink" title="Anonymous"></a>Anonymous</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$MY = create_function(&quot;&quot;,&quot;die(`cat flag.php`);&quot;);</span><br><span class="line">$hash = bin2hex(openssl_random_pseudo_bytes(32));</span><br><span class="line">eval(&quot;function SUCTF_$hash()&#123;&quot;</span><br><span class="line">    .&quot;global \$MY;&quot;</span><br><span class="line">    .&quot;\$MY();&quot;</span><br><span class="line">    .&quot;&#125;&quot;);</span><br><span class="line">if(isset($_GET[&apos;func_name&apos;]))&#123;</span><br><span class="line">    $_GET[&quot;func_name&quot;]();</span><br><span class="line">    die();</span><br><span class="line">&#125;</span><br><span class="line">show_source(__FILE__);</span><br></pre></td></tr></table></figure>
@@ -1164,30 +1163,6 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 40
@@ -1321,12 +1296,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

@@ -397,14 +397,13 @@
             <main class="main post-page">
     <article class="article-entry">
         <h1 id="绕过ASLR–return2plt"><a href="#绕过ASLR–return2plt" class="headerlink" title="绕过ASLR–return2plt"></a>绕过ASLR–return2plt</h1><h2 id="编译代码"><a href="#编译代码" class="headerlink" title="编译代码"></a>编译代码</h2><ol>
-<li><p>源代码</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Eventhough shell() function isnt invoked directly, its needed</span></span><br><span class="line"><span class="comment">   here since 'system@PLT' and 'exit@PLT' stub code should be pres</span></span><br><span class="line"><span class="comment">   ent in executable to successfully exploit it. */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">500</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>,buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>echo 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="meta">$</span>gcc -g -fno-stack-protector -no-pie -o vuln vuln.c</span><br><span class="line"><span class="meta">$</span>sudo chown root vuln</span><br><span class="line"><span class="meta">$</span>sudo chgrp root vuln</span><br><span class="line"><span class="meta">$</span>sudo chmod +s vuln</span><br></pre></td></tr></table></figure>
-</li>
+<li>源代码</li>
 </ol>
-<a id="more"></a>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Eventhough shell() function isnt invoked directly, its needed</span></span><br><span class="line"><span class="comment">   here since 'system@PLT' and 'exit@PLT' stub code should be pres</span></span><br><span class="line"><span class="comment">   ent in executable to successfully exploit it. */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line">	read(<span class="number">0</span>, buf, <span class="number">500</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>,buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>编译命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>echo 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="meta">$</span>gcc -g -fno-stack-protector -no-pie -o vuln vuln.c</span><br><span class="line"><span class="meta">$</span>sudo chown root vuln</span><br><span class="line"><span class="meta">$</span>sudo chgrp root vuln</span><br><span class="line"><span class="meta">$</span>sudo chmod +s vuln</span><br></pre></td></tr></table></figure>
 <h2 id="调试代码"><a href="#调试代码" class="headerlink" title="调试代码"></a>调试代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ i func</span><br><span class="line">All defined functions:</span><br><span class="line"></span><br><span class="line">Non-debugging symbols:</span><br><span class="line">0x0000000000400470  _init</span><br><span class="line">0x00000000004004a0  puts@plt</span><br><span class="line">0x00000000004004b0  system@plt</span><br><span class="line">0x00000000004004c0  read@plt</span><br><span class="line">0x00000000004004d0  exit@plt</span><br><span class="line">0x00000000004004e0  _start</span><br><span class="line">0x0000000000400510  _dl_relocate_static_pie</span><br><span class="line">0x0000000000400520  deregister_tm_clones</span><br><span class="line">0x0000000000400550  register_tm_clones</span><br><span class="line">0x0000000000400590  __do_global_dtors_aux</span><br><span class="line">0x00000000004005c0  frame_dummy</span><br><span class="line">0x00000000004005c7  shell</span><br><span class="line">0x00000000004005e6  main</span><br><span class="line">0x0000000000400640  __libc_csu_init</span><br><span class="line">0x00000000004006b0  __libc_csu_fini</span><br><span class="line">0x00000000004006b4  _fini</span><br></pre></td></tr></table></figure>
 <p>首先，我们找到shell函数的地址<code>0x00000000004005c7</code></p>
 <p>再找到ret地址的偏移:</p>
@@ -1160,30 +1159,6 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 40
@@ -1317,12 +1292,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
