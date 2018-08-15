@@ -19,8 +19,8 @@
     <!-- 设置密码 -->
     <script>
         (function(){
-            if(''){
-                if (prompt('请输入文章密码','') !== ''){
+            if('654321'){
+                if (prompt('请输入文章密码','') !== '654321'){
                     alert('密码错误！');
                     history.back();
                 }
@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">0</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">269</span> / Reading time: <span class="post-count">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -390,7 +390,11 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>how2heap有了很大的变化，特在此学习，记录。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>由于glibc的变化，导致一些漏洞在某些版本无法利用，然而这个版本使用度依然很高，决定了这些漏洞还有利用价值。</p>
+<p>glibc_build.sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/how2heap$ cat glibc_build.sh </span><br><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">SRC="./glibc_src"</span><br><span class="line">BUILD="./glibc_build"</span><br><span class="line">VERSION="./glibc_versions"</span><br><span class="line"></span><br><span class="line">if [[ $# &lt; 2 ]]; then</span><br><span class="line">    echo "Usage: $0 version #make-threads &lt;-disable-tcache&gt;"</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Get glibc source</span><br><span class="line">if [ -d "$SRC" ]; then</span><br><span class="line">    cd $SRC</span><br><span class="line">    git pull --all</span><br><span class="line">else</span><br><span class="line">    git clone git://sourceware.org/git/glibc.git "$SRC"</span><br><span class="line">    cd "$SRC"</span><br><span class="line">    git pull --all</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Checkout release</span><br><span class="line">git rev-parse --verify --quiet "release/$1/master"</span><br><span class="line">if [[ $? != 0 ]]; then</span><br><span class="line">    echo "Error: Glib version does not seem to exists"</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">git checkout "release/$1/master"</span><br><span class="line">cd -</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Build</span><br><span class="line">if [ $# == 3 ] &amp;&amp; [ "$3" = "-disable-tcache" ]; then</span><br><span class="line">    TCACHE_OPT="--disable-experimental-malloc"</span><br><span class="line">    SUFFIX="-no-tcache"</span><br><span class="line">else</span><br><span class="line">    TCACHE_OPT=""</span><br><span class="line">    SUFFIX=""</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">mkdir -p "$BUILD"</span><br><span class="line">cd "$BUILD" &amp;&amp; rm -rf ./*</span><br><span class="line">../"$SRC"/configure --prefix=/usr "$TCACHE_OPT"</span><br><span class="line">make -j "$2"</span><br><span class="line">cd -</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Copy to version folder</span><br><span class="line">mkdir -p "$VERSION"</span><br><span class="line">cp "$BUILD/libc.so" "$VERSION/libc-$1$SUFFIX.so"</span><br><span class="line">cp "$BUILD/elf/ld.so" "$VERSION/ld-$1$SUFFIX.so"</span><br></pre></td></tr></table></figure>
+
     </article>
     <!-- license  -->
     
@@ -468,13 +472,6 @@
         
     
         
-            
-                <span class="iconfont-archer wechat" title="wechat">
-                  
-                  <img class="profile-qr" src="/assets/example_qr.png">
-                </span>
-            
-        
     
         
     
@@ -530,7 +527,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -543,6 +540,20 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1250,12 +1261,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
