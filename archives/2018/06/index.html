@@ -547,11 +547,9 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
                 <span>linux格式化字符串漏洞</span>
         </a>
         <div class="abstract-content">
-            
- offset.py
-
-12345678910111213from pwn import *context.log_level = &apos;debug&apos;def exec_fmt(payload):    p = process(&quot;./vuln&quot;)    p.sendline(payload)    info = p.recv()    p.close()    return infoautofmt = FmtStr(exec_fmt)print autofmt.offset
-
+            格式化漏洞漏洞代码:123456789101112131415#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;stdlib.h&gt;void win()&#123;system("/bin/sh");&#125;void main(int argc, char *argv[])&#123;char buf[103];fgets(buf, 103, stdin);buf[strlen(buf)-1] = 0x0;printf(buf);exit(0);&#125;
+编译
+gcc -Wno-format-secur...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1373,9 +1371,101 @@ find /tmp -iname sth -or -exec ls \; -quit        只执行一次
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1388,6 +1478,26 @@ find /tmp -iname sth -or -exec ls \; -quit        只执行一次
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1601,6 +1711,8 @@ find /tmp -iname sth -or -exec ls \; -quit        只执行一次
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

