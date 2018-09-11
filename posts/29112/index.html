@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">4,062</span> / Reading time: <span class="post-count">24 min</span></span>
+                        <span>Word count: <span class="post-count">4,091</span> / Reading time: <span class="post-count">24 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -513,7 +513,9 @@
 <h2 id="查找argv-0-变量的地址"><a href="#查找argv-0-变量的地址" class="headerlink" title="查找argv[0]变量的地址"></a>查找argv[0]变量的地址</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ find /home</span><br><span class="line">Searching for &apos;/home&apos; in: None ranges</span><br><span class="line">Found 6 results, display max 6 items:</span><br><span class="line">[stack] : 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffe8f4 (&quot;/home/tianji/Desktop/pwn/jarvis&quot;)</span><br><span class="line">[stack] : 0x7fffffffeb12 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffeb48 (&quot;/home/tianji&quot;)</span><br><span class="line">[stack] : 0x7fffffffeee7 (&quot;/home/tianji/.vimpkg/bin&quot;)</span><br><span class="line">[stack] : 0x7fffffffefc8 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">gdb-peda$ find 0x7fffffffdff6</span><br><span class="line">Searching for &apos;0x7fffffffdff6&apos; in: None ranges</span><br><span class="line">Found 2 results, display max 2 items:</span><br><span class="line">   libc : 0x7ffff7dd0508 --&gt; 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">[stack] : 0x7fffffffdc68 --&gt; 0x7fffffffdff6 (&quot;/home/tianji/Desktop/pwn/jarvis/smashes/smashes&quot;)</span><br><span class="line">gdb-peda$ distance $rsp 0x7fffffffdc68</span><br><span class="line">From 0x7fffffffda50 to 0x7fffffffdc68: 536 bytes, 134 dwords</span><br></pre></td></tr></table></figure>
 <p>首先搜索字符串”/home”,第一个地址是真实地址，在搜索指向该地址的指针，该指针也就是我们要找的argv[0]的地址。</p>
 <p>当前$rsp的值就是 存在栈溢出变量的地址</p>
-<h2 id="ubuntu-16-64位默认加载地址"><a href="#ubuntu-16-64位默认加载地址" class="headerlink" title="ubuntu 16  64位默认加载地址"></a>ubuntu 16  64位默认加载地址</h2><p>运行程序，然后查看 /proc/pid/maps</p>
+<h2 id="ubuntu-16-64位默认加载地址"><a href="#ubuntu-16-64位默认加载地址" class="headerlink" title="ubuntu 16  64位默认加载地址"></a>ubuntu 16  64位默认加载地址</h2><p>运行程序，然后查看 /proc/pid/maps 或者在gdb里边使用 <code>vmmap</code>命令。</p>
+<h2 id="ida调试elf文件"><a href="#ida调试elf文件" class="headerlink" title="ida调试elf文件"></a>ida调试elf文件</h2><p>在linux中运行 <code>linux_server</code>或者<code>linux_server64</code>。</p>
+<p>然后设置<code>ida</code>。</p>
 
     </article>
     <!-- license  -->
@@ -652,7 +654,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">12.</span> <span class="toc-text">ida调试elf文件</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1338,16 +1340,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 44
+        Total : 45
         </div>
         <!-- search  -->
         
@@ -1360,6 +1355,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1383,12 +1383,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1498,12 +1498,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
