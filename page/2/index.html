@@ -354,6 +354,133 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/27029/">
+            
+                <span>0ctf2018-babyheap</span>
+        </a>
+        <div class="abstract-content">
+            前言入坑pwn至今，基础知识了解了不少，是时候动手刷题了。这次以0ctf2018-babyheap为例，做个记录。首先，不得不提，writeup有很多，有的写得非常好，但是本人能力不足，理解起来比较费劲，不求甚解是原罪，特在此记录遇到坑点。
+题目连接: https://github.com/eternalsakura/ctf_pwn/blob/master/0ctf2018/babyheap.tar.gz 
+利用到的知识点如下:
+overlapping_chunks
+fastbin attack
+
+题目分析版本&amp;保护措施12345678910qianfa@qianfa:~/Des...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/06</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/39475/">
+            
+                <span>ctfzone-ctf</span>
+        </a>
+        <div class="abstract-content">
+            WebPiggy Bank
+根据注释找到http://web-05.v7frkwrfyhsjtbpfcppnu.ctfz.one/api/bankservice.wsdl.php
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455&lt;wsdl:definitions xmlns:tns="urn:Bank" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="ht...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/03</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/13474/">
+            
+                <span>real-world-ctf</span>
+        </a>
+        <div class="abstract-content">
+            Webdot free
+ip2long
+123456789101112131415161718192021222324ip_addr=&apos;192.168.2.10&apos;# transfer ip to intdef ip2long(ip):    ip_list=ip.split(&apos;.&apos;)    result=0    for i in range(4):  #0,1,2,3        result=result+int(ip_list[i])*256**(3-i)    return resultlong=3232236042# transfer ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/6549/">
+            
+                <span>ISITDTU-CTF</span>
+        </a>
+        <div class="abstract-content">
+            Weblz代码审计
+1234567891011121314151617181920212223242526272829303132333435363738&lt;?php include "config.php"; $number1 = rand(1,100000000000000); $number2 = rand(1,100000000000); $number3 = rand(1,100000000); $url = urldecode($_SERVER['REQUEST_URI']); $url = parse_url($url, PHP_URL_QUERY); if (preg...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/46785/">
             
                 <span>巅峰极客ctf</span>
@@ -561,144 +688,6 @@ alt+f1:      命令行
         <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
     
 </div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/16486/">
-            
-                <span>web安全备忘录</span>
-        </a>
-        <div class="abstract-content">
-            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
-SELECT into dump: 只能导出一行数据
-如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
-因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
-这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
-总结：
-into outfile:导出内容
-into dumpfile:导出二进制文件
-....
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/29914/">
-            
-                <span>ssrf+gopher</span>
-        </a>
-        <div class="abstract-content">
-            AceBear Security  Contest-Tet Shopping漏洞说明
-格式化字符串sql注入
-基于gopher协议的SSRF攻击完成对mysql未授权漏洞的利用
-时间盲注
-
-题目格式化字符串注入忽略漏洞代码:
-info.php
-1234567uid = (int)$_SESSION[&quot;id&quot;];$prepare_qr = $jdb-&gt;addParameter(&quot;SELECT user from users where uid=%s&quot;, $uid);$result1 = $jdb-&gt;fetch_assoc($prepare...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/22546/">
-            
-                <span>googlectf2018</span>
-        </a>
-        <div class="abstract-content">
-            Beginner’s Quest - MoarWhen we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.
-man命令允许执行命令
-12!ls /home/moardisable_dmz.sh
-12345Man...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/9490/">
-            
-                <span>proc的作用</span>
-        </a>
-        <div class="abstract-content">
-            proc目录的作用
-/proc/self/environ              读取环境变量
-该文件会保存http请求头，所以发送恶意User-aget,可以通过文件包含，包含该文件getshell
-
-/proc/net/arp                     读取arp
-判断当前局域网存活的主机
-
-/proc/self[pid]/cmdline              获得当前运行程序命令行参数
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/24</span>
-            </div>
-            <!-- tags  -->
             
         </div>
     </article>
@@ -1576,9 +1565,63 @@ man命令允许执行命令
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 49
         </div>
         <!-- search  -->
         
@@ -1591,6 +1634,26 @@ man命令允许执行命令
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/19</span><a class="archive-post-title" href="/posts/39718/">temp</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1614,17 +1677,17 @@ man命令允许执行命令
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1828,6 +1891,8 @@ man命令允许执行命令
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
@@ -1839,6 +1904,8 @@ man命令允许执行命令
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

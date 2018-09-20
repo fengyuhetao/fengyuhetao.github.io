@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">488</span> / Reading time: <span class="post-count">2 min</span></span>
+                        <span>Word count: <span class="post-count">725</span> / Reading time: <span class="post-count">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -507,6 +507,31 @@
 <li><p>ngrep监听80端口</p>
 <blockquote>
 <p>ngrep -W byline -d eth0 port 80</p>
+</blockquote>
+</li>
+<li><p>scp命令使用</p>
+<blockquote>
+<p>A.104.238.161.75，B.43.224.34.73</p>
+<p>A服务器下操作，将B服务器下/home/lk目录下所有文件复制到本地/home目录下</p>
+<p>scp -r <a href="mailto:root@43.224.34.73" rel="external nofollow" target="_blank">root@43.224.34.73</a>:/home/lk /home</p>
+<p>在A服务器上将/root/lk目录下所有的文件传输到B的/home/lk/cpfile目录下</p>
+<p>scp -r /root/lk <a href="mailto:root@43.224.34.73" rel="external nofollow" target="_blank">root@43.224.34.73</a>:/home/lk/cpfile</p>
+</blockquote>
+</li>
+<li><p>nc传送文件</p>
+<blockquote>
+<p>A.104.238.161.75     B.43.224.34.73</p>
+<p>将B服务器文件【test.txt】从B服务器传送到A服务器下</p>
+<p>方案一: </p>
+<p>A: nc -l [port] &gt; text.txt</p>
+<p>B: nc 104.238.161.75 [port] &lt; test.txt</p>
+<p>方案二:</p>
+<p>A: nc 43.224.34.73 [port] &gt; test.txt</p>
+<p>B: nc -l [port] &lt; test.txt</p>
+<p>传输目录:</p>
+<p>A机器给B机器发送多个文件,需要结合其它的命令，比如tar,经过测试管道后面最后必须是 - ，不能是其余自定义的文件名</p>
+<p>B: nc -l [port] | tar xfvz -</p>
+<p>A: tar cfz - * | nc 43.224.34.73 [port]</p>
 </blockquote>
 </li>
 </ol>
@@ -1360,9 +1385,63 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 49
         </div>
         <!-- search  -->
         
@@ -1375,6 +1454,26 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/19</span><a class="archive-post-title" href="/posts/39718/">temp</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1398,17 +1497,17 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1612,6 +1711,8 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
@@ -1623,6 +1724,8 @@
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

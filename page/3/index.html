@@ -354,6 +354,144 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/16486/">
+            
+                <span>web安全备忘录</span>
+        </a>
+        <div class="abstract-content">
+            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
+SELECT into dump: 只能导出一行数据
+如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
+因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
+这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
+总结：
+into outfile:导出内容
+into dumpfile:导出二进制文件
+....
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/29914/">
+            
+                <span>ssrf+gopher</span>
+        </a>
+        <div class="abstract-content">
+            AceBear Security  Contest-Tet Shopping漏洞说明
+格式化字符串sql注入
+基于gopher协议的SSRF攻击完成对mysql未授权漏洞的利用
+时间盲注
+
+题目格式化字符串注入忽略漏洞代码:
+info.php
+1234567uid = (int)$_SESSION[&quot;id&quot;];$prepare_qr = $jdb-&gt;addParameter(&quot;SELECT user from users where uid=%s&quot;, $uid);$result1 = $jdb-&gt;fetch_assoc($prepare...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/22546/">
+            
+                <span>googlectf2018</span>
+        </a>
+        <div class="abstract-content">
+            Beginner’s Quest - MoarWhen we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.
+man命令允许执行命令
+12!ls /home/moardisable_dmz.sh
+12345Man...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/9490/">
+            
+                <span>proc的作用</span>
+        </a>
+        <div class="abstract-content">
+            proc目录的作用
+/proc/self/environ              读取环境变量
+该文件会保存http请求头，所以发送恶意User-aget,可以通过文件包含，包含该文件getshell
+
+/proc/net/arp                     读取arp
+判断当前局域网存活的主机
+
+/proc/self[pid]/cmdline              获得当前运行程序命令行参数
+
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/24</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/32268/">
             
                 <span>sctf2018</span>
@@ -562,207 +700,6 @@ find /tmp -iname sth -or -exec ls \; -quit        只执行一次
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/51203/">
-            
-                <span>LRE_PAYLOAD绕过open_basedir</span>
-        </a>
-        <div class="abstract-content">
-            LRE_PAYLOAD绕过open_basedir参考链接:
-利用环境变量LD_PRELOAD绕过disable_function执行系统命令
-PHP绕过open_basedir列目录的研究
-源码:
-123456789101112#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;void payload() &#123;	system(&quot;rm /tmp/check.txt&quot;);&#125;int  geteuid() &#123;	if (getenv(&quot;LD_...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/17498/">
-            
-                <span>mysql忘记密码/修改密码</span>
-        </a>
-        <div class="abstract-content">
-            
-关闭mysql
-
-service mysql stop
-
-
-无密码登录msyql
-
-mysqld_safe –skip-grant-tables &amp;  
-
-
-root连接mysql
-
-mysql -u root
-
-
-修改密码
-
-use mysql
-update user set password=PASSWORD(‘admin’) where User=’root’;  
-
-
-刷新权限
-
-flush privileges;
-
-
-重启mysql
-
-service msyql restart
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="mysql">mysql</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/56136/">
-            
-                <span>普通用户免密码切换到root</span>
-        </a>
-        <div class="abstract-content">
-            
-sudo vim /etc/sudoers
-
-添加一行:
-
-tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/62889/">
-            
-                <span>docker使用手册</span>
-        </a>
-        <div class="abstract-content">
-            Docker命令
-列出所有镜像
-
-docker images -a
-
-
-构建镜像
-
- docker build -t [镜像名称]        [Dockerfile所在目录]
-
-
-运行镜像
-
-docker run –name [容器名称(可选)] -d -p 80:8080 [镜像名称]
-
-
-查看镜像状态
-
-docker stats
-
-
-显示所有的容器，包括未运行的
-
-docker ps -a
-
-
-显示所有容器ID
-
-docker ps -a -q
-
-
-停止运行
-
-docker stop [容器名称]
-
-
-删除容器
-
-docker rm [容器名称]
-docker rm [容器ID]...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
     
 </div>
             
@@ -1642,9 +1579,63 @@ docker rm [容器ID]...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 49
         </div>
         <!-- search  -->
         
@@ -1657,6 +1648,26 @@ docker rm [容器ID]...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/19</span><a class="archive-post-title" href="/posts/39718/">temp</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1680,17 +1691,17 @@ docker rm [容器ID]...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1894,6 +1905,8 @@ docker rm [容器ID]...
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
@@ -1905,6 +1918,8 @@ docker rm [容器ID]...
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
