@@ -341,6 +341,85 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/37116/">
+            
+                <span>偏门汇编指令大全</span>
+        </a>
+        <div class="abstract-content">
+            
+
+
+操作码
+指令
+说明
+
+
+
+
+0F 31
+rdtsc
+将时间标签计数器读入 EDX:EAX。CPU提供了一个特殊的机器指令rdtsc，使用这条指令可以读出CPU自从启动以来的时钟周期数。其计时精度可以达到纳秒级。
+
+
+
+movabs
+操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
+
+
+
+movdqa
+操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
+
+
+
+movntps
+操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
+
+
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/1345/">
+            
+                <span>pwnable.kr_刷刷刷</span>
+        </a>
+        <div class="abstract-content">
+            Uaf虚函数，一旦一个类有虚函数，编译器会为这个类建立一张vtable。子类继承父类vtable中所有项，当子类有同名函数时，修改vtable同名函数地址，改为指向子类的函数地址，子类有新的虚函数时，在vtable中添加。记住，私有函数无法继承，但如果私有函数是虚函数，vtable中会有相应的函数地址，所有子类可以通过手段得到父类的虚私有函数。
+vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtable，一个类中就算有多个虚函数，也只有一个vptr，做多重继承的时候，继承了多个父类，就会有多个vptr
+虚函数表的结构：它是一个函数指针表，每一个表项都指向一个函数。...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/62824/">
             
                 <span>dubbo项目结构</span>
@@ -454,19 +533,27 @@ git
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/39718/">
+        <a class="abstract-title" href="/posts/42373/">
             
-                <span>temp</span>
+                <span>casw-2018</span>
         </a>
         <div class="abstract-content">
-            ##WTF SQL
-扫目录,扫到robots.txt:
-1234567891011User-agent: *Disallow: / # procedure:index_handlerDisallow: /admin # procedure:admin_handlerDisallow: /login # procedure:login_handlerDisallow: /post # procedure:post_handlerDisallow: /register # procedure:register_handlerDisallow: /robots.txt # procedure:...
+            Webldabldap注入
+参考链接:
+
+https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html
+http://www.4hou.com/technology/9090.html
+
+正常语法：
+(&amp;(cn=s*)(|(sn=d*)(sn=r*))
+payload:*)(|(ou=*
+SSO首先获取auth code:
+1234cl_id=1echo "POST http://web.chal.csaw.io:9000/oauth2/authorize"auth_key=$(curl --silen...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/19</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
             </div>
             <!-- tags  -->
             
@@ -558,7 +645,7 @@ sudo apt-get install php-fpm
     <article class="index-post">
         <a class="abstract-title" href="/posts/7418/">
             
-                <span>WEBSEC-Writeup</span>
+                <span>websec.fr-writeup</span>
         </a>
         <div class="abstract-content">
             level1获取数据表的结构:
@@ -610,85 +697,10 @@ sudo apt-get install php-fpm
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/12920/">
-            
-                <span>[Untitled Post]</span>
-        </a>
-        <div class="abstract-content">
-            准备工作源代码备份
-xftp
-
-scp
-
-scp -r -P Port remote_username@remote_ip:remote_folder local_file
-
-
-
-主机发现
-nmap
-
-nmap -sn 192.168.71.0/24
-
-
-httpscan
-
-https://github.com/zer0h/httpscan
-
-
-
-弱口令预留后门
-D盾
-河马
-
-后门利用脚本
-12345678910111213141516171819202122232425#coding=utf-8import requestsurl="http://192.168.71."url1=""...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/21</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/41139/">
-            
-                <span>how2heap-分析总结（一）</span>
-        </a>
-        <div class="abstract-content">
-            前言how2heap有了很大的变化，特在此学习，记录。
-准备工作由于glibc的变化，导致一些漏洞在某些版本无法利用，然而这个版本使用度依然很高，决定了这些漏洞还有利用价值。
-glibc_build.sh
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051qianfa@qianfa:~/Desktop/how2heap$ cat glibc_build.sh #!/bin/bashSRC="./glibc_src"BUILD="./glibc_build...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/06</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1520,7 +1532,7 @@ glibc_build.sh
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 49
+        Total : 51
         </div>
         <!-- search  -->
         
@@ -1533,6 +1545,16 @@ glibc_build.sh
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1551,7 +1573,7 @@ glibc_build.sh
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/19</span><a class="archive-post-title" href="/posts/39718/">temp</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1566,7 +1588,7 @@ glibc_build.sh
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
         </li>
     
     
@@ -1581,12 +1603,12 @@ glibc_build.sh
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -1671,12 +1693,12 @@ glibc_build.sh
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1790,9 +1812,9 @@ glibc_build.sh
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

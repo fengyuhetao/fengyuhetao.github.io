@@ -341,6 +341,81 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/12920/">
+            
+                <span>[Untitled Post]</span>
+        </a>
+        <div class="abstract-content">
+            准备工作源代码备份
+xftp
+
+scp
+
+scp -r -P Port remote_username@remote_ip:remote_folder local_file
+
+
+
+主机发现
+nmap
+
+nmap -sn 192.168.71.0/24
+
+
+httpscan
+
+https://github.com/zer0h/httpscan
+
+
+
+弱口令预留后门
+D盾
+河马
+
+后门利用脚本
+12345678910111213141516171819202122232425#coding=utf-8import requestsurl="http://192.168.71."url1=""...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/41139/">
+            
+                <span>how2heap-分析总结（一）</span>
+        </a>
+        <div class="abstract-content">
+            前言how2heap有了很大的变化，特在此学习，记录。
+准备工作由于glibc的变化，导致一些漏洞在某些版本无法利用，然而这个版本使用度依然很高，决定了这些漏洞还有利用价值。
+glibc_build.sh
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051qianfa@qianfa:~/Desktop/how2heap$ cat glibc_build.sh #!/bin/bashSRC="./glibc_src"BUILD="./glibc_build...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/06</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/27029/">
             
                 <span>0ctf2018-babyheap</span>
@@ -607,82 +682,10 @@ php的标签&lt;?php存在字母肯定不行，尝试&lt;?发现不解析，...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/45992/">
-            
-                <span>php命令执行函数</span>
-        </a>
-        <div class="abstract-content">
-            代码或命令执行函数：
-
-system                    允许执行一个外部程序并回显输出，类似于 passthru() 
-shell_exec
-exec                        允许执行一个外部程序 
-curl_exec
-popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
-proc_open               执行一个命令并打开文件指针用于读取以及写入 
-passthru                   允许执行一个外部程序并回显输出 
-pcntl_exec...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/63527/">
-            
-                <span>ollyice</span>
-        </a>
-        <div class="abstract-content">
-            快捷键记录f9:          运行程序
-f7:          单步步入
-f8:          单步步过
-ctrl+f2:    重新运行
-alt+f1:      命令行
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/09</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2018/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2018/page/3/">3</a><a class="page-number" href="/archives/2018/page/4/">4</a><a class="page-number" href="/archives/2018/page/5/">5</a><a class="extend next" rel="next" href="/archives/2018/page/3/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/archives/2018/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2018/page/3/">3</a><a class="page-number" href="/archives/2018/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/6/">6</a><a class="extend next" rel="next" href="/archives/2018/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1514,7 +1517,7 @@ alt+f1:      命令行
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 49
+        Total : 51
         </div>
         <!-- search  -->
         
@@ -1527,6 +1530,16 @@ alt+f1:      命令行
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1545,7 +1558,7 @@ alt+f1:      命令行
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/19</span><a class="archive-post-title" href="/posts/39718/">temp</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1560,7 +1573,7 @@ alt+f1:      命令行
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">WEBSEC-Writeup</a>
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
         </li>
     
     
@@ -1575,12 +1588,12 @@ alt+f1:      命令行
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -1665,12 +1678,12 @@ alt+f1:      命令行
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1784,9 +1797,9 @@ alt+f1:      命令行
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
