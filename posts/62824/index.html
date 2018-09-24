@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">3</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">451</span> / Reading time: <span class="post-count">2 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -397,9 +397,79 @@
             <main class="main post-page">
     <article class="article-entry">
         <ol>
-<li>概览</li>
+<li><p>概览</p>
+<p>可以看到，代码相当多，坚持就是胜利。</p>
+</li>
 </ol>
 <p><img src="/assets/dubbo/TIM截图20180920200955.png" alt=""></p>
+<ol start="2">
+<li><p>代码统计</p>
+<ul>
+<li>可以使用<code>IDEA Statistic</code>插件。</li>
+</ul>
+<p><img src="/assets/dubbo/TIM截图20180921223152.png" alt=""></p>
+<ul>
+<li>使用shell命令</li>
+</ul>
+<p>这个命令只过滤了部分注释，所以相比 <a href="https://plugins.jetbrains.com/plugin/4509-statistic" rel="external nofollow" target="_blank">IDEA Statistic</a> 会偏多。</p>
+<blockquote>
+<p>find . -name “<em>.java”|xargs cat|grep -v -e ^$ -e ^\s</em>\/\/.*$|wc -</p>
+</blockquote>
+</li>
+<li><p>dubbo模块示意图</p>
+<p><img src="/assets/dubbo/dubbo-modules.jpg" alt=""></p>
+</li>
+<li><p>dubbo-common</p>
+<p><strong>公共逻辑模块</strong>：提供工具类和通用模型。</p>
+<p><img src="/assets/dubbo/TIM截图20180921224344.png" alt=""></p>
+<p>通用模型: 比如<code>com.alibaba.dubbo.common.URL</code>：</p>
+<ul>
+<li>所有扩展点参数都包含 URL 参数，URL 作为上下文信息贯穿整个扩展点设计体系。</li>
+<li>URL 采用标准格式：<code>protocol://username:password@host:port/path?key=value&amp;key=value</code></li>
+</ul>
+</li>
+<li><p>dubbo-remoting</p>
+<p><strong>远程通信模块</strong>：提供<strong>通用</strong>的客户端和服务端的通讯功能。、</p>
+<p><img src="/assets/dubbo/TIM截图20180921224942.png" alt=""></p>
+<ul>
+<li><p>dubbo-remoting-zookeeper</p>
+<p>相当于<code>Zookeeper Client</code>，负责和<code>Zookeeper Server</code>通信。</p>
+</li>
+<li><p>dubbo-remoting-api</p>
+<p>定义<code>Dubbo client</code>和<code>Dubbo Server</code>的接口。</p>
+</li>
+<li><p>其他，均实现了<code>dubbo-remoting-api</code></p>
+<ul>
+<li>dubbo-remoting-grizzly</li>
+<li>dubbo-remoting-http</li>
+<li>dubbo-remoting-mina</li>
+<li>dubbo-remoting-netty(netty3)</li>
+<li>dubbo-remoting-netty4</li>
+<li>dubbo-remoting-p2p            P2P 服务器，注册中心 <code>dubbo-registry-multicast</code> 使用该项目。</li>
+</ul>
+</li>
+</ul>
+<p>目前看来，仅仅需要看如下:</p>
+<ul>
+<li><code>dubbo-remoting-api</code> + <code>dubbo-remoting-netty4</code></li>
+<li><code>dubbo-remoting-zookeeper</code></li>
+</ul>
+</li>
+<li><p>dubbo-rpc</p>
+<p><strong>远程调用模块</strong>：抽象各种协议，以及动态代理，只包含一对一的调用，<strong>不关心集群的管理</strong>。集群相关的管理，由 <code>dubbo-cluster</code> 提供特性。同时，该模块也是整个项目的核心部分。</p>
+<p><img src="/assets/dubbo/TIM截图20180923212827.png" alt=""></p>
+<ul>
+<li><p>dubbo-rpc-api</p>
+<p><strong>抽象</strong>各种协议以及动态代理，<strong>实现</strong>了一对一的调用。</p>
+</li>
+<li><p>其他模块则分别实现了<code>dubbo-rpc-api</code>，特别注意:<code>dubbo-rpc-default</code>对应<code>dubbo://</code></p>
+</li>
+</ul>
+</li>
+<li><p>dubbo-cluster</p>
+<p><strong>集群模块</strong>：将多个服务提供方伪装为一个提供方，包括：负载均衡, 集群容错，路由，分组聚合等。集群的地址列表可以是静态配置的，也可以是由注册中心下发。</p>
+</li>
+</ol>
 
     </article>
     <!-- license  -->
@@ -1294,9 +1364,90 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1312,7 +1463,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1362,17 +1518,17 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1457,12 +1613,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
@@ -1497,12 +1653,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1576,9 +1732,9 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

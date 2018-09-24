@@ -348,9 +348,33 @@
         <div class="abstract-content">
             
 概览
+可以看到，代码相当多，坚持就是胜利。
 
 
 
+
+代码统计
+
+可以使用IDEA Statistic插件。
+
+
+
+使用shell命令
+
+这个命令只过滤了部分注释，所以相比 IDEA Statistic 会偏多。
+
+find . -name “.java”|xargs cat|grep -v -e ^$ -e ^\s\/\/.*$|wc -
+
+
+dubbo模块示意图
+
+
+dubbo-common
+公共逻辑模块：提供工具类和通用模型。
+
+通用模型: 比如com.alibaba.dubbo.common.URL：
+
+所有扩展点参数都包含 URL 参数，URL 作为上下文信息贯穿整个扩展点设计...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -379,7 +403,8 @@
                 <span>dubbo-启动</span>
         </a>
         <div class="abstract-content">
-            配置环境:
+            前言flag:硬啃dubbo源码，打好这一仗，钞票滚滚来。
+配置环境:
 Intellij idea
 maven
 jdk1.8
@@ -391,7 +416,7 @@ git
 发现报错，如下:
 
 
-1[20/09/18 04:37:14:014 CST] main  WARN multicast.MulticastRegistry:  [DUBBO] Ignore empty notify urls for subscribe ...
+1[20/09/18 04:37:14:014 CST] main  WARN multicast.MulticastRegistry:  [DUBBO] Ignore em...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1238,9 +1263,90 @@ git
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1256,7 +1362,12 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1306,17 +1417,17 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1401,12 +1512,12 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
@@ -1441,12 +1552,12 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1520,9 +1631,9 @@ git
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

