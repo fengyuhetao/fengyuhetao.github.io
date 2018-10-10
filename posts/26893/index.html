@@ -422,13 +422,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ht@DESKTOP-GUA7PSI:/mnt/d$ echo d293LmpwZw== | base64 -d</span><br><span class="line">wow.jpg</span><br></pre></td></tr></table></figure>
 <p>直接访问<code>http://192.168.31.144:33447/wow.jpg</code>，返回404。</p>
 <p>凭经验尝试了一下<code>http://192.168.31.144:33447/images/wow.jpg</code>，返回一张图片。</p>
-<p><img src="/assets/shentou/wow.jpg" alt=""></p>
+<p><img src="/posts/26893/assets/shentou/wow.jpg" alt=""></p>
 <p>通过<code>strings</code>命令查看图片,发现新的提示：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@DESKTOP-GUA7PSI:/mnt/c/Users/ht/Desktop$ strings wow.jpg | tail -n 4</span><br><span class="line">/Pp$t</span><br><span class="line">( ++|]</span><br><span class="line">H&#123;      l</span><br><span class="line">;37:61:65:65:30:66:36:64:35:38:38:65:64:39:39:30:35:65:65:33:37:66:31:36:61:37:63:36:31:30:64:34</span><br></pre></td></tr></table></figure>
 <p>将最后一行数字转为字符串:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &apos;&apos;.join([chr(int(&apos;0x&apos;+i, 16)) for i in &quot;37:61:65:65:30:66:36:64:35:38:38:65:64:39:39:30:35:65:65:33:37:66:31:36:61:37:63:36:31:30:64:34&quot;.split(&quot;:&quot;)])</span><br><span class="line">&apos;7aee0f6d588ed9905ee37f16a7c610d4&apos;</span><br></pre></td></tr></table></figure>
 <p>通过猜测，<code>7aee0f6d588ed9905ee37f16a7c610d4</code>应该是一串md5值。通过<strong>cmd5.com</strong>查询，得到值<code>63425</code>。暂时不知道是什么东西。</p>
-<h2 id="使用Dirbuster爆破目录"><a href="#使用Dirbuster爆破目录" class="headerlink" title="使用Dirbuster爆破目录"></a>使用Dirbuster爆破目录</h2><p><img src="/assets/shentou/TIM截图20180925144512.png" alt=""></p>
+<h2 id="使用Dirbuster爆破目录"><a href="#使用Dirbuster爆破目录" class="headerlink" title="使用Dirbuster爆破目录"></a>使用Dirbuster爆破目录</h2><p><img src="/posts/26893/assets/shentou/TIM截图20180925144512.png" alt=""></p>
 <p>依次尝试<code>/Challenge/cake.php</code>， <code>/Challenge/include.php</code>, <code>/Challenge/index.php</code>。</p>
 <p>其中<code>cake.php</code>需要登录。查看源码<code>title</code>标签，可以发现新的目录<code>Magic_box</code>。</p>
 <p><code>include.php</code>则存在文件包含漏洞,可以通过输入<code>/etc/passwd</code>来测试。</p>
@@ -608,24 +608,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1712,12 +1694,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1785,19 +1767,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1805,9 +1787,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
-    
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     

