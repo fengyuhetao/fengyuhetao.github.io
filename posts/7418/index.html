@@ -417,7 +417,7 @@
 <p>第二个测试如下(7.0.30):</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">php &gt; $hash = password_hash("\x00 abc", PASSWORD_DEFAULT);</span><br><span class="line">php &gt; var_dump(password_verify("\x00 foo", $hash)); // true ???</span><br><span class="line">bool(true)</span><br><span class="line">php &gt; $hash = password_hash("\x00 abc", PASSWORD_DEFAULT); </span><br><span class="line">php &gt; var_dump(password_verify('\x00 foo', $hash)); // true ???</span><br><span class="line">bool(false)</span><br></pre></td></tr></table></figure>
 <p>我们来看一下sha1函数:</p>
-<p><img src="/posts/7418/assets/websec/TIM截图20180920220958.png" alt=""></p>
+<p><img src="/assets/websec/TIM截图20180920220958.png" alt=""></p>
 <p>sha1($_POST[‘c’], false)将返回一个40位字符长度的16进制数字，而不是一个20位的字符串。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'c'</span>])) &#123;</span><br><span class="line">    <span class="comment">/*  Get rid of clever people that put `c[]=bla`</span></span><br><span class="line"><span class="comment">     *  in the request to confuse `password_hash`</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    $h2 = password_hash (sha1($_POST[<span class="string">'c'</span>], fa1se), PASSWORD_BCRYPT);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;div class='row'&gt;"</span>;</span><br><span class="line">    <span class="keyword">if</span> (password_verify (sha1($flag, fa1se), $h2) === <span class="keyword">true</span>) &#123;</span><br><span class="line">       <span class="keyword">echo</span> <span class="string">"&lt;p&gt;Here is your flag: &lt;mark&gt;$flag&lt;/mark&gt;&lt;/p&gt;"</span>; </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;p&gt;Here is the &lt;em&gt;hash&lt;/em&gt; of your flag: &lt;mark&gt;"</span> . sha1($flag, <span class="keyword">false</span>) . <span class="string">"&lt;/mark&gt;&lt;/p&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;/div&gt;"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>随机输入一个值，我们发现<code>sha1($flag, false)</code>的值为<code>7c00249d409a91ab84e3f421c193520d9fb3674b</code>。</p>
@@ -1597,6 +1597,138 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 56
@@ -1660,12 +1792,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1695,12 +1827,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1825,12 +1957,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -1904,13 +2036,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

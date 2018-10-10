@@ -418,11 +418,11 @@
 <p>这里推荐keypatch插件，安装教程可参考: <a href="https://www.cnblogs.com/zhaijiahui/p/7978897.html" rel="external nofollow" target="_blank">https://www.cnblogs.com/zhaijiahui/p/7978897.html</a></p>
 <p>第一步: 将一下两行汇编代码patch为nop。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov     edi, 3Ch ; &apos;&lt;&apos;  ; seconds</span><br><span class="line">call    alarm</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807171309.png" alt=""></p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807171500.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807171309.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807171500.png" alt=""></p>
 <p>第二步: 保存patch后的程序。</p>
 <p>Edit-&gt; Patch Program -&gt; Apply patches to input file。选中<code>Create backup</code>，保存即可。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807172900.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807172900.png" alt=""></p>
 <p>第三步: 修改保存后的patch程序后缀，添加x权限，运行。</p>
 <h2 id="自定义结构体"><a href="#自定义结构体" class="headerlink" title="自定义结构体"></a>自定义结构体</h2><p>通过阅读伪代码，我们可以很容易看出一个结构体。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_DWORD *)(<span class="number">24L</span>L * i + a1) = <span class="number">1</span>;</span><br><span class="line">*(_QWORD *)(a1 + <span class="number">24L</span>L * i + <span class="number">8</span>) = v2;</span><br><span class="line">*(_QWORD *)(a1 + <span class="number">24L</span>L * i + <span class="number">16</span>) = v3;</span><br></pre></td></tr></table></figure>
@@ -430,22 +430,22 @@
 <p>为了方便阅读程序，可以在IDA中自定义结构体，并将其应用到伪代码中。</p>
 <p>第一步：定义结构体。</p>
 <p>​    选择Structures视图:</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807172159.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807172159.png" alt=""></p>
 <p>​    输入快键键<code>Insert</code>,设置name。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807173437.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807173437.png" alt=""></p>
 <p>​    选中ends这一行,按大写的<code>D</code>,作为<code>inUse</code>字段。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807173703.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807173703.png" alt=""></p>
 <p>​    由于<code>inUse</code>字段为8个字节，所以需要选中<code>field_0         dq ?</code>,持续按<code>D</code>,直到<code>db</code>变为<code>dq</code>。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807174014.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807174014.png" alt=""></p>
 <p>​    然后在选中ends这一行，按大写的<code>D</code>,作为<code>size</code>字段，同理，将<code>db</code>设置为<code>dq</code>。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807174142.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807174142.png" alt=""></p>
 <p>​    所有字段都设置完毕之后，将三个字段 右键<code>rename</code>一下即可。</p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807174449.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807174449.png" alt=""></p>
 <p>第二步:  应用结构体。</p>
 <p>​    以allocate函数为例，选中参数<code>a1</code>,右键选择<code>Convert ot struct *</code></p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807174718.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807174718.png" alt=""></p>
 <p>​    选择我们刚刚定义的<code>struct_node</code>即可，代码可阅读性明显提高，耶！ </p>
-<p><img src="/posts/27029/assets/0ctf/TIM截图20180807175005.png" alt=""></p>
+<p><img src="/assets/0ctf/TIM截图20180807175005.png" alt=""></p>
 <h2 id="exp准备"><a href="#exp准备" class="headerlink" title="exp准备"></a>exp准备</h2><p>根据程序功能，编写相应的函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">p = process(<span class="string">'./babyheap'</span>)</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">alloc</span><span class="params">(size)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">"Command: "</span>)</span><br><span class="line">    p.sendline(<span class="string">"1"</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Size: "</span>)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(index, size, content)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">"Command: "</span>)</span><br><span class="line">    p.sendline(<span class="string">"2"</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line">    p.recvuntil(<span class="string">"Size: "</span>)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(<span class="string">"Content: "</span>)</span><br><span class="line">    p.sendline(content)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">"Command: "</span>)</span><br><span class="line">    p.sendline(<span class="string">"3"</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">view</span><span class="params">(index)</span>:</span></span><br><span class="line">    p.recvuntil(<span class="string">"Command: "</span>)</span><br><span class="line">    p.sendline(<span class="string">"4"</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">launch_gdb</span><span class="params">()</span>:</span></span><br><span class="line">    context.terminal = [<span class="string">'gnome-terminal'</span>, <span class="string">'-x'</span>, <span class="string">'sh'</span>, <span class="string">'-c'</span>]</span><br><span class="line">    gdb.attach(proc.pidof(p)[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
 <h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="漏洞阐述"><a href="#漏洞阐述" class="headerlink" title="漏洞阐述"></a>漏洞阐述</h2><p>由于off_by_one漏洞的存在，在特定情况下，我们可以修改chunk_size。</p>
@@ -1538,6 +1538,138 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 56
@@ -1601,12 +1733,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -1636,12 +1768,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
         </li>
     
     
@@ -1766,12 +1898,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -1845,13 +1977,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
