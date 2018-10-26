@@ -11,11 +11,11 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="pwn前置知识 | Tianji">
+    <meta name="keywords" content="pwn备忘录 | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>pwn前置知识 · Tianji&#39;s Blog</title>
+    <title>pwn备忘录 · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">pwn前置知识</a>
+                <a href="#" class="post-name">pwn备忘录</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            pwn前置知识
+            pwn备忘录
             <!-- 404 -->
             
         </h1>
@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">4,091</span> / Reading time: <span class="post-count">24 min</span></span>
+                        <span>Word count: <span class="post-count">7,319</span> / Reading time: <span class="post-count">40 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -417,7 +417,7 @@
 <p>在ida中查找。</p>
 <p>方法三:</p>
 <p>在环境变量中查找。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ gdb -q vuln</span><br><span class="line">Catchpoint 1 (exec)</span><br><span class="line">Reading symbols from vuln...done.</span><br><span class="line"><span class="meta">gdb-peda$</span> b *main</span><br><span class="line">Breakpoint 2 at 0x555555554739: file vuln.c, line 17.</span><br><span class="line"><span class="meta">gdb-peda$</span> r</span><br><span class="line">Starting program: /home/tianji/Desktop/sploit/bypassaslr_1/vuln </span><br><span class="line"></span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">RAX: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">RBX: 0x0 </span><br><span class="line">RCX: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RDX: 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">RSI: 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">RDI: 0x1 </span><br><span class="line">RBP: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RSP: 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">RIP: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">R8 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R9 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R10: 0x0 </span><br><span class="line">R11: 0x1 </span><br><span class="line">R12: 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">R13: 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">R14: 0x0 </span><br><span class="line">R15: 0x0</span><br><span class="line">EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x55555555472a &lt;shell+16&gt;:	call   0x5555555545d0 &lt;system@plt&gt;</span><br><span class="line">   0x55555555472f &lt;shell+21&gt;:	mov    edi,0x0</span><br><span class="line">   0x555555554734 &lt;shell+26&gt;:	call   0x5555555545f0 &lt;exit@plt&gt;</span><br><span class="line">=&gt; 0x555555554739 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x55555555473a &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">   0x55555555473d &lt;main+4&gt;:	sub    rsp,0x120</span><br><span class="line">   0x555555554744 &lt;main+11&gt;:	mov    DWORD PTR [rbp-0x114],edi</span><br><span class="line">   0x55555555474a &lt;main+17&gt;:	mov    QWORD PTR [rbp-0x120],rsi</span><br><span class="line">[------------------------------------stack-------------------------------------]</span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">[------------------------------------------------------------------------------]</span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line"></span><br><span class="line">Breakpoint 2, main (argc=0x7fff, argv=0x0) at vuln.c:17</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">17	int main(int argc, char* argv[]) &#123;</span><br><span class="line"><span class="meta">gdb-peda$</span> telescope 100</span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0064| 0x7fffffffdd48 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0072| 0x7fffffffdd50 --&gt; 0x0 </span><br><span class="line">0080| 0x7fffffffdd58 --&gt; 0x0 </span><br><span class="line">0088| 0x7fffffffdd60 --&gt; 0xe8ddf05985fd83be </span><br><span class="line">0096| 0x7fffffffdd68 --&gt; 0xe8dde0e6894383be </span><br><span class="line">0104| 0x7fffffffdd70 --&gt; 0x7fff00000000 </span><br><span class="line">0112| 0x7fffffffdd78 --&gt; 0x0 </span><br><span class="line">0120| 0x7fffffffdd80 --&gt; 0x0 </span><br><span class="line">0128| 0x7fffffffdd88 --&gt; 0x7ffff7de5733 (&lt;_dl_init+259&gt;:	add    r14,0x8)</span><br><span class="line">0136| 0x7fffffffdd90 --&gt; 0x7ffff7dcb638 --&gt; 0x7ffff7b7de10 --&gt; 0x8348535554415541 </span><br><span class="line">0144| 0x7fffffffdd98 --&gt; 0x2225ab63 </span><br><span class="line">0152| 0x7fffffffdda0 --&gt; 0x0 </span><br><span class="line">0160| 0x7fffffffdda8 --&gt; 0x0 </span><br><span class="line">0168| 0x7fffffffddb0 --&gt; 0x0 </span><br><span class="line">0176| 0x7fffffffddb8 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0184| 0x7fffffffddc0 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0192| 0x7fffffffddc8 --&gt; 0x55555555463a (&lt;_start+42&gt;:	hlt)</span><br><span class="line">--More--(25/100)</span><br><span class="line">0200| 0x7fffffffddd0 --&gt; 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0208| 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0216| 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0224| 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0232| 0x7fffffffddf0 --&gt; 0x0 </span><br><span class="line">0240| 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">0248| 0x7fffffffde00 --&gt; 0x7fffffffe1dd ("LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc"...)</span><br><span class="line">0256| 0x7fffffffde08 --&gt; 0x7fffffffe7c9 ("LC_MEASUREMENT=zh_CN.UTF-8")</span><br><span class="line">0264| 0x7fffffffde10 --&gt; 0x7fffffffe7e4 ("LESSCLOSE=/usr/bin/lesspipe %s %s")</span><br><span class="line">0272| 0x7fffffffde18 --&gt; 0x7fffffffe806 ("LC_PAPER=zh_CN.UTF-8")</span><br><span class="line">0280| 0x7fffffffde20 --&gt; 0x7fffffffe81b ("LC_MONETARY=zh_CN.UTF-8")</span><br><span class="line">0288| 0x7fffffffde28 --&gt; 0x7fffffffe833 ("XDG_MENU_PREFIX=gnome-")</span><br><span class="line">0296| 0x7fffffffde30 --&gt; 0x7fffffffe84a ("_=/usr/bin/gdb")</span><br><span class="line">0304| 0x7fffffffde38 --&gt; 0x7fffffffe859 ("LANG=en_US.UTF-8")</span><br><span class="line">0312| 0x7fffffffde40 --&gt; 0x7fffffffe86a ("DISPLAY=:0")</span><br><span class="line">0320| 0x7fffffffde48 --&gt; 0x7fffffffe875 ("OLDPWD=/home/tianji/Desktop/sploit")</span><br><span class="line">0328| 0x7fffffffde50 --&gt; 0x7fffffffe898 ("GNOME_SHELL_SESSION_MODE=ubuntu")</span><br><span class="line">0336| 0x7fffffffde58 --&gt; 0x7fffffffe8b8 ("COLORTERM=truecolor")</span><br><span class="line">0344| 0x7fffffffde60 --&gt; 0x7fffffffe8cc ("USERNAME=tianji")</span><br><span class="line">0352| 0x7fffffffde68 --&gt; 0x7fffffffe8dc ("XDG_VTNR=1")</span><br><span class="line">0360| 0x7fffffffde70 --&gt; 0x7fffffffe8e7 ("SSH_AUTH_SOCK=/run/user/1000/keyring/ssh")</span><br><span class="line">0368| 0x7fffffffde78 --&gt; 0x7fffffffe910 ("MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path")</span><br><span class="line">0376| 0x7fffffffde80 --&gt; 0x7fffffffe946 ("LC_NAME=zh_CN.UTF-8")</span><br><span class="line">0384| 0x7fffffffde88 --&gt; 0x7fffffffe95a ("XDG_SESSION_ID=1")</span><br><span class="line">0392| 0x7fffffffde90 --&gt; 0x7fffffffe96b ("USER=tianji")</span><br><span class="line">--More--(50/100)</span><br><span class="line">0400| 0x7fffffffde98 --&gt; 0x7fffffffe977 ("DESKTOP_SESSION=ubuntu")</span><br><span class="line">0408| 0x7fffffffdea0 --&gt; 0x7fffffffe98e ("QT4_IM_MODULE=fcitx")</span><br><span class="line">0416| 0x7fffffffdea8 --&gt; 0x7fffffffe9a2 ("TEXTDOMAINDIR=/usr/share/locale/")</span><br><span class="line">0424| 0x7fffffffdeb0 --&gt; 0x7fffffffe9c3 ("GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/d3da222f_3cd5_4897_a029_a411cbf1e9fa")</span><br><span class="line">0432| 0x7fffffffdeb8 --&gt; 0x7fffffffea19 ("DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path")</span><br><span class="line">0440| 0x7fffffffdec0 --&gt; 0x7fffffffea4c ("PWD=/home/tianji/Desktop/sploit/bypassaslr_1")</span><br><span class="line">0448| 0x7fffffffdec8 --&gt; 0x7fffffffea79 ("LINES=24")</span><br><span class="line">0456| 0x7fffffffded0 --&gt; 0x7fffffffea82 ("HOME=/home/tianji")</span><br><span class="line">0464| 0x7fffffffded8 --&gt; 0x7fffffffea94 ("TEXTDOMAIN=im-config")</span><br><span class="line">0472| 0x7fffffffdee0 --&gt; 0x7fffffffeaa9 ("SSH_AGENT_PID=1606")</span><br><span class="line">0480| 0x7fffffffdee8 --&gt; 0x7fffffffeabc ("QT_ACCESSIBILITY=1")</span><br><span class="line">0488| 0x7fffffffdef0 --&gt; 0x7fffffffeacf ("XDG_SESSION_TYPE=x11")</span><br><span class="line">0496| 0x7fffffffdef8 --&gt; 0x7fffffffeae4 ("XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop")</span><br><span class="line">0504| 0x7fffffffdf00 --&gt; 0x7fffffffeb37 ("XDG_SESSION_DESKTOP=ubuntu")</span><br><span class="line">0512| 0x7fffffffdf08 --&gt; 0x7fffffffeb52 ("LC_ADDRESS=zh_CN.UTF-8")</span><br><span class="line">0520| 0x7fffffffdf10 --&gt; 0x7fffffffeb69 ("GJS_DEBUG_OUTPUT=stderr")</span><br><span class="line">0528| 0x7fffffffdf18 --&gt; 0x7fffffffeb81 ("LC_NUMERIC=zh_CN.UTF-8")</span><br><span class="line">0536| 0x7fffffffdf20 --&gt; 0x7fffffffeb98 ("ALL_PROXY=socks://127.0.0.1:1080/")</span><br><span class="line">0544| 0x7fffffffdf28 --&gt; 0x7fffffffebba ("no_proxy=localhost,127.0.0.0/8,::1")</span><br><span class="line">0552| 0x7fffffffdf30 --&gt; 0x7fffffffebdd ("GTK_MODULES=gail:atk-bridge")</span><br><span class="line">0560| 0x7fffffffdf38 --&gt; 0x7fffffffebf9 ("NO_PROXY=localhost,127.0.0.0/8,::1")</span><br><span class="line">0568| 0x7fffffffdf40 --&gt; 0x7fffffffec1c ("COLUMNS=79")</span><br><span class="line">0576| 0x7fffffffdf48 --&gt; 0x7fffffffec27 ("WINDOWPATH=1")</span><br><span class="line">0584| 0x7fffffffdf50 --&gt; 0x7fffffffec34 ("SHELL=/bin/bash")</span><br><span class="line">0592| 0x7fffffffdf58 --&gt; 0x7fffffffec44 ("VTE_VERSION=5201")</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ gdb -q vuln</span><br><span class="line">Catchpoint 1 (exec)</span><br><span class="line">Reading symbols from vuln...done.</span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> b *main</span></span><br><span class="line">Breakpoint 2 at 0x555555554739: file vuln.c, line 17.</span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> r</span></span><br><span class="line">Starting program: /home/tianji/Desktop/sploit/bypassaslr_1/vuln </span><br><span class="line"></span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">RAX: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">RBX: 0x0 </span><br><span class="line">RCX: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RDX: 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">RSI: 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">RDI: 0x1 </span><br><span class="line">RBP: 0x555555554790 (&lt;__libc_csu_init&gt;:	push   r15)</span><br><span class="line">RSP: 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">RIP: 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">R8 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R9 : 0x7ffff7dd0d80 --&gt; 0x0 </span><br><span class="line">R10: 0x0 </span><br><span class="line">R11: 0x1 </span><br><span class="line">R12: 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">R13: 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">R14: 0x0 </span><br><span class="line">R15: 0x0</span><br><span class="line">EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x55555555472a &lt;shell+16&gt;:	call   0x5555555545d0 &lt;system@plt&gt;</span><br><span class="line">   0x55555555472f &lt;shell+21&gt;:	mov    edi,0x0</span><br><span class="line">   0x555555554734 &lt;shell+26&gt;:	call   0x5555555545f0 &lt;exit@plt&gt;</span><br><span class="line">=&gt; 0x555555554739 &lt;main&gt;:	push   rbp</span><br><span class="line">   0x55555555473a &lt;main+1&gt;:	mov    rbp,rsp</span><br><span class="line">   0x55555555473d &lt;main+4&gt;:	sub    rsp,0x120</span><br><span class="line">   0x555555554744 &lt;main+11&gt;:	mov    DWORD PTR [rbp-0x114],edi</span><br><span class="line">   0x55555555474a &lt;main+17&gt;:	mov    QWORD PTR [rbp-0x120],rsi</span><br><span class="line">[------------------------------------stack-------------------------------------]</span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">[------------------------------------------------------------------------------]</span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line"></span><br><span class="line">Breakpoint 2, main (argc=0x7fff, argv=0x0) at vuln.c:17</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">17	int main(int argc, char* argv[]) &#123;</span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> telescope 100</span></span><br><span class="line">0000| 0x7fffffffdd08 --&gt; 0x7ffff7a05b97 (&lt;__libc_start_main+231&gt;:	mov    edi,eax)</span><br><span class="line">0008| 0x7fffffffdd10 --&gt; 0x1 </span><br><span class="line">0016| 0x7fffffffdd18 --&gt; 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0024| 0x7fffffffdd20 --&gt; 0x100008000 </span><br><span class="line">0032| 0x7fffffffdd28 --&gt; 0x555555554739 (&lt;main&gt;:	push   rbp)</span><br><span class="line">0040| 0x7fffffffdd30 --&gt; 0x0 </span><br><span class="line">0048| 0x7fffffffdd38 --&gt; 0xbd88a50cb0fd83be </span><br><span class="line">0056| 0x7fffffffdd40 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0064| 0x7fffffffdd48 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0072| 0x7fffffffdd50 --&gt; 0x0 </span><br><span class="line">0080| 0x7fffffffdd58 --&gt; 0x0 </span><br><span class="line">0088| 0x7fffffffdd60 --&gt; 0xe8ddf05985fd83be </span><br><span class="line">0096| 0x7fffffffdd68 --&gt; 0xe8dde0e6894383be </span><br><span class="line">0104| 0x7fffffffdd70 --&gt; 0x7fff00000000 </span><br><span class="line">0112| 0x7fffffffdd78 --&gt; 0x0 </span><br><span class="line">0120| 0x7fffffffdd80 --&gt; 0x0 </span><br><span class="line">0128| 0x7fffffffdd88 --&gt; 0x7ffff7de5733 (&lt;_dl_init+259&gt;:	add    r14,0x8)</span><br><span class="line">0136| 0x7fffffffdd90 --&gt; 0x7ffff7dcb638 --&gt; 0x7ffff7b7de10 --&gt; 0x8348535554415541 </span><br><span class="line">0144| 0x7fffffffdd98 --&gt; 0x2225ab63 </span><br><span class="line">0152| 0x7fffffffdda0 --&gt; 0x0 </span><br><span class="line">0160| 0x7fffffffdda8 --&gt; 0x0 </span><br><span class="line">0168| 0x7fffffffddb0 --&gt; 0x0 </span><br><span class="line">0176| 0x7fffffffddb8 --&gt; 0x555555554610 (&lt;_start&gt;:	xor    ebp,ebp)</span><br><span class="line">0184| 0x7fffffffddc0 --&gt; 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0192| 0x7fffffffddc8 --&gt; 0x55555555463a (&lt;_start+42&gt;:	hlt)</span><br><span class="line">--More--(25/100)</span><br><span class="line">0200| 0x7fffffffddd0 --&gt; 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0208| 0x7fffffffddd8 --&gt; 0x1c </span><br><span class="line">0216| 0x7fffffffdde0 --&gt; 0x1 </span><br><span class="line">0224| 0x7fffffffdde8 --&gt; 0x7fffffffe199 ("/home/tianji/Desktop/sploit/bypassaslr_1/vuln")</span><br><span class="line">0232| 0x7fffffffddf0 --&gt; 0x0 </span><br><span class="line">0240| 0x7fffffffddf8 --&gt; 0x7fffffffe1c7 ("CLUTTER_IM_MODULE=xim")</span><br><span class="line">0248| 0x7fffffffde00 --&gt; 0x7fffffffe1dd ("LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc"...)</span><br><span class="line">0256| 0x7fffffffde08 --&gt; 0x7fffffffe7c9 ("LC_MEASUREMENT=zh_CN.UTF-8")</span><br><span class="line">0264| 0x7fffffffde10 --&gt; 0x7fffffffe7e4 ("LESSCLOSE=/usr/bin/lesspipe %s %s")</span><br><span class="line">0272| 0x7fffffffde18 --&gt; 0x7fffffffe806 ("LC_PAPER=zh_CN.UTF-8")</span><br><span class="line">0280| 0x7fffffffde20 --&gt; 0x7fffffffe81b ("LC_MONETARY=zh_CN.UTF-8")</span><br><span class="line">0288| 0x7fffffffde28 --&gt; 0x7fffffffe833 ("XDG_MENU_PREFIX=gnome-")</span><br><span class="line">0296| 0x7fffffffde30 --&gt; 0x7fffffffe84a ("_=/usr/bin/gdb")</span><br><span class="line">0304| 0x7fffffffde38 --&gt; 0x7fffffffe859 ("LANG=en_US.UTF-8")</span><br><span class="line">0312| 0x7fffffffde40 --&gt; 0x7fffffffe86a ("DISPLAY=:0")</span><br><span class="line">0320| 0x7fffffffde48 --&gt; 0x7fffffffe875 ("OLDPWD=/home/tianji/Desktop/sploit")</span><br><span class="line">0328| 0x7fffffffde50 --&gt; 0x7fffffffe898 ("GNOME_SHELL_SESSION_MODE=ubuntu")</span><br><span class="line">0336| 0x7fffffffde58 --&gt; 0x7fffffffe8b8 ("COLORTERM=truecolor")</span><br><span class="line">0344| 0x7fffffffde60 --&gt; 0x7fffffffe8cc ("USERNAME=tianji")</span><br><span class="line">0352| 0x7fffffffde68 --&gt; 0x7fffffffe8dc ("XDG_VTNR=1")</span><br><span class="line">0360| 0x7fffffffde70 --&gt; 0x7fffffffe8e7 ("SSH_AUTH_SOCK=/run/user/1000/keyring/ssh")</span><br><span class="line">0368| 0x7fffffffde78 --&gt; 0x7fffffffe910 ("MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path")</span><br><span class="line">0376| 0x7fffffffde80 --&gt; 0x7fffffffe946 ("LC_NAME=zh_CN.UTF-8")</span><br><span class="line">0384| 0x7fffffffde88 --&gt; 0x7fffffffe95a ("XDG_SESSION_ID=1")</span><br><span class="line">0392| 0x7fffffffde90 --&gt; 0x7fffffffe96b ("USER=tianji")</span><br><span class="line">--More--(50/100)</span><br><span class="line">0400| 0x7fffffffde98 --&gt; 0x7fffffffe977 ("DESKTOP_SESSION=ubuntu")</span><br><span class="line">0408| 0x7fffffffdea0 --&gt; 0x7fffffffe98e ("QT4_IM_MODULE=fcitx")</span><br><span class="line">0416| 0x7fffffffdea8 --&gt; 0x7fffffffe9a2 ("TEXTDOMAINDIR=/usr/share/locale/")</span><br><span class="line">0424| 0x7fffffffdeb0 --&gt; 0x7fffffffe9c3 ("GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/d3da222f_3cd5_4897_a029_a411cbf1e9fa")</span><br><span class="line">0432| 0x7fffffffdeb8 --&gt; 0x7fffffffea19 ("DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path")</span><br><span class="line">0440| 0x7fffffffdec0 --&gt; 0x7fffffffea4c ("PWD=/home/tianji/Desktop/sploit/bypassaslr_1")</span><br><span class="line">0448| 0x7fffffffdec8 --&gt; 0x7fffffffea79 ("LINES=24")</span><br><span class="line">0456| 0x7fffffffded0 --&gt; 0x7fffffffea82 ("HOME=/home/tianji")</span><br><span class="line">0464| 0x7fffffffded8 --&gt; 0x7fffffffea94 ("TEXTDOMAIN=im-config")</span><br><span class="line">0472| 0x7fffffffdee0 --&gt; 0x7fffffffeaa9 ("SSH_AGENT_PID=1606")</span><br><span class="line">0480| 0x7fffffffdee8 --&gt; 0x7fffffffeabc ("QT_ACCESSIBILITY=1")</span><br><span class="line">0488| 0x7fffffffdef0 --&gt; 0x7fffffffeacf ("XDG_SESSION_TYPE=x11")</span><br><span class="line">0496| 0x7fffffffdef8 --&gt; 0x7fffffffeae4 ("XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop")</span><br><span class="line">0504| 0x7fffffffdf00 --&gt; 0x7fffffffeb37 ("XDG_SESSION_DESKTOP=ubuntu")</span><br><span class="line">0512| 0x7fffffffdf08 --&gt; 0x7fffffffeb52 ("LC_ADDRESS=zh_CN.UTF-8")</span><br><span class="line">0520| 0x7fffffffdf10 --&gt; 0x7fffffffeb69 ("GJS_DEBUG_OUTPUT=stderr")</span><br><span class="line">0528| 0x7fffffffdf18 --&gt; 0x7fffffffeb81 ("LC_NUMERIC=zh_CN.UTF-8")</span><br><span class="line">0536| 0x7fffffffdf20 --&gt; 0x7fffffffeb98 ("ALL_PROXY=socks://127.0.0.1:1080/")</span><br><span class="line">0544| 0x7fffffffdf28 --&gt; 0x7fffffffebba ("no_proxy=localhost,127.0.0.0/8,::1")</span><br><span class="line">0552| 0x7fffffffdf30 --&gt; 0x7fffffffebdd ("GTK_MODULES=gail:atk-bridge")</span><br><span class="line">0560| 0x7fffffffdf38 --&gt; 0x7fffffffebf9 ("NO_PROXY=localhost,127.0.0.0/8,::1")</span><br><span class="line">0568| 0x7fffffffdf40 --&gt; 0x7fffffffec1c ("COLUMNS=79")</span><br><span class="line">0576| 0x7fffffffdf48 --&gt; 0x7fffffffec27 ("WINDOWPATH=1")</span><br><span class="line">0584| 0x7fffffffdf50 --&gt; 0x7fffffffec34 ("SHELL=/bin/bash")</span><br><span class="line">0592| 0x7fffffffdf58 --&gt; 0x7fffffffec44 ("VTE_VERSION=5201")</span><br></pre></td></tr></table></figure>
 <p>我们可以看到“SHELL=/bin/bash”的地址:<code>0x7fffffffec34</code>,然后去掉<code>SHELL</code>,这样“/bin/bash”的地址就是<code>0x7fffffffec3a</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ x/s 0x7fffffffec3a</span><br><span class="line">0x7fffffffec3a:	&quot;/bin/bash&quot;</span><br></pre></td></tr></table></figure>
 <p>当然，我这里是”/bin/bash”,所以这方法不可行。这时候，可以添加环境变量。</p>
@@ -516,6 +516,3430 @@
 <h2 id="ubuntu-16-64位默认加载地址"><a href="#ubuntu-16-64位默认加载地址" class="headerlink" title="ubuntu 16  64位默认加载地址"></a>ubuntu 16  64位默认加载地址</h2><p>运行程序，然后查看 /proc/pid/maps 或者在gdb里边使用 <code>vmmap</code>命令。</p>
 <h2 id="ida调试elf文件"><a href="#ida调试elf文件" class="headerlink" title="ida调试elf文件"></a>ida调试elf文件</h2><p>在linux中运行 <code>linux_server</code>或者<code>linux_server64</code>。</p>
 <p>然后设置<code>ida</code>。</p>
+<h2 id="checksec检测到的保护机制"><a href="#checksec检测到的保护机制" class="headerlink" title="checksec检测到的保护机制"></a>checksec检测到的保护机制</h2><ol>
+<li><p>cannary  (栈保护)</p>
+<p>栈溢出保护是一种缓冲区溢出攻击缓解手段，当函数存在缓冲区溢出攻击漏洞时，攻击者可以覆盖栈上的返回地址来让shellcode能够得到执行。当启用栈保护后，函数开始执行的时候会先往栈里插入cookie信息，当函数真正返回的时候会验证cookie信息是否合法，如果不合法就停止程序运行。攻击者在覆盖返回地址的时候往往也会将cookie信息给覆盖掉，导致栈保护检查失败而阻止shellcode的执行。在Linux中我们将cookie信息称为canary。 </p>
+<p>gcc选项: </p>
+<ul>
+<li>gcc4.2版本-fstack-protector和-fstack-protector-all编译参数开启栈保护功能，4.9新增了-fstack-protector-strong编译参数让保护的范围更广。 </li>
+<li>-fno-stack-protector 不开启栈保护 </li>
+</ul>
+<blockquote>
+<p>gcc -fno-stack-protector -o test test.c  //禁用栈保护 </p>
+<p>gcc -fstack-protector -o test test.c   //启用堆栈保护，不过只为局部变量中含有 char 数组的函数插入保护代码 </p>
+<p>gcc -fstack-protector-all -o test test.c //启用堆栈保护，为所有函数插入保护代码 </p>
+</blockquote>
+</li>
+<li><p>fortify</p>
+<p>它其实和栈保护都是gcc的新的为了增强保护的一种机制，防止缓冲区溢出攻击。由于并不是太常见，也没有太多的了解。</p>
+</li>
+<li><p>NX(windows下叫 DEP)</p>
+<p>NX（DEP）的基本原理是将数据所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。 </p>
+<p>gcc编译器默认开启了NX选项，如果需要关闭NX选项，可以给gcc编译器添加-z execstack参数。 </p>
+</li>
+<li><p>PIE(windows下ASLR)（address space layout randomization）</p>
+<p>一般情况下NX（Windows平台上称其为DEP）和地址空间分布随机化（ASLR）会同时工作。 </p>
+<blockquote>
+<p>0 - 表示关闭进程地址空间随机化。 </p>
+<p>1 - 表示将mmap的基址，stack和vdso页面随机化。 </p>
+<p>2 - 表示在1的基础上增加栈（heap）的随机化。 </p>
+</blockquote>
+<p>可以防范基于Ret2libc方式的针对DEP的攻击。ASLR和DEP配合使用，能有效阻止攻击者在堆栈上运行恶意代码。</p>
+<p>Built as PIE：位置独立的可执行区域（position-independent executables）。这样使得在利用缓冲溢出和移动操作系统中存在的其他内存崩溃缺陷时采用面向返回的编程（return-oriented programming）方法变得难得多。</p>
+<p>liunx下关闭PIE的命令如下：</p>
+<blockquote>
+<p>sudo -s echo 0 &gt; /proc/sys/kernel/randomize_va_space </p>
+</blockquote>
+</li>
+<li><p>RELPO</p>
+<p>设置符号重定向表格为只读或在程序启动时就解析并绑定所有动态符号，从而减少对GOT（Global Offset Table）攻击。 </p>
+</li>
+</ol>
+<h2 id="gdb中print和x的区别"><a href="#gdb中print和x的区别" class="headerlink" title="gdb中print和x的区别"></a>gdb中print和x的区别</h2><p>print 就是打印变量（参数是什么，就打印什么），x但因给定变量代表的内存地址里的值（x后边的参数是地址值，打印的是地址所在内存单元的值）。比如:</p>
+<blockquote>
+<p>p/x *$rax                                     ; \$1=0x41414141 </p>
+<p>x/x $rax                                       ;\$2=0x41</p>
+</blockquote>
+<p>差不多，区别在于打印出来的字节多少而已。</p>
+<h2 id="read和gets和fgets"><a href="#read和gets和fgets" class="headerlink" title="read和gets和fgets"></a>read和gets和fgets</h2><p>gets: <code>char * gets(char *s)</code></p>
+<p>读取一个字符串到s指向的内存空间，直到出现换行符读到文件尾为止,最后将换行符替换为NULL做作为字符串结束。<strong>注意，由于gets()函数无法知道读取字符串大小，因此容易出现缓冲区溢出,建议使用fgets替代</strong></p>
+<p>fgets: <code>char *  fgets(char * s, int n,FILE *stream);</code></p>
+<p> 参数; </p>
+<ul>
+<li>s: 字符型指针，指向存储读入数据的缓冲区的地址。</li>
+<li>n: 从流中读入n-1个字符</li>
+<li>stream ： 指向读取的流。</li>
+</ul>
+<p>该函数读入n-1个字符或者读到”\n”，然后在最后<strong>添加\x00</strong></p>
+<p>fets函数会开辟一个堆块，作为缓冲区，大小视情况而定，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"> </span><br><span class="line">int main() &#123;</span><br><span class="line">   char s[20];</span><br><span class="line">   fgets(s, 24, stdin);</span><br><span class="line">   printf(&quot;%s\n&quot;, s);</span><br><span class="line">   fgets(s, 24, stdin);</span><br><span class="line">   printf(&quot;%s&quot;, s);</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一次输入<em>23 \</em> ‘a’ + ‘b’ + 22 * ‘b’*，字符串首先会被读到位于堆中的缓冲区里边，再从缓冲区读取到s所在地址，该字符串超过23个字节，所以第二次执行fgets的时候，将不在需要用户输入，直接从第24位开始读取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/huwangbei$ ./test </span><br><span class="line">aaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaa </span><br><span class="line">aaaaaaaaaaaaaaaaaaaaaaa</span><br><span class="line">baaaaaaaaaaaaaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+<p>read: <code>ssize_t read(int fd, void *buf, size_t count);</code></p>
+<p>读取cout个字符。直接从流中读取count个字节到buf中。    </p>
+<p><strong>scanf</strong>:  char s[20]; scanf(“%20s”, s); scanf遇到<strong>空格</strong>，不满20位，“\t”, “\n”等会停止，添加”\x00”，如果输入大于或者等于20,那么会使得s[20] = “\x00”，也就是存在off_by_one。</p>
+<h2 id="mmap分配问题"><a href="#mmap分配问题" class="headerlink" title="mmap分配问题"></a>mmap分配问题</h2><p>当mmap的地址是urandom来的，但是不满足mmap要求时，会随机分配这个地址，申请两块同样大小的mmap内存时，若两次mmap的随机地址都已分配，则会造成两处内存空间相邻。</p>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>AH&amp;AL=AX(accumulator):累加寄存器<br>BH&amp;BL=BX(base):基址寄存器<br>CH&amp;CL=CX(count):计数寄存器<br>DH&amp;DL=DX(data):数据寄存器<br>SP(Stack Pointer):堆栈指针寄存器<br>BP(Base Pointer):基址指针寄存器<br>SI(Source Index):源变址寄存器<br>DI(Destination Index):目的变址寄存器<br>IP(Instruction Pointer):指令指针寄存器<br>CS(Code Segment)代码段寄存器<br>DS(Data Segment):数据段寄存器<br>SS(Stack Segment):堆栈段寄存器<br>ES(Extra Segment):附加段寄存器</p>
+<p>32位CPU有4个32位的通用寄存器EAX、EBX、ECX和EDX。对低16位数据的存取，不会影响高16位的数据。这些低16位寄存器分别命名为：AX、BX、CX和DX，它和先前的CPU中的寄存器相一致。</p>
+<p>4个16位寄存器又可分割成8个独立的8位寄存器(AX：AH-AL、BX：BH-BL、CX：CH-CL、DX：DH-DL)，每个寄存器都有自己的名称，可独立存取。程序员可利用数据寄存器的这种“可分可合”的特性，灵活地处理字/字节的信。</p>
+<h2 id="glibc中各种bin的划分"><a href="#glibc中各种bin的划分" class="headerlink" title="glibc中各种bin的划分"></a>glibc中各种bin的划分</h2><p>64位: fastbins [0x20 ~ 0x80] ，步长 0x10</p>
+<h2 id="汇编指令大全"><a href="#汇编指令大全" class="headerlink" title="汇编指令大全"></a>汇编指令大全</h2><table>
+<thead>
+<tr>
+<th>操作码</th>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0F 31</td>
+<td>rdtsc</td>
+<td>将时间标签计数器读入 EDX:EAX。CPU提供了一个特殊的机器指令rdtsc，使用这条指令可以读出CPU自从启动以来的时钟周期数。其计时精度可以达到纳秒级。</td>
+</tr>
+<tr>
+<td></td>
+<td>movabs</td>
+<td>操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。</td>
+</tr>
+<tr>
+<td></td>
+<td>movdqa</td>
+<td>操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。</td>
+</tr>
+<tr>
+<td></td>
+<td>movntps</td>
+<td>操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。</td>
+</tr>
+<tr>
+<td></td>
+<td>dec reg</td>
+<td>DEC的功能是将reg的值减1,如果reg=0,则将reg置为-1</td>
+</tr>
+<tr>
+<td></td>
+<td>xor op1,op2</td>
+<td>将两个操作数进行[异或运算]，并将结果存放到操作数1中</td>
+</tr>
+<tr>
+<td></td>
+<td>repe</td>
+<td>repe是一个串操作前缀，它重复串操作指令，每重复一次ECX的值就减一,一直到CX为0或ZF为0时停止。</td>
+</tr>
+<tr>
+<td></td>
+<td>cmpsb</td>
+<td>cmpsb是字符串比较指令，把ESI指向的数据与EDI指向的数一个一个的进行比较</td>
+</tr>
+</tbody>
+</table>
+<h2 id="syscall调用表"><a href="#syscall调用表" class="headerlink" title="syscall调用表"></a>syscall调用表</h2><table>
+<thead>
+<tr>
+<th>%rax</th>
+<th>System call</th>
+<th>%rdi</th>
+<th>%rsi</th>
+<th>%rdx</th>
+<th>%r10</th>
+<th>%r8</th>
+<th>%r9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>sys_read</td>
+<td>unsigned int fd</td>
+<td>char *buf</td>
+<td>size_t count</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>sys_write</td>
+<td>unsigned int fd</td>
+<td>const char *buf</td>
+<td>size_t count</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>sys_open</td>
+<td>const char *filename</td>
+<td>int flags</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>sys_close</td>
+<td>unsigned int fd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>sys_stat</td>
+<td>const char *filename</td>
+<td>struct stat *statbuf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>sys_fstat</td>
+<td>unsigned int fd</td>
+<td>struct stat *statbuf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>sys_lstat</td>
+<td>fconst char *filename</td>
+<td>struct stat *statbuf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>sys_poll</td>
+<td>struct poll_fd *ufds</td>
+<td>unsigned int nfds</td>
+<td>long timeout_msecs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>sys_lseek</td>
+<td>unsigned int fd</td>
+<td>off_t offset</td>
+<td>unsigned int origin</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>sys_mmap</td>
+<td>unsigned long addr</td>
+<td>unsigned long len</td>
+<td>unsigned long prot</td>
+<td>unsigned long flags</td>
+<td>unsigned long fd</td>
+<td>unsigned long off</td>
+</tr>
+<tr>
+<td>10</td>
+<td>sys_mprotect</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td>unsigned long prot</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>sys_munmap</td>
+<td>unsigned long addr</td>
+<td>size_t len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>sys_brk</td>
+<td>unsigned long brk</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>sys_rt_sigaction</td>
+<td>int sig</td>
+<td>const struct sigaction *act</td>
+<td>struct sigaction *oact</td>
+<td>size_t sigsetsize</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>sys_rt_sigprocmask</td>
+<td>int how</td>
+<td>sigset_t *nset</td>
+<td>sigset_t *oset</td>
+<td>size_t sigsetsize</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>sys_rt_sigreturn</td>
+<td>unsigned long __unused</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>sys_ioctl</td>
+<td>unsigned int fd</td>
+<td>unsigned int cmd</td>
+<td>unsigned long arg</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>sys_pread64</td>
+<td>unsigned long fd</td>
+<td>char *buf</td>
+<td>size_t count</td>
+<td>loff_t pos</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>sys_pwrite64</td>
+<td>unsigned int fd</td>
+<td>const char *buf</td>
+<td>size_t count</td>
+<td>loff_t pos</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>sys_readv</td>
+<td>unsigned long fd</td>
+<td>const struct iovec *vec</td>
+<td>unsigned long vlen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>sys_writev</td>
+<td>unsigned long fd</td>
+<td>const struct iovec *vec</td>
+<td>unsigned long vlen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>sys_access</td>
+<td>const char *filename</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>sys_pipe</td>
+<td>int *filedes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>sys_select</td>
+<td>int n</td>
+<td>fd_set *inp</td>
+<td>fd_set *outp</td>
+<td>fd_set*exp</td>
+<td>struct timeval *tvp</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>sys_sched_yield</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>sys_mremap</td>
+<td>unsigned long addr</td>
+<td>unsigned long old_len</td>
+<td>unsigned long new_len</td>
+<td>unsigned long flags</td>
+<td>unsigned long new_addr</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>sys_msync</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>sys_mincore</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td>unsigned char *vec</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>sys_madvise</td>
+<td>unsigned long start</td>
+<td>size_t len_in</td>
+<td>int behavior</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>sys_shmget</td>
+<td>key_t key</td>
+<td>size_t size</td>
+<td>int shmflg</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>sys_shmat</td>
+<td>int shmid</td>
+<td>char *shmaddr</td>
+<td>int shmflg</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>sys_shmctl</td>
+<td>int shmid</td>
+<td>int cmd</td>
+<td>struct shmid_ds *buf</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>sys_dup</td>
+<td>unsigned int fildes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>sys_dup2</td>
+<td>unsigned int oldfd</td>
+<td>unsigned int newfd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>sys_pause</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td>sys_nanosleep</td>
+<td>struct timespec *rqtp</td>
+<td>struct timespec *rmtp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>36</td>
+<td>sys_getitimer</td>
+<td>int which</td>
+<td>struct itimerval *value</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td>sys_alarm</td>
+<td>unsigned int seconds</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td>sys_setitimer</td>
+<td>int which</td>
+<td>struct itimerval *value</td>
+<td>struct itimerval *ovalue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>39</td>
+<td>sys_getpid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>40</td>
+<td>sys_sendfile</td>
+<td>int out_fd</td>
+<td>int in_fd</td>
+<td>off_t *offset</td>
+<td>size_t count</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td>sys_socket</td>
+<td>int family</td>
+<td>int type</td>
+<td>int protocol</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>42</td>
+<td>sys_connect</td>
+<td>int fd</td>
+<td>struct sockaddr *uservaddr</td>
+<td>int addrlen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>43</td>
+<td>sys_accept</td>
+<td>int fd</td>
+<td>struct sockaddr *upeer_sockaddr</td>
+<td>int *upeer_addrlen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>44</td>
+<td>sys_sendto</td>
+<td>int fd</td>
+<td>void *buff</td>
+<td>size_t len</td>
+<td>unsigned flags</td>
+<td>struct sockaddr *addr</td>
+<td>int addr_len</td>
+</tr>
+<tr>
+<td>45</td>
+<td>sys_recvfrom</td>
+<td>int fd</td>
+<td>void *ubuf</td>
+<td>size_t size</td>
+<td>unsigned flags</td>
+<td>struct sockaddr *addr</td>
+<td>int *addr_len</td>
+</tr>
+<tr>
+<td>46</td>
+<td>sys_sendmsg</td>
+<td>int fd</td>
+<td>struct msghdr *msg</td>
+<td>unsigned flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>47</td>
+<td>sys_recvmsg</td>
+<td>int fd</td>
+<td>struct msghdr *msg</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>48</td>
+<td>sys_shutdown</td>
+<td>int fd</td>
+<td>int how</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>49</td>
+<td>sys_bind</td>
+<td>int fd</td>
+<td>struct sokaddr *umyaddr</td>
+<td>int addrlen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>50</td>
+<td>sys_listen</td>
+<td>int fd</td>
+<td>int backlog</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>51</td>
+<td>sys_getsockname</td>
+<td>int fd</td>
+<td>struct sockaddr *usockaddr</td>
+<td>int *usockaddr_len</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>52</td>
+<td>sys_getpeername</td>
+<td>int fd</td>
+<td>struct sockaddr *usockaddr</td>
+<td>int *usockaddr_len</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>53</td>
+<td>sys_socketpair</td>
+<td>int family</td>
+<td>int type</td>
+<td>int protocol</td>
+<td>int *usockvec</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>54</td>
+<td>sys_setsockopt</td>
+<td>int fd</td>
+<td>int level</td>
+<td>int optname</td>
+<td>char *optval</td>
+<td>int optlen</td>
+<td></td>
+</tr>
+<tr>
+<td>55</td>
+<td>sys_getsockopt</td>
+<td>int fd</td>
+<td>int level</td>
+<td>int optname</td>
+<td>char *optval</td>
+<td>int *optlen</td>
+<td></td>
+</tr>
+<tr>
+<td>56</td>
+<td>sys_clone</td>
+<td>unsigned long clone_flags</td>
+<td>unsigned long newsp</td>
+<td>void *parent_tid</td>
+<td>void *child_tid</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>57</td>
+<td>sys_fork</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>58</td>
+<td>sys_vfork</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>59</td>
+<td>sys_execve</td>
+<td>const char *filename</td>
+<td>const char *const argv[]</td>
+<td>const char *const envp[]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>60</td>
+<td>sys_exit</td>
+<td>int error_code</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>61</td>
+<td>sys_wait4</td>
+<td>pid_t upid</td>
+<td>int *stat_addr</td>
+<td>int options</td>
+<td>struct rusage *ru</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>62</td>
+<td>sys_kill</td>
+<td>pid_t pid</td>
+<td>int sig</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>63</td>
+<td>sys_uname</td>
+<td>struct old_utsname *name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>64</td>
+<td>sys_semget</td>
+<td>key_t key</td>
+<td>int nsems</td>
+<td>int semflg</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>65</td>
+<td>sys_semop</td>
+<td>int semid</td>
+<td>struct sembuf *tsops</td>
+<td>unsigned nsops</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>66</td>
+<td>sys_semctl</td>
+<td>int semid</td>
+<td>int semnum</td>
+<td>int cmd</td>
+<td>union semun arg</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>67</td>
+<td>sys_shmdt</td>
+<td>char *shmaddr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>68</td>
+<td>sys_msgget</td>
+<td>key_t key</td>
+<td>int msgflg</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>69</td>
+<td>sys_msgsnd</td>
+<td>int msqid</td>
+<td>struct msgbuf *msgp</td>
+<td>size_t msgsz</td>
+<td>int msgflg</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>70</td>
+<td>sys_msgrcv</td>
+<td>int msqid</td>
+<td>struct msgbuf *msgp</td>
+<td>size_t msgsz</td>
+<td>long msgtyp</td>
+<td>int msgflg</td>
+<td></td>
+</tr>
+<tr>
+<td>71</td>
+<td>sys_msgctl</td>
+<td>int msqid</td>
+<td>int cmd</td>
+<td>struct msqid_ds *buf</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>72</td>
+<td>sys_fcntl</td>
+<td>unsigned int fd</td>
+<td>unsigned int cmd</td>
+<td>unsigned long arg</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>73</td>
+<td>sys_flock</td>
+<td>unsigned int fd</td>
+<td>unsigned int cmd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>74</td>
+<td>sys_fsync</td>
+<td>unsigned int fd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>75</td>
+<td>sys_fdatasync</td>
+<td>unsigned int fd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>76</td>
+<td>sys_truncate</td>
+<td>const char *path</td>
+<td>long length</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>77</td>
+<td>sys_ftruncate</td>
+<td>unsigned int fd</td>
+<td>unsigned long length</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>78</td>
+<td>sys_getdents</td>
+<td>unsigned int fd</td>
+<td>struct linux_dirent *dirent</td>
+<td>unsigned int count</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>79</td>
+<td>sys_getcwd</td>
+<td>char *buf</td>
+<td>unsigned long size</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>80</td>
+<td>sys_chdir</td>
+<td>const char *filename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>81</td>
+<td>sys_fchdir</td>
+<td>unsigned int fd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>82</td>
+<td>sys_rename</td>
+<td>const char *oldname</td>
+<td>const char *newname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>83</td>
+<td>sys_mkdir</td>
+<td>const char *pathname</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>84</td>
+<td>sys_rmdir</td>
+<td>const char *pathname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>85</td>
+<td>sys_creat</td>
+<td>const char *pathname</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>86</td>
+<td>sys_link</td>
+<td>const char *oldname</td>
+<td>const char *newname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>87</td>
+<td>sys_unlink</td>
+<td>const char *pathname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>88</td>
+<td>sys_symlink</td>
+<td>const char *oldname</td>
+<td>const char *newname</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>89</td>
+<td>sys_readlink</td>
+<td>const char *path</td>
+<td>char *buf</td>
+<td>int bufsiz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>90</td>
+<td>sys_chmod</td>
+<td>const char *filename</td>
+<td>mode_t mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>91</td>
+<td>sys_fchmod</td>
+<td>unsigned int fd</td>
+<td>mode_t mode</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>92</td>
+<td>sys_chown</td>
+<td>const char *filename</td>
+<td>uid_t user</td>
+<td>gid_t group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>93</td>
+<td>sys_fchown</td>
+<td>unsigned int fd</td>
+<td>uid_t user</td>
+<td>gid_t group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>94</td>
+<td>sys_lchown</td>
+<td>const char *filename</td>
+<td>uid_t user</td>
+<td>gid_t group</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>95</td>
+<td>sys_umask</td>
+<td>int mask</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>96</td>
+<td>sys_gettimeofday</td>
+<td>struct timeval *tv</td>
+<td>struct timezone *tz</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>97</td>
+<td>sys_getrlimit</td>
+<td>unsigned int resource</td>
+<td>struct rlimit *rlim</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>98</td>
+<td>sys_getrusage</td>
+<td>int who</td>
+<td>struct rusage *ru</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>99</td>
+<td>sys_sysinfo</td>
+<td>struct sysinfo *info</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>100</td>
+<td>sys_times</td>
+<td>struct sysinfo *info</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>101</td>
+<td>sys_ptrace</td>
+<td>long request</td>
+<td>long pid</td>
+<td>unsigned long addr</td>
+<td>unsigned long data</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>102</td>
+<td>sys_getuid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>103</td>
+<td>sys_syslog</td>
+<td>int type</td>
+<td>char *buf</td>
+<td>int len</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>104</td>
+<td>sys_getgid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>105</td>
+<td>sys_setuid</td>
+<td>uid_t uid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>106</td>
+<td>sys_setgid</td>
+<td>gid_t gid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>107</td>
+<td>sys_geteuid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>108</td>
+<td>sys_getegid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>109</td>
+<td>sys_setpgid</td>
+<td>pid_t pid</td>
+<td>pid_t pgid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>110</td>
+<td>sys_getppid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>111</td>
+<td>sys_getpgrp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>112</td>
+<td>sys_setsid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>113</td>
+<td>sys_setreuid</td>
+<td>uid_t ruid</td>
+<td>uid_t euid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>114</td>
+<td>sys_setregid</td>
+<td>gid_t rgid</td>
+<td>gid_t egid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>115</td>
+<td>sys_getgroups</td>
+<td>int gidsetsize</td>
+<td>gid_t *grouplist</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>116</td>
+<td>sys_setgroups</td>
+<td>int gidsetsize</td>
+<td>gid_t *grouplist</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>117</td>
+<td>sys_setresuid</td>
+<td>uid_t *ruid</td>
+<td>uid_t *euid</td>
+<td>uid_t *suid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>118</td>
+<td>sys_getresuid</td>
+<td>uid_t *ruid</td>
+<td>uid_t *euid</td>
+<td>uid_t *suid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>119</td>
+<td>sys_setresgid</td>
+<td>gid_t rgid</td>
+<td>gid_t egid</td>
+<td>gid_t sgid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>120</td>
+<td>sys_getresgid</td>
+<td>gid_t *rgid</td>
+<td>gid_t *egid</td>
+<td>gid_t *sgid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>121</td>
+<td>sys_getpgid</td>
+<td>pid_t pid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>122</td>
+<td>sys_setfsuid</td>
+<td>uid_t uid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>123</td>
+<td>sys_setfsgid</td>
+<td>gid_t gid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>124</td>
+<td>sys_getsid</td>
+<td>pid_t pid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>125</td>
+<td>sys_capget</td>
+<td>cap_user_header_t header</td>
+<td>cap_user_data_t dataptr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>126</td>
+<td>sys_capset</td>
+<td>cap_user_header_t header</td>
+<td>const cap_user_data_t data</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>127</td>
+<td>sys_rt_sigpending</td>
+<td>sigset_t *set</td>
+<td>size_t sigsetsize</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>128</td>
+<td>sys_rt_sigtimedwait</td>
+<td>const sigset_t *uthese</td>
+<td>siginfo_t *uinfo</td>
+<td>const struct timespec *uts</td>
+<td>size_t sigsetsize</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>129</td>
+<td>sys_rt_sigqueueinfo</td>
+<td>pid_t pid</td>
+<td>int sig</td>
+<td>siginfo_t *uinfo</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>130</td>
+<td>sys_rt_sigsuspend</td>
+<td>sigset_t *unewset</td>
+<td>size_t sigsetsize</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>131</td>
+<td>sys_sigaltstack</td>
+<td>const stack_t *uss</td>
+<td>stack_t *uoss</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>132</td>
+<td>sys_utime</td>
+<td>char *filename</td>
+<td>struct utimbuf *times</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>133</td>
+<td>sys_mknod</td>
+<td>const char *filename</td>
+<td>umode_t mode</td>
+<td>unsigned dev</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>134</td>
+<td>sys_uselib</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>135</td>
+<td>sys_personality</td>
+<td>unsigned int personality</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>136</td>
+<td>sys_ustat</td>
+<td>unsigned dev</td>
+<td>struct ustat *ubuf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>137</td>
+<td>sys_statfs</td>
+<td>const char *pathname</td>
+<td>struct statfs *buf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>138</td>
+<td>sys_fstatfs</td>
+<td>unsigned int fd</td>
+<td>struct statfs *buf</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>139</td>
+<td>sys_sysfs</td>
+<td>int option</td>
+<td>unsigned long arg1</td>
+<td>unsigned long arg2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>140</td>
+<td>sys_getpriority</td>
+<td>int which</td>
+<td>int who</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>141</td>
+<td>sys_setpriority</td>
+<td>int which</td>
+<td>int who</td>
+<td>int niceval</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>142</td>
+<td>sys_sched_setparam</td>
+<td>pid_t pid</td>
+<td>struct sched_param *param</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>143</td>
+<td>sys_sched_getparam</td>
+<td>pid_t pid</td>
+<td>struct sched_param *param</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>144</td>
+<td>sys_sched_setscheduler</td>
+<td>pid_t pid</td>
+<td>int policy</td>
+<td>struct sched_param *param</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>145</td>
+<td>sys_sched_getscheduler</td>
+<td>pid_t pid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>146</td>
+<td>sys_sched_get_priority_max</td>
+<td>int policy</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>147</td>
+<td>sys_sched_get_priority_min</td>
+<td>int policy</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>148</td>
+<td>sys_sched_rr_get_interval</td>
+<td>pid_t pid</td>
+<td>struct timespec *interval</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>149</td>
+<td>sys_mlock</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>150</td>
+<td>sys_munlock</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>151</td>
+<td>sys_mlockall</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>152</td>
+<td>sys_munlockall</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>153</td>
+<td>sys_vhangup</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>154</td>
+<td>sys_modify_ldt</td>
+<td>int func</td>
+<td>void *ptr</td>
+<td>unsigned long bytecount</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>155</td>
+<td>sys_pivot_root</td>
+<td>const char *new_root</td>
+<td>const char *put_old</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>156</td>
+<td>sys__sysctl</td>
+<td>struct __sysctl_args *args</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>157</td>
+<td>sys_prctl</td>
+<td>int option</td>
+<td>unsigned long arg2</td>
+<td>unsigned long arg3</td>
+<td>unsigned long arg4</td>
+<td></td>
+<td>unsigned long arg5</td>
+</tr>
+<tr>
+<td>158</td>
+<td>sys_arch_prctl</td>
+<td>struct task_struct *task</td>
+<td>int code</td>
+<td>unsigned long *addr</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>159</td>
+<td>sys_adjtimex</td>
+<td>struct timex *txc_p</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>160</td>
+<td>sys_setrlimit</td>
+<td>unsigned int resource</td>
+<td>struct rlimit *rlim</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>161</td>
+<td>sys_chroot</td>
+<td>const char *filename</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>162</td>
+<td>sys_sync</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>163</td>
+<td>sys_acct</td>
+<td>const char *name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>164</td>
+<td>sys_settimeofday</td>
+<td>struct timeval *tv</td>
+<td>struct timezone *tz</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>165</td>
+<td>sys_mount</td>
+<td>char *dev_name</td>
+<td>char *dir_name</td>
+<td>char *type</td>
+<td>unsigned long flags</td>
+<td>void *data</td>
+<td></td>
+</tr>
+<tr>
+<td>166</td>
+<td>sys_umount2</td>
+<td>const char *target</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>167</td>
+<td>sys_swapon</td>
+<td>const char *specialfile</td>
+<td>int swap_flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>168</td>
+<td>sys_swapoff</td>
+<td>const char *specialfile</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>169</td>
+<td>sys_reboot</td>
+<td>int magic1</td>
+<td>int magic2</td>
+<td>unsigned int cmd</td>
+<td>void *arg</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>170</td>
+<td>sys_sethostname</td>
+<td>char *name</td>
+<td>int len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>171</td>
+<td>sys_setdomainname</td>
+<td>char *name</td>
+<td>int len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>172</td>
+<td>sys_iopl</td>
+<td>unsigned int level</td>
+<td>struct pt_regs *regs</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>173</td>
+<td>sys_ioperm</td>
+<td>unsigned long from</td>
+<td>unsigned long num</td>
+<td>int turn_on</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>174</td>
+<td>sys_create_module</td>
+<td>REMOVED IN Linux 2.6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>175</td>
+<td>sys_init_module</td>
+<td>void *umod</td>
+<td>unsigned long len</td>
+<td>const char *uargs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>176</td>
+<td>sys_delete_module</td>
+<td>const chat *name_user</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>177</td>
+<td>sys_get_kernel_syms</td>
+<td>REMOVED IN Linux 2.6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>178</td>
+<td>sys_query_module</td>
+<td>REMOVED IN Linux 2.6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>179</td>
+<td>sys_quotactl</td>
+<td>unsigned int cmd</td>
+<td>const char *special</td>
+<td>qid_t id</td>
+<td>void *addr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>180</td>
+<td>sys_nfsservctl</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>181</td>
+<td>sys_getpmsg</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>182</td>
+<td>sys_putpmsg</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>183</td>
+<td>sys_afs_syscall</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>184</td>
+<td>sys_tuxcall</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>185</td>
+<td>sys_security</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>186</td>
+<td>sys_gettid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>187</td>
+<td>sys_readahead</td>
+<td>int fd</td>
+<td>loff_t offset</td>
+<td>size_t count</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>188</td>
+<td>sys_setxattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td>const void *value</td>
+<td>size_t size</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>189</td>
+<td>sys_lsetxattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td>const void *value</td>
+<td>size_t size</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>190</td>
+<td>sys_fsetxattr</td>
+<td>int fd</td>
+<td>const char *name</td>
+<td>const void *value</td>
+<td>size_t size</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>191</td>
+<td>sys_getxattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td>void *value</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>192</td>
+<td>sys_lgetxattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td>void *value</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>193</td>
+<td>sys_fgetxattr</td>
+<td>int fd</td>
+<td>const har *name</td>
+<td>void *value</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>194</td>
+<td>sys_listxattr</td>
+<td>const char *pathname</td>
+<td>char *list</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>195</td>
+<td>sys_llistxattr</td>
+<td>const char *pathname</td>
+<td>char *list</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>196</td>
+<td>sys_flistxattr</td>
+<td>int fd</td>
+<td>char *list</td>
+<td>size_t size</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>197</td>
+<td>sys_removexattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>198</td>
+<td>sys_lremovexattr</td>
+<td>const char *pathname</td>
+<td>const char *name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>199</td>
+<td>sys_fremovexattr</td>
+<td>int fd</td>
+<td>const char *name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>200</td>
+<td>sys_tkill</td>
+<td>pid_t pid</td>
+<td>ing sig</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>201</td>
+<td>sys_time</td>
+<td>time_t *tloc</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>202</td>
+<td>sys_futex</td>
+<td>u32 *uaddr</td>
+<td>int op</td>
+<td>u32 val</td>
+<td>struct timespec *utime</td>
+<td>u32 *uaddr2</td>
+<td>u32 val3</td>
+</tr>
+<tr>
+<td>203</td>
+<td>sys_sched_setaffinity</td>
+<td>pid_t pid</td>
+<td>unsigned int len</td>
+<td>unsigned long *user_mask_ptr</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>204</td>
+<td>sys_sched_getaffinity</td>
+<td>pid_t pid</td>
+<td>unsigned int len</td>
+<td>unsigned long *user_mask_ptr</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>205</td>
+<td>sys_set_thread_area</td>
+<td>NOT IMPLEMENTED. Use arch_prctl</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>206</td>
+<td>sys_io_setup</td>
+<td>unsigned nr_events</td>
+<td>aio_context_t *ctxp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>207</td>
+<td>sys_io_destroy</td>
+<td>aio_context_t ctx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>208</td>
+<td>sys_io_getevents</td>
+<td>aio_context_t ctx_id</td>
+<td>long min_nr</td>
+<td>long nr</td>
+<td>struct io_event *events</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>209</td>
+<td>sys_io_submit</td>
+<td>aio_context_t ctx_id</td>
+<td>long nr</td>
+<td>struct iocb **iocbpp</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>210</td>
+<td>sys_io_cancel</td>
+<td>aio_context_t ctx_id</td>
+<td>struct iocb *iocb</td>
+<td>struct io_event *result</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>211</td>
+<td>sys_get_thread_area</td>
+<td>NOT IMPLEMENTED. Use arch_prctl</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>212</td>
+<td>sys_lookup_dcookie</td>
+<td>u64 cookie64</td>
+<td>long buf</td>
+<td>long len</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>213</td>
+<td>sys_epoll_create</td>
+<td>int size</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>214</td>
+<td>sys_epoll_ctl_old</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>215</td>
+<td>sys_epoll_wait_old</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>216</td>
+<td>sys_remap_file_pages</td>
+<td>unsigned long start</td>
+<td>unsigned long size</td>
+<td>unsigned long prot</td>
+<td>unsigned long pgoff</td>
+<td>unsigned long flags</td>
+<td></td>
+</tr>
+<tr>
+<td>217</td>
+<td>sys_getdents64</td>
+<td>unsigned int fd</td>
+<td>struct linux_dirent64 *dirent</td>
+<td>unsigned int count</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>218</td>
+<td>sys_set_tid_address</td>
+<td>int *tidptr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>219</td>
+<td>sys_restart_syscall</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>220</td>
+<td>sys_semtimedop</td>
+<td>int semid</td>
+<td>struct sembuf *tsops</td>
+<td>unsigned nsops</td>
+<td>const struct timespec *timeout</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>221</td>
+<td>sys_fadvise64</td>
+<td>int fd</td>
+<td>loff_t offset</td>
+<td>size_t len</td>
+<td>int advice</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>222</td>
+<td>sys_timer_create</td>
+<td>const clockid_t which_clock</td>
+<td>struct sigevent *timer_event_spec</td>
+<td>timer_t *created_timer_id</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>223</td>
+<td>sys_timer_settime</td>
+<td>timer_t timer_id</td>
+<td>int flags</td>
+<td>const struct itimerspec *new_setting</td>
+<td>struct itimerspec *old_setting</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>224</td>
+<td>sys_timer_gettime</td>
+<td>timer_t timer_id</td>
+<td>struct itimerspec *setting</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>225</td>
+<td>sys_timer_getoverrun</td>
+<td>timer_t timer_id</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>226</td>
+<td>sys_timer_delete</td>
+<td>timer_t timer_id</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>227</td>
+<td>sys_clock_settime</td>
+<td>const clockid_t which_clock</td>
+<td>const struct timespec *tp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>228</td>
+<td>sys_clock_gettime</td>
+<td>const clockid_t which_clock</td>
+<td>struct timespec *tp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>229</td>
+<td>sys_clock_getres</td>
+<td>const clockid_t which_clock</td>
+<td>struct timespec *tp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>230</td>
+<td>sys_clock_nanosleep</td>
+<td>const clockid_t which_clock</td>
+<td>int flags</td>
+<td>const struct timespec *rqtp</td>
+<td>struct timespec *rmtp</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>231</td>
+<td>sys_exit_group</td>
+<td>int error_code</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>232</td>
+<td>sys_epoll_wait</td>
+<td>int epfd</td>
+<td>struct epoll_event *events</td>
+<td>int maxevents</td>
+<td>int timeout</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>233</td>
+<td>sys_epoll_ctl</td>
+<td>int epfd</td>
+<td>int op</td>
+<td>int fd</td>
+<td>struct epoll_event *event</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>234</td>
+<td>sys_tgkill</td>
+<td>pid_t tgid</td>
+<td>pid_t pid</td>
+<td>int sig</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>235</td>
+<td>sys_utimes</td>
+<td>char *filename</td>
+<td>struct timeval *utimes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>236</td>
+<td>sys_vserver</td>
+<td>NOT IMPLEMENTED</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>237</td>
+<td>sys_mbind</td>
+<td>unsigned long start</td>
+<td>unsigned long len</td>
+<td>unsigned long mode</td>
+<td>unsigned long *nmask</td>
+<td>unsigned long maxnode</td>
+<td>unsigned flags</td>
+</tr>
+<tr>
+<td>238</td>
+<td>sys_set_mempolicy</td>
+<td>int mode</td>
+<td>unsigned long *nmask</td>
+<td>unsigned long maxnode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>239</td>
+<td>sys_get_mempolicy</td>
+<td>int *policy</td>
+<td>unsigned long *nmask</td>
+<td>unsigned long maxnode</td>
+<td>unsigned long addr</td>
+<td>unsigned long flags</td>
+<td></td>
+</tr>
+<tr>
+<td>240</td>
+<td>sys_mq_open</td>
+<td>const char *u_name</td>
+<td>int oflag</td>
+<td>mode_t mode</td>
+<td>struct mq_attr *u_attr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>241</td>
+<td>sys_mq_unlink</td>
+<td>const char *u_name</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>242</td>
+<td>sys_mq_timedsend</td>
+<td>mqd_t mqdes</td>
+<td>const char *u_msg_ptr</td>
+<td>size_t msg_len</td>
+<td>unsigned int msg_prio</td>
+<td>const stuct timespec *u_abs_timeout</td>
+<td></td>
+</tr>
+<tr>
+<td>243</td>
+<td>sys_mq_timedreceive</td>
+<td>mqd_t mqdes</td>
+<td>char *u_msg_ptr</td>
+<td>size_t msg_len</td>
+<td>unsigned int *u_msg_prio</td>
+<td>const struct timespec *u_abs_timeout</td>
+<td></td>
+</tr>
+<tr>
+<td>244</td>
+<td>sys_mq_notify</td>
+<td>mqd_t mqdes</td>
+<td>const struct sigevent *u_notification</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>245</td>
+<td>sys_mq_getsetattr</td>
+<td>mqd_t mqdes</td>
+<td>const struct mq_attr *u_mqstat</td>
+<td>struct mq_attr *u_omqstat</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>246</td>
+<td>sys_kexec_load</td>
+<td>unsigned long entry</td>
+<td>unsigned long nr_segments</td>
+<td>struct kexec_segment *segments</td>
+<td>unsigned long flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>247</td>
+<td>sys_waitid</td>
+<td>int which</td>
+<td>pid_t upid</td>
+<td>struct siginfo *infop</td>
+<td>int options</td>
+<td>struct rusage *ru</td>
+<td></td>
+</tr>
+<tr>
+<td>248</td>
+<td>sys_add_key</td>
+<td>const char *_type</td>
+<td>const char *_description</td>
+<td>const void *_payload</td>
+<td>size_t plen</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>249</td>
+<td>sys_request_key</td>
+<td>const char *_type</td>
+<td>const char *_description</td>
+<td>const char *_callout_info</td>
+<td>key_serial_t destringid</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>250</td>
+<td>sys_keyctl</td>
+<td>int option</td>
+<td>unsigned long arg2</td>
+<td>unsigned long arg3</td>
+<td>unsigned long arg4</td>
+<td>unsigned long arg5</td>
+<td></td>
+</tr>
+<tr>
+<td>251</td>
+<td>sys_ioprio_set</td>
+<td>int which</td>
+<td>int who</td>
+<td>int ioprio</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>252</td>
+<td>sys_ioprio_get</td>
+<td>int which</td>
+<td>int who</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>253</td>
+<td>sys_inotify_init</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>254</td>
+<td>sys_inotify_add_watch</td>
+<td>int fd</td>
+<td>const char *pathname</td>
+<td>u32 mask</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>255</td>
+<td>sys_inotify_rm_watch</td>
+<td>int fd</td>
+<td>__s32 wd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>256</td>
+<td>sys_migrate_pages</td>
+<td>pid_t pid</td>
+<td>unsigned long maxnode</td>
+<td>const unsigned long *old_nodes</td>
+<td>const unsigned long *new_nodes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>257</td>
+<td>sys_openat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>int flags</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>258</td>
+<td>sys_mkdirat</td>
+<td>int dfd</td>
+<td>const char *pathname</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>259</td>
+<td>sys_mknodat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>int mode</td>
+<td>unsigned dev</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>260</td>
+<td>sys_fchownat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>uid_t user</td>
+<td>gid_t group</td>
+<td>int flag</td>
+<td></td>
+</tr>
+<tr>
+<td>261</td>
+<td>sys_futimesat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>struct timeval *utimes</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>262</td>
+<td>sys_newfstatat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>struct stat *statbuf</td>
+<td>int flag</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>263</td>
+<td>sys_unlinkat</td>
+<td>int dfd</td>
+<td>const char *pathname</td>
+<td>int flag</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>264</td>
+<td>sys_renameat</td>
+<td>int oldfd</td>
+<td>const char *oldname</td>
+<td>int newfd</td>
+<td>const char *newname</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>265</td>
+<td>sys_linkat</td>
+<td>int oldfd</td>
+<td>const char *oldname</td>
+<td>int newfd</td>
+<td>const char *newname</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>266</td>
+<td>sys_symlinkat</td>
+<td>const char *oldname</td>
+<td>int newfd</td>
+<td>const char *newname</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>267</td>
+<td>sys_readlinkat</td>
+<td>int dfd</td>
+<td>const char *pathname</td>
+<td>char *buf</td>
+<td>int bufsiz</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>268</td>
+<td>sys_fchmodat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>mode_t mode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>269</td>
+<td>sys_faccessat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>int mode</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>270</td>
+<td>sys_pselect6</td>
+<td>int n</td>
+<td>fd_set *inp</td>
+<td>fd_set *outp</td>
+<td>fd_set *exp</td>
+<td>struct timespec *tsp</td>
+<td>void *sig</td>
+</tr>
+<tr>
+<td>271</td>
+<td>sys_ppoll</td>
+<td>struct pollfd *ufds</td>
+<td>unsigned int nfds</td>
+<td>struct timespec *tsp</td>
+<td>const sigset_t *sigmask</td>
+<td>size_t sigsetsize</td>
+<td></td>
+</tr>
+<tr>
+<td>272</td>
+<td>sys_unshare</td>
+<td>unsigned long unshare_flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>273</td>
+<td>sys_set_robust_list</td>
+<td>struct robust_list_head *head</td>
+<td>size_t len</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>274</td>
+<td>sys_get_robust_list</td>
+<td>int pid</td>
+<td>struct robust_list_head **head_ptr</td>
+<td>size_t *len_ptr</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>275</td>
+<td>sys_splice</td>
+<td>int fd_in</td>
+<td>loff_t *off_in</td>
+<td>int fd_out</td>
+<td>loff_t *off_out</td>
+<td>size_t len</td>
+<td>unsigned int flags</td>
+</tr>
+<tr>
+<td>276</td>
+<td>sys_tee</td>
+<td>int fdin</td>
+<td>int fdout</td>
+<td>size_t len</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>277</td>
+<td>sys_sync_file_range</td>
+<td>long fd</td>
+<td>loff_t offset</td>
+<td>loff_t bytes</td>
+<td>long flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>278</td>
+<td>sys_vmsplice</td>
+<td>int fd</td>
+<td>const struct iovec *iov</td>
+<td>unsigned long nr_segs</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>279</td>
+<td>sys_move_pages</td>
+<td>pid_t pid</td>
+<td>unsigned long nr_pages</td>
+<td>const void **pages</td>
+<td>const int *nodes</td>
+<td>int *status</td>
+<td>int flags</td>
+</tr>
+<tr>
+<td>280</td>
+<td>sys_utimensat</td>
+<td>int dfd</td>
+<td>const char *filename</td>
+<td>struct timespec *utimes</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>281</td>
+<td>sys_epoll_pwait</td>
+<td>int epfd</td>
+<td>struct epoll_event *events</td>
+<td>int maxevents</td>
+<td>int timeout</td>
+<td>const sigset_t *sigmask</td>
+<td>size_t sigsetsize</td>
+</tr>
+<tr>
+<td>282</td>
+<td>sys_signalfd</td>
+<td>int ufd</td>
+<td>sigset_t *user_mask</td>
+<td>size_t sizemask</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>283</td>
+<td>sys_timerfd_create</td>
+<td>int clockid</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>284</td>
+<td>sys_eventfd</td>
+<td>unsigned int count</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>285</td>
+<td>sys_fallocate</td>
+<td>long fd</td>
+<td>long mode</td>
+<td>loff_t offset</td>
+<td>loff_t len</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>286</td>
+<td>sys_timerfd_settime</td>
+<td>int ufd</td>
+<td>int flags</td>
+<td>const struct itimerspec *utmr</td>
+<td>struct itimerspec *otmr</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>287</td>
+<td>sys_timerfd_gettime</td>
+<td>int ufd</td>
+<td>struct itimerspec *otmr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>288</td>
+<td>sys_accept4</td>
+<td>int fd</td>
+<td>struct sockaddr *upeer_sockaddr</td>
+<td>int *upeer_addrlen</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>289</td>
+<td>sys_signalfd4</td>
+<td>int ufd</td>
+<td>sigset_t *user_mask</td>
+<td>size_t sizemask</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>290</td>
+<td>sys_eventfd2</td>
+<td>unsigned int count</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>291</td>
+<td>sys_epoll_create1</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>292</td>
+<td>sys_dup3</td>
+<td>unsigned int oldfd</td>
+<td>unsigned int newfd</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>293</td>
+<td>sys_pipe2</td>
+<td>int *filedes</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>294</td>
+<td>sys_inotify_init1</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>295</td>
+<td>sys_preadv</td>
+<td>unsigned long fd</td>
+<td>const struct iovec *vec</td>
+<td>unsigned long vlen</td>
+<td>unsigned long pos_l</td>
+<td>unsigned long pos_h</td>
+<td></td>
+</tr>
+<tr>
+<td>296</td>
+<td>sys_pwritev</td>
+<td>unsigned long fd</td>
+<td>const struct iovec *vec</td>
+<td>unsigned long vlen</td>
+<td>unsigned long pos_l</td>
+<td>unsigned long pos_h</td>
+<td></td>
+</tr>
+<tr>
+<td>297</td>
+<td>sys_rt_tgsigqueueinfo</td>
+<td>pid_t tgid</td>
+<td>pid_t pid</td>
+<td>int sig</td>
+<td>siginfo_t *uinfo</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>298</td>
+<td>sys_perf_event_open</td>
+<td>struct perf_event_attr *attr_uptr</td>
+<td>pid_t pid</td>
+<td>int cpu</td>
+<td>int group_fd</td>
+<td>unsigned long flags</td>
+<td></td>
+</tr>
+<tr>
+<td>299</td>
+<td>sys_recvmmsg</td>
+<td>int fd</td>
+<td>struct msghdr *mmsg</td>
+<td>unsigned int vlen</td>
+<td>unsigned int flags</td>
+<td>struct timespec *timeout</td>
+<td></td>
+</tr>
+<tr>
+<td>300</td>
+<td>sys_fanotify_init</td>
+<td>unsigned int flags</td>
+<td>unsigned int event_f_flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>301</td>
+<td>sys_fanotify_mark</td>
+<td>long fanotify_fd</td>
+<td>long flags</td>
+<td>__u64 mask</td>
+<td>long dfd</td>
+<td>long pathname</td>
+<td></td>
+</tr>
+<tr>
+<td>302</td>
+<td>sys_prlimit64</td>
+<td>pid_t pid</td>
+<td>unsigned int resource</td>
+<td>const struct rlimit64 *new_rlim</td>
+<td>struct rlimit64 *old_rlim</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>303</td>
+<td>sys_name_to_handle_at</td>
+<td>int dfd</td>
+<td>const char *name</td>
+<td>struct file_handle *handle</td>
+<td>int *mnt_id</td>
+<td>int flag</td>
+<td></td>
+</tr>
+<tr>
+<td>304</td>
+<td>sys_open_by_handle_at</td>
+<td>int dfd</td>
+<td>const char *name</td>
+<td>struct file_handle *handle</td>
+<td>int *mnt_id</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>305</td>
+<td>sys_clock_adjtime</td>
+<td>clockid_t which_clock</td>
+<td>struct timex *tx</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>306</td>
+<td>sys_syncfs</td>
+<td>int fd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>307</td>
+<td>sys_sendmmsg</td>
+<td>int fd</td>
+<td>struct mmsghdr *mmsg</td>
+<td>unsigned int vlen</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>308</td>
+<td>sys_setns</td>
+<td>int fd</td>
+<td>int nstype</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>309</td>
+<td>sys_getcpu</td>
+<td>unsigned *cpup</td>
+<td>unsigned *nodep</td>
+<td>struct getcpu_cache *unused</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>310</td>
+<td>sys_process_vm_readv</td>
+<td>pid_t pid</td>
+<td>const struct iovec *lvec</td>
+<td>unsigned long liovcnt</td>
+<td>const struct iovec *rvec</td>
+<td>unsigned long riovcnt</td>
+<td>unsigned long flags</td>
+</tr>
+<tr>
+<td>311</td>
+<td>sys_process_vm_writev</td>
+<td>pid_t pid</td>
+<td>const struct iovec *lvec</td>
+<td>unsigned long liovcnt</td>
+<td>const struct iovcc *rvec</td>
+<td>unsigned long riovcnt</td>
+<td>unsigned long flags</td>
+</tr>
+<tr>
+<td>312</td>
+<td>sys_kcmp</td>
+<td>pid_t pid1</td>
+<td>pid_t pid2</td>
+<td>int type</td>
+<td>unsigned long idx1</td>
+<td>unsigned long idx2</td>
+<td></td>
+</tr>
+<tr>
+<td>313</td>
+<td>sys_finit_module</td>
+<td>int fd</td>
+<td>const char __user *uargs</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>314</td>
+<td>sys_sched_setattr</td>
+<td>pid_t pid</td>
+<td>struct sched_attr __user *attr</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>315</td>
+<td>sys_sched_getattr</td>
+<td>pid_t pid</td>
+<td>struct sched_attr __user *attr</td>
+<td>unsigned int size</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>316</td>
+<td>sys_renameat2</td>
+<td>int olddfd</td>
+<td>const char __user *oldname</td>
+<td>int newdfd</td>
+<td>const char __user *newname</td>
+<td>unsigned int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>317</td>
+<td>sys_seccomp</td>
+<td>unsigned int op</td>
+<td>unsigned int flags</td>
+<td>const char __user *uargs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>318</td>
+<td>sys_getrandom</td>
+<td>char __user *buf</td>
+<td>size_t count</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>319</td>
+<td>sys_memfd_create</td>
+<td>const char __user *uname_ptr</td>
+<td>unsigned int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>320</td>
+<td>sys_kexec_file_load</td>
+<td>int kernel_fd</td>
+<td>int initrd_fd</td>
+<td>unsigned long cmdline_len</td>
+<td>const char __user *cmdline_ptr</td>
+<td>unsigned long flags</td>
+<td></td>
+</tr>
+<tr>
+<td>321</td>
+<td>sys_bpf</td>
+<td>int cmd</td>
+<td>union bpf_attr *attr</td>
+<td>unsigned int size</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>322</td>
+<td>stub_execveat</td>
+<td>int dfd</td>
+<td>const char __user *filename</td>
+<td>const char <strong>user *const </strong>user *argv</td>
+<td>const char <strong>user *const </strong>user *envp</td>
+<td>int flags</td>
+<td></td>
+</tr>
+<tr>
+<td>323</td>
+<td>userfaultfd</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>324</td>
+<td>membarrier</td>
+<td>int cmd</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>325</td>
+<td>mlock2</td>
+<td>unsigned long start</td>
+<td>size_t len</td>
+<td>int flags</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>326</td>
+<td>copy_file_range</td>
+<td>int fd_in</td>
+<td>loff_t __user *off_in</td>
+<td>int fd_out</td>
+<td>loff_t __user * off_out</td>
+<td>size_t len</td>
+<td>unsigned int flags</td>
+</tr>
+<tr>
+<td>327</td>
+<td>preadv2</td>
+<td>unsigned long fd</td>
+<td>const struct iovec __user *vec</td>
+<td>unsigned long vlen</td>
+<td>unsigned long pos_l</td>
+<td>unsigned long pos_h</td>
+<td>int flags</td>
+</tr>
+<tr>
+<td>328</td>
+<td>pwritev2</td>
+<td>unsigned long fd</td>
+<td>const struct iovec __user *vec</td>
+<td>unsigned long vlen</td>
+<td>unsigned long pos_l</td>
+<td>unsigned long pos_h</td>
+<td>int flags</td>
+</tr>
+</tbody>
+</table>
 
     </article>
     <!-- license  -->
@@ -654,7 +4078,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">12.</span> <span class="toc-text">ida调试elf文件</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">12.</span> <span class="toc-text">ida调试elf文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checksec检测到的保护机制"><span class="toc-number">13.</span> <span class="toc-text">checksec检测到的保护机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb中print和x的区别"><span class="toc-number">14.</span> <span class="toc-text">gdb中print和x的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read和gets和fgets"><span class="toc-number">15.</span> <span class="toc-text">read和gets和fgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mmap分配问题"><span class="toc-number">16.</span> <span class="toc-text">mmap分配问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">17.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc中各种bin的划分"><span class="toc-number">18.</span> <span class="toc-text">glibc中各种bin的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令大全"><span class="toc-number">19.</span> <span class="toc-text">汇编指令大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用表"><span class="toc-number">20.</span> <span class="toc-text">syscall调用表</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1502,50 +4926,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1558,6 +4941,21 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1577,11 +4975,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1606,12 +4999,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1641,12 +5034,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -1731,12 +5124,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1782,11 +5175,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
@@ -1854,9 +5242,9 @@
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1870,9 +5258,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

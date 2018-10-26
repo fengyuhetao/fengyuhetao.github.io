@@ -341,6 +341,74 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/29914/">
+            
+                <span>ssrf+gopher</span>
+        </a>
+        <div class="abstract-content">
+            AceBear Security  Contest-Tet Shopping漏洞说明
+格式化字符串sql注入
+基于gopher协议的SSRF攻击完成对mysql未授权漏洞的利用
+时间盲注
+
+题目格式化字符串注入忽略漏洞代码:
+info.php
+1234567uid = (int)$_SESSION[&quot;id&quot;];$prepare_qr = $jdb-&gt;addParameter(&quot;SELECT user from users where uid=%s&quot;, $uid);$result1 = $jdb-&gt;fetch_assoc($prepare...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/22546/">
+            
+                <span>googlectf2018</span>
+        </a>
+        <div class="abstract-content">
+            Beginner’s Quest - MoarWhen we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.
+man命令允许执行命令
+12!ls /home/moardisable_dmz.sh
+12345Man...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/9490/">
             
                 <span>proc的作用</span>
@@ -470,7 +538,7 @@ gcc -Wno-format-secur...
     <article class="index-post">
         <a class="abstract-title" href="/posts/29112/">
             
-                <span>pwn前置知识</span>
+                <span>pwn备忘录</span>
         </a>
         <div class="abstract-content">
             调用约定32位和64位程序的区别, 更多的是体现在调用约定(Calling Convention)上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.
@@ -615,106 +683,6 @@ PHP绕过open_basedir列目录的研究
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/17498/">
-            
-                <span>mysql忘记密码/修改密码</span>
-        </a>
-        <div class="abstract-content">
-            
-关闭mysql
-
-service mysql stop
-
-
-无密码登录msyql
-
-mysqld_safe –skip-grant-tables &amp;  
-
-
-root连接mysql
-
-mysql -u root
-
-
-修改密码
-
-use mysql
-update user set password=PASSWORD(‘admin’) where User=’root’;  
-
-
-刷新权限
-
-flush privileges;
-
-
-重启mysql
-
-service msyql restart
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="mysql">mysql</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/56136/">
-            
-                <span>普通用户免密码切换到root</span>
-        </a>
-        <div class="abstract-content">
-            
-sudo vim /etc/sudoers
-
-添加一行:
-
-tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
     
 </div>
             
@@ -1646,50 +1614,9 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1702,6 +1629,21 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1721,11 +1663,6 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1750,12 +1687,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1785,12 +1722,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -1875,12 +1812,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1926,11 +1863,6 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
@@ -1998,9 +1930,9 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2014,9 +1946,9 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

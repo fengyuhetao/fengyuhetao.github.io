@@ -391,7 +391,10 @@ PHP解析器的核心实现...
                 <span>jvm-java虚拟机如何运行java字节码</span>
         </a>
         <div class="abstract-content">
-            
+            参考：《深入拆解Java虚拟机》 ———- 极客时间
+Java与c语言运行差别JRE和JDK的区别JRE: Java代码可以在开发工具中运行，可以双击jar文件执行，也可以在命令行中执行，网页中同样可以运行Java代码，这些都需要JRE，也就是Java运行时环境。
+JDK: JRE仅仅包含运行Java代码的必须组件，包括Java虚拟机以及Java核心类库，程序员经常接触的JDK(Java开发工具包)同样包含JRE，同时附带一系列开发
+C语言程序编译结果12345678910111213141516; 最左列是偏移；中间列是给机器读的机器码；最右列是给人读的汇编代码0x00:  55   ...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -449,66 +452,6 @@ ciphertext.txt:
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/37116/">
-            
-                <span>汇编指令大全</span>
-        </a>
-        <div class="abstract-content">
-            
-
-
-操作码
-指令
-说明
-
-
-
-
-0F 31
-rdtsc
-将时间标签计数器读入 EDX:EAX。CPU提供了一个特殊的机器指令rdtsc，使用这条指令可以读出CPU自从启动以来的时钟周期数。其计时精度可以达到纳秒级。
-
-
-
-movabs
-操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
-
-
-
-movdqa
-操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
-
-
-
-movntps
-操作数如果是内存地址的话，那么这个地址必须是16字节对齐的，否则会产生一般保护性异常导致程序退出。
-
-
-
-dec ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/1345/">
             
                 <span>pwnable.kr_刷刷刷</span>
@@ -539,7 +482,8 @@ vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtabl
                 <span>dubbo项目结构</span>
         </a>
         <div class="abstract-content">
-            
+            参考: 芋道源码      http://svip.iocoder.cn/
+
 概览
 可以看到，代码相当多，坚持就是胜利。
 
@@ -567,7 +511,7 @@ dubbo-common
 
 通用模型: 比如com.alibaba.dubbo.common.URL：
 
-所有扩展点参数都包含 URL 参数，URL 作为上下文信息贯穿整个扩展点设计...
+...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -672,6 +616,39 @@ git
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/42373/">
+            
+                <span>casw-2018</span>
+        </a>
+        <div class="abstract-content">
+            Webldabldap注入
+参考链接:
+
+https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html
+http://www.4hou.com/technology/9090.html
+
+正常语法：
+(&amp;(cn=s*)(|(sn=d*)(sn=r*))
+payload:*)(|(ou=*
+SSO首先获取auth code:
+1234cl_id=1echo "POST http://web.chal.csaw.io:9000/oauth2/authorize"auth_key=$(curl --silen...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/26893/">
             
                 <span>渗透测试-vulnhub-acid</span>
@@ -701,27 +678,25 @@ git
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/42373/">
+        <a class="abstract-title" href="/posts/32469/">
             
-                <span>casw-2018</span>
+                <span>noxctf-writeup</span>
         </a>
         <div class="abstract-content">
-            Webldabldap注入
-参考链接:
-
-https://www.cnblogs.com/r00tgrok/p/LDAP_INJECTION_AND_PREVENTION.html
-http://www.4hou.com/technology/9090.html
-
-正常语法：
-(&amp;(cn=s*)(|(sn=d*)(sn=r*))
-payload:*)(|(ou=*
-SSO首先获取auth code:
-1234cl_id=1echo "POST http://web.chal.csaw.io:9000/oauth2/authorize"auth_key=$(curl --silen...
+            Miscpythonforfun123def fun(___________):    c = a + b    return c
+填充参数，然后返回结果。
+输入a, b正确。
+给b赋予默认值b=dir()[0],正确。
+注意:
+1eval()函数只能计算单个表达式的值，而exec()函数可以动态运行代码段。
+列目录:
+def fun(a, b=print(exec(&quot;import os&quot;),eval(&quot;os.listdir(&#39;.&#39;)&quot;)))
+如果需要eval执行python代码，可以使用compile()构造代码, 并使compi...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/08</span>
             </div>
             <!-- tags  -->
             
@@ -1653,50 +1628,9 @@ SSO首先获取auth code:
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1709,6 +1643,21 @@ SSO首先获取auth code:
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1728,11 +1677,6 @@ SSO首先获取auth code:
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/37116/">汇编指令大全</a>
         </li>
     
     
@@ -1757,12 +1701,12 @@ SSO首先获取auth code:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -1792,12 +1736,12 @@ SSO首先获取auth code:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结（一）</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -1882,12 +1826,12 @@ SSO首先获取auth code:
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn前置知识</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -1933,11 +1877,6 @@ SSO首先获取auth code:
     
         <li class="archive-post-item">
             <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/09</span><a class="archive-post-title" href="/posts/53269/">pwn备忘录</a>
         </li>
     
     
@@ -2005,9 +1944,9 @@ SSO首先获取auth code:
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2021,9 +1960,9 @@ SSO首先获取auth code:
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
