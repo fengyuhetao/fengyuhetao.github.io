@@ -354,22 +354,34 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/49989/">
+        <a class="abstract-title" href="/posts/30918/">
             
-                <span>hitcon-复现</span>
+                <span>day-day-up</span>
         </a>
         <div class="abstract-content">
-            WebOne Line PHP Challenge12&lt;?php	($_=@$_GET[&apos;orange&apos;]) &amp;&amp; @substr(file($_)[0], 0, 6) === &quot;@&lt;?php&quot; ? include($_) : highlight_file(__FILE__);
-参考链接: https://hackmd.io/s/B1A2JIjjm
-考点: session.upload + lfi
-include 策略PHP配置中，allow_url_include一般为Off，所以RFI不可取。由于最新版本Apache...
+            向各位大佬学习，坚持打卡，day_day_up。
+2018/12/04:
+当php.ini和程序设置的序列化引擎不同时，导致的反序列化问题
+研究湖湘杯2018 regex_format，题目不难，就是逆向对我来说是个大问题，
+《Linux性能优化实战》之平均负载，希望以后能用上
+
+明日计划: 
+
+php内核调试环境搭建，调试one line php challenge,https://hackmd.io/s/Hk-2nUb3Q#%E6%BC%8F%E6%B4%9E%E9%80%82%E7%94%A8%E7%89%88%E6%9C%AC
+https://github.com/wofeiwo...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/23</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2099/01/01</span>
             </div>
             <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="置顶">置顶</a>
+    
+</div>
             
         </div>
     </article>
@@ -380,19 +392,30 @@ include 策略PHP配置中，allow_url_include一般为Off，所以RFI不可取�
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/30021/">
+        <a class="abstract-title" href="/posts/31116/">
             
-                <span>hack-lu</span>
+                <span>ctf题目-php调试分析</span>
         </a>
         <div class="abstract-content">
-            easy_php1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556&lt;?phprequire_once(&apos;flag.php&apos;);error_reporting(0);if(!isset($_GET[&apos;msg&apos;]))&#123;    highlight_file(__FILE__);    die();&#125;@$msg = $_GET[&apos;msg&apos;];if(@file...
+            小菜，加油php流处理的bug案例: realwordctf-one_line_php_challenge
+参考链接: https://hackmd.io/s/rJlfZva0m#exp
+ubuntu18.04 复现一直失败，payload打过去之后，即便已经造成segmentfault,上传文件依然保留不下来。我是很懵逼啊. 比赛给的dockerfile，到目前为止也没有运行成功。。。。。。。。。。。。。。。。。。
+先不考虑ubuntu18.04, 直接在ubuntu16.04上调试。
+payload1:
+1file(urldecode(&apos;php://filter/conve...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/17</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/05</span>
             </div>
             <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf_php_debug">ctf_php_debug</a>
+    
+</div>
             
         </div>
     </article>
@@ -403,100 +426,23 @@ include 策略PHP配置中，allow_url_include一般为Off，所以RFI不可取�
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/15111/">
+        <a class="abstract-title" href="/posts/36891/">
             
-                <span>护网杯pwn-study</span>
+                <span>php7.2内核调试环境搭建</span>
         </a>
         <div class="abstract-content">
-            
+            工具
+PHP7.2.12
+gdb
+pwndbg
+clion
+
+php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrortar -zxvf php-7.2.12.tar.gz# php安装基本步骤比较简单，关键是configure的配置选项./configure --prefix=/usr/local/php7/php7.2 --enable-debug --enable-fpmmake &amp;&amp; make installcd /usr/binsudo ln -s /usr/local...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/17</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/56316/">
-            
-                <span>netty入门到精通-初识NIO</span>
-        </a>
-        <div class="abstract-content">
-            NIO和BIO和AIO
-
-
-名词
-解释
-案例
-
-
-
-
-同步
-指的是用户进程触发IO操作并等待或者轮询的去查看IO操作是否就绪
-自己上街买衣服，自己亲自干这件事，别的事干不了。
-
-
-异步
-异步是指用户进程触发IO操作以后便开始做自己的事情，而当IO操作已经完成的时候会得到IO完成的通知（异步的特点就是通知）
-告诉朋友自己合适衣服的尺寸，大小，颜色，让朋友委托去卖，然后自己可以去干别的事。（使用异步IO时，Java将IO读写委托给OS处理，需要将数据缓冲区地址和大小传给OS）
-
-
-阻塞
-所谓阻塞方式的意思是指, 当试图对该文件描述符进行读写时, 如果当时没有东西可读,或者暂时不可写, 程序就...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/61088/">
-            
-                <span>php-项目结构</span>
-        </a>
-        <div class="abstract-content">
-            整体结构首先使用tree -L 1 -d来看一下所有目录:
-1234567891011121314151617qianfa@qianfa:~/Desktop/php_debug/php-7.0.12$ tree -L 1 -d.├── build├── ext├── include├── libs├── main├── modules├── netware├── pear├── sapi├── scripts├── tests├── travis├── TSRM├── win32└── Zend
-
-
-
-目录
-描述
-
-
-
-
-TSRM
-线程相关安全的实现
-
-
-Zend
-PHP解析器的核心实现...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/26</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/05</span>
             </div>
             <!-- tags  -->
             
@@ -515,26 +461,29 @@ PHP解析器的核心实现...
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/11284/">
+        <a class="abstract-title" href="/posts/46756/">
             
-                <span>jvm-java虚拟机如何运行java字节码</span>
+                <span>linux-优化实战笔记</span>
         </a>
         <div class="abstract-content">
-            参考：《深入拆解Java虚拟机》 ———- 极客时间
-Java与c语言运行差别JRE和JDK的区别JRE: Java代码可以在开发工具中运行，可以双击jar文件执行，也可以在命令行中执行，网页中同样可以运行Java代码，这些都需要JRE，也就是Java运行时环境。
-JDK: JRE仅仅包含运行Java代码的必须组件，包括Java虚拟机以及Java核心类库，程序员经常接触的JDK(Java开发工具包)同样包含JRE，同时附带一系列开发
-C语言程序编译结果12345678910111213141516; 最左列是偏移；中间列是给机器读的机器码；最右列是给人读的汇编代码0x00:  55   ...
+            ​    这几年，写的代码基本都是本地跑，也没碰到什么性能问题。不过，实习的时候，网站三天两头就崩溃，看代码也似乎没啥问题，现在想想，我的解决方案无非重启，继续运行，崩溃了，继续重启。。。。。当时，这些问题基本都是技术老大处理，我也接触不到，怎么搞定的一无所知。
+​    希望《linux性能优化》能给我带来一些新的知识面。
+平均负载概念平均负载是指单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就是平均活跃进程数，和CPU使用率无直接关系。
+
+可运行状态 指正在使用 CPU 或者正在等待 CPU 的进程，也就是我们ps命令中处于R（Runnning）状态的进程
+
+不可中断状...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/26</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/04</span>
             </div>
             <!-- tags  -->
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="jvm">jvm</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
     
 </div>
             
@@ -547,53 +496,18 @@ C语言程序编译结果12345678910111213141516; 最左列是偏移；中间列
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/45708/">
+        <a class="abstract-title" href="/posts/41159/">
             
-                <span>anheng9</span>
+                <span>RealWorldFinal</span>
         </a>
         <div class="abstract-content">
-            babypasspayload: http://101.71.29.5:10014/?code=?&gt;&lt;?=/???/??? /*?&gt;
-go(md5你找到的字符串)见识太短，google也没找到。悲剧。–by 一叶飘零
-ciphertext.txt:
-1ilnllliiikkninlekile
-解密脚本:
-12345678910111213141516171819import itertoolsimport libnumkey = []cipher = "ilnllliiikkninlekile"for i in itertools.permutations('ilnke...
+            标杆比赛，一个不会，任重道远，加油。。。
+PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll have to find it first. I left everything I own in host.Both the username and password for the host and vm are rwctfTry to spawn a caculator on the stage.You need to replace /usr/lib/vmware/bin/vmwar...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/1345/">
-            
-                <span>pwnable.kr_刷刷刷</span>
-        </a>
-        <div class="abstract-content">
-            Uaf虚函数，一旦一个类有虚函数，编译器会为这个类建立一张vtable。子类继承父类vtable中所有项，当子类有同名函数时，修改vtable同名函数地址，改为指向子类的函数地址，子类有新的虚函数时，在vtable中添加。记住，私有函数无法继承，但如果私有函数是虚函数，vtable中会有相应的函数地址，所有子类可以通过手段得到父类的虚私有函数。
-vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtable，一个类中就算有多个虚函数，也只有一个vptr，做多重继承的时候，继承了多个父类，就会有多个vptr
-虚函数表的结构：它是一个函数指针表，每一个表项都指向一个函数。...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/02</span>
             </div>
             <!-- tags  -->
             
@@ -606,52 +520,71 @@ vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtabl
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/62824/">
+        <a class="abstract-title" href="/posts/4968/">
             
-                <span>dubbo项目结构</span>
+                <span>pwnable.tw练习</span>
         </a>
         <div class="abstract-content">
-            参考: 芋道源码      http://svip.iocoder.cn/
-
-概览
-可以看到，代码相当多，坚持就是胜利。
-
-
-
-
-代码统计
-
-可以使用IDEA Statistic插件。
-
-
-
-使用shell命令
-
-这个命令只过滤了部分注释，所以相比 IDEA Statistic 会偏多。
-
-find . -name “.java”|xargs cat|grep -v -e ^$ -e ^\s\/\/.*$|wc -
-
-
-dubbo模块示意图
-
-
-dubbo-common
-公共逻辑模块：提供工具类和通用模型。
-
-通用模型: 比如com.alibaba.dubbo.common.URL：
-
-...
+            start12345678910111213141516171819202122push    esp.text:08048061                 push    offset _exit.text:08048066                 xor     eax, eax.text:08048068                 xor     ebx, ebx.text:0804806A                 xor     ecx, ecx.text:0804806C                 xor     edx, edx.text:0...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/20</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/48844/">
+            
+                <span>bctf2018</span>
+        </a>
+        <div class="abstract-content">
+            Webcheckin输入不存在的网址时，提示网站采用beego1.7.2。而最新版的beego是1.10.0。
+在beego官网，https://beego.me/docs/intro/releases.md，并没有看到beego1.7.2。这时候，到git下载源代码，查找commit log，寻找beego1.7.2到1.10.0之间可能存在的漏洞修复。
+1234567891011121314151617181920212223242526commit 8391d26220d380b9c084ee425af0d3ba30dcc3abMerge: f64e6b7 9865779Autho...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/29</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/59263/">
+            
+                <span>安全设备名词解释</span>
+        </a>
+        <div class="abstract-content">
+            防火墙交换机路由器堡垒机
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/28</span>
             </div>
             <!-- tags  -->
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="dubbo">dubbo</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="安全体系建设">安全体系建设</a>
     
 </div>
             
@@ -664,35 +597,54 @@ dubbo-common
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/28842/">
+        <a class="abstract-title" href="/posts/23961/">
             
-                <span>zookeeper安装-启动</span>
+                <span>安全域划分的相关问题</span>
         </a>
         <div class="abstract-content">
-            单机模式
-下载，并解压zookeeper
+            须知:原则一切皆不可信安全域简介安全域是指同一系统内有相同的安全保护需求，相互信任，并具有相同的安全访问控制和边界控制策略的子网或网络，相同的网络安全域共享一样的安全策略。相对以上安全域的定义，广义的安全域概念是指：具有相同和相似的安全要求和策略的IT要素的集合。这些IT要素包括但不仅限于：物理环境、策略和流程、业务和使命、人和组织、网络区域、主机和系统……
+安全域划分通常来说，安全域可以划分为如下几个层次:
 
-
-wget http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz
-
-
-创建data和logs两个目录,用于存储数据和日志
-
-
-ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkdir dataht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkd...
+建议的划分方法是立体的，即：各个域之间不是简单的相交或隔离关系，而是在网络和管理上有不同的层次。
+网络基础设施域是所有域的基础，包括所有的网络设备和网络通讯支撑设施域。网络基础设...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/20</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/28</span>
             </div>
             <!-- tags  -->
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="zookeeper">zookeeper</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="安全体系建设">安全体系建设</a>
     
 </div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/16617/">
+            
+                <span>code-breaking</span>
+        </a>
+        <div class="abstract-content">
+            function123456789&lt;?php$action = $_GET[&apos;action&apos;] ?? &apos;&apos;;$arg = $_GET[&apos;arg&apos;] ?? &apos;&apos;;if(preg_match(&apos;/^[a-z0-9_]*$/isD&apos;, $action)) &#123;    show_source(__FILE__);&#125; else &#123;    $action(&apos;&apos;, $arg);&#125;
+随便测试了一下啊，发现加函数名中加\可以继续执行方法。
+12...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/25</span>
+            </div>
+            <!-- tags  -->
             
         </div>
     </article>
@@ -700,7 +652,7 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1706,9 +1658,261 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1719,8 +1923,97 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1730,11 +2023,6 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1754,7 +2042,7 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1874,17 +2162,12 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1929,12 +2212,12 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1954,7 +2237,7 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -2012,19 +2295,25 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2036,9 +2325,9 @@ ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zook
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

