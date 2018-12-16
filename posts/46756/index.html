@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,876</span> / Reading time: <span class="post-count">10 min</span></span>
+                        <span>Word count: <span class="post-count">5,752</span> / Reading time: <span class="post-count">22 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -479,6 +479,92 @@
 <h3 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h3><p>中断处理会打断进程的正常调度和执行,来快速响应硬件的事件，转而调用中断处理程序，响应设备事件。</p>
 <p>跟进程上下文不同，中断上下文切换并不涉及到进程的用户态。所以，即便中断过程打断了一个正处在用户态的进程，也不需要保存和恢复这个进程的虚拟内存、全局变量等用户态资源。中断上下文，其实只包括内核态中断服务程序执行所必需的状态，包括 CPU 寄存器、内核堆栈、硬件中断参数等。</p>
 <p>对同一个 CPU 来说，中断处理比进程拥有更高的优先级，所以中断上下文切换并不会与进程上下文切换同时发生。同样道理，由于中断会打断正常进程的调度和执行，所以大部分中断处理程序都短小精悍，以便尽可能快的执行结束。</p>
+<h2 id="如何查看CPU上下文切换状况"><a href="#如何查看CPU上下文切换状况" class="headerlink" title="如何查看CPU上下文切换状况"></a>如何查看CPU上下文切换状况</h2><h3 id="工具"><a href="#工具" class="headerlink" title="工具:"></a>工具:</h3><h4 id="vmstat："><a href="#vmstat：" class="headerlink" title="vmstat："></a>vmstat：</h4><p>用于分析系统内存的使用情况，也用来分析CPU上下文切换和终端次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~$ vmstat</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 0  0      0 1736052 114604 1011184    0    0    46    23   34   48  0  0 98  1  0</span><br></pre></td></tr></table></figure>
+<p>含义:（具体可通过<code>man vmstat</code>查看）</p>
+<ul>
+<li><p>cs(context switch) 每秒上下文切换次数</p>
+</li>
+<li><p>in(interrupt) 每秒中断次数</p>
+</li>
+<li>r(Running or Runnable) 就绪队列长度，也就是正在运行和等待CPU的进程数</li>
+<li>b(Blocked) 处于不可中断睡眠状态的进程数</li>
+</ul>
+<h4 id="pidstat"><a href="#pidstat" class="headerlink" title="pidstat"></a>pidstat</h4><p>通过-w选项，可以查看每个进程上下文切换的状况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~$ pidstat -w 5</span><br><span class="line">Linux 4.15.0-42-generic (tiandiwuji) 	12/10/2018 	_x86_64_	(4 CPU)</span><br><span class="line"></span><br><span class="line">09:08:06 AM   UID       PID   cswch/s nvcswch/s  Command</span><br><span class="line">09:08:11 AM     0         1     47.21      0.00  systemd</span><br><span class="line">09:08:11 AM     0         8     45.02      0.00  rcu_sched</span><br><span class="line">09:08:11 AM     0        11      0.40      0.00  watchdog/0</span><br><span class="line">09:08:11 AM     0        14      0.40      0.00  watchdog/1</span><br><span class="line">09:08:11 AM     0        20      0.40      0.00  watchdog/2</span><br><span class="line">09:08:11 AM     0        26      0.40      0.00  watchdog/3</span><br><span class="line">09:08:11 AM     0        28      0.20      0.00  ksoftirqd/3</span><br><span class="line">09:08:11 AM     0        35      1.79      0.00  kworker/2:1</span><br><span class="line">09:08:11 AM     0        42      0.20      0.00  khugepaged</span><br></pre></td></tr></table></figure>
+<p>重要参数:</p>
+<ul>
+<li>cswch: 每秒自愿上下文切换（voluntary context switches）的次数</li>
+<li>nvcswch: 每秒非自愿上下文切换（non voluntary context switches）的次数</li>
+</ul>
+<p><strong>自愿上下文切换</strong>，是指进程无法获取所需资源，导致的上下文切换。I/O、内存等系统资源不足时，就会发生自愿上下文切换。</p>
+<p><strong>非自愿上下文切换</strong>，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换。</p>
+<h4 id="sysbench"><a href="#sysbench" class="headerlink" title="sysbench"></a>sysbench</h4><p>多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况。</p>
+<p>案例分析:</p>
+<p>略。</p>
+<h2 id="某个CPU使用率达到100"><a href="#某个CPU使用率达到100" class="headerlink" title="某个CPU使用率达到100%"></a>某个CPU使用率达到100%</h2><h3 id="CPU使用率"><a href="#CPU使用率" class="headerlink" title="CPU使用率"></a>CPU使用率</h3><p>CPU 使用率是单位时间内 CPU 使用情况的统计，以百分比的形式显示。</p>
+<p>CPU的时间会被分为很短的时间片，有调度器调度给各任务使用。</p>
+<p>Linux定义节拍率，触发时间中断，并通过全局变量Jiffies记录开机以来的节拍数。</p>
+<p>节拍率HZ是内核可配置选项。用户程序无法访问，内核还提供用户空间节拍率USER_HZ，固定位100.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@tiandiwuji:/home/tiandiwuji# grep &apos;CONFIG_HZ=&apos; /boot/config-$(uname -r)</span><br><span class="line">CONFIG_HZ=250</span><br></pre></td></tr></table></figure>
+<p>/proc/stat 提供系统的CPU和任务的统计信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@tiandiwuji:/home/tiandiwuji# cat /proc/stat | grep ^cpu</span><br><span class="line">cpu  44665 3585 162408 2374608 26212 0 839 0 0 0</span><br><span class="line">cpu0 11846 651 40882 592547 6989 0 204 0 0 0</span><br><span class="line">cpu1 10418 1059 40370 594949 6362 0 87 0 0 0</span><br><span class="line">cpu2 11638 551 40506 593987 6458 0 290 0 0 0</span><br><span class="line">cpu3 10762 1323 40648 593124 6401 0 257 0 0 0</span><br></pre></td></tr></table></figure>
+<p>含义:</p>
+<ul><br><li><br><p>user（通常缩写为 us），代表用户态 CPU 时间。注意，它不包括下面的 nice 时间，但包括了 guest 时间。</p><br></li><br><li><br><p>nice（通常缩写为 ni），代表低优先级用户态 CPU 时间，也就是进程的 nice 值被调整为 1-19 之间时的 CPU 时间。这里注意，nice 可取值范围是 -20 到 19，数值越大，优先级反而越低。</p><br></li><br><li><br><p>system（通常缩写为 sys），代表内核态 CPU 时间。</p><br></li><br><li><br><p>idle（通常缩写为 id），代表空闲时间。注意，它不包括等待 I/O 的时间（iowait）。</p><br></li><br><li><br><p>iowait（通常缩写为 wa），代表等待 I/O 的 CPU 时间。</p><br></li><br><li><br><p>irq（通常缩写为 hi），代表处理硬中断的 CPU 时间。</p><br></li><br><li><br><p>softirq（通常缩写为 si），代表处理软中断的 CPU 时间。</p><br></li><br><li><br><p>steal（通常缩写为 st），代表当系统运行在虚拟机中的时候，被其他虚拟机占用的 CPU 时间。</p><br></li><br><li><br><p>guest（通常缩写为 guest），代表通过虚拟化运行其他操作系统的时间，也就是运行虚拟机的 CPU 时间。</p><br></li><br><li><br><p>guest_nice（通常缩写为 gnice），代表以低优先级运行虚拟机的时间。</p><br></li><br></ul>
+
+<p><strong>CPU使用率 = ( 1 - 空闲时间 / 总CPU时间)</strong></p>
+<p>一般会间隔一段时间取两次值，计算平均CPU使用率</p>
+<p><strong>平局CPU使用率 = 1 - ((新空闲时间 - 旧空闲时间) / (新总CPU时间 / 旧总CPU时间))</strong></p>
+<h3 id="查看CPU使用率"><a href="#查看CPU使用率" class="headerlink" title="查看CPU使用率"></a>查看CPU使用率</h3><ul>
+<li><p>top 显示了系统总体的 CPU 和内存使用情况，以及各个进程的资源使用情况。</p>
+</li>
+<li><p>ps 则只显示了每个进程的资源使用情况。</p>
+</li>
+</ul>
+<p>top指令空白行之后是进程的实时信息，每一行的%cpu列，表示进程CPU使用率，包括用户态和内核态CPU使用率之和，包括进程用户空间使用的CPU、通过系统调用执行的内核CPU、以及在就绪队列等待运行的CPU。在虚拟化运行环境中，还包括运行虚拟机占用的CPU。</p>
+<p>查看进程详细情况，包括用户态CPU和内核态CPU：</p>
+<p>使用pidstat命令。<code>pidstat 1 5</code></p>
+<h3 id="CPU使用率过高"><a href="#CPU使用率过高" class="headerlink" title="CPU使用率过高"></a>CPU使用率过高</h3><ol>
+<li>GDB 会中断程序运行，只适合性能分析后期，找到问题后，线下在调试</li>
+<li>perf 内置性能分析工具，它以性能事件采样为基础，不仅可以分析系统的各种事件和内核性能，还可以用来分析指定应用程序的性能问题。</li>
+</ol>
+<p><code>perf top -g -p &lt;pid&gt;</code> :  对进程进行跟踪分析其调用</p>
+<p><code>perf top</code>，类似于 top，它能够实时显示占用 CPU，时钟最多的函数或者指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Samples: 1K of event &apos;cpu-clock&apos;, Event count (approx.): 276859353</span><br><span class="line">Overhead  Shared Object                    Symbol</span><br><span class="line">  38.00%  [kernel]                         [k] _raw_spin_unlock_irqrestore</span><br><span class="line">  11.82%  [kernel]                         [k] vmw_cmdbuf_header_submit</span><br><span class="line">   1.86%  [kernel]                         [k] __softirqentry_text_start</span><br><span class="line">   1.11%  [kernel]                         [k] vsnprintf</span><br><span class="line">   1.08%  libc-2.27.so                     [.] __strcmp_sse2_unaligned</span><br><span class="line">   1.04%  [kernel]                         [k] format_decode</span><br><span class="line">   1.01%  libc-2.27.so                     [.] _int_malloc</span><br><span class="line">   0.79%  [kernel]                         [k] finish_task_switch</span><br><span class="line">   0.79%  perf                             [.] 0x00000000001ea447</span><br><span class="line">   0.69%  libgobject-2.0.so.0.5600.2       [.] g_type_check_instance_is_a</span><br><span class="line">   0.67%  libc-2.27.so                     [.] malloc</span><br><span class="line">   0.63%  [kernel]                         [k] exit_to_usermode_loop</span><br><span class="line">   0.62%  [kernel]                         [k] kallsyms_expand_symbol.constprop.1</span><br><span class="line">   0.60%  libmutter-clutter-2.so           [.] clutter_actor_is_visible</span><br></pre></td></tr></table></figure>
+<p>输出结果中，第一行包含三个数据，分别是采样数（Samples）、事件类型（event）和事件总数量（Event count）。比如这个例子中，perf 总共采集了 833 个 CPU 时钟事件，而总事件数则为 97742399。<strong>采样数需要我们特别注意.</strong>,如果采样数过少，那么排序和百分比就没什么参考价值。</p>
+<p><code>perf record</code>可以实时展示系统性能信息，并保存数据，<code>perf report</code>用于解析展示<code>perf record</code>保存的数据。参数<code>-g</code>表示开启调用关系的采样。</p>
+<p>案例:</p>
+<p>略。</p>
+<h2 id="CPU使用率很高，找不到高CPU的应用"><a href="#CPU使用率很高，找不到高CPU的应用" class="headerlink" title="CPU使用率很高，找不到高CPU的应用"></a>CPU使用率很高，找不到高CPU的应用</h2><p>系统的 CPU 使用率，不仅包括进程用户态和内核态的运行，还包括中断处理、等待 I/O 以及内核线程等。所以当发现系统的 CPU 使用率很高的时候，不一定能找到相对应的高CPU使用率的进程。</p>
+<p>execsnoop 专为短时进程设计的工具。它通过 ftrace 实时监控进程的exec() 行为，并输出短时进程的基本信息，包括进程 PID、父进程 PID、命令行参数以及执行的结果。</p>
+<p><a href="https://github.com/brendangregg/perf-tools/blob/master/execsnoop" rel="external nofollow" target="_blank">https://github.com/brendangregg/perf-tools/blob/master/execsnoop</a></p>
+<p>案例：略</p>
+<h2 id="系统中出现大量不可中断进程和僵尸进程"><a href="#系统中出现大量不可中断进程和僵尸进程" class="headerlink" title="系统中出现大量不可中断进程和僵尸进程"></a>系统中出现大量不可中断进程和僵尸进程</h2><p>cpu使用类型除了用户CPU之外，还包括系统CPU（上下文切换），等待I/O的CPU（比如等待磁盘的响应）以及中断CPU（包括软中断和硬中断）等。</p>
+<p>I/O的CPU（iowait）升高的问题：</p>
+<p>当 iowait 升高时，进程很可能因为得不到硬件的响应，而长时间处于不可中断状态。从 ps 或者 top 命令的输出中，你可以发现它们都处于 D 状态，也就是不可中断状态（Uninterruptible Sleep）。</p>
+<p>状态：</p>
+<p>R： 是 Running 或 Runnable 的缩写，表示进程在 CPU 的就绪队列中，正在运行或者正在等待运行。</p>
+<p>D：  是 Disk Sleep 的缩写，也就是不可中断状态睡眠（Uninterruptible Sleep），一般表示进程正在跟硬件交互，并且交互过程不允许被其他进程或中断打断。</p>
+<p>Z：是 Zombie 的缩写，它表示僵尸进程，也就是进程实际上已经结束了，但是父进程还没有回收它的资源（比如进程的描述符、PID 等）。</p>
+<p>S:  是 Interruptible Sleep 的缩写，也就是可中断状态睡眠，表示进程因为等待某个事件而被系统挂起。当进程等待的事件发生时，它会被唤醒并进入 R 状态。</p>
+<p>I： 是 Idle 的缩写，也就是空闲状态，用在不可中断睡眠的内核线程上。前面说了，硬件交互导致的不可中断进程用 D 表示，但对某些内核线程来说，它们有可能实际上并没有任何负载，用 Idle 正是为了区分这种情况。要注意，D 状态的进程会导致平均负载升高， I 状态的进程却不会。</p>
+<p>T或者t: ，也就是 Stopped 或 Traced 的缩写，表示进程处于暂停或者跟踪状态。</p>
+<p>向一个进程发送 SIGSTOP 信号，它就会因响应这个信号变成暂停状态（Stopped）；再向它发送 SIGCONT 信号，进程又会恢复运行（如果进程是终端里直接启动的，则需要你用 fg 命令，恢复到前台运行）。</p>
+<p>而当你用调试器（如 gdb）调试一个进程时，在使用断点中断进程后，进程就会变成跟踪状态，这其实也是一种特殊的暂停状态，只不过你可以用调试器来跟踪并按需要控制进程的运行。</p>
+<p>X：也就是 Dead 的缩写，表示进程已经消亡，所以你不会在 top 或者 ps 命令中看到它。</p>
+<p>一旦父进程没有处理子进程的终止，使得子进程一直保持运行状态，那么子进程就会陷入僵尸状态。大量的僵尸进程会用尽PID进程号，导致新进程没有办法创建。</p>
+<p>pid最大值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/sys/kernel/pid_max </span><br><span class="line">131072</span><br></pre></td></tr></table></figure>
+<p>案例:</p>
+<p>dstat: 是一个新的性能工具，它吸收了 vmstat、iostat、ifstat 等几种工具的优点，可以同时观察系统的 CPU、磁盘 I/O、网络以及内存使用情况。</p>
+<ol>
+<li>O_DIRECT 选项打开磁盘，于是绕过了系统缓存，直接对磁盘进行读写。容易导致 iowait升高</li>
+<li>正确处理子进程</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int status = 0;</span><br><span class="line">for (;;) &#123;</span><br><span class="line">	for (int i = 0; i &lt; 2; i++) &#123;</span><br><span class="line">		if(fork()== 0) &#123;</span><br><span class="line">			sub_process(disk);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	sleep(5);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 应该将该行放到for循环里</span><br><span class="line">while(wait(&amp;status)&gt;0);</span><br><span class="line">======================》</span><br><span class="line">for (;;) &#123;</span><br><span class="line">		for (int i = 0; i &lt; 2; i++) &#123;</span><br><span class="line">			if(fork()== 0) &#123;</span><br><span class="line">				sub_process(disk);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		while(wait(&amp;status)&gt;0);</span><br><span class="line">		sleep(5);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>iowait 高不一定代表 I/O 有性能瓶颈。当系统中只有 I/O 类型的进程在运行时，iowait 也会很高，但实际上，磁盘的读写远没有达到性能瓶颈的程度。</p>
+<p>僵尸进程出现的原因是父进程没有回收子进程的资源出现的。解决办法是找到父进程，在父进程中处理，使用pstree查父进程，然后查看父进程的源码检查wait()/waitpid()的调用或SIGCHLD信号处理函数的注册。</p>
+<p>略。</p>
 
     </article>
     <!-- license  -->
@@ -617,7 +703,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均负载"><span class="toc-number">1.</span> <span class="toc-text">平均负载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">1.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均负载与CPU使用率"><span class="toc-number">1.3.</span> <span class="toc-text">平均负载与CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU上下文切换"><span class="toc-number">2.</span> <span class="toc-text">CPU上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念-1"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文"><span class="toc-number">2.1.1.</span> <span class="toc-text">CPU上下文:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作系统管理的任务"><span class="toc-number">2.1.2.</span> <span class="toc-text">操作系统管理的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文切换-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">CPU上下文切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程上下文切换"><span class="toc-number">2.2.</span> <span class="toc-text">进程上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前置知识"><span class="toc-number">2.2.1.</span> <span class="toc-text">前置知识:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程上下文切换和系统调用的区别"><span class="toc-number">2.2.2.</span> <span class="toc-text">进程上下文切换和系统调用的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程上下文切换"><span class="toc-number">2.3.</span> <span class="toc-text">线程上下文切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断上下文切换"><span class="toc-number">2.4.</span> <span class="toc-text">中断上下文切换</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均负载"><span class="toc-number">1.</span> <span class="toc-text">平均负载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">1.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均负载与CPU使用率"><span class="toc-number">1.3.</span> <span class="toc-text">平均负载与CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU上下文切换"><span class="toc-number">2.</span> <span class="toc-text">CPU上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念-1"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文"><span class="toc-number">2.1.1.</span> <span class="toc-text">CPU上下文:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作系统管理的任务"><span class="toc-number">2.1.2.</span> <span class="toc-text">操作系统管理的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文切换-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">CPU上下文切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程上下文切换"><span class="toc-number">2.2.</span> <span class="toc-text">进程上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前置知识"><span class="toc-number">2.2.1.</span> <span class="toc-text">前置知识:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程上下文切换和系统调用的区别"><span class="toc-number">2.2.2.</span> <span class="toc-text">进程上下文切换和系统调用的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程上下文切换"><span class="toc-number">2.3.</span> <span class="toc-text">线程上下文切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断上下文切换"><span class="toc-number">2.4.</span> <span class="toc-text">中断上下文切换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何查看CPU上下文切换状况"><span class="toc-number">3.</span> <span class="toc-text">如何查看CPU上下文切换状况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">3.1.</span> <span class="toc-text">工具:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vmstat："><span class="toc-number">3.1.1.</span> <span class="toc-text">vmstat：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pidstat"><span class="toc-number">3.1.2.</span> <span class="toc-text">pidstat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sysbench"><span class="toc-number">3.1.3.</span> <span class="toc-text">sysbench</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#某个CPU使用率达到100"><span class="toc-number">4.</span> <span class="toc-text">某个CPU使用率达到100%</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率"><span class="toc-number">4.1.</span> <span class="toc-text">CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看CPU使用率"><span class="toc-number">4.2.</span> <span class="toc-text">查看CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率过高"><span class="toc-number">4.3.</span> <span class="toc-text">CPU使用率过高</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU使用率很高，找不到高CPU的应用"><span class="toc-number">5.</span> <span class="toc-text">CPU使用率很高，找不到高CPU的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统中出现大量不可中断进程和僵尸进程"><span class="toc-number">6.</span> <span class="toc-text">系统中出现大量不可中断进程和僵尸进程</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1717,9 +1803,176 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 71
+        Total : 76
         </div>
         <!-- search  -->
         
@@ -1746,6 +1999,31 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1814,12 +2092,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -1909,12 +2187,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2034,12 +2312,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2102,25 +2380,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2132,9 +2410,9 @@
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     

