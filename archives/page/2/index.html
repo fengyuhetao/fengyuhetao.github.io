@@ -341,29 +341,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/4968/">
-            
-                <span>pwnable.tw练习</span>
-        </a>
-        <div class="abstract-content">
-            start12345678910111213141516171819202122push    esp.text:08048061                 push    offset _exit.text:08048066                 xor     eax, eax.text:08048068                 xor     ebx, ebx.text:0804806A                 xor     ecx, ecx.text:0804806C                 xor     edx, edx.text:0...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/01</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/48844/">
             
                 <span>bctf2018</span>
@@ -596,6 +573,35 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
         </a>
         <div class="abstract-content">
             护网杯-calendarNoleak
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/19071/">
+            
+                <span>tcache-study</span>
+        </a>
+        <div class="abstract-content">
+            tcache介绍每个线程有64个bins，以16(8)递增，mensize从24(12)到1032(516).
+每个bin是单链表结构，单个tcache bins默认最多包含7个块。
+chunk进入tcache的情形
+
+释放时，_int_free中在检查了size合法后，放入fastbin之前，它先尝试将其放入tcache
+在_int_malloc中，若fastbins中取出块则将对应bin中其余chunk填入tcache对应项直到填满（smallbins中也是如此）：
+当进入unsorted bin(同时发生堆块合并）中找到精确的大小时，并不是直接返回而是先加入tcache中，直到填满...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1842,124 +1848,9 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 75
         </div>
         <!-- search  -->
         
@@ -2000,11 +1891,6 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
         </li>
     
     
@@ -2174,12 +2060,12 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -2284,12 +2170,12 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -2367,23 +2253,23 @@ Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

@@ -341,37 +341,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/13474/">
-            
-                <span>real-world-ctf</span>
-        </a>
-        <div class="abstract-content">
-            Webdot free
-ip2long
-123456789101112131415161718192021222324ip_addr=&apos;192.168.2.10&apos;# transfer ip to intdef ip2long(ip):    ip_list=ip.split(&apos;.&apos;)    result=0    for i in range(4):  #0,1,2,3        result=result+int(ip_list[i])*256**(3-i)    return resultlong=3232236042# transfer ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/6549/">
             
                 <span>ISITDTU-CTF</span>
@@ -672,6 +641,40 @@ man命令允许执行命令
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
     
 </div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/9490/">
+            
+                <span>linux常见文件的作用</span>
+        </a>
+        <div class="abstract-content">
+            linux常见文件的作用
+/proc/self/environ              读取环境变量
+该文件会保存http请求头，所以发送恶意User-aget,可以通过文件包含，包含该文件getshell
+
+/proc/net/arp                     读取arp
+判断当前局域网存活的主机
+
+/proc/self[pid]/cmdline              获得当前运行程序命令行参数
+
+/proc/net/dev                               网卡信息
+
+/sys/class/net/eth0/address      ma...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/24</span>
+            </div>
+            <!-- tags  -->
             
         </div>
     </article>
@@ -1911,124 +1914,9 @@ man命令允许执行命令
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 75
         </div>
         <!-- search  -->
         
@@ -2069,11 +1957,6 @@ man命令允许执行命令
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
         </li>
     
     
@@ -2243,12 +2126,12 @@ man命令允许执行命令
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -2353,12 +2236,12 @@ man命令允许执行命令
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -2436,23 +2319,23 @@ man命令允许执行命令
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

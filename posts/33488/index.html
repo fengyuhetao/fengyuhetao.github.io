@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,606</span> / Reading time: <span class="post-count">7 min</span></span>
+                        <span>Word count: <span class="post-count">1,694</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -390,135 +390,117 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <ol>
-<li><p>统计文件中每个字符串的长度</p>
-<blockquote>
+        <h2 id="统计文件中每个字符串的长度"><a href="#统计文件中每个字符串的长度" class="headerlink" title="统计文件中每个字符串的长度"></a>统计文件中每个字符串的长度</h2><blockquote>
 <p>grep -o . file.txt | sort | uniq -c | sort -rn</p>
 </blockquote>
-</li>
-<li><p>Python将16进制字符串转化为ascii码</p>
-<blockquote>
+<h2 id="Python将16进制字符串转化为ascii码"><a href="#Python将16进制字符串转化为ascii码" class="headerlink" title="Python将16进制字符串转化为ascii码"></a>Python将16进制字符串转化为ascii码</h2><blockquote>
 <p>a = “456e”</p>
 <p>‘’.join([chr(int(b, 16)) for b in [a[i:i+2] for i in range(0, len(a), 2)]])</p>
 </blockquote>
-</li>
-<li><p>Python将16进制字符串转为2进制字符串</p>
-<blockquote>
+<h2 id="Python将16进制字符串转为2进制字符串"><a href="#Python将16进制字符串转为2进制字符串" class="headerlink" title="Python将16进制字符串转为2进制字符串"></a>Python将16进制字符串转为2进制字符串</h2><blockquote>
 <p>a = “456e”</p>
 <p>‘’.join([(bin(int(b, 16))[2:]).zfill(8) for b in [a[i:i+2] for i in range(0, len(a), 2)]])</p>
 </blockquote>
-</li>
-<li><p>Python二进制字符串转16进制字符串</p>
-<blockquote>
+<h2 id="Python二进制字符串转16进制字符串"><a href="#Python二进制字符串转16进制字符串" class="headerlink" title="Python二进制字符串转16进制字符串"></a>Python二进制字符串转16进制字符串</h2><blockquote>
 <p>str = “0100010101101110”</p>
 <p>‘’.join([(hex(int(b, 2))[2:]).zfill(2) for b in [a[i:i+8] for i in range(0, len(a), 8)]])</p>
 </blockquote>
-</li>
-<li><p>hexdump使用</p>
+<p>##hexdump使用</p>
 <blockquote>
 <p>hexdump [filename]  以16进制查看文件</p>
 <p>hexdumlp -C [filename] 以16进制查看文件同时显示ascii码</p>
 </blockquote>
-</li>
-<li><p>7z使用</p>
+<p>##7z使用</p>
 <blockquote>
 <p>7z x [压缩包]</p>
 </blockquote>
-</li>
-<li><p>binwalk使用</p>
+<p>##binwalk使用</p>
 <blockquote>
 <p>binwalk [filename] 查看文件信息</p>
 <p>binwalk -e [filename]  提取文件</p>
 </blockquote>
-</li>
-<li><p>strings使用</p>
+<p>##strings使用</p>
 <blockquote>
 <p>strings -10 [filename] 从二进制文件或普通文件中查找可打印的字符串，-10  设置显示的最小字符串</p>
 </blockquote>
-</li>
-<li><p>base64使用</p>
+<p>##base64使用</p>
 <blockquote>
 <p>echo [base64字符串] | base64 -d              base64解密</p>
 <p>echo [字符串] | base64                              base64加密</p>
 </blockquote>
-</li>
-<li><p>debin,ubuntu删除所有带 rc 标记的dpkg包</p>
+<p>##debin,ubuntu删除所有带 rc 标记的dpkg包</p>
 <blockquote>
 <p>dpkg -l | grep ^rc | cut -d’ ‘ -f3 | sudo xargs dpkg –purge</p>
 </blockquote>
-</li>
-<li><p>批量计算文件夹中所有文件md5值</p>
+<p>##批量计算文件夹中所有文件md5值</p>
 <blockquote>
 <p>md5sum *</p>
 </blockquote>
-</li>
-<li><p>LSB检查</p>
+<p>##LSB检查</p>
 <blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; &gt;&gt;&gt; <span class="keyword">import</span> Image</span><br><span class="line">&gt; &gt;&gt;&gt; a=Image.open(<span class="string">'zxczxc.png'</span>)</span><br><span class="line">&gt; &gt;&gt;&gt; a.point(<span class="keyword">lambda</span> i: <span class="number">255</span> <span class="keyword">if</span> i&amp;<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span>).show()</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-</li>
-<li><p>查看文件夹下边的某个字符串</p>
+<p>##查看文件夹下边的某个字符串</p>
 <blockquote>
 <p>grep -rn -A10 -B5 “php_string_shuffle” ./</p>
 <p>grep -rn -A10 -B5 “php_string_shuffle” -l ./          只列出文件名</p>
 </blockquote>
-</li>
-<li><p>监控目录变化</p>
+<p>##监控目录变化</p>
 <blockquote>
 <p>watch -n2 ls -l /proc/11631/fd/</p>
 </blockquote>
-</li>
-<li><p>dd命令使用</p>
+<p>##dd命令使用</p>
 <blockquote>
 <p> dd if=carter.jpg of=carter-1.jpg skip=140147 bs=1</p>
+<p> dd if=./test of=./test1 count=1 bs=3 skip=2</p>
+<p> if 从目标文件中提取数据</p>
+<p> of 提取的数据保存的位置</p>
+<p> count 从目标文件中提取的块数</p>
+<p> bs 一次性读取或者写入的字节数</p>
+<p> skip 跳过几个块</p>
+<p> 上边的命令就是从test文件中的第6(skip <em> bs = 2 </em> 3)个字节开始，读3（count <em> bs = 1 </em> 3）个字节，写入到test1文件中。</p>
 </blockquote>
-</li>
-<li><p>shell文件去重</p>
+<p>##shell文件去重</p>
 <blockquote>
 <p>sort filename | uniq</p>
 </blockquote>
-</li>
-<li><p>socat启动一道pwn题目</p>
+<p>##socat启动一道pwn题目</p>
 <blockquote>
 <p>socat tcp-l:8080,fork exec:./note,reuseaddr</p>
 </blockquote>
-</li>
-<li><p>exiftool使用</p>
+<p>##exiftool使用</p>
 <blockquote>
 <p>exiftool [picture_name]</p>
 <p>exiftool -Exif:ImageDescription=”%^&amp;*()[]{}” [picture_name]</p>
 </blockquote>
-</li>
-<li><p>curl发送post请求,带上cookie</p>
+<p>##curl发送post请求,带上cookie</p>
 <blockquote>
 <p>curl -d “param1=value1&amp;param2=value2” -b “cookie_name1=value1&amp;cookie_name2=value2” url </p>
 </blockquote>
-</li>
-<li><p>curl上传文件，传递参数</p>
+<blockquote>
+<p>curl上传文件，传递参数</p>
+</blockquote>
 <blockquote>
 <p>curl <a href="https://websec.fr/level28/index.php" rel="external nofollow" target="_blank">https://websec.fr/level28/index.php</a> -F “<a href="mailto:flag_file=@1.php" rel="external nofollow" target="_blank">flag_file=@1.php</a>“ -F “submit=1”</p>
+<p>url中需要转义字符如下:</p>
+<p><code>[</code>,<code>]</code>,<code>{</code>,<code>}</code> </p>
 </blockquote>
-</li>
-<li><p>grep匹配字符串</p>
-<blockquote>
+<h2 id="grep匹配字符串"><a href="#grep匹配字符串" class="headerlink" title="grep匹配字符串"></a>grep匹配字符串</h2><blockquote>
 <p>grep -Eo “regex_expr”</p>
 </blockquote>
 <blockquote>
 <p> grep -i “connection” -r ./ –include *.class         # 递归在目录中class结尾的文件中查询字符串</p>
 <p> grep -i “connection” -r ./ –include *.{class|xml}</p>
 </blockquote>
-</li>
-<li><p>查找文件</p>
+<p>##查找文件</p>
 <blockquote>
 <p>find / -name “flag”</p>
 </blockquote>
-</li>
-<li><p>ngrep监听80端口</p>
+<p>##ngrep监听80端口</p>
 <blockquote>
 <p>ngrep -W byline -d eth0 port 80</p>
 </blockquote>
-</li>
-<li><p>scp命令使用</p>
+<p>##scp命令使用</p>
 <blockquote>
 <p>A.104.238.161.75，B.43.224.34.73</p>
 <p>A服务器下操作，将B服务器下/home/lk目录下所有文件复制到本地/home目录下</p>
@@ -526,8 +508,7 @@
 <p>在A服务器上将/root/lk目录下所有的文件传输到B的/home/lk/cpfile目录下</p>
 <p>scp -r /root/lk <a href="mailto:root@43.224.34.73" rel="external nofollow" target="_blank">root@43.224.34.73</a>:/home/lk/cpfile</p>
 </blockquote>
-</li>
-<li><p>nc传送文件</p>
+<p>##nc传送文件</p>
 <blockquote>
 <p>A.104.238.161.75     B.43.224.34.73</p>
 <p>将B服务器文件【test.txt】从B服务器传送到A服务器下</p>
@@ -542,8 +523,7 @@
 <p>B: nc -l [port] | tar xfvz -</p>
 <p>A: tar cfz - * | nc 43.224.34.73 [port]</p>
 </blockquote>
-</li>
-<li><p>tcpdump抓包</p>
+<p>##tcpdump抓包</p>
 <blockquote>
 <p>sudo tcpdump tcp -c 100 -i ens33  -nn -XX -vv</p>
 <p>-c    抓取的数量</p>
@@ -552,8 +532,6 @@
 <p>抓取网卡ens33中的http包</p>
 <p>0x4745 =&gt; ‘GE’           0x4854   =&gt; “HT”</p>
 </blockquote>
-</li>
-</ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">tcpdump [ -DenNqvX ] [ -c count ] [ -F file ] [ -i interface ] [ -r file ]</span><br><span class="line">        [ -s snaplen ] [ -w file ] [ expression ]</span><br><span class="line"></span><br><span class="line">抓包选项：</span><br><span class="line">-c：指定要抓取的包数量。注意，是最终要获取这么多个包。例如，指定&quot;-c 10&quot;将获取10个包，但可能已经处理了100个包，只不过只有10个包是满足条件的包。</span><br><span class="line">-i interface：指定tcpdump需要监听的接口。若未指定该选项，将从系统接口列表中搜寻编号最小的已配置好的接口(不包括loopback接口，要抓取loopback接口使用tcpdump -i lo)，</span><br><span class="line">            ：一旦找到第一个符合条件的接口，搜寻马上结束。可以使用&apos;any&apos;关键字表示所有网络接口。</span><br><span class="line">-n：对地址以数字方式显式，否则显式为主机名，也就是说-n选项不做主机名解析。</span><br><span class="line">-nn：除了-n的作用外，还把端口显示为数值，否则显示端口服务名。</span><br><span class="line">-N：不打印出host的域名部分。例如tcpdump将会打印&apos;nic&apos;而不是&apos;nic.ddn.mil&apos;。</span><br><span class="line">-P：指定要抓取的包是流入还是流出的包。可以给定的值为&quot;in&quot;、&quot;out&quot;和&quot;inout&quot;，默认为&quot;inout&quot;。</span><br><span class="line">-s len：设置tcpdump的数据包抓取长度为len，如果不设置默认将会是65535字节。对于要抓取的数据包较大时，长度设置不够可能会产生包截断，若出现包截断，</span><br><span class="line">      ：输出行中会出现&quot;[|proto]&quot;的标志(proto实际会显示为协议名)。但是抓取len越长，包的处理时间越长，并且会减少tcpdump可缓存的数据包的数量，</span><br><span class="line">      ：从而会导致数据包的丢失，所以在能抓取我们想要的包的前提下，抓取长度越小越好。</span><br><span class="line"></span><br><span class="line">输出选项：</span><br><span class="line">-e：输出的每行中都将包括数据链路层头部信息，例如源MAC和目标MAC。</span><br><span class="line">-q：快速打印输出。即打印很少的协议相关信息，从而输出行都比较简短。</span><br><span class="line">-X：输出包的头部数据，会以16进制和ASCII两种方式同时输出。</span><br><span class="line">-XX：输出包的头部数据，会以16进制和ASCII两种方式同时输出，更详细。</span><br><span class="line">-v：当分析和打印的时候，产生详细的输出。</span><br><span class="line">-vv：产生比-v更详细的输出。</span><br><span class="line">-vvv：产生比-vv更详细的输出。</span><br><span class="line"></span><br><span class="line">其他功能性选项：</span><br><span class="line">-D：列出可用于抓包的接口。将会列出接口的数值编号和接口名，它们都可以用于&quot;-i&quot;后。</span><br><span class="line">-F：从文件中读取抓包的表达式。若使用该选项，则命令行中给定的其他表达式都将失效。</span><br><span class="line">-w：将抓包数据输出到文件中而不是标准输出。可以同时配合&quot;-G time&quot;选项使得输出文件每time秒就自动切换到另一个文件。可通过&quot;-r&quot;选项载入这些文件以进行分析和打印。</span><br><span class="line">-r：从给定的数据包文件中读取数据。使用&quot;-&quot;表示从标准输入中读取。</span><br></pre></td></tr></table></figure>
 
     </article>
@@ -693,7 +671,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计文件中每个字符串的长度"><span class="toc-number">1.</span> <span class="toc-text">统计文件中每个字符串的长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转化为ascii码"><span class="toc-number">2.</span> <span class="toc-text">Python将16进制字符串转化为ascii码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转为2进制字符串"><span class="toc-number">3.</span> <span class="toc-text">Python将16进制字符串转为2进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python二进制字符串转16进制字符串"><span class="toc-number">4.</span> <span class="toc-text">Python二进制字符串转16进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep匹配字符串"><span class="toc-number">5.</span> <span class="toc-text">grep匹配字符串</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1851,124 +1829,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 75
         </div>
         <!-- search  -->
         
@@ -2009,11 +1872,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href="/posts/58144/">tp5.x渗透测试</a>
         </li>
     
     
@@ -2183,12 +2041,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
@@ -2293,12 +2151,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -2376,23 +2234,23 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
