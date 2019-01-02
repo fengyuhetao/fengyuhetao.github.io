@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">9,245</span> / Reading time: <span class="post-count">50 min</span></span>
+                        <span>Word count: <span class="post-count">9,339</span> / Reading time: <span class="post-count">51 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -624,7 +624,7 @@
 <p>x/x $rax                                       ;\$2=0x41</p>
 </blockquote>
 <p>差不多，区别在于打印出来的字节多少而已。</p>
-<h2 id="read和gets和fgets和scanf和getchar"><a href="#read和gets和fgets和scanf和getchar" class="headerlink" title="read和gets和fgets和scanf和getchar"></a>read和gets和fgets和scanf和getchar</h2><ul>
+<h2 id="read和gets和fgets和scanf和getchar和aspfintf"><a href="#read和gets和fgets和scanf和getchar和aspfintf" class="headerlink" title="read和gets和fgets和scanf和getchar和aspfintf"></a>read和gets和fgets和scanf和getchar和aspfintf</h2><ul>
 <li>gets: <code>char * gets(char *s)</code></li>
 </ul>
 <p>读取一个字符串到s指向的内存空间，直到出现换行符读到文件尾为止,最后将换行符替换为NULL做作为字符串结束。<strong>注意，由于gets()函数无法知道读取字符串大小，因此容易出现缓冲区溢出,建议使用fgets替代</strong></p>
@@ -658,6 +658,10 @@
 <li>getchar():</li>
 </ul>
 <p>getchar 也会开辟一个堆块，作为缓冲区，不会释放。</p>
+<ul>
+<li>asprintf</li>
+</ul>
+<p>asprintf()可以说是一个增强版的sprintf(),在不确定字符串的长度时，非常灵活方便，能够根据格式化的字符串长度，以malloc的形式申请足够的内存空间。此外，使用完后，必须通过free()释放空间。不过，这是GNU扩展的C函数库，不是标准C函数库或者POSIX。</p>
 <h2 id="mmap分配问题"><a href="#mmap分配问题" class="headerlink" title="mmap分配问题"></a>mmap分配问题</h2><p>当mmap的地址是urandom来的，但是不满足mmap要求时，会随机分配这个地址，申请两块同样大小的mmap内存时，若两次mmap的随机地址都已分配，则会造成两处内存空间相邻。</p>
 <h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>AH&amp;AL=AX(accumulator):累加寄存器<br>BH&amp;BL=BX(base):基址寄存器<br>CH&amp;CL=CX(count):计数寄存器<br>DH&amp;DL=DX(data):数据寄存器<br>SP(Stack Pointer):堆栈指针寄存器<br>BP(Base Pointer):基址指针寄存器<br>SI(Source Index):源变址寄存器<br>DI(Destination Index):目的变址寄存器<br>IP(Instruction Pointer):指令指针寄存器<br>CS(Code Segment)代码段寄存器<br>DS(Data Segment):数据段寄存器<br>SS(Stack Segment):堆栈段寄存器<br>ES(Extra Segment):附加段寄存器</p>
 <p>32位CPU有4个32位的通用寄存器EAX、EBX、ECX和EDX。对低16位数据的存取，不会影响高16位的数据。这些低16位寄存器分别命名为：AX、BX、CX和DX，它和先前的CPU中的寄存器相一致。</p>
@@ -4170,7 +4174,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬中断和软中断"><span class="toc-number">1.</span> <span class="toc-text">硬中断和软中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软中断"><span class="toc-number">1.1.</span> <span class="toc-text">软中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬中断"><span class="toc-number">1.2.</span> <span class="toc-text">硬中断:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装seccomp-tools"><span class="toc-number">2.</span> <span class="toc-text">安装seccomp-tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overlapping方法"><span class="toc-number">3.</span> <span class="toc-text">overlapping方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pwngdb-打断点"><span class="toc-number">4.</span> <span class="toc-text">pwngdb 打断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">5.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">6.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">7.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">8.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">9.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位shellcode"><span class="toc-number">10.</span> <span class="toc-text">32位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#64位shellcode"><span class="toc-number">11.</span> <span class="toc-text">64位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">12.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">13.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">14.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">15.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">16.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">17.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">18.</span> <span class="toc-text">ida调试elf文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checksec检测到的保护机制"><span class="toc-number">19.</span> <span class="toc-text">checksec检测到的保护机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb中print和x的区别"><span class="toc-number">20.</span> <span class="toc-text">gdb中print和x的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read和gets和fgets和scanf和getchar"><span class="toc-number">21.</span> <span class="toc-text">read和gets和fgets和scanf和getchar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mmap分配问题"><span class="toc-number">22.</span> <span class="toc-text">mmap分配问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">23.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc中各种bin的划分"><span class="toc-number">24.</span> <span class="toc-text">glibc中各种bin的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#经典ROP-gadgets"><span class="toc-number">25.</span> <span class="toc-text">经典ROP gadgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令大全"><span class="toc-number">26.</span> <span class="toc-text">汇编指令大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用方法"><span class="toc-number">27.</span> <span class="toc-text">syscall调用方法:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用表"><span class="toc-number">28.</span> <span class="toc-text">syscall调用表</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#硬中断和软中断"><span class="toc-number">1.</span> <span class="toc-text">硬中断和软中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软中断"><span class="toc-number">1.1.</span> <span class="toc-text">软中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬中断"><span class="toc-number">1.2.</span> <span class="toc-text">硬中断:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装seccomp-tools"><span class="toc-number">2.</span> <span class="toc-text">安装seccomp-tools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overlapping方法"><span class="toc-number">3.</span> <span class="toc-text">overlapping方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pwngdb-打断点"><span class="toc-number">4.</span> <span class="toc-text">pwngdb 打断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用约定"><span class="toc-number">5.</span> <span class="toc-text">调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找libc基地址"><span class="toc-number">6.</span> <span class="toc-text">查找libc基地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找”-bin-sh”的偏移地址"><span class="toc-number">7.</span> <span class="toc-text">查找”/bin/sh”的偏移地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编代码"><span class="toc-number">8.</span> <span class="toc-text">反汇编代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在可执行文件中找gadget"><span class="toc-number">9.</span> <span class="toc-text">在可执行文件中找gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位shellcode"><span class="toc-number">10.</span> <span class="toc-text">32位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#64位shellcode"><span class="toc-number">11.</span> <span class="toc-text">64位shellcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shellcode编写"><span class="toc-number">12.</span> <span class="toc-text">shellcode编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#retn和leave和call"><span class="toc-number">13.</span> <span class="toc-text">retn和leave和call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32位寻找偏移"><span class="toc-number">14.</span> <span class="toc-text">32位寻找偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有符号整数比较和无符号整数比较"><span class="toc-number">15.</span> <span class="toc-text">有符号整数比较和无符号整数比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找argv-0-变量的地址"><span class="toc-number">16.</span> <span class="toc-text">查找argv[0]变量的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-16-64位默认加载地址"><span class="toc-number">17.</span> <span class="toc-text">ubuntu 16  64位默认加载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida调试elf文件"><span class="toc-number">18.</span> <span class="toc-text">ida调试elf文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checksec检测到的保护机制"><span class="toc-number">19.</span> <span class="toc-text">checksec检测到的保护机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb中print和x的区别"><span class="toc-number">20.</span> <span class="toc-text">gdb中print和x的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#read和gets和fgets和scanf和getchar和aspfintf"><span class="toc-number">21.</span> <span class="toc-text">read和gets和fgets和scanf和getchar和aspfintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mmap分配问题"><span class="toc-number">22.</span> <span class="toc-text">mmap分配问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄存器"><span class="toc-number">23.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc中各种bin的划分"><span class="toc-number">24.</span> <span class="toc-text">glibc中各种bin的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#经典ROP-gadgets"><span class="toc-number">25.</span> <span class="toc-text">经典ROP gadgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令大全"><span class="toc-number">26.</span> <span class="toc-text">汇编指令大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用方法"><span class="toc-number">27.</span> <span class="toc-text">syscall调用方法:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscall调用表"><span class="toc-number">28.</span> <span class="toc-text">syscall调用表</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -5328,9 +5332,136 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 78
         </div>
         <!-- search  -->
         
@@ -5357,6 +5488,21 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -5635,7 +5781,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
         </li>
     
     
@@ -5650,12 +5796,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -5665,12 +5811,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -5743,9 +5889,9 @@
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

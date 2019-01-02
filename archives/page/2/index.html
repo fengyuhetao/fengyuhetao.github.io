@@ -341,6 +341,88 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/46756/">
+            
+                <span>linux-优化实战笔记</span>
+        </a>
+        <div class="abstract-content">
+            ​    这几年，写的代码基本都是本地跑，也没碰到什么性能问题。不过，实习的时候，网站三天两头就崩溃，看代码也似乎没啥问题，现在想想，我的解决方案无非重启，继续运行，崩溃了，继续重启。。。。。当时，这些问题基本都是技术老大处理，我也接触不到，怎么搞定的一无所知。
+​    希望《linux性能优化》能给我带来一些新的知识面。
+平均负载概念平均负载是指单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就是平均活跃进程数，和CPU使用率无直接关系。
+
+可运行状态 指正在使用 CPU 或者正在等待 CPU 的进程，也就是我们ps命令中处于R（Runnning）状态的进程
+
+不可中断状...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/04</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/41159/">
+            
+                <span>RealWorldFinal</span>
+        </a>
+        <div class="abstract-content">
+            标杆比赛，一个不会，任重道远，加油。。。
+PwnSstation Escape1234567My treasure is yours for the taking, But you&apos;ll have to find it first. I left everything I own in host.Both the username and password for the host and vm are rwctfTry to spawn a caculator on the stage.You need to replace /usr/lib/vmware/bin/vmwar...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/4968/">
+            
+                <span>pwnable.tw练习</span>
+        </a>
+        <div class="abstract-content">
+            start12345678910111213141516171819202122push    esp.text:08048061                 push    offset _exit.text:08048066                 xor     eax, eax.text:08048068                 xor     ebx, ebx.text:0804806A                 xor     ecx, ecx.text:0804806C                 xor     edx, edx.text:0...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/48844/">
             
                 <span>bctf2018</span>
@@ -523,90 +605,6 @@
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/59104/">
-            
-                <span>SROP-study</span>
-        </a>
-        <div class="abstract-content">
-            SROPpwnable.kr-unexploitableSROP:
-可以用来控制所有的寄存器，进行stack pivot。
-Sigreturn Oriented Programming (SROP)，这个方法是用来攻击POSIX主机的信号处理机制的。
-Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主要有以下途径：
-
-硬件来源：按下键盘或者其他故障
-软件来源: kill等；非法操作
-
-接收到Single之后，流程如下:
-12345678910  +---------+             +---------+             +---------+...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/04</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/54250/">
-            
-                <span>house_of_roman</span>
-        </a>
-        <div class="abstract-content">
-            护网杯-calendarNoleak
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/19071/">
-            
-                <span>tcache-study</span>
-        </a>
-        <div class="abstract-content">
-            tcache介绍每个线程有64个bins，以16(8)递增，mensize从24(12)到1032(516).
-每个bin是单链表结构，单个tcache bins默认最多包含7个块。
-chunk进入tcache的情形
-
-释放时，_int_free中在检查了size合法后，放入fastbin之前，它先尝试将其放入tcache
-在_int_malloc中，若fastbins中取出块则将对应bin中其余chunk填入tcache对应项直到填满（smallbins中也是如此）：
-当进入unsorted bin(同时发生堆块合并）中找到精确的大小时，并不是直接返回而是先加入tcache中，直到填满...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/02</span>
             </div>
             <!-- tags  -->
             
@@ -1848,9 +1846,136 @@ chunk进入tcache的情形
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 78
         </div>
         <!-- search  -->
         
@@ -1877,6 +2002,21 @@ chunk进入tcache的情形
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2155,7 +2295,7 @@ chunk进入tcache的情形
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
         </li>
     
     
@@ -2170,12 +2310,12 @@ chunk进入tcache的情形
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2185,12 +2325,12 @@ chunk进入tcache的情形
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2263,9 +2403,9 @@ chunk进入tcache的情形
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

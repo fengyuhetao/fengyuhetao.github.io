@@ -354,6 +354,90 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/59104/">
+            
+                <span>SROP-study</span>
+        </a>
+        <div class="abstract-content">
+            SROPpwnable.kr-unexploitableSROP:
+可以用来控制所有的寄存器，进行stack pivot。
+Sigreturn Oriented Programming (SROP)，这个方法是用来攻击POSIX主机的信号处理机制的。
+Linux系统上，Signal本质上是对中断机制的模拟，Signal的来源主要有以下途径：
+
+硬件来源：按下键盘或者其他故障
+软件来源: kill等；非法操作
+
+接收到Single之后，流程如下:
+12345678910  +---------+             +---------+             +---------+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/04</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/54250/">
+            
+                <span>house_of_roman</span>
+        </a>
+        <div class="abstract-content">
+            护网杯-calendarNoleak
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/19071/">
+            
+                <span>tcache-study</span>
+        </a>
+        <div class="abstract-content">
+            tcache介绍每个线程有64个bins，以16(8)递增，mensize从24(12)到1032(516).
+每个bin是单链表结构，单个tcache bins默认最多包含7个块。
+chunk进入tcache的情形
+
+释放时，_int_free中在检查了size合法后，放入fastbin之前，它先尝试将其放入tcache
+在_int_malloc中，若fastbins中取出块则将对应bin中其余chunk填入tcache对应项直到填满（smallbins中也是如此）：
+当进入unsorted bin(同时发生堆块合并）中找到精确的大小时，并不是直接返回而是先加入tcache中，直到填满...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/02</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/49989/">
             
                 <span>hitcon-复现</span>
@@ -585,145 +669,6 @@ vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtabl
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
             </div>
             <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/62824/">
-            
-                <span>dubbo项目结构</span>
-        </a>
-        <div class="abstract-content">
-            参考: 芋道源码      http://svip.iocoder.cn/
-
-概览
-可以看到，代码相当多，坚持就是胜利。
-
-
-
-
-代码统计
-
-可以使用IDEA Statistic插件。
-
-
-
-使用shell命令
-
-这个命令只过滤了部分注释，所以相比 IDEA Statistic 会偏多。
-
-find . -name “.java”|xargs cat|grep -v -e ^$ -e ^\s\/\/.*$|wc -
-
-
-dubbo模块示意图
-
-
-dubbo-common
-公共逻辑模块：提供工具类和通用模型。
-
-通用模型: 比如com.alibaba.dubbo.common.URL：
-
-...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="dubbo">dubbo</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/28842/">
-            
-                <span>zookeeper安装-启动</span>
-        </a>
-        <div class="abstract-content">
-            单机模式
-下载，并解压zookeeper
-
-
-wget http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.4.13/zookeeper-3.4.13.tar.gz
-
-
-创建data和logs两个目录,用于存储数据和日志
-
-
-ht@TIANJI:/mnt/d/zookeeper\$ cd zookeeper-3.4.13/ht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkdir dataht@TIANJI:/mnt/d/zookeeper/zookeeper-3.4.13\$ mkd...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="zookeeper">zookeeper</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/11234/">
-            
-                <span>dubbo-启动</span>
-        </a>
-        <div class="abstract-content">
-            前言长期陷于CRUD，能力只退不进，期待dubbo源码改变现状
-配置环境:
-Intellij idea
-maven
-jdk1.8
-git
-
-开发工具: Intellij idea现将fork到自己的仓库中，然后使用Intellij idea直接从https://github.com/fengyuhetao/dubbo.git拉取项目。
-启动demo项目
-注册中心采用Multicast 多播（组播)
-发现报错，如下:
-
-
-1[20/09/18 04:37:14:014 CST] main  WARN multicast.MulticastRegistry:  [DUBBO] Ignore ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="dubbo">dubbo</a>
-    
-</div>
             
         </div>
     </article>
@@ -2047,9 +1992,136 @@ git
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 78
         </div>
         <!-- search  -->
         
@@ -2076,6 +2148,21 @@ git
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2354,7 +2441,7 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
         </li>
     
     
@@ -2369,12 +2456,12 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2384,12 +2471,12 @@ git
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2462,9 +2549,9 @@ git
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

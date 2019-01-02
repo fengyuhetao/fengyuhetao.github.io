@@ -341,6 +341,109 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/63527/">
+            
+                <span>ollyice</span>
+        </a>
+        <div class="abstract-content">
+            快捷键记录f9:          运行程序
+f7:          单步步入
+f8:          单步步过
+ctrl+f2:    重新运行
+alt+f1:      命令行
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/09</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/16486/">
+            
+                <span>web安全备忘录</span>
+        </a>
+        <div class="abstract-content">
+            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
+SELECT into dump: 只能导出一行数据
+如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
+因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
+这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
+总结：
+into outfile:导出内容
+into dumpfile:导出二进制文件
+....
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/22546/">
+            
+                <span>googlectf2018</span>
+        </a>
+        <div class="abstract-content">
+            Beginner’s Quest - MoarWhen we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.
+man命令允许执行命令
+12!ls /home/moardisable_dmz.sh
+12345Man...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/9490/">
             
                 <span>linux常见文件的作用</span>
@@ -553,7 +656,7 @@ po...
     <article class="index-post">
         <a class="abstract-title" href="/posts/50844/">
             
-                <span>linux命令执行</span>
+                <span>linux安全备忘录</span>
         </a>
         <div class="abstract-content">
             linux下执行命令绕过字符串过滤
@@ -575,7 +678,7 @@ find命令执行
 find /tmp -iname sth -or -exec ls \;                会多次执行
 find /tmp -iname sth -or -exec ls \; -quit        只执行一次
 
-
+linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/qq_27446553/article/details/8094309...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -587,139 +690,6 @@ find /tmp -iname sth -or -exec ls \; -quit        只执行一次
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/51203/">
-            
-                <span>LRE_PAYLOAD绕过open_basedir</span>
-        </a>
-        <div class="abstract-content">
-            LRE_PAYLOAD绕过open_basedir参考链接:
-利用环境变量LD_PRELOAD绕过disable_function执行系统命令
-PHP绕过open_basedir列目录的研究
-源码:
-123456789101112#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;void payload() &#123;	system(&quot;rm /tmp/check.txt&quot;);&#125;int  geteuid() &#123;	if (getenv(&quot;LD_...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/17498/">
-            
-                <span>mysql忘记密码/修改密码</span>
-        </a>
-        <div class="abstract-content">
-            
-关闭mysql
-
-service mysql stop
-
-
-无密码登录msyql
-
-mysqld_safe –skip-grant-tables &amp;  
-
-
-root连接mysql
-
-mysql -u root
-
-
-修改密码
-
-use mysql
-update user set password=PASSWORD(‘admin’) where User=’root’;  
-
-
-刷新权限
-
-flush privileges;
-
-
-重启mysql
-
-service msyql restart
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="mysql">mysql</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/56136/">
-            
-                <span>普通用户免密码切换到root</span>
-        </a>
-        <div class="abstract-content">
-            
-sudo vim /etc/sudoers
-
-添加一行:
-
-tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
     
 </div>
             
@@ -1961,9 +1931,136 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 78
         </div>
         <!-- search  -->
         
@@ -1990,6 +2087,21 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2268,7 +2380,7 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
         </li>
     
     
@@ -2283,12 +2395,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2298,12 +2410,12 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2376,9 +2488,9 @@ tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     

@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,694</span> / Reading time: <span class="post-count">7 min</span></span>
+                        <span>Word count: <span class="post-count">1,748</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -483,7 +483,13 @@
 <blockquote>
 <p>curl <a href="https://websec.fr/level28/index.php" rel="external nofollow" target="_blank">https://websec.fr/level28/index.php</a> -F “<a href="mailto:flag_file=@1.php" rel="external nofollow" target="_blank">flag_file=@1.php</a>“ -F “submit=1”</p>
 <p>url中需要转义字符如下:</p>
-<p><code>[</code>,<code>]</code>,<code>{</code>,<code>}</code> </p>
+<p><code>[</code>,<code>]</code>,<code>{</code>,<code>}</code></p>
+<p>curl保存cookie到文件中，并使用该cookie，可以及时更新cookie</p>
+<blockquote>
+<p>curl -v <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> -c ./cookie -b ./cookie </p>
+</blockquote>
+<p>curl 发送json字符串</p>
+<p> curl -v -H “Content-Type:application/json” -X POST –data ‘{“code”:”cwdjwz”}’ <a href="http://35.207.132.47/api/verify" rel="external nofollow" target="_blank">http://35.207.132.47/api/verify</a></p>
 </blockquote>
 <h2 id="grep匹配字符串"><a href="#grep匹配字符串" class="headerlink" title="grep匹配字符串"></a>grep匹配字符串</h2><blockquote>
 <p>grep -Eo “regex_expr”</p>
@@ -530,9 +536,8 @@
 <p>-i     指定端口</p>
 <p>sudo tcpdump -c 100 -XX -nn -vv -i ens33 tcp[20:2]=0x4745 or tcp[20:2]=0x4854</p>
 <p>抓取网卡ens33中的http包</p>
-<p>0x4745 =&gt; ‘GE’           0x4854   =&gt; “HT”</p>
+<p>0x4745 =&gt; ‘GE’           0x4854   =&gt; “HT”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">tcpdump [ -DenNqvX ] [ -c count ] [ -F file ] [ -i interface ] [ -r file ]</span><br><span class="line">        [ -s snaplen ] [ -w file ] [ expression ]</span><br><span class="line"></span><br><span class="line">抓包选项：</span><br><span class="line">-c：指定要抓取的包数量。注意，是最终要获取这么多个包。例如，指定&quot;-c 10&quot;将获取10个包，但可能已经处理了100个包，只不过只有10个包是满足条件的包。</span><br><span class="line">-i interface：指定tcpdump需要监听的接口。若未指定该选项，将从系统接口列表中搜寻编号最小的已配置好的接口(不包括loopback接口，要抓取loopback接口使用tcpdump -i lo)，</span><br><span class="line">            ：一旦找到第一个符合条件的接口，搜寻马上结束。可以使用&apos;any&apos;关键字表示所有网络接口。</span><br><span class="line">-n：对地址以数字方式显式，否则显式为主机名，也就是说-n选项不做主机名解析。</span><br><span class="line">-nn：除了-n的作用外，还把端口显示为数值，否则显示端口服务名。</span><br><span class="line">-N：不打印出host的域名部分。例如tcpdump将会打印&apos;nic&apos;而不是&apos;nic.ddn.mil&apos;。</span><br><span class="line">-P：指定要抓取的包是流入还是流出的包。可以给定的值为&quot;in&quot;、&quot;out&quot;和&quot;inout&quot;，默认为&quot;inout&quot;。</span><br><span class="line">-s len：设置tcpdump的数据包抓取长度为len，如果不设置默认将会是65535字节。对于要抓取的数据包较大时，长度设置不够可能会产生包截断，若出现包截断，</span><br><span class="line">      ：输出行中会出现&quot;[|proto]&quot;的标志(proto实际会显示为协议名)。但是抓取len越长，包的处理时间越长，并且会减少tcpdump可缓存的数据包的数量，</span><br><span class="line">      ：从而会导致数据包的丢失，所以在能抓取我们想要的包的前提下，抓取长度越小越好。</span><br><span class="line"></span><br><span class="line">输出选项：</span><br><span class="line">-e：输出的每行中都将包括数据链路层头部信息，例如源MAC和目标MAC。</span><br><span class="line">-q：快速打印输出。即打印很少的协议相关信息，从而输出行都比较简短。</span><br><span class="line">-X：输出包的头部数据，会以16进制和ASCII两种方式同时输出。</span><br><span class="line">-XX：输出包的头部数据，会以16进制和ASCII两种方式同时输出，更详细。</span><br><span class="line">-v：当分析和打印的时候，产生详细的输出。</span><br><span class="line">-vv：产生比-v更详细的输出。</span><br><span class="line">-vvv：产生比-vv更详细的输出。</span><br><span class="line"></span><br><span class="line">其他功能性选项：</span><br><span class="line">-D：列出可用于抓包的接口。将会列出接口的数值编号和接口名，它们都可以用于&quot;-i&quot;后。</span><br><span class="line">-F：从文件中读取抓包的表达式。若使用该选项，则命令行中给定的其他表达式都将失效。</span><br><span class="line">-w：将抓包数据输出到文件中而不是标准输出。可以同时配合&quot;-G time&quot;选项使得输出文件每time秒就自动切换到另一个文件。可通过&quot;-r&quot;选项载入这些文件以进行分析和打印。</span><br><span class="line">-r：从给定的数据包文件中读取数据。使用&quot;-&quot;表示从标准输入中读取。</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">tcpdump [ -DenNqvX ] [ -c count ] [ -F file ] [ -i interface ] [ -r file ]</span><br><span class="line">        [ -s snaplen ] [ -w file ] [ expression ]</span><br><span class="line"></span><br><span class="line">抓包选项：</span><br><span class="line">-c：指定要抓取的包数量。注意，是最终要获取这么多个包。例如，指定&quot;-c 10&quot;将获取10个包，但可能已经处理了100个包，只不过只有10个包是满足条件的包。</span><br><span class="line">-i interface：指定tcpdump需要监听的接口。若未指定该选项，将从系统接口列表中搜寻编号最小的已配置好的接口(不包括loopback接口，要抓取loopback接口使用tcpdump -i lo)，</span><br><span class="line">            ：一旦找到第一个符合条件的接口，搜寻马上结束。可以使用&apos;any&apos;关键字表示所有网络接口。</span><br><span class="line">-n：对地址以数字方式显式，否则显式为主机名，也就是说-n选项不做主机名解析。</span><br><span class="line">-nn：除了-n的作用外，还把端口显示为数值，否则显示端口服务名。</span><br><span class="line">-N：不打印出host的域名部分。例如tcpdump将会打印&apos;nic&apos;而不是&apos;nic.ddn.mil&apos;。</span><br><span class="line">-P：指定要抓取的包是流入还是流出的包。可以给定的值为&quot;in&quot;、&quot;out&quot;和&quot;inout&quot;，默认为&quot;inout&quot;。</span><br><span class="line">-s len：设置tcpdump的数据包抓取长度为len，如果不设置默认将会是65535字节。对于要抓取的数据包较大时，长度设置不够可能会产生包截断，若出现包截断，</span><br><span class="line">      ：输出行中会出现&quot;[|proto]&quot;的标志(proto实际会显示为协议名)。但是抓取len越长，包的处理时间越长，并且会减少tcpdump可缓存的数据包的数量，</span><br><span class="line">      ：从而会导致数据包的丢失，所以在能抓取我们想要的包的前提下，抓取长度越小越好。</span><br><span class="line"></span><br><span class="line">输出选项：</span><br><span class="line">-e：输出的每行中都将包括数据链路层头部信息，例如源MAC和目标MAC。</span><br><span class="line">-q：快速打印输出。即打印很少的协议相关信息，从而输出行都比较简短。</span><br><span class="line">-X：输出包的头部数据，会以16进制和ASCII两种方式同时输出。</span><br><span class="line">-XX：输出包的头部数据，会以16进制和ASCII两种方式同时输出，更详细。</span><br><span class="line">-v：当分析和打印的时候，产生详细的输出。</span><br><span class="line">-vv：产生比-v更详细的输出。</span><br><span class="line">-vvv：产生比-vv更详细的输出。</span><br><span class="line"></span><br><span class="line">其他功能性选项：</span><br><span class="line">-D：列出可用于抓包的接口。将会列出接口的数值编号和接口名，它们都可以用于&quot;-i&quot;后。</span><br><span class="line">-F：从文件中读取抓包的表达式。若使用该选项，则命令行中给定的其他表达式都将失效。</span><br><span class="line">-w：将抓包数据输出到文件中而不是标准输出。可以同时配合&quot;-G time&quot;选项使得输出文件每time秒就自动切换到另一个文件。可通过&quot;-r&quot;选项载入这些文件以进行分析和打印。</span><br><span class="line">-r：从给定的数据包文件中读取数据。使用&quot;-&quot;表示从标准输入中读取。</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -1829,9 +1834,136 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 78
         </div>
         <!-- search  -->
         
@@ -1858,6 +1990,21 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2136,7 +2283,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux命令执行</a>
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
         </li>
     
     
@@ -2151,12 +2298,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2166,12 +2313,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2244,9 +2391,9 @@
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
