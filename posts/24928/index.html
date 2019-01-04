@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">46</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">123</span> / Reading time: <span class="post-count">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -393,6 +393,45 @@
         <h2 id="Navicat无法连接mysql8-0"><a href="#Navicat无法连接mysql8-0" class="headerlink" title="Navicat无法连接mysql8.0"></a>Navicat无法连接mysql8.0</h2><p>mysql8.0加密方式与mysql5几加密方式不同，需要先更改加密方式。</p>
 <p>ALTER USER ‘root‘@’localhost’ IDENTIFIED BY ‘’ PASSWORD EXPIRE NEVER;</p>
 <p>ALTER USER ‘root‘@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘’;</p>
+<h2 id="ubuntu虚拟机扩容"><a href="#ubuntu虚拟机扩容" class="headerlink" title="ubuntu虚拟机扩容"></a>ubuntu虚拟机扩容</h2><ol>
+<li>关闭虚拟机然后扩展磁盘</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104100614.png" alt=""></p>
+<ol start="2">
+<li><p>打开虚拟机，安装GParted. <code>apt install GParted</code></p>
+</li>
+<li><p>打开GParted</p>
+</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104100422.png" alt=""></p>
+<ol start="4">
+<li>删除swap分区</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104101758.png" alt=""></p>
+<ol start="5">
+<li>删除extended分区</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104101853.png" alt=""></p>
+<ol start="6">
+<li>修改/dev/sda1的大小</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104101921.png" alt=""></p>
+<p><img src="/assets/install_software/TIM截图20190104102007.png" alt=""></p>
+<ol start="7">
+<li>分配新的swap分区</li>
+</ol>
+<ul>
+<li>先分配extended分区</li>
+</ul>
+<p><img src="/assets/install_software/TIM截图20190104102058.png" alt=""></p>
+<ul>
+<li>在创建swap</li>
+</ul>
+<p><img src="/assets/install_software/TIM截图20190104102147.png" alt=""></p>
+<ol start="8">
+<li>保存即可</li>
+</ol>
+<p><img src="/assets/install_software/TIM截图20190104102211.png" alt=""></p>
 
     </article>
     <!-- license  -->
@@ -531,7 +570,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Navicat无法连接mysql8-0"><span class="toc-number">1.</span> <span class="toc-text">Navicat无法连接mysql8.0</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Navicat无法连接mysql8-0"><span class="toc-number">1.</span> <span class="toc-text">Navicat无法连接mysql8.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu虚拟机扩容"><span class="toc-number">2.</span> <span class="toc-text">ubuntu虚拟机扩容</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -544,36 +583,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -2032,12 +2041,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -2177,12 +2186,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
@@ -2260,27 +2269,27 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
         <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
     
