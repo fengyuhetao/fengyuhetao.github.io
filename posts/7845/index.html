@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">879</span> / Reading time: <span class="post-count">5 min</span></span>
+                        <span>Word count: <span class="post-count">1,460</span> / Reading time: <span class="post-count">8 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -404,6 +404,62 @@
 <h2 id="统一异常拦截"><a href="#统一异常拦截" class="headerlink" title="统一异常拦截"></a>统一异常拦截</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package com.ht.miaosha.exception;</span><br><span class="line"></span><br><span class="line">import com.ht.miaosha.result.CodeMsg;</span><br><span class="line">import com.ht.miaosha.result.Result;</span><br><span class="line">import org.springframework.validation.BindException;</span><br><span class="line">import org.springframework.validation.ObjectError;</span><br><span class="line">import org.springframework.web.bind.annotation.ControllerAdvice;</span><br><span class="line">import org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line">import org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by hetao on 2018/12/28.</span><br><span class="line"> */</span><br><span class="line">@ControllerAdvice</span><br><span class="line">@ResponseBody</span><br><span class="line">public class GlobalExceptionHandler &#123;</span><br><span class="line"></span><br><span class="line">    @ExceptionHandler(value = Exception.class)</span><br><span class="line">    public Result&lt;String&gt; exceptionHandler(HttpServletRequest request, Exception e) &#123;</span><br><span class="line">        if(e instanceof GlobalException) &#123;</span><br><span class="line">            GlobalException ex = (GlobalException) e;</span><br><span class="line">            return Result.error(ex.getCm());</span><br><span class="line">        &#125; else if(e instanceof BindException) &#123;</span><br><span class="line">            BindException ex = (BindException) e;</span><br><span class="line">            List&lt;ObjectError&gt; errorList = ex.getAllErrors();</span><br><span class="line">            ObjectError error = errorList.get(0);</span><br><span class="line"></span><br><span class="line">            String msg = error.getDefaultMessage();</span><br><span class="line">            return Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return Result.error(CodeMsg.SERVER_ERROR);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="注入参数"><a href="#注入参数" class="headerlink" title="注入参数"></a>注入参数</h2><h3 id="定义一个resolver"><a href="#定义一个resolver" class="headerlink" title="定义一个resolver"></a>定义一个resolver</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package com.ht.miaosha.config;</span><br><span class="line"></span><br><span class="line">import com.ht.miaosha.entity.MiaoshaUser;</span><br><span class="line">import com.ht.miaosha.service.impl.MiaoshaUserServiceImpl;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.core.MethodParameter;</span><br><span class="line">import org.springframework.lang.Nullable;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.web.bind.support.WebDataBinderFactory;</span><br><span class="line">import org.springframework.web.context.request.NativeWebRequest;</span><br><span class="line">import org.springframework.web.method.support.HandlerMethodArgumentResolver;</span><br><span class="line">import org.springframework.web.method.support.ModelAndViewContainer;</span><br><span class="line">import org.thymeleaf.util.StringUtils;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.Cookie;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by hetao on 2018/12/28.</span><br><span class="line"> */</span><br><span class="line">@Service</span><br><span class="line">public class UserArgumentResolver implements HandlerMethodArgumentResolver &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    MiaoshaUserServiceImpl userService;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean supportsParameter(MethodParameter methodParameter) &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = methodParameter.getParameterType();</span><br><span class="line">        return clazz == MiaoshaUser.class;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public Object resolveArgument(MethodParameter methodParameter, @Nullable ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, @Nullable WebDataBinderFactory webDataBinderFactory) throws Exception &#123;</span><br><span class="line">        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);</span><br><span class="line">        HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);</span><br><span class="line">        String paramToken = request.getParameter(MiaoshaUserServiceImpl.COOKIE_NAME_TOKEN);</span><br><span class="line">        String cookieToken = getCookieValue(request, MiaoshaUserServiceImpl.COOKIE_NAME_TOKEN);</span><br><span class="line"></span><br><span class="line">        if(StringUtils.isEmpty(cookieToken) &amp;&amp; StringUtils.isEmpty(paramToken)) &#123;</span><br><span class="line">            return &quot;login&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;</span><br><span class="line">        return userService.getByToken(response, token);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String getCookieValue(HttpServletRequest request, String cookieNameToken) &#123;</span><br><span class="line">        Cookie[] cookies = request.getCookies();</span><br><span class="line">        for (Cookie cookie: cookies) &#123;</span><br><span class="line">            if(cookie.getName().equals(cookieNameToken)) &#123;</span><br><span class="line">                return cookie.getValue();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="添加到resolves列表"><a href="#添加到resolves列表" class="headerlink" title="添加到resolves列表"></a>添加到resolves列表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package com.ht.miaosha.config;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.web.method.support.HandlerMethodArgumentResolver;</span><br><span class="line">import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 拦截器</span><br><span class="line"> * Created by hetao on 2018/12/28.</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">public class WebConfig extends WebMvcConfigurationSupport&#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    UserArgumentResolver argumentResolver;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) &#123;</span><br><span class="line">        argumentResolvers.add(argumentResolver);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="forward和redirect跳转的区别"><a href="#forward和redirect跳转的区别" class="headerlink" title="forward和redirect跳转的区别"></a>forward和redirect跳转的区别</h2><p>1、request.getRequestDispatcher(“a”).forward(rquest,response); request转发，它可以保存request中的数据，页面跳转，但是地址是不调整的 。<br>2、response.sendRedirect(“b”); 方式是重定向，它的数据是不共享的，也就是说 request中保存的数据在b页面中是获取不到的，这种方式是表单是不能重复提交的 ，<br>3、respons跳转是可以实现跨域的，地址栏也会变化。</p>
+<h2 id="压测入门"><a href="#压测入门" class="headerlink" title="压测入门"></a>压测入门</h2><p>先入门，其他慢慢翻文档。</p>
+<h3 id="jmeter使用入门"><a href="#jmeter使用入门" class="headerlink" title="jmeter使用入门"></a>jmeter使用入门</h3><p><a href="https://www.cnblogs.com/test002/p/8034154.html" rel="external nofollow" target="_blank">https://www.cnblogs.com/test002/p/8034154.html</a></p>
+<h3 id="自定义变量模拟多用户"><a href="#自定义变量模拟多用户" class="headerlink" title="自定义变量模拟多用户"></a>自定义变量模拟多用户</h3><ol>
+<li>添加-配置元件-CSV数据文件设置</li>
+<li>设置文件名，变量名称比如:<code>token</code></li>
+<li>引用变量名称比如 <code>${token}</code></li>
+</ol>
+<p>参考链接: <a href="https://www.cnblogs.com/jessicaxu/p/7512680.html" rel="external nofollow" target="_blank">https://www.cnblogs.com/jessicaxu/p/7512680.html</a></p>
+<h3 id="命令行使用"><a href="#命令行使用" class="headerlink" title="命令行使用"></a>命令行使用</h3><ol>
+<li>录制好jmx</li>
+<li>sh jmeter.sh -n -t xxx.jmx -l result.jtl</li>
+<li>将result.jtl 导入到jmeter</li>
+</ol>
+<h3 id="Redis压测工具Redis-benchmark"><a href="#Redis压测工具Redis-benchmark" class="headerlink" title="Redis压测工具Redis-benchmark"></a>Redis压测工具Redis-benchmark</h3><ol>
+<li>redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000               100个并发连接，100000个请求</li>
+<li>redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100                             存取大小为100字节的数据包</li>
+</ol>
+<p>资料比较多，直接找就行</p>
+<h2 id="springboot打包war包"><a href="#springboot打包war包" class="headerlink" title="springboot打包war包"></a>springboot打包war包</h2><ol>
+<li>添加spring-boot-starter-tomcat的provided依赖</li>
+<li>添加maven-war-plugin插件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;build&gt;</span><br><span class="line">	&lt;finalName&gt;$&#123;project.artifactId&#125;&lt;/finalName&gt;</span><br><span class="line">	&lt;plugins&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;configuration&gt;</span><br><span class="line">            	&lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;</span><br><span class="line">            &lt;/configuration&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">    &lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<p>处理一下入口类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class MiaoshaApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(MiaoshaApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">		return builder.sources(MiaoshaApplication.class);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后:</p>
+<p><code>mvn clean package</code></p>
+<h2 id="页面优化技术"><a href="#页面优化技术" class="headerlink" title="页面优化技术"></a>页面优化技术</h2><ol>
+<li><p>页面缓存+URL缓存+对象缓存</p>
+<ul>
+<li><p>Cache Aside Pattern</p>
+</li>
+<li><p><a href="https://blog.csdn.net/goldenfish1919/article/details/79739186" rel="external nofollow" target="_blank">https://blog.csdn.net/goldenfish1919/article/details/79739186</a></p>
+</li>
+<li>spring.resources 系列配置         具体慢慢了解</li>
+</ul>
+</li>
+<li><p>页面静态化，前后端分离</p>
+<ul>
+<li>尽量使得前端页面没有变化          利用浏览器缓存</li>
+<li>spring.resources 系列配置         具体慢慢了解</li>
+</ul>
+</li>
+<li><p>静态资源优化</p>
+<ul>
+<li>js/css 压缩                     删掉空白字符和注释等等，从而减少流量               Tengine 支持该功能             webpack用于打包</li>
+<li>多个js/css组合              减少连接数            Tengine 支持该功能</li>
+</ul>
+</li>
+<li><p>CDN优化</p>
+<ul>
+<li>就近访问需要在了解</li>
+</ul>
+</li>
+</ol>
 
     </article>
     <!-- license  -->
@@ -542,7 +598,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#两次MD5-登录保护"><span class="toc-number">1.</span> <span class="toc-text">两次MD5(登录保护)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSR参数验证-自定义注解"><span class="toc-number">2.</span> <span class="toc-text">JSR参数验证(自定义注解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义接口interface-IsMobile"><span class="toc-number">2.1.</span> <span class="toc-text">定义接口interface IsMobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义验证类IsMobileValidator"><span class="toc-number">2.2.</span> <span class="toc-text">定义验证类IsMobileValidator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一异常拦截"><span class="toc-number">3.</span> <span class="toc-text">统一异常拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注入参数"><span class="toc-number">4.</span> <span class="toc-text">注入参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义一个resolver"><span class="toc-number">4.1.</span> <span class="toc-text">定义一个resolver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加到resolves列表"><span class="toc-number">4.2.</span> <span class="toc-text">添加到resolves列表</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#两次MD5-登录保护"><span class="toc-number">1.</span> <span class="toc-text">两次MD5(登录保护)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSR参数验证-自定义注解"><span class="toc-number">2.</span> <span class="toc-text">JSR参数验证(自定义注解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义接口interface-IsMobile"><span class="toc-number">2.1.</span> <span class="toc-text">定义接口interface IsMobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义验证类IsMobileValidator"><span class="toc-number">2.2.</span> <span class="toc-text">定义验证类IsMobileValidator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一异常拦截"><span class="toc-number">3.</span> <span class="toc-text">统一异常拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注入参数"><span class="toc-number">4.</span> <span class="toc-text">注入参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义一个resolver"><span class="toc-number">4.1.</span> <span class="toc-text">定义一个resolver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加到resolves列表"><span class="toc-number">4.2.</span> <span class="toc-text">添加到resolves列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forward和redirect跳转的区别"><span class="toc-number">5.</span> <span class="toc-text">forward和redirect跳转的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测入门"><span class="toc-number">6.</span> <span class="toc-text">压测入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter使用入门"><span class="toc-number">6.1.</span> <span class="toc-text">jmeter使用入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义变量模拟多用户"><span class="toc-number">6.2.</span> <span class="toc-text">自定义变量模拟多用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行使用"><span class="toc-number">6.3.</span> <span class="toc-text">命令行使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis压测工具Redis-benchmark"><span class="toc-number">6.4.</span> <span class="toc-text">Redis压测工具Redis-benchmark</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot打包war包"><span class="toc-number">7.</span> <span class="toc-text">springboot打包war包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面优化技术"><span class="toc-number">8.</span> <span class="toc-text">页面优化技术</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -555,52 +611,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1971,12 +1981,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2191,12 +2201,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2216,7 +2226,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">常用shell命令及相关工具（shell+python+tools）</a>
         </li>
     
     
@@ -2261,21 +2271,21 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
@@ -2285,9 +2295,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
-    
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     

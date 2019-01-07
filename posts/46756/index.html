@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">9,955</span> / Reading time: <span class="post-count">39 min</span></span>
+                        <span>Word count: <span class="post-count">10,687</span> / Reading time: <span class="post-count">41 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -679,7 +679,7 @@
 <p><code>go get golang.org/x/sys/unix</code> 报错:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package golang.org/x/sys/unix: unrecognized import path &quot;golang.org/x/sys/unix&quot; (https fetch: Get https://golang.org/x/sys/unix?go-get=1: dial tcp 216.239.37.1:443: getsockopt: connection refused)</span><br></pre></td></tr></table></figure>
 <p>解决方案:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p $GOPATH/src/golang.org/x/</span><br><span class="line">$ git clone https://github.com/golang/sys.git sys</span><br><span class="line">$ go get golang.org/x/sys/unix</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p $GOPATH/src/golang.org/x/</span><br><span class="line">$ git clone https://github.com/golang/sys.git sys</span><br><span class="line">$ go install golang.org/x/sys/unix</span><br></pre></td></tr></table></figure>
 <p>报错:</p>
 <p><code>undefined runtime.KeepAlive</code>,原因：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sorry, Go 1.6 is no longer supported.</span><br><span class="line"></span><br><span class="line">If you were using Go 1.6 for App Engine, note that GAE standard supports Go 1.9 (by default) now.</span><br></pre></td></tr></table></figure>
@@ -693,6 +693,26 @@
 <h3 id="centos安装bcc-tools"><a href="#centos安装bcc-tools" class="headerlink" title="centos安装bcc-tools"></a>centos安装bcc-tools</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-80 ~]# yum update</span><br><span class="line">[root@centos-80 ~]# rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org &amp;&amp; rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br><span class="line">[root@centos-80 ~]# uname -r ## </span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">[root@centos-80 ~]# yum remove kernel-headers kernel-tools kernel-tools-libs</span><br><span class="line">[root@centos-80 ~]# yum --disablerepo=&quot;*&quot; --enablerepo=&quot;elrepo-kernel&quot; install kernel-ml kernel-ml-devel kernel-ml-headers kernel-ml-tools kernel-ml-tools-libs kernel-ml-tools-libs-devel </span><br><span class="line">[root@centos-80 ~]# sed -i &apos;/GRUB_DEFAULT/s/=.*/=0/&apos; /etc/default/grub</span><br><span class="line">[root@centos-80 ~]# grub2-mkconfig -o /boot/grub2/grub.cfg</span><br><span class="line">[root@centos-80 ~]# reboot</span><br><span class="line">[root@centos-80 ~]# uname -r ## 升级成功</span><br><span class="line">4.20.0-1.el7.elrepo.x86_64</span><br><span class="line">[root@centos-80 ~]# yum install -y bcc-tools</span><br><span class="line">[root@centos-80 ~]# echo &apos;export PATH=$PATH:/usr/share/bcc/tools&apos; &gt; /etc/profile.d/bcc-tools.sh</span><br><span class="line">[root@centos-80 ~]# . /etc/profile.d/bcc-tools.sh</span><br><span class="line">[root@centos-80 ~]# cachestat 1 1 ## 测试安装是否成功</span><br><span class="line">TOTAL MISSES HITS DIRTIES BUFFERS_MB CACHED_MB</span><br><span class="line">0 0 0 0 2 287</span><br></pre></td></tr></table></figure>
 <p>测试案例:</p>
 <p>略。</p>
+<h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><p>对普通进程来说，能看到的其实是内核提供的虚拟内存，这些虚拟内存还需要通过页表，由系统映射为物理内存。</p>
+<p>当进程通过 malloc() 申请虚拟内存后，系统并不会立即为其分配物理内存，而是在首次访问时，才通过缺页异常陷入内核中分配内存。</p>
+<p>为了协调 CPU 与磁盘间的性能差异，Linux 还会使用 Cache 和 Buffer ，分别把文件和磁盘读写的数据缓存到内存中。</p>
+<p>内存泄漏:</p>
+<ul>
+<li>没正确回收分配后的内存，导致了泄漏。</li>
+<li>访问的是已分配内存边界外的地址，导致程序异常退出，等等。</li>
+</ul>
+<p>用户空间内存包括多个不同的内存段，比如只读段、数据段、堆、栈以及文件映射段等。这些内存段正是应用程序使用内存的基本方式。</p>
+<ul>
+<li>栈内存由系统自动分配和管理。一旦程序运行超出了这个局部变量的作用域，栈内存就会被系统自动回收，所以不会产生内存泄漏的问题。</li>
+<li>使用标准库函数 malloc()在程序中动态分配内存。这时候，系统就会从内存空间的堆中分配内存。堆内存由应用程序自己来分配和管理。除非程序退出，这些堆内存并不会被系统自动释放，而是需要应用程序明确调用库函数 来释放它们。如果应用程序没有正确释放堆内存，就会造成内存泄漏。</li>
+<li>只读段，包括程序的代码和常量，由于是只读的，不会再去分配新的内存，所以也不会产生内存泄漏。</li>
+<li>数据段，包括全局变量和静态变量，这些变量在定义时就已经确定了大小，所以也不会产生内存泄漏。</li>
+<li>最后一个内存映射段，包括动态链接库和共享内存，其中共享内存由程序动态分配和管理。所以，如果程序在分配后忘了回收，就会导致跟堆内存类似的泄漏问题。</li>
+</ul>
+<p>虽然，系统最终可以通过 OOM （Out of Memory）机制杀死进程，但进程在 OOM 前，可能已经引发了一连串的反应，导致严重的性能问题。比如，其他需要内存的进程，可能无法分配新的内存；内存不足，又会触发系统的缓存回收以及 SWAP 机制，从而进一步导致 I/O 的性能问题等等。</p>
+<p>案例实战:</p>
+<p>检测内存泄漏的工具，memleak。memleak 可以跟踪系统或指定进程的内存分配、释放请求，然后定期输出一个未释放内存和相应调用栈的汇总情况（默认 5 秒）。</p>
+<p>略</p>
 
     </article>
     <!-- license  -->
@@ -831,7 +851,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均负载"><span class="toc-number">1.</span> <span class="toc-text">平均负载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">1.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均负载与CPU使用率"><span class="toc-number">1.3.</span> <span class="toc-text">平均负载与CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU上下文切换"><span class="toc-number">2.</span> <span class="toc-text">CPU上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念-1"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文"><span class="toc-number">2.1.1.</span> <span class="toc-text">CPU上下文:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作系统管理的任务"><span class="toc-number">2.1.2.</span> <span class="toc-text">操作系统管理的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文切换-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">CPU上下文切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程上下文切换"><span class="toc-number">2.2.</span> <span class="toc-text">进程上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前置知识"><span class="toc-number">2.2.1.</span> <span class="toc-text">前置知识:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程上下文切换和系统调用的区别"><span class="toc-number">2.2.2.</span> <span class="toc-text">进程上下文切换和系统调用的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程上下文切换"><span class="toc-number">2.3.</span> <span class="toc-text">线程上下文切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断上下文切换"><span class="toc-number">2.4.</span> <span class="toc-text">中断上下文切换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何查看CPU上下文切换状况"><span class="toc-number">3.</span> <span class="toc-text">如何查看CPU上下文切换状况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">3.1.</span> <span class="toc-text">工具:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vmstat："><span class="toc-number">3.1.1.</span> <span class="toc-text">vmstat：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pidstat"><span class="toc-number">3.1.2.</span> <span class="toc-text">pidstat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sysbench"><span class="toc-number">3.1.3.</span> <span class="toc-text">sysbench</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#某个CPU使用率达到100"><span class="toc-number">4.</span> <span class="toc-text">某个CPU使用率达到100%</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率"><span class="toc-number">4.1.</span> <span class="toc-text">CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看CPU使用率"><span class="toc-number">4.2.</span> <span class="toc-text">查看CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率过高"><span class="toc-number">4.3.</span> <span class="toc-text">CPU使用率过高</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU使用率很高，找不到高CPU的应用"><span class="toc-number">5.</span> <span class="toc-text">CPU使用率很高，找不到高CPU的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统中出现大量不可中断进程和僵尸进程"><span class="toc-number">6.</span> <span class="toc-text">系统中出现大量不可中断进程和僵尸进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么理解Linux软中断"><span class="toc-number">7.</span> <span class="toc-text">怎么理解Linux软中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软中断"><span class="toc-number">7.1.</span> <span class="toc-text">软中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看软中断和内核线程"><span class="toc-number">7.2.</span> <span class="toc-text">查看软中断和内核线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统的软中断CPU使用率升高"><span class="toc-number">8.</span> <span class="toc-text">系统的软中断CPU使用率升高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux内存是怎么工作的"><span class="toc-number">9.</span> <span class="toc-text">Linux内存是怎么工作的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟内存"><span class="toc-number">9.1.</span> <span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存映射"><span class="toc-number">9.2.</span> <span class="toc-text">内存映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分配与回收"><span class="toc-number">9.3.</span> <span class="toc-text">内存分配与回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分配："><span class="toc-number">9.3.1.</span> <span class="toc-text">分配：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回收"><span class="toc-number">9.3.2.</span> <span class="toc-text">回收</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看内存使用情况"><span class="toc-number">9.4.</span> <span class="toc-text">查看内存使用情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么理解内存中的Buffer和Cache"><span class="toc-number">10.</span> <span class="toc-text">怎么理解内存中的Buffer和Cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用系统缓存优化程序运行效率"><span class="toc-number">11.</span> <span class="toc-text">利用系统缓存优化程序运行效率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#centos安装bcc-tools"><span class="toc-number">11.1.</span> <span class="toc-text">centos安装bcc-tools</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平均负载"><span class="toc-number">1.</span> <span class="toc-text">平均负载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">1.2.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均负载与CPU使用率"><span class="toc-number">1.3.</span> <span class="toc-text">平均负载与CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例分析"><span class="toc-number">1.4.</span> <span class="toc-text">案例分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU上下文切换"><span class="toc-number">2.</span> <span class="toc-text">CPU上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念-1"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文"><span class="toc-number">2.1.1.</span> <span class="toc-text">CPU上下文:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作系统管理的任务"><span class="toc-number">2.1.2.</span> <span class="toc-text">操作系统管理的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU上下文切换-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">CPU上下文切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程上下文切换"><span class="toc-number">2.2.</span> <span class="toc-text">进程上下文切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前置知识"><span class="toc-number">2.2.1.</span> <span class="toc-text">前置知识:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程上下文切换和系统调用的区别"><span class="toc-number">2.2.2.</span> <span class="toc-text">进程上下文切换和系统调用的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程上下文切换"><span class="toc-number">2.3.</span> <span class="toc-text">线程上下文切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断上下文切换"><span class="toc-number">2.4.</span> <span class="toc-text">中断上下文切换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何查看CPU上下文切换状况"><span class="toc-number">3.</span> <span class="toc-text">如何查看CPU上下文切换状况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">3.1.</span> <span class="toc-text">工具:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vmstat："><span class="toc-number">3.1.1.</span> <span class="toc-text">vmstat：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pidstat"><span class="toc-number">3.1.2.</span> <span class="toc-text">pidstat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sysbench"><span class="toc-number">3.1.3.</span> <span class="toc-text">sysbench</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#某个CPU使用率达到100"><span class="toc-number">4.</span> <span class="toc-text">某个CPU使用率达到100%</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率"><span class="toc-number">4.1.</span> <span class="toc-text">CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看CPU使用率"><span class="toc-number">4.2.</span> <span class="toc-text">查看CPU使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU使用率过高"><span class="toc-number">4.3.</span> <span class="toc-text">CPU使用率过高</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU使用率很高，找不到高CPU的应用"><span class="toc-number">5.</span> <span class="toc-text">CPU使用率很高，找不到高CPU的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统中出现大量不可中断进程和僵尸进程"><span class="toc-number">6.</span> <span class="toc-text">系统中出现大量不可中断进程和僵尸进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么理解Linux软中断"><span class="toc-number">7.</span> <span class="toc-text">怎么理解Linux软中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软中断"><span class="toc-number">7.1.</span> <span class="toc-text">软中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看软中断和内核线程"><span class="toc-number">7.2.</span> <span class="toc-text">查看软中断和内核线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统的软中断CPU使用率升高"><span class="toc-number">8.</span> <span class="toc-text">系统的软中断CPU使用率升高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux内存是怎么工作的"><span class="toc-number">9.</span> <span class="toc-text">Linux内存是怎么工作的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟内存"><span class="toc-number">9.1.</span> <span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存映射"><span class="toc-number">9.2.</span> <span class="toc-text">内存映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存分配与回收"><span class="toc-number">9.3.</span> <span class="toc-text">内存分配与回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分配："><span class="toc-number">9.3.1.</span> <span class="toc-text">分配：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回收"><span class="toc-number">9.3.2.</span> <span class="toc-text">回收</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看内存使用情况"><span class="toc-number">9.4.</span> <span class="toc-text">查看内存使用情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么理解内存中的Buffer和Cache"><span class="toc-number">10.</span> <span class="toc-text">怎么理解内存中的Buffer和Cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用系统缓存优化程序运行效率"><span class="toc-number">11.</span> <span class="toc-text">利用系统缓存优化程序运行效率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#centos安装bcc-tools"><span class="toc-number">11.1.</span> <span class="toc-text">centos安装bcc-tools</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存分配"><span class="toc-number">12.</span> <span class="toc-text">内存分配</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -844,52 +864,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -2260,12 +2234,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2480,12 +2454,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2505,7 +2479,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">简单的命令（shell+python）</a>
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">常用shell命令及相关工具（shell+python+tools）</a>
         </li>
     
     
@@ -2550,21 +2524,21 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
@@ -2574,9 +2548,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
-    
         <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
