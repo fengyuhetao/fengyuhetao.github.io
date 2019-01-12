@@ -341,6 +341,118 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/32791/">
+            
+                <span>bypassaslr_return2plt</span>
+        </a>
+        <div class="abstract-content">
+            绕过ASLR–return2plt编译代码
+源代码
+
+12345678910111213141516#include&lt;stdio.h&gt;#include &lt;string.h&gt;/* Eventhough shell() function isnt invoked directly, its needed   here since 'system@PLT' and 'exit@PLT' stub code should be pres   ent in executable to successfully exploit it. */void shell() &#123...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/62655/">
+            
+                <span>cbc翻转</span>
+        </a>
+        <div class="abstract-content">
+            CBC翻转攻击参考链接:
+
+https://blog.csdn.net/csu_vc/article/details/79619309
+http://wooyun.jozxing.cc/static/drops/tips-7828.html
+
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/60875/">
+            
+                <span>misc思路</span>
+        </a>
+        <div class="abstract-content">
+            
+凯撒13世 rot13
+
+roqtp697t95j3 对应键盘下一行
+
+栅栏密码
+
+各种文件头
+JPEG (jpg)，文件头：FFD8FF
+PNG (png)，文件头：89504E47
+GIF (gif)，文件头：47494638
+TIFF (tif)，文件头：49492A00
+Windows Bitmap (bmp)，文件头：424D
+CAD (dwg)，文件头：41433130
+Adobe Photoshop (psd)，文件头：38425053
+Rich Text Format (rtf)，文件头：7B5C727466
+XML (xml)，文件头：3C3F786D6C
+HTML ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/33488/">
             
                 <span>常用shell命令及相关工具（shell+python+tools）</span>
@@ -561,51 +673,10 @@ python3.5:
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/41083/">
-            
-                <span>sql注入大全</span>
-        </a>
-        <div class="abstract-content">
-            报错注入函数
-floor报错, Mysql5.0及以上版本都能用的报错函数：floor
-
-select  from test where id=1 and (select 1 from (select count(\),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);
-
-
-MySQL 5.1.5版本中添加了对XML文档进行查询和修改的函数
-
-
-
-ExtractValue()
-
-select * from test where id=1 and (extractvalue(1,con...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/7/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="page-number current">8</span>
+        <a class="extend prev" rel="prev" href="/archives/page/7/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/9/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1936,9 +2007,22 @@ select * from test where id=1 and (extractvalue(1,con...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -1955,6 +2039,30 @@ select * from test where id=1 and (extractvalue(1,con...
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2068,12 +2176,12 @@ select * from test where id=1 and (extractvalue(1,con...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2098,7 +2206,7 @@ select * from test where id=1 and (extractvalue(1,con...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2248,12 +2356,12 @@ select * from test where id=1 and (extractvalue(1,con...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2356,19 +2464,19 @@ select * from test where id=1 and (extractvalue(1,con...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

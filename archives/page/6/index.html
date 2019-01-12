@@ -341,6 +341,114 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/62555/">
+            
+                <span>RSA学习</span>
+        </a>
+        <div class="abstract-content">
+            openssl相关操作提取pubkey.pem相关信息
+1openssl rsa -pubin -text -modulus -in warmup -in pubkey.pem
+解密:
+1openssl rsautl -decrypt -in 【flag.enc】 -inkey 【private.pem】
+已知p,q若已知质数p和q，则通过依次计算欧拉函数值phi、私钥d可解密。在选取加密指数e时要求phi，e互质，也就是gcd(phi,e)==1 ，如果不满足是无法直接解密的。
+123456789def rsa_decrypt(e, c, p, q):    phi = (p - 1)...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/28940/">
+            
+                <span>ssti</span>
+        </a>
+        <div class="abstract-content">
+            payload大全bypass 各种字符串
+利用request.args
+
+1&#123;&#123;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read
+
+利用字符串拼接
+
+12&#123;&#123;requ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="python安全">python安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/45992/">
+            
+                <span>php命令执行函数</span>
+        </a>
+        <div class="abstract-content">
+            代码或命令执行函数：
+
+system                    允许执行一个外部程序并回显输出，类似于 passthru() 
+shell_exec
+exec                        允许执行一个外部程序 
+curl_exec
+popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
+proc_open               执行一个命令并打开文件指针用于读取以及写入 
+passthru                   允许执行一个外部程序并回显输出 
+pcntl_exec...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/63527/">
             
                 <span>ollyice</span>
@@ -565,141 +673,10 @@ rlock的作用: 在递归程序中，可能会需要重复的acuqire,release，�
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/29112/">
-            
-                <span>pwn备忘录</span>
-        </a>
-        <div class="abstract-content">
-            硬中断和软中断软中断系统调用指令:
-
-快速系统调用指令。32位系统使用sysenter指令，64位系统使用syscall指令。
-软中断“int 0x80”机制，早期2.6内核及其以前的版本，才用软中断机制进行系统调用。因为软中断机制性能较差
-
-硬中断:由与系统相连的外设(比如网卡、硬盘)自动产生的。主要是用来通知操作系统系统外设状态的变化。比如当网卡收到数据包的时候，就会发出一个中断。我们通常所说的中断指的是硬中断(hardirq).
-Note: 一个软中断不会抢占另一个软中断，唯一可以抢占软中断的是硬中断。
-安装seccomp-tools1gem install seccomp-too...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/5359/">
-            
-                <span>sqlmap使用</span>
-        </a>
-        <div class="abstract-content">
-            sqlmap使用手册sqlmap一共5个级别，级别越高，检测越全面
-
-检测
-默认使用level1，检测全部数据库类型
-
- sqlmap -u “http://www.vuln.cn/post.php?id=1”
-
-
-只检测mysql
-
-sqlmap -u “http://www.vuln.cn/post.php?id=1”  –dbms mysql –level 3
-
-
-检测cookie(（只有level达到2才会检测cookie）)
-
- sqlmap -u “http://www.baidu.com/shownews.asp” –cookie “id=11” –level 2
-
-
-po...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/50844/">
-            
-                <span>linux安全备忘录</span>
-        </a>
-        <div class="abstract-content">
-            linux下执行命令绕过字符串过滤
-字符串拼接
-
-‘l’’s’
-‘ls’’-a’’l’
-
-
-文件名绕过
-
-cat ‘fl’’ag’
-cat ‘fl*’
-cat ‘fl??’
-
-
-
-find命令执行
-find /tmp -iname sth -or -exec ls \;                会多次执行
-find /tmp -iname sth -or -exec ls \; -quit        只执行一次
-
-linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/qq_27446553/article/details/8094309...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/5/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/7/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/archives/page/5/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/7/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -2030,9 +2007,22 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -2049,6 +2039,30 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2162,12 +2176,12 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2192,7 +2206,7 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2342,12 +2356,12 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2450,19 +2464,19 @@ linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

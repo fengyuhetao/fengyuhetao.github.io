@@ -354,6 +354,137 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/29112/">
+            
+                <span>pwn备忘录</span>
+        </a>
+        <div class="abstract-content">
+            硬中断和软中断软中断系统调用指令:
+
+快速系统调用指令。32位系统使用sysenter指令，64位系统使用syscall指令。
+软中断“int 0x80”机制，早期2.6内核及其以前的版本，才用软中断机制进行系统调用。因为软中断机制性能较差
+
+硬中断:由与系统相连的外设(比如网卡、硬盘)自动产生的。主要是用来通知操作系统系统外设状态的变化。比如当网卡收到数据包的时候，就会发出一个中断。我们通常所说的中断指的是硬中断(hardirq).
+Note: 一个软中断不会抢占另一个软中断，唯一可以抢占软中断的是硬中断。
+安装seccomp-tools1gem install seccomp-too...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/5359/">
+            
+                <span>sqlmap使用</span>
+        </a>
+        <div class="abstract-content">
+            sqlmap使用手册sqlmap一共5个级别，级别越高，检测越全面
+
+检测
+默认使用level1，检测全部数据库类型
+
+ sqlmap -u “http://www.vuln.cn/post.php?id=1”
+
+
+只检测mysql
+
+sqlmap -u “http://www.vuln.cn/post.php?id=1”  –dbms mysql –level 3
+
+
+检测cookie(（只有level达到2才会检测cookie）)
+
+ sqlmap -u “http://www.baidu.com/shownews.asp” –cookie “id=11” –level 2
+
+
+po...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/50844/">
+            
+                <span>linux安全备忘录</span>
+        </a>
+        <div class="abstract-content">
+            linux下执行命令绕过字符串过滤
+字符串拼接
+
+‘l’’s’
+‘ls’’-a’’l’
+
+
+文件名绕过
+
+cat ‘fl’’ag’
+cat ‘fl*’
+cat ‘fl??’
+
+
+
+find命令执行
+find /tmp -iname sth -or -exec ls \;                会多次执行
+find /tmp -iname sth -or -exec ls \; -quit        只执行一次
+
+linux提权利用通配符进行Linux本地提权链接：https://blog.csdn.net/qq_27446553/article/details/8094309...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/04</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/51203/">
             
                 <span>LRE_PAYLOAD绕过open_basedir</span>
@@ -649,122 +780,10 @@ assert从一...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/32791/">
-            
-                <span>bypassaslr_return2plt</span>
-        </a>
-        <div class="abstract-content">
-            绕过ASLR–return2plt编译代码
-源代码
-
-12345678910111213141516#include&lt;stdio.h&gt;#include &lt;string.h&gt;/* Eventhough shell() function isnt invoked directly, its needed   here since 'system@PLT' and 'exit@PLT' stub code should be pres   ent in executable to successfully exploit it. */void shell() &#123...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/62655/">
-            
-                <span>cbc翻转</span>
-        </a>
-        <div class="abstract-content">
-            CBC翻转攻击参考链接:
-
-https://blog.csdn.net/csu_vc/article/details/79619309
-http://wooyun.jozxing.cc/static/drops/tips-7828.html
-
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/60875/">
-            
-                <span>misc思路</span>
-        </a>
-        <div class="abstract-content">
-            
-凯撒13世 rot13
-
-roqtp697t95j3 对应键盘下一行
-
-栅栏密码
-
-各种文件头
-JPEG (jpg)，文件头：FFD8FF
-PNG (png)，文件头：89504E47
-GIF (gif)，文件头：47494638
-TIFF (tif)，文件头：49492A00
-Windows Bitmap (bmp)，文件头：424D
-CAD (dwg)，文件头：41433130
-Adobe Photoshop (psd)，文件头：38425053
-Rich Text Format (rtf)，文件头：7B5C727466
-XML (xml)，文件头：3C3F786D6C
-HTML ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -2179,9 +2198,22 @@ HTML ...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -2198,6 +2230,30 @@ HTML ...
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2311,12 +2367,12 @@ HTML ...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2341,7 +2397,7 @@ HTML ...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2491,12 +2547,12 @@ HTML ...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2599,19 +2655,19 @@ HTML ...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,460</span> / Reading time: <span class="post-count">8 min</span></span>
+                        <span>Word count: <span class="post-count">1,659</span> / Reading time: <span class="post-count">8 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -460,6 +460,28 @@
 </ul>
 </li>
 </ol>
+<h2 id="超卖问题"><a href="#超卖问题" class="headerlink" title="超卖问题"></a>超卖问题</h2><p>数据库添加唯一索引：防止重复购买</p>
+<p>sql加库存量判断：防止库存变成负数</p>
+<h2 id="接口优化"><a href="#接口优化" class="headerlink" title="接口优化"></a>接口优化</h2><ol>
+<li>Redis预减库存减少数据库访问<ol>
+<li>系统初始化，将商品库存数量加载到redis</li>
+<li>收到请求，redis预减库存，库存不足，直接返回，否则转3</li>
+<li>请求入队，立即返回排队中 </li>
+<li>请求出队，生成订单，减少库存</li>
+<li>客户端轮询，是否秒杀成功</li>
+</ol>
+</li>
+<li>内存标记减少redis访问</li>
+<li>请求先入队缓冲，异步下单，增强用户体验</li>
+<li>RabbitMQ + Spring Boot</li>
+<li>nginx水平扩展</li>
+<li>分库分表           工具：mycat</li>
+</ol>
+<h2 id="安全优化"><a href="#安全优化" class="headerlink" title="安全优化"></a>安全优化</h2><ol>
+<li>秒杀地址隐藏</li>
+<li>数学公式验证码</li>
+<li>接口限流防刷 </li>
+</ol>
 
     </article>
     <!-- license  -->
@@ -598,7 +620,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#两次MD5-登录保护"><span class="toc-number">1.</span> <span class="toc-text">两次MD5(登录保护)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSR参数验证-自定义注解"><span class="toc-number">2.</span> <span class="toc-text">JSR参数验证(自定义注解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义接口interface-IsMobile"><span class="toc-number">2.1.</span> <span class="toc-text">定义接口interface IsMobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义验证类IsMobileValidator"><span class="toc-number">2.2.</span> <span class="toc-text">定义验证类IsMobileValidator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一异常拦截"><span class="toc-number">3.</span> <span class="toc-text">统一异常拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注入参数"><span class="toc-number">4.</span> <span class="toc-text">注入参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义一个resolver"><span class="toc-number">4.1.</span> <span class="toc-text">定义一个resolver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加到resolves列表"><span class="toc-number">4.2.</span> <span class="toc-text">添加到resolves列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forward和redirect跳转的区别"><span class="toc-number">5.</span> <span class="toc-text">forward和redirect跳转的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测入门"><span class="toc-number">6.</span> <span class="toc-text">压测入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter使用入门"><span class="toc-number">6.1.</span> <span class="toc-text">jmeter使用入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义变量模拟多用户"><span class="toc-number">6.2.</span> <span class="toc-text">自定义变量模拟多用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行使用"><span class="toc-number">6.3.</span> <span class="toc-text">命令行使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis压测工具Redis-benchmark"><span class="toc-number">6.4.</span> <span class="toc-text">Redis压测工具Redis-benchmark</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot打包war包"><span class="toc-number">7.</span> <span class="toc-text">springboot打包war包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面优化技术"><span class="toc-number">8.</span> <span class="toc-text">页面优化技术</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#两次MD5-登录保护"><span class="toc-number">1.</span> <span class="toc-text">两次MD5(登录保护)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSR参数验证-自定义注解"><span class="toc-number">2.</span> <span class="toc-text">JSR参数验证(自定义注解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义接口interface-IsMobile"><span class="toc-number">2.1.</span> <span class="toc-text">定义接口interface IsMobile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义验证类IsMobileValidator"><span class="toc-number">2.2.</span> <span class="toc-text">定义验证类IsMobileValidator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统一异常拦截"><span class="toc-number">3.</span> <span class="toc-text">统一异常拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注入参数"><span class="toc-number">4.</span> <span class="toc-text">注入参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义一个resolver"><span class="toc-number">4.1.</span> <span class="toc-text">定义一个resolver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加到resolves列表"><span class="toc-number">4.2.</span> <span class="toc-text">添加到resolves列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forward和redirect跳转的区别"><span class="toc-number">5.</span> <span class="toc-text">forward和redirect跳转的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压测入门"><span class="toc-number">6.</span> <span class="toc-text">压测入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jmeter使用入门"><span class="toc-number">6.1.</span> <span class="toc-text">jmeter使用入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义变量模拟多用户"><span class="toc-number">6.2.</span> <span class="toc-text">自定义变量模拟多用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行使用"><span class="toc-number">6.3.</span> <span class="toc-text">命令行使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis压测工具Redis-benchmark"><span class="toc-number">6.4.</span> <span class="toc-text">Redis压测工具Redis-benchmark</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot打包war包"><span class="toc-number">7.</span> <span class="toc-text">springboot打包war包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面优化技术"><span class="toc-number">8.</span> <span class="toc-text">页面优化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#超卖问题"><span class="toc-number">9.</span> <span class="toc-text">超卖问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口优化"><span class="toc-number">10.</span> <span class="toc-text">接口优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全优化"><span class="toc-number">11.</span> <span class="toc-text">安全优化</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1855,9 +1877,22 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -1874,6 +1909,30 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -1987,12 +2046,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2017,7 +2076,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2167,12 +2226,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2275,19 +2334,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

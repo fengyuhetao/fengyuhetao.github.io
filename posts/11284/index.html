@@ -11,11 +11,11 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="jvm-java虚拟机如何运行java字节码 | Tianji">
+    <meta name="keywords" content="jvm-深入拆解java虚拟机 | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>jvm-java虚拟机如何运行java字节码 · Tianji&#39;s Blog</title>
+    <title>jvm-深入拆解java虚拟机 · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">jvm-java虚拟机如何运行java字节码</a>
+                <a href="#" class="post-name">jvm-深入拆解java虚拟机</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            jvm-java虚拟机如何运行java字节码
+            jvm-深入拆解java虚拟机
             <!-- 404 -->
             
         </h1>
@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,766</span> / Reading time: <span class="post-count">7 min</span></span>
+                        <span>Word count: <span class="post-count">2,494</span> / Reading time: <span class="post-count">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -427,6 +427,16 @@
 <p>C2 又叫做 Server 编译器，面向的是对峰值性能有要求的服务器端程序，采用的优化手段相对复杂，因此编译时间较长，但同时生成代码的执行效率较高。</p>
 <p>从 Java 7 开始，HotSpot 默认采用分层编译的方式：热点方法首先会被 C1 编译，而后热点方法中的热点会进一步被 C2 编译。</p>
 <p>在计算资源充足的情况下，字节码的解释执行和即时编译可同时进行。编译完成后的机器码会在下次调用该方法时启用，以替换原本的解释执行。</p>
+<h1 id="Java的基本类型"><a href="#Java的基本类型" class="headerlink" title="Java的基本类型"></a>Java的基本类型</h1><p>boolean类型:在 Java 虚拟机规范中，boolean 类型则被映射成 int 类型。具体来说，“true”被映射为整数 1，而“false”被映射为整数 0。这个编码规则约束了 Java 字节码的具体实现。</p>
+<p><img src="https://static001.geekbang.org/resource/image/77/45/77dfb788a8ad5877e77fc28ed2d51745.png" alt=""></p>
+<p>在 Java 虚拟机规范中，局部变量区等价于一个数组，并且可以用正整数来索引。除了 long、double 值需要用两个数组单元来存储之外，其他基本类型以及引用类型的值均占用一个数组单元。</p>
+<p>也就是说，boolean、byte、char、short 这四种类型，在栈上占用的空间和 int 是一样的，和引用类型也是一样的。因此，在 32 位的 HotSpot 中，这些类型在栈上将占用 4 个字节；而在 64 位的 HotSpot 中，他们将占 8 个字节。</p>
+<p>当然，这种情况仅存在于局部变量，而并不会出现在存储于堆中的字段或者数组元素上。对于 byte、char 以及 short 这三种类型的字段或者数组单元，它们在堆上占用的空间分别为一字节、两字节，以及两字节，也就是说，跟这些类型的值域相吻合。</p>
+<p>因此，当我们将一个 int 类型的值，存储到这些类型的字段或数组时，相当于做了一次隐式的掩码操作。举例来说，当我们把 0xFFFFFFFF（-1）存储到一个声明为 char 类型的字段里时，由于该字段仅占两字节，所以高两位的字节便会被截取掉，最终存入“\uFFFF”。</p>
+<p>boolean 字段和 boolean 数组则比较特殊。在 HotSpot 中，boolean 字段占用一字节，而 boolean 数组则直接用 byte 数组来实现。为了保证堆中的 boolean 值是合法的，HotSpot 在存储时显式地进行掩码操作，也就是说，只取最后一位的值存入 boolean 字段或数组中。</p>
+<p>讲完了存储，现在我来讲讲加载。Java 虚拟机的算数运算几乎全部依赖于操作数栈。也就是说，我们需要将堆中的 boolean、byte、char 以及 short 加载到操作数栈上，而后将栈上的值当成 int 类型来运算。</p>
+<p>对于 boolean、char 这两个无符号类型来说，加载伴随着零扩展。举个例子，char 的大小为两个字节。在加载时 char 的值会被复制到 int 类型的低二字节，而高二字节则会用 0 来填充。</p>
+<p>对于 byte、short 这两个类型来说，加载伴随着符号扩展。举个例子，short 的大小为两个字节。在加载时 short 的值同样会被复制到 int 类型的低二字节。如果该 short 值为非负数，即最高位为 0，那么该 int 类型的值的高二字节会用 0 来填充，否则用 1 来填充。</p>
 
     </article>
     <!-- license  -->
@@ -565,7 +575,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java与c语言运行差别"><span class="toc-number">1.</span> <span class="toc-text">Java与c语言运行差别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JRE和JDK的区别"><span class="toc-number">1.0.1.</span> <span class="toc-text">JRE和JDK的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C语言程序编译结果"><span class="toc-number">1.0.2.</span> <span class="toc-text">C语言程序编译结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java为什么需要在虚拟机中运行"><span class="toc-number">1.0.3.</span> <span class="toc-text">Java为什么需要在虚拟机中运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java程序反编译结果"><span class="toc-number">1.0.4.</span> <span class="toc-text">Java程序反编译结果</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java如何运行Java字节码"><span class="toc-number">2.</span> <span class="toc-text">Java如何运行Java字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java虚拟机运行效率如何"><span class="toc-number">3.</span> <span class="toc-text">Java虚拟机运行效率如何</span></a></li>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java与c语言运行差别"><span class="toc-number">1.</span> <span class="toc-text">Java与c语言运行差别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JRE和JDK的区别"><span class="toc-number">1.0.1.</span> <span class="toc-text">JRE和JDK的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C语言程序编译结果"><span class="toc-number">1.0.2.</span> <span class="toc-text">C语言程序编译结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java为什么需要在虚拟机中运行"><span class="toc-number">1.0.3.</span> <span class="toc-text">Java为什么需要在虚拟机中运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java程序反编译结果"><span class="toc-number">1.0.4.</span> <span class="toc-text">Java程序反编译结果</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java如何运行Java字节码"><span class="toc-number">2.</span> <span class="toc-text">Java如何运行Java字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java虚拟机运行效率如何"><span class="toc-number">3.</span> <span class="toc-text">Java虚拟机运行效率如何</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java的基本类型"><span class="toc-number">4.</span> <span class="toc-text">Java的基本类型</span></a></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1822,9 +1832,22 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 78
+        Total : 81
         </div>
         <!-- search  -->
         
@@ -1841,6 +1864,30 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -1954,12 +2001,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -1984,7 +2031,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-java虚拟机如何运行java字节码</a>
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
         </li>
     
     
@@ -2134,12 +2181,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2242,19 +2289,19 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     

