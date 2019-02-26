@@ -11,11 +11,11 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="软件安装相关问题 | Tianji">
+    <meta name="keywords" content="java-面试准备 | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>软件安装相关问题 · Tianji&#39;s Blog</title>
+    <title>java-面试准备 · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">软件安装相关问题</a>
+                <a href="#" class="post-name">java-面试准备</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            软件安装相关问题
+            java-面试准备
             <!-- 404 -->
             
         </h1>
@@ -261,12 +261,12 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">123</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">223</span> / Reading time: <span class="post-count">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/12/21</span>
+                    <span class="post-intro-time">2019/02/24</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -390,56 +390,19 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="Navicat无法连接mysql8-0"><a href="#Navicat无法连接mysql8-0" class="headerlink" title="Navicat无法连接mysql8.0"></a>Navicat无法连接mysql8.0</h2><p>mysql8.0加密方式与mysql5几加密方式不同，需要先更改加密方式。</p>
-<p>ALTER USER ‘root‘@’localhost’ IDENTIFIED BY ‘’ PASSWORD EXPIRE NEVER;</p>
-<p>ALTER USER ‘root‘@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘’;</p>
-<h2 id="ubuntu虚拟机扩容"><a href="#ubuntu虚拟机扩容" class="headerlink" title="ubuntu虚拟机扩容"></a>ubuntu虚拟机扩容</h2><ol>
-<li>关闭虚拟机然后扩展磁盘</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104100614.png" alt=""></p>
-<ol start="2">
-<li><p>打开虚拟机，安装GParted. <code>apt install GParted</code></p>
-</li>
-<li><p>打开GParted</p>
-</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104100422.png" alt=""></p>
-<ol start="4">
-<li>删除swap分区</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104101758.png" alt=""></p>
-<ol start="5">
-<li>删除extended分区</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104101853.png" alt=""></p>
-<ol start="6">
-<li>修改/dev/sda1的大小</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104101921.png" alt=""></p>
-<p><img src="/assets/install_software/TIM截图20190104102007.png" alt=""></p>
-<ol start="7">
-<li>分配新的swap分区</li>
-</ol>
-<ul>
-<li>先分配extended分区</li>
-</ul>
-<p><img src="/assets/install_software/TIM截图20190104102058.png" alt=""></p>
-<ul>
-<li>在创建swap</li>
-</ul>
-<p><img src="/assets/install_software/TIM截图20190104102147.png" alt=""></p>
-<ol start="8">
-<li>保存即可</li>
-</ol>
-<p><img src="/assets/install_software/TIM截图20190104102211.png" alt=""></p>
+        <h1 id="Exception和Error的区别，-运行时异常和一般异常的区别"><a href="#Exception和Error的区别，-运行时异常和一般异常的区别" class="headerlink" title="Exception和Error的区别， 运行时异常和一般异常的区别"></a>Exception和Error的区别， 运行时异常和一般异常的区别</h1><p>Exception和Error都继承了-Throwable类，在Java中只有Throwable类型的实例才可以被抛出或者捕获，是异常处理机制的基本组成类型。</p>
+<p>Exception和Error体现了Java平台设计者对不同异常情况的分类。Exception是程序正常运行中，可以预料的意外情况，可能并且应该被捕获，进行相应处理。</p>
+<p>Error是指正常情况下，不大可能出现的情况，绝大部分的Error都会导致程序（比如JVM自身）处于非正常的，不可恢复状态。比如OutOfMemoryError之类，都是Error的子类。</p>
+<p>Exception分为可检查异常和不检查异常，可检查异常在源代码里必须显式的进行捕获处理，这是编译器检查的一部分。</p>
+<p>Error属于Throwable，而不是Exception。</p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
-            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/24928/">https://www.tiandiwuji.top/posts/24928/</a>
-            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/24928/">December 21st 2018, 12:05:04 pm</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/43363/">https://www.tiandiwuji.top/posts/43363/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/43363/">February 24th 2019, 9:16:41 pm</a>
             </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -448,16 +411,16 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/7845/" title="java开发小记">
-                    <div class="nextTitle">java开发小记</div>
+                <a href="/posts/30918/" title="day-day-up">
+                    <div class="nextTitle">day-day-up</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/21890/" title="内存取证分析">
-                    <div class="prevTitle">内存取证分析</div>
+                <a href="/posts/44754/" title="dubbo-配置">
+                    <div class="prevTitle">dubbo-配置</div>
                 </a>
             
         </li>
@@ -570,7 +533,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Navicat无法连接mysql8-0"><span class="toc-number">1.</span> <span class="toc-text">Navicat无法连接mysql8.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu虚拟机扩容"><span class="toc-number">2.</span> <span class="toc-text">ubuntu虚拟机扩容</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">1.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

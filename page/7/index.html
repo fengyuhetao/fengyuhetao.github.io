@@ -354,89 +354,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/29112/">
-            
-                <span>pwn备忘录</span>
-        </a>
-        <div class="abstract-content">
-            硬中断和软中断软中断系统调用指令:
-
-快速系统调用指令。32位系统使用sysenter指令，64位系统使用syscall指令。
-软中断“int 0x80”机制，早期2.6内核及其以前的版本，才用软中断机制进行系统调用。因为软中断机制性能较差
-
-硬中断:由与系统相连的外设(比如网卡、硬盘)自动产生的。主要是用来通知操作系统系统外设状态的变化。比如当网卡收到数据包的时候，就会发出一个中断。我们通常所说的中断指的是硬中断(hardirq).
-Note: 一个软中断不会抢占另一个软中断，唯一可以抢占软中断的是硬中断。
-安装seccomp-tools1gem install seccomp-too...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/5359/">
-            
-                <span>sqlmap使用</span>
-        </a>
-        <div class="abstract-content">
-            sqlmap使用手册sqlmap一共5个级别，级别越高，检测越全面
-
-检测
-默认使用level1，检测全部数据库类型
-
- sqlmap -u “http://www.vuln.cn/post.php?id=1”
-
-
-只检测mysql
-
-sqlmap -u “http://www.vuln.cn/post.php?id=1”  –dbms mysql –level 3
-
-
-检测cookie(（只有level达到2才会检测cookie）)
-
- sqlmap -u “http://www.baidu.com/shownews.asp” –cookie “id=11” –level 2
-
-
-po...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/50844/">
             
                 <span>linux安全备忘录</span>
@@ -582,7 +499,7 @@ service msyql restart
     <article class="index-post">
         <a class="abstract-title" href="/posts/56136/">
             
-                <span>普通用户免密码切换到root</span>
+                <span>linux使用相关</span>
         </a>
         <div class="abstract-content">
             
@@ -720,6 +637,40 @@ docker仓库：
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/23527/">
+            
+                <span>phpinfo解读</span>
+        </a>
+        <div class="abstract-content">
+            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。— 来源于 @phith0n师傅
+版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
+ PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
+
+移除不支持SQL预编译的Mysql扩展：mysql 
+移除preg_replace中容易导致代码执行漏洞的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/9764/">
             
                 <span>rctf2018学习笔记</span>
@@ -751,23 +702,54 @@ r-cursive源代码:
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/23527/">
+        <a class="abstract-title" href="/posts/32791/">
             
-                <span>phpinfo解读</span>
+                <span>bypassaslr_return2plt</span>
         </a>
         <div class="abstract-content">
-            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。
-版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
- PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
+            绕过ASLR–return2plt编译代码
+源代码
 
-移除不支持SQL预编译的Mysql扩展：mysql 
-移除preg_replace中容易导致代码执行漏洞的正则模式：e 
-assert从一...
+12345678910111213141516#include&lt;stdio.h&gt;#include &lt;string.h&gt;/* Eventhough shell() function isnt invoked directly, its needed   here since 'system@PLT' and 'exit@PLT' stub code should be pres   ent in executable to successfully exploit it. */void shell() &#123...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/62655/">
+            
+                <span>cbc翻转</span>
+        </a>
+        <div class="abstract-content">
+            CBC翻转攻击参考链接:
+
+https://blog.csdn.net/csu_vc/article/details/79619309
+http://wooyun.jozxing.cc/static/drops/tips-7828.html
+
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/08</span>
             </div>
             <!-- tags  -->
             
@@ -783,7 +765,7 @@ assert从一...
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/page/6/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -2211,9 +2193,95 @@ assert从一...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -2243,17 +2311,27 @@ assert从一...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2278,11 +2356,6 @@ assert从一...
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -2332,11 +2405,6 @@ assert从一...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -2348,11 +2416,6 @@ assert从一...
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2427,12 +2490,12 @@ assert从一...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2512,11 +2575,6 @@ assert从一...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2547,12 +2605,12 @@ assert从一...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2572,12 +2630,12 @@ assert从一...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2655,23 +2713,23 @@ assert从一...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

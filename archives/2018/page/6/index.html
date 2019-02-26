@@ -341,138 +341,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/16486/">
-            
-                <span>web安全备忘录</span>
-        </a>
-        <div class="abstract-content">
-            dumpfile和outfile的区别SELECT into outfile: 导出到一个txt文件，可以导出每行记录的，这个很适合导库
-SELECT into dump: 只能导出一行数据
-如果想把一个可执行二进制文件用into outfile函数导出，导出后，文件会被破坏
-因为into outfile函数会在行末端写新行，更致使的是会转义换行符，这样2进制可执行文件就会被破坏
-这时，我们能用into dumpfile导出一个完整能执行的2进制文件，它不对任何列或行进行终止，也不执行任何转义处理
-总结：
-into outfile:导出内容
-into dumpfile:导出二进制文件
-....
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/22546/">
-            
-                <span>googlectf2018</span>
-        </a>
-        <div class="abstract-content">
-            Beginner’s Quest - MoarWhen we netcat to the server we can see man socat output only. But man allows us to execute commands. All we need to do is to type !command. Running !ls -la /home/moar reveals some secret file disable_dmz.sh. Let’s cat it.
-man命令允许执行命令
-12!ls /home/moardisable_dmz.sh
-12345Man...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/9490/">
-            
-                <span>linux常见文件的作用</span>
-        </a>
-        <div class="abstract-content">
-            linux常见文件的作用
-/proc/self/environ              读取环境变量
-该文件会保存http请求头，所以发送恶意User-aget,可以通过文件包含，包含该文件getshell
-
-/proc/net/arp                     读取arp
-判断当前局域网存活的主机
-
-/proc/self[pid]/cmdline              获得当前运行程序命令行参数
-
-/proc/net/dev                               网卡信息
-
-/sys/class/net/eth0/address      ma...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/24</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/32268/">
-            
-                <span>sctf2018</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="新的建议板"><a href="#新的建议板" class="headerlink" title="新的建议板"></a>新的建议板</h2>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/54865/">
             
                 <span>python多线程和lock和Rlock</span>
@@ -689,6 +557,208 @@ PHP绕过open_basedir列目录的研究
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/17498/">
+            
+                <span>mysql忘记密码/修改密码</span>
+        </a>
+        <div class="abstract-content">
+            
+关闭mysql
+
+service mysql stop
+
+
+无密码登录msyql
+
+mysqld_safe –skip-grant-tables &amp;  
+
+
+root连接mysql
+
+mysql -u root
+
+
+修改密码
+
+use mysql
+update user set password=PASSWORD(‘admin’) where User=’root’;  
+
+
+刷新权限
+
+flush privileges;
+
+
+重启mysql
+
+service msyql restart
+
+
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="mysql">mysql</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/56136/">
+            
+                <span>linux使用相关</span>
+        </a>
+        <div class="abstract-content">
+            
+sudo vim /etc/sudoers
+
+添加一行:
+
+tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
+
+
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/62889/">
+            
+                <span>docker使用手册</span>
+        </a>
+        <div class="abstract-content">
+            Docker命令
+列出所有镜像
+
+docker images -a
+
+
+构建镜像
+
+ docker build -t [镜像名称]   [Dockerfile所在目录]
+
+
+运行镜像
+
+docker run –name [容器名称(可选)] -d -p 80:8080 [镜像名称]
+
+
+查看镜像状态
+
+docker stats
+
+
+显示所有的容器，包括未运行的
+
+docker ps -a
+
+
+显示所有容器ID
+
+docker ps -a -q
+
+
+停止运行
+
+docker stop [容器名称]
+
+
+删除容器
+
+docker rm [容器名称]
+docker rm [容器ID]
+
+
+删除...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/26365/">
+            
+                <span>suctf2018</span>
+        </a>
+        <div class="abstract-content">
+            SUCTF2018赛后总结
+docker仓库：
+12345678910111213141516suctf/2018-web-multi_sqlsuctf/2018-web-homeworksuctf/2018-web-hateitsuctf/2018-web-getshellsuctf/2018-web-annonymoussuctf/2018-pwn-notesuctf/2018-pwn-noendsuctf/2018-pwn-lock2suctf/2018-pwn-heapprintsuctf/2018-pwn-heapsuctf/2018-misc-paddingsuctf/201...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/28</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
     
 </div>
             
@@ -2042,9 +2112,95 @@ PHP绕过open_basedir列目录的研究
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -2074,17 +2230,27 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2109,11 +2275,6 @@ PHP绕过open_basedir列目录的研究
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -2163,11 +2324,6 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -2179,11 +2335,6 @@ PHP绕过open_basedir列目录的研究
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2258,12 +2409,12 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2343,11 +2494,6 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2378,12 +2524,12 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2403,12 +2549,12 @@ PHP绕过open_basedir列目录的研究
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2486,23 +2632,23 @@ PHP绕过open_basedir列目录的研究
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

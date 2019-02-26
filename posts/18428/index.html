@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">237</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">567</span> / Reading time: <span class="post-count">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -396,7 +396,7 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="lnmp"><a href="#lnmp" class="headerlink" title="lnmp"></a>lnmp</h1><ul>
+        <h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h1><h2 id="lnmp"><a href="#lnmp" class="headerlink" title="lnmp"></a>lnmp</h2><ul>
 <li><p>安装nginx</p>
 <blockquote>
 <p>sudo apt-get install nginx</p>
@@ -424,7 +424,7 @@
 </blockquote>
 </li>
 </ul>
-<h1 id="lamp"><a href="#lamp" class="headerlink" title="lamp"></a>lamp</h1><ul>
+<h2 id="lamp"><a href="#lamp" class="headerlink" title="lamp"></a>lamp</h2><ul>
 <li><p>安装apapche</p>
 <blockquote>
 <p>sudo apt-get install apache</p>
@@ -441,9 +441,53 @@
 </blockquote>
 </li>
 </ul>
-<h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><h2 id="卸载nginx"><a href="#卸载nginx" class="headerlink" title="卸载nginx"></a>卸载nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove nginx-*</span><br><span class="line">sudo apt-get purge nginx-*</span><br><span class="line"># 删除旧文件目录</span><br><span class="line">sudo find /etc -name &quot;*nginx*&quot; |xargs  rm -rf</span><br></pre></td></tr></table></figure>
-<h2 id="卸载php"><a href="#卸载php" class="headerlink" title="卸载php"></a>卸载php</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove php7.0*</span><br><span class="line">(或者 sudo apt-get --purge remove php5* libapache2-mod-php5)</span><br><span class="line">sudo apt-get autoremove php7.0*(php5)</span><br></pre></td></tr></table></figure>
-<h2 id="卸载mysql"><a href="#卸载mysql" class="headerlink" title="卸载mysql"></a>卸载mysql</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove mysql*</span><br><span class="line">sudo apt-get autoremove mysql*</span><br><span class="line"></span><br><span class="line">## 最后清理残留文件：</span><br><span class="line">dpkg -l |grep ^rc|awk &apos;&#123;print $2&#125;&apos; |sudo xargs dpkg -P</span><br></pre></td></tr></table></figure>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="卸载nginx"><a href="#卸载nginx" class="headerlink" title="卸载nginx"></a>卸载nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove nginx-*</span><br><span class="line">sudo apt-get purge nginx-*</span><br><span class="line"># 删除旧文件目录</span><br><span class="line">sudo find /etc -name &quot;*nginx*&quot; |xargs  rm -rf</span><br></pre></td></tr></table></figure>
+<h3 id="卸载php"><a href="#卸载php" class="headerlink" title="卸载php"></a>卸载php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove php7.0*</span><br><span class="line">(或者 sudo apt-get --purge remove php5* libapache2-mod-php5)</span><br><span class="line">sudo apt-get autoremove php7.0*(php5)</span><br></pre></td></tr></table></figure>
+<h3 id="卸载mysql"><a href="#卸载mysql" class="headerlink" title="卸载mysql"></a>卸载mysql</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get --purge remove mysql*</span><br><span class="line">sudo apt-get autoremove mysql*</span><br><span class="line"></span><br><span class="line">## 最后清理残留文件：</span><br><span class="line">dpkg -l |grep ^rc|awk &apos;&#123;print $2&#125;&apos; |sudo xargs dpkg -P</span><br></pre></td></tr></table></figure>
+<h1 id="Centos"><a href="#Centos" class="headerlink" title="Centos"></a>Centos</h1><p>迷你版centos安装后配置:</p>
+<h3 id="激活网卡"><a href="#激活网卡" class="headerlink" title="激活网卡"></a>激活网卡</h3><p>解决ifconfig不可用：ip addr 即查看分配网卡情况。 </p>
+<p>激活网卡：在文件 /etc/sysconfig/network-scripts/ifcfg-***中</p>
+<p>进入编辑模式，将 ONBOOT=no 改为 ONBOOT=yes，就OK</p>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>关闭防火墙:</p>
+<p><code>systemctl stop firewalld</code></p>
+<p>临时打开防火墙:</p>
+<p><code>systemctl start firewalld</code></p>
+<p>防火墙开启不自启动:</p>
+<p><code>systemctl disable firewalld</code></p>
+<p>防火墙开启自启动:</p>
+<p><code>systemctl enable firewalld</code></p>
+<p>查看防火墙状态</p>
+<p><code>systemctl status firewalld</code></p>
+<p>临时关闭SELinux</p>
+<p><code>setenforce 0</code></p>
+<p>临时打开SELinux</p>
+<p><code>setenforce 1</code></p>
+<p>开机关闭SELinux</p>
+<p>编辑/etc/selinux/config文件，将SELINUX的值设置为disabled。下次开机SELinux就不会启动了。</p>
+<h3 id="安装mariadb"><a href="#安装mariadb" class="headerlink" title="安装mariadb"></a>安装mariadb</h3><p>下载mysql源安装包</p>
+<p><code>wget http://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</code></p>
+<p>安装MySql源</p>
+<p><code>yum -y install mysql57-community-release-el7-11.noarch.rpm</code></p>
+<p>查看安装效果</p>
+<p><code>yum repolist enabled | grep mysql.*</code></p>
+<p>安装mysql:</p>
+<p><code>yum install mysql-community-server</code></p>
+<p>启动mysql:</p>
+<p><code>systemctl start  mysqld.service</code></p>
+<p>查看运行状态：</p>
+<p><code>systemctl status mysqld.service</code></p>
+<p>查看初始化数据库密码:</p>
+<p><code>grep &quot;password&quot; /var/log/mysqld.log</code></p>
+<p>修改密码:</p>
+<p><code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;****************&#39;;</code></p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.</span><br></pre></td></tr></table></figure>
+<p>可能是密码太弱，要是想使用弱密码，可以降低密码策略。</p>
+<p><code>set global validate_password_policy=0;</code></p>
+<p>在修改密码即可。</p>
+<p>设置可远程访问：</p>
+<p><code>grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;[密码]&#39; with grant option;</code></p>
+
     </article>
     <!-- license  -->
     
@@ -581,7 +625,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lnmp"><span class="toc-number">1.</span> <span class="toc-text">lnmp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lamp"><span class="toc-number">2.</span> <span class="toc-text">lamp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卸载"><span class="toc-number">3.</span> <span class="toc-text">卸载</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载nginx"><span class="toc-number">3.1.</span> <span class="toc-text">卸载nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载php"><span class="toc-number">3.2.</span> <span class="toc-text">卸载php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载mysql"><span class="toc-number">3.3.</span> <span class="toc-text">卸载mysql</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu"><span class="toc-number">1.</span> <span class="toc-text">ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#lnmp"><span class="toc-number">1.1.</span> <span class="toc-text">lnmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lamp"><span class="toc-number">1.2.</span> <span class="toc-text">lamp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-number">1.3.</span> <span class="toc-text">卸载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载nginx"><span class="toc-number">1.3.1.</span> <span class="toc-text">卸载nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载php"><span class="toc-number">1.3.2.</span> <span class="toc-text">卸载php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载mysql"><span class="toc-number">1.3.3.</span> <span class="toc-text">卸载mysql</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Centos"><span class="toc-number">2.</span> <span class="toc-text">Centos</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#激活网卡"><span class="toc-number">2.0.1.</span> <span class="toc-text">激活网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防火墙"><span class="toc-number">2.0.2.</span> <span class="toc-text">防火墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装mariadb"><span class="toc-number">2.0.3.</span> <span class="toc-text">安装mariadb</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1851,9 +1895,95 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -1883,17 +2013,27 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -1918,11 +2058,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -1972,11 +2107,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -1988,11 +2118,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2067,12 +2192,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2152,11 +2277,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2187,12 +2307,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2212,12 +2332,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2295,23 +2415,23 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

