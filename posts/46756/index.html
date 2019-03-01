@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">17,624</span> / Reading time: <span class="post-count">70 min</span></span>
+                        <span>Word count: <span class="post-count">17,948</span> / Reading time: <span class="post-count">71 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -431,9 +431,9 @@
 <p><strong>Note: x86 系统中自增的是 IP，用 CS:IP 组合表示正在执行的指令地址，此时 PC 只是一个概念上的说法。在 ARM 体系中 R15 就是 PC，当然 ARM 和 IA-32、x64 都支持高级内存管理，所以「PC」的内容未必是当前指令在内存中的绝对位置。</strong></p>
 <h4 id="操作系统管理的任务"><a href="#操作系统管理的任务" class="headerlink" title="操作系统管理的任务"></a>操作系统管理的任务</h4><p>任务就是进程，或者说任务就是线程。是的，进程和线程正是最常见的任务。但是除此之外，还有没有其他的任务呢？硬件通过触发信号，会导致中断处理程序的调用，也是一种常见的任务。</p>
 <h4 id="CPU上下文切换-1"><a href="#CPU上下文切换-1" class="headerlink" title="CPU上下文切换"></a>CPU上下文切换</h4><p>先把前一个任务的CPU上下文（也就是CPU寄存器和程序计数器）保存起来，然后加载新任务的上下文到这些寄存器和程序计数器，最后在跳转到程序计数器所指的新闻纸，运行新任务。<em>可参考SROP-study深入理解。</em></p>
-<p>根据操作系统管理的任务不同，CPU的上下文切换可以分布两个不同的场景，也就是<strong>进程上下文切换、线程上下文切换、以及中断上下文切换</strong></p>
+<p>根据操作系统管理的任务不同，CPU的上下文切换可以分布三个不同的场景，也就是<strong>进程上下文切换、线程上下文切换、以及中断上下文切换</strong></p>
 <h3 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h3><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识:"></a>前置知识:</h4><p>Linux 按照特权等级，把进程的运行空间分为内核空间和用户空间， CPU 特权等级的 Ring 0 和 Ring 3。Ring0权限最高，Ring3最小，只能访问受限资源，不能访问内存等硬件设备，必须通过系统调用陷入内核中，才能访问特权资源。</p>
-<p>进程既会在用户空间运行，也会在内核空间运行。进程在用户控件运行时，被称为进程的用户态，陷入内核空间时，成为进程的内核态。</p>
+<p>进程既会在用户空间运行，也会在内核空间运行。进程在用户空间运行时，被称为进程的用户态，陷入内核空间时，成为进程的内核态。</p>
 <p>从用户态到内核态的转变，需要系统调用来完成，查看文件就需要多次系统调用，1. 调用open() 打开文件 2.调用read()读取文件，并调用write()将内容写入到标准输出 3.调用close()关闭文件。</p>
 <p>系统调用时，会发生CPU上下文切换。系统调用开始，保存当前用户态上下文，然后更新为内核态指令的新位置，最后跳转到内核态运行内核任务，系统调用后，则反之。所以，一次系统调用，发生两次CPU上下文切换。</p>
 <p>注意:</p>
@@ -477,7 +477,7 @@
 </ul>
 <p><strong>Note: 虽然同为上下文切换，但同进程内的线程切换，要比多进程间的切换消耗更少的资源，而这，也正是多线程代替多进程的一个优势。</strong></p>
 <h3 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h3><p>中断处理会打断进程的正常调度和执行,来快速响应硬件的事件，转而调用中断处理程序，响应设备事件。</p>
-<p>跟进程上下文不同，中断上下文切换并不涉及到进程的用户态。所以，即便中断过程打断了一个正处在用户态的进程，也不需要保存和恢复这个进程的虚拟内存、全局变量等用户态资源。中断上下文，其实只包括内核态中断服务程序执行所必需的状态，包括 CPU 寄存器、内核堆栈、硬件中断参数等。</p>
+<p>跟进程上下文不同，中断上下文切换并不涉及到进程的用户态。所以，即便中断过程打断了一个正处在用户态的进程，也不需要保存和恢复这个进程的虚拟内存、全局变量等用户态资源。中断上下文，其实只包括内核态中断服务程序执行所必需的状态，包括 CPU 寄存器、内核堆栈、硬件中断参数   等。</p>
 <p>对同一个 CPU 来说，中断处理比进程拥有更高的优先级，所以中断上下文切换并不会与进程上下文切换同时发生。同样道理，由于中断会打断正常进程的调度和执行，所以大部分中断处理程序都短小精悍，以便尽可能快的执行结束。</p>
 <h2 id="如何查看CPU上下文切换状况"><a href="#如何查看CPU上下文切换状况" class="headerlink" title="如何查看CPU上下文切换状况"></a>如何查看CPU上下文切换状况</h2><h3 id="工具"><a href="#工具" class="headerlink" title="工具:"></a>工具:</h3><h4 id="vmstat："><a href="#vmstat：" class="headerlink" title="vmstat："></a>vmstat：</h4><p>用于分析系统内存的使用情况，也用来分析CPU上下文切换和终端次数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tiandiwuji@tiandiwuji:~$ vmstat</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 0  0      0 1736052 114604 1011184    0    0    46    23   34   48  0  0 98  1  0</span><br></pre></td></tr></table></figure>
@@ -927,9 +927,22 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Total DISK READ :       0.00 B/s | Total DISK WRITE :      42.37 K/s</span><br><span class="line">Actual DISK READ:       0.00 B/s | Actual DISK WRITE:      61.63 K/s</span><br><span class="line">   TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND                                                                                                                                     </span><br><span class="line">   335 be/3 root        0.00 B/s   42.37 K/s  0.00 %  0.06 % [jbd2/sda1-8]</span><br><span class="line">     1 be/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % init splash</span><br><span class="line">     2 be/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [kthreadd]</span><br><span class="line">     4 be/0 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [kworker/0:0H]</span><br><span class="line">     6 be/0 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [mm_percpu_wq]</span><br><span class="line">     7 be/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [ksoftirqd/0]</span><br><span class="line">     8 be/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [rcu_sched]</span><br><span class="line">     9 be/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [rcu_bh]</span><br><span class="line">    10 rt/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [migration/0]</span><br><span class="line">    11 rt/4 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [watchdog/0]</span><br></pre></td></tr></table></figure>
 <p>从这个输出，前两行分别表示，进程的磁盘读写大小总数和磁盘真实的读写大小总数。因为缓存、缓冲区、I/O 合并等因素的影响，它们可能并不相等。</p>
 <p>剩下的部分，则是从各个角度来分别表示进程的 I/O 情况，包括线程 ID、I/O 优先级、每秒读磁盘的大小、每秒写磁盘的大小、换入和等待 I/O 的时钟百分比等。</p>
-<h2 id="如何找出狂打日志的“内鬼”"><a href="#如何找出狂打日志的“内鬼”" class="headerlink" title="如何找出狂打日志的“内鬼”"></a>如何找出狂打日志的“内鬼”</h2><h2 id="为什么磁盘I-O延迟很高"><a href="#为什么磁盘I-O延迟很高" class="headerlink" title="为什么磁盘I/O延迟很高"></a>为什么磁盘I/O延迟很高</h2><h2 id="一个SQL查询需要15秒？"><a href="#一个SQL查询需要15秒？" class="headerlink" title="一个SQL查询需要15秒？"></a>一个SQL查询需要15秒？</h2><h2 id="Redis响应严重延迟"><a href="#Redis响应严重延迟" class="headerlink" title="Redis响应严重延迟"></a>Redis响应严重延迟</h2></li>
+<h2 id="如何找出狂打日志的“内鬼”"><a href="#如何找出狂打日志的“内鬼”" class="headerlink" title="如何找出狂打日志的“内鬼”"></a>如何找出狂打日志的“内鬼”</h2><ol>
+<li>top观察cpu和内存的使用情况</li>
+<li>iostat 查看I/O使用情况</li>
+<li>pidstat -d 1 查看每个进程的I/O使用情况</li>
+<li>strace -p pid 查看系统调用</li>
+<li>lsof -p pid 查看进程打开了那些文件，包括目录，块设备，动态库，网络套接字等</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">import string</span><br><span class="line">import signal</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">from logging.handlers import RotatingFileHandler</span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line">logger.setLevel(level=logging.INFO)</span><br><span class="line">rHandler = RotatingFileHandler(</span><br><span class="line">    &quot;/tmp/logtest.txt&quot;, maxBytes=1024 * 1024 * 1024, backupCount=1)</span><br><span class="line">rHandler.setLevel(logging.INFO)</span><br><span class="line">formatter = logging.Formatter(</span><br><span class="line">    &apos;%(asctime)s - %(name)s - %(levelname)s - %(message)s&apos;)</span><br><span class="line">rHandler.setFormatter(formatter)</span><br><span class="line">logger.addHandler(rHandler)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def set_logging_info(signal_num, frame):</span><br><span class="line">    &apos;&apos;&apos;Set loging level to INFO when receives SIGUSR1&apos;&apos;&apos;</span><br><span class="line">    logger.setLevel(logging.INFO)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def set_logging_warning(signal_num, frame):</span><br><span class="line">    &apos;&apos;&apos;Set loging level to WARNING when receives SIGUSR2&apos;&apos;&apos;</span><br><span class="line">    logger.setLevel(logging.WARNING)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_message(N):</span><br><span class="line">    &apos;&apos;&apos;Get message for logging&apos;&apos;&apos;</span><br><span class="line">    return N * &apos;&apos;.join(</span><br><span class="line">        random.choices(string.ascii_uppercase + string.digits, k=1))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def write_log(size):</span><br><span class="line">    &apos;&apos;&apos;Write logs to file&apos;&apos;&apos;</span><br><span class="line">    message = get_message(size)</span><br><span class="line">    while True:</span><br><span class="line">        logger.info(message)</span><br><span class="line">        time.sleep(0.1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">signal.signal(signal.SIGUSR1, set_logging_info)</span><br><span class="line">signal.signal(signal.SIGUSR2, set_logging_warning)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    msg_size = 300 * 1024 * 1024</span><br><span class="line">    write_log(msg_size)</span><br></pre></td></tr></table></figure>
+<p>该程序可以调整日志级别，发送-SIGUSR2信号即可。</p>
+<p><code>kill -SIGUSR2 pid</code></p>
+<h2 id="为什么磁盘I-O延迟很高"><a href="#为什么磁盘I-O延迟很高" class="headerlink" title="为什么磁盘I/O延迟很高"></a>为什么磁盘I/O延迟很高</h2><p>filetop： 跟踪内核中文件的读写情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/share/bcc/tools</span><br><span class="line">./filetop -C</span><br></pre></td></tr></table></figure>
+<p>opensnoop: 动态跟踪内核中的open系统调用</p>
+<h2 id="一个SQL查询需要15秒？"><a href="#一个SQL查询需要15秒？" class="headerlink" title="一个SQL查询需要15秒？"></a>一个SQL查询需要15秒？</h2></li>
 </ul>
-
+<h2 id="Redis响应严重延迟"><a href="#Redis响应严重延迟" class="headerlink" title="Redis响应严重延迟"></a>Redis响应严重延迟</h2>
     </article>
     <!-- license  -->
     
@@ -2365,6 +2378,44 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 79
@@ -2412,12 +2463,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2516,12 +2567,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2805,17 +2856,17 @@
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     

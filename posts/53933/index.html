@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">890</span> / Reading time: <span class="post-count">5 min</span></span>
+                        <span>Word count: <span class="post-count">1,321</span> / Reading time: <span class="post-count">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -406,6 +406,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;assert.h&gt;</span><br><span class="line"></span><br><span class="line">void ReplaceBlank(char str[], int length, int limit);</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">	char str[50];</span><br><span class="line">	printf(&quot;请输入一个字符串:&quot;);</span><br><span class="line">	gets(str);</span><br><span class="line">	printf(&quot;字符串: %s\n&quot;, str);</span><br><span class="line">	int length = 0;</span><br><span class="line">	length = strlen(str);</span><br><span class="line">	printf(&quot;长度为:%d&quot;, length);</span><br><span class="line">	ReplaceBlank(str, length, 50);</span><br><span class="line">	printf(&quot;转换后的字符串:%s&quot;, str);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void ReplaceBlank(char str[], int length, int limit) &#123;</span><br><span class="line">	if(length == 0) &#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line">	int blanknumber = 0;</span><br><span class="line">	for(int i = 0; i&lt; length; i++) &#123;</span><br><span class="line">		if(str[i] == 32) &#123;</span><br><span class="line">			blanknumber++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	int replaceStrLength = length + blanknumber * 2;</span><br><span class="line">	if(replaceStrLength &gt;= 50) &#123;</span><br><span class="line">		printf(&quot;超出范围&quot;);</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line">	str[replaceStrLength] = &apos;\0&apos;;</span><br><span class="line">	for(int i = length - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">		if(str[i] == 32) &#123;</span><br><span class="line">			str[replaceStrLength - 3] = &apos;%&apos;;</span><br><span class="line">			str[replaceStrLength - 2] = &apos;2&apos;;</span><br><span class="line">			str[replaceStrLength - 1] = &apos;0&apos;;</span><br><span class="line">			replaceStrLength -= 3;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			str[replaceStrLength - 1] = str[i];</span><br><span class="line">			replaceStrLength -= 1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>链表:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//从尾到头打印链表</span><br><span class="line">//使用递归，容易出现堆栈溢出</span><br><span class="line">//使用栈</span><br><span class="line">void PrintListReversingly_Iteratively(ListNode *pHead) &#123;</span><br><span class="line">    int result[20] = &#123;0&#125;;</span><br><span class="line">    ListNode *pNode = pHead;</span><br><span class="line">    int length = 0;</span><br><span class="line">    while(pNode != NULL) &#123;</span><br><span class="line">        result[length] = pNode-&gt;m_nValue;</span><br><span class="line">        length++;</span><br><span class="line">        pNode = pNode-&gt;m_pNext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for(int i = length - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">        printf(&quot;%d\t&quot;, result[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//</span><br><span class="line">//void Recursively(ListNode *pHead) &#123;</span><br><span class="line">//    if(pHead != NULL) &#123;</span><br><span class="line">//        if(pHead-&gt;m_pNext != NULL) &#123;</span><br><span class="line">//            Recursively(pHead-&gt;m_pNext);</span><br><span class="line">//        &#125;</span><br><span class="line">//</span><br><span class="line">//        printf(&quot;%d\t&quot;, pHead-&gt;m_nValue);</span><br><span class="line">//    &#125;</span><br><span class="line">//&#125;</span><br></pre></td></tr></table></figure>
+<p>树：</p>
+<p>二叉搜索树: 左子节点总是小于或者等于根结点，二右子节点总是大于或者等于根结点。T： O(logn)</p>
+<p>堆: 最大堆和最小堆，最大堆中根结点的值最大，最小堆中根结点的值最小，很多需要快速找到最大值或者最小值的问题可以用堆来解决。</p>
+<p>红黑树: 把树中的节点定义为红黑两种颜色，并通过规则确保从根结点到叶节点的最长路径的长度不超过最短路径的两倍。</p>
+<h2 id="重建二叉树"><a href="#重建二叉树" class="headerlink" title="重建二叉树"></a>重建二叉树</h2><p>输入某二叉树的前序遍历和中序遍历的结果，重建出二叉树，假设两种遍历结果中都不含重复的数字（方便确定根结点在中序中的位置）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">BinaryTreeNode *Construct(int *preorder, int *inorder, int length) &#123;</span><br><span class="line">    if(preorder == NULL || inorder == NULL || length &lt;= 0) &#123;</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return ConstructCore(preorder, preorder + length - 1, inorder, inorder + length - 1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BinaryTreeNode *ConstructCore(int * startPreorder, int *endPreorder, int *startInorder, int * endInorder) &#123;</span><br><span class="line">//    前序遍历第一个值就是根结点的值</span><br><span class="line">    int rootValue = startInorder[0];</span><br><span class="line">    BinaryTreeNode *root = new BinaryTreeNode();</span><br><span class="line">    root-&gt;m_nValue = rootValue;</span><br><span class="line">    root-&gt;m_pLeft = root-&gt;m_pRight = NULL;</span><br><span class="line"></span><br><span class="line">    if(startPreorder == endPreorder) &#123;</span><br><span class="line">        if(startInorder == endInorder &amp;&amp; *startPreorder == *startInorder) &#123;</span><br><span class="line">            return root;</span><br><span class="line">        &#125; else&#123;</span><br><span class="line">//            输入有问题</span><br><span class="line">            return NULL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">//    在中序遍历中找到根结点的值</span><br><span class="line">    int * rootInorder = startInorder;</span><br><span class="line">    while(rootInorder &lt;= endInorder &amp;&amp; *rootInorder != rootValue) &#123;</span><br><span class="line">        ++rootInorder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(rootInorder == endInorder &amp;&amp; *rootInorder != rootValue) &#123;</span><br><span class="line">//        输入有误</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">//    获取左子树的长度</span><br><span class="line">    int leftLength = rootInorder - startInorder;</span><br><span class="line">    int *leftPreorderEnd = startPreorder + leftLength;</span><br><span class="line"></span><br><span class="line">    if(leftLength &gt; 0) &#123;</span><br><span class="line">//        构建左子树</span><br><span class="line">        root-&gt;m_pLeft = ConstructCore(startPreorder + 1, leftPreorderEnd, startInorder, rootInorder - 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(leftLength &lt; endPreorder - startPreorder) &#123;</span><br><span class="line">//        构建右子树</span><br><span class="line">        root-&gt;m_pRight = ConstructCore(leftPreorderEnd + 1, endPreorder, rootInorder + 1, endInorder);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return root;             </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -544,7 +550,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#T：-时间复杂度-S：空间复杂度"><span class="toc-number">1.</span> <span class="toc-text">T： 时间复杂度                  S：空间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n个数，大小0-n-1-，判断是否有重复"><span class="toc-number">1.1.</span> <span class="toc-text">n个数，大小0-(n-1)，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n-1个数，大小1-n，判断是否有重复"><span class="toc-number">1.2.</span> <span class="toc-text">n+1个数，大小1-n，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将空格替换为-20"><span class="toc-number">1.3.</span> <span class="toc-text">将空格替换为%20</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#T：-时间复杂度-S：空间复杂度"><span class="toc-number">1.</span> <span class="toc-text">T： 时间复杂度                  S：空间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n个数，大小0-n-1-，判断是否有重复"><span class="toc-number">1.1.</span> <span class="toc-text">n个数，大小0-(n-1)，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n-1个数，大小1-n，判断是否有重复"><span class="toc-number">1.2.</span> <span class="toc-text">n+1个数，大小1-n，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将空格替换为-20"><span class="toc-number">1.3.</span> <span class="toc-text">将空格替换为%20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重建二叉树"><span class="toc-number">1.4.</span> <span class="toc-text">重建二叉树</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -557,6 +563,44 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1889,12 +1933,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -1993,12 +2037,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2282,17 +2326,17 @@
     
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
