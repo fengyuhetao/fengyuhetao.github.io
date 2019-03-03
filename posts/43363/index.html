@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">19,210</span> / Reading time: <span class="post-count">69 min</span></span>
+                        <span>Word count: <span class="post-count">21,985</span> / Reading time: <span class="post-count">79 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -803,6 +803,13 @@
 <li>消息缓冲</li>
 </ul>
 <p>RabbitMQ是 <strong>消息投递服务</strong>，在应用程序和服务器之间扮演路由器的角色，而应用程序或服务器可以发送和接收包裹。其通信方式是一种 “<strong>发后即忘（fire-and-forget）</strong>” 的单向方式。</p>
+<h2 id="9-消息丢失怎么办？"><a href="#9-消息丢失怎么办？" class="headerlink" title="9.消息丢失怎么办？"></a>9.消息丢失怎么办？</h2><p>就是 RabbitMQ 自己弄丢了数据，这个你必须开启 RabbitMQ 的持久化，就是消息写入之后会持久化到磁盘，哪怕是 RabbitMQ 自己挂了，恢复之后会自动读取之前存储的数据，一般数据不会丢。除非极其罕见的是，RabbitMQ 还没持久化，自己就挂了，可能导致少量数据丢失，但是这个概率较小。</p>
+<p>设置持久化有两个步骤：</p>
+<p>创建 queue 的时候将其设置为持久化</p>
+<p>这样就可以保证 RabbitMQ 持久化 queue 的元数据，但是它是不会持久化 queue 里的数据的。<br>第二个是发送消息的时候将消息的 deliveryMode 设置为 2</p>
+<p>就是将消息设置为持久化的，此时 RabbitMQ 就会将消息持久化到磁盘上去。<br>必须要同时设置这两个持久化才行，RabbitMQ 哪怕是挂了，再次重启，也会从磁盘上重启恢复 queue，恢复这个 queue 里的数据。</p>
+<p>注意，哪怕是你给 RabbitMQ 开启了持久化机制，也有一种可能，就是这个消息写到了 RabbitMQ 中，但是还没来得及持久化到磁盘上，结果不巧，此时 RabbitMQ 挂了，就会导致内存里的一点点数据丢失。</p>
+<p>所以，持久化可以跟生产者那边的 confirm 机制配合起来，只有消息被持久化到磁盘之后，才会通知生产者 ack 了，所以哪怕是在持久化到磁盘之前，RabbitMQ 挂了，数据丢了，生产者收不到 ack，你也是可以自己重发的。</p>
 <h1 id="REDIS"><a href="#REDIS" class="headerlink" title="REDIS"></a>REDIS</h1><ol>
 <li><p>使用redis有哪些好处？ 　　</p>
 <p>(1) 速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)<br>(2) 支持丰富数据类型，支持string，list，set，sorted set，hash<br>(3) 支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行<br>(4) 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
@@ -943,6 +950,60 @@
 <h2 id="假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><a href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？" class="headerlink" title="假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"></a>假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</h2><p>使用keys指令可以扫出指定模式的key列表。</p>
 <p>对方接着追问：如果这个redis正在给线上的业务提供服务，那使用keys指令会有什么问题？</p>
 <p>这个时候你要回答redis关键的一个特性：redis的单线程的。keys指令会导致线程阻塞一段时间，线上服务会停顿，直到指令执行完毕，服务才能恢复。这个时候可以使用scan指令，scan指令可以无阻塞的提取出指定模式的key列表，但是会有一定的重复概率，在客户端做一次去重就可以了，但是整体所花费的时间会比直接用keys指令长。</p>
+<h1 id="Java提供了哪些IO方式？-NIO如何实现多路复用？"><a href="#Java提供了哪些IO方式？-NIO如何实现多路复用？" class="headerlink" title="Java提供了哪些IO方式？ NIO如何实现多路复用？"></a>Java提供了哪些IO方式？ NIO如何实现多路复用？</h1><p>Java IO 方式有很多种，基于不同的 IO 抽象模型和交互方式，可以进行简单区分。</p>
+<p>首先，传统的 java.io 包，它基于流模型实现，提供了我们最熟知的一些 IO 功能，比如 File 抽象、输入输出流等。交互方式是同步、阻塞的方式，也就是说，在读取输入流或者写入输出流时，在读、写动作完成之前，线程会一直阻塞在那里，它们之间的调用是可靠的线性顺序。</p>
+<p>java.io 包的好处是代码比较简单、直观，缺点则是 IO 效率和扩展性存在局限性，容易成为应用性能的瓶颈。</p>
+<p>很多时候，人们也把 java.net 下面提供的部分网络 API，比如 Socket、ServerSocket、HttpURLConnection 也归类到同步阻塞 IO 类库，因为网络通信同样是 IO 行为。</p>
+<p>第二，在 Java  1.4 中引入了 NIO 框架（java.nio 包），提供了 Channel、Selector、Buffer 等新的抽象，可以构建多路复用的、同步非阻塞 IO 程序，同时提供了更接近操作系统底层的高性能数据操作方式。</p>
+<p>第三，在 Java 7 中，NIO 有了进一步的改进，也就是 NIO 2，引入了异步非阻塞 IO 方式，也有很多人叫它 AIO（Asynchronous IO）。异步 IO 操作基于事件和回调机制，可以简单理解为，应用操作直接返回，而不会阻塞在那里，当后台处理完成，操作系统会通知相应线程进行后续工作。 </p>
+<h1 id="JAVA内存模型"><a href="#JAVA内存模型" class="headerlink" title="JAVA内存模型"></a>JAVA内存模型</h1><p>讲得非常详细：<a href="https://mp.weixin.qq.com/s/A_NgMZQeIf3_lU7AdimzYQ" rel="external nofollow" target="_blank">https://mp.weixin.qq.com/s/A_NgMZQeIf3_lU7AdimzYQ</a></p>
+<p>JMM具备一些先天的有序性,即不需要通过任何手段就可以保证的有序性，通常称为happens-before原则。&lt;&lt;JSR-133：Java Memory Model and Thread Specification&gt;&gt;定义了如下happens-before规则：</p>
+<p>1.程序顺序规则： 一个线程中的每个操作，happens-before于该线程中的任意后续操作</p>
+<p>2.监视器锁规则：对一个线程的解锁，happens-before于随后对这个线程的加锁</p>
+<p>3.volatile变量规则： 对一个volatile域的写，happens-before于后续对这个volatile域的读</p>
+<p>4.传递性：如果A happens-before B ,且 B happens-before C, 那么 A happens-before C</p>
+<p>5.start()规则： 如果线程A执行操作ThreadB_start()(启动线程B) , 那么A线程的ThreadB_start()happens-before 于B中的任意操作</p>
+<p>6.join()原则： 如果A执行ThreadB.join()并且成功返回，那么线程B中的任意操作happens-before于线程A从ThreadB.join()操作成功返回。</p>
+<p>7.interrupt()原则： 对线程interrupt()方法的调用先行发生于被中断线程代码检测到中断事件的发生，可以通过Thread.interrupted()方法检测是否有中断发生</p>
+<p>8.finalize()原则：一个对象的初始化完成先行发生于它的finalize()方法的开始</p>
+<p>第1条规则程序顺序规则是说在一个线程里，所有的操作都是按顺序的，但是在JMM里其实只要执行结果一样，是允许重排序的，这边的happens-before强调的重点也是单线程执行结果的正确性，但是无法保证多线程也是如此。</p>
+<p>第2条规则监视器规则其实也好理解，就是在加锁之前，确定这个锁之前已经被释放了，才能继续加锁。</p>
+<p>第3条规则，就适用到所讨论的volatile，如果一个线程先去写一个变量，另外一个线程再去读，那么写入操作一定在读操作之前。</p>
+<p>第4条规则，就是happens-before的传递性。</p>
+<h1 id="Synchronized底层实现"><a href="#Synchronized底层实现" class="headerlink" title="Synchronized底层实现"></a>Synchronized底层实现</h1><p><strong>先看着，面试完了，动手实践一下</strong></p>
+<p><a href="https://mp.weixin.qq.com/s/twINQA2k8OeaEmWjADiUmQ" rel="external nofollow" target="_blank">https://mp.weixin.qq.com/s/twINQA2k8OeaEmWjADiUmQ</a></p>
+<p>传统的锁（也就是下文要说的重量级锁）依赖于系统的同步函数，在linux上使用mutex互斥锁，最底层实现依赖于futex，这些同步函数都涉及到用户态和内核态的切换、进程的上下文切换，成本较高。对于加了synchronized关键字但运行时并没有多线程竞争，或两个线程接近于交替执行的情况，使用传统锁机制无疑效率是会比较低的。</p>
+<p>延伸：</p>
+<p>​    Linux内核互斥锁-mutex<a href="https://www.cnblogs.com/huangchaosong/p/7127532.html" rel="external nofollow" target="_blank">Linux内核互斥锁–mutex</a></p>
+<p>​    <a href="https://blog.csdn.net/jianchaolv/article/details/7544316" rel="external nofollow" target="_blank">Linux Futex的设计与实现</a> 感觉相当复杂</p>
+<p>​    Futex是一种用户态和内核态混合的同步机制。首先，同步的进程间通过mmap共享一段内存，futex变量就            位于这段共享 的内存中且操作是原子的，当进程尝试进入互斥区或者退出互斥区的时候，先去查看共享内存中的futex变量，如果没有竞争发生，则只修改futex,而不 用再执行系统调用了。当通过访问futex变量告诉进程有竞争发生，则还是得执行系统调用去完成相应的处理(wait 或者 wake up)。简单的说，futex就是通过在用户态的检查，（motivation）如果了解到没有竞争就不用陷入内核了，大大提高了low-contention时候的效率。 Linux从2.5.7开始支持Futex。</p>
+<p>在JDK 1.6之前,synchronized只有传统的锁机制，因此给开发者留下了synchronized关键字相比于其他同步机制性能不好的印象。</p>
+<p>在JDK 1.6引入了两种新型锁机制：偏向锁和轻量级锁，它们的引入是为了解决在没有多线程竞争或基本没有竞争的场景下因使用传统锁机制带来的性能开销问题。</p>
+<h1 id="Java并发编程：线程池的使用"><a href="#Java并发编程：线程池的使用" class="headerlink" title="Java并发编程：线程池的使用"></a><a href="https://www.cnblogs.com/dolphin0520/p/3932921.html" rel="external nofollow" target="_blank">Java并发编程：线程池的使用</a></h1><p>　   如果并发的线程数量很多，并且每个线程都是执行一个时间很短的任务就结束了，这样频繁创建线程就会大大降低系统的效率，因为频繁创建线程和销毁线程需要时间。</p>
+<p>　　在Java中可以通过线程池来达到这样的效果。今天我们就来详细讲解一下Java的线程池，首先我们从最核心的ThreadPoolExecutor类中的方法讲起。</p>
+<p>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类，因此如果要透彻地了解Java中的线程池，必须先了解这个类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadPoolExecutor extends AbstractExecutorService &#123;</span><br><span class="line">    .....</span><br><span class="line">    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue);</span><br><span class="line"> </span><br><span class="line">    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue,ThreadFactory threadFactory);</span><br><span class="line"> </span><br><span class="line">    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue,RejectedExecutionHandler handler);</span><br><span class="line"> </span><br><span class="line">    public ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,</span><br><span class="line">        BlockingQueue&lt;Runnable&gt; workQueue,ThreadFactory threadFactory,RejectedExecutionHandler handler);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　下面解释下一下构造器中各个参数的含义：</p>
+<ul>
+<li><p>corePoolSize：核心池的大小，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</p>
+</li>
+<li><p>maximumPoolSize：线程池最大线程数，这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；</p>
+</li>
+<li><p>keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；</p>
+</li>
+<li><p>unit：参数keepAliveTime的时间单位，有7种取值，在TimeUnit类中有7种静态属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TimeUnit.DAYS;               //天</span><br><span class="line">TimeUnit.HOURS;             //小时</span><br><span class="line">TimeUnit.MINUTES;           //分钟</span><br><span class="line">TimeUnit.SECONDS;           //秒</span><br><span class="line">TimeUnit.MILLISECONDS;      //毫秒</span><br><span class="line">TimeUnit.MICROSECONDS;      //微妙</span><br><span class="line">TimeUnit.NANOSECONDS;       //纳秒</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>workQueue：一个阻塞队列，用来存储等待执行的任务，这个参数的选择也很重要，会对线程池的运行过程产生重大影响，一般来说，这里的阻塞队列有以下几种选择：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArrayBlockingQueue;</span><br><span class="line">LinkedBlockingQueue;</span><br><span class="line">SynchronousQueue;</span><br></pre></td></tr></table></figure>
+<p>ArrayBlockingQueue和PriorityBlockingQueue使用较少，一般使用LinkedBlockingQueue和Synchronous。线程池的排队策略与BlockingQueue有关。</p>
+<ul>
+<li>threadFactory：线程工厂，主要用来创建线程；</li>
+<li>handler：表示当拒绝处理任务时的策略，有以下四种取值：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</span><br><span class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
     </article>
     <!-- license  -->
@@ -1081,7 +1142,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">1.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">2.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">3.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">4.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">5.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">6.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">7.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">8.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">9.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">10.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">11.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">12.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">13.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">14.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">14.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">14.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">14.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">14.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">14.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">15.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">16.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">17.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">18.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">19.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">20.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">21.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">22.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">23.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">24.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">25.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">26.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">27.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">27.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">27.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">27.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">27.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">27.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">27.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">27.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">27.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">28.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">28.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">28.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">28.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">1.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">2.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">3.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">4.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">5.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">6.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">7.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">8.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">9.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">10.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">11.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">12.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">13.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">14.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">14.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">14.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">14.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">14.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">14.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">15.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">16.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">17.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">18.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">19.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">20.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">21.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">22.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">23.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">24.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">25.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">26.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">27.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">27.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">27.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">27.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">27.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">27.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">27.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">27.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">27.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-消息丢失怎么办？"><span class="toc-number">27.9.</span> <span class="toc-text">9.消息丢失怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">28.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">28.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">28.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">28.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java提供了哪些IO方式？-NIO如何实现多路复用？"><span class="toc-number">29.</span> <span class="toc-text">Java提供了哪些IO方式？ NIO如何实现多路复用？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA内存模型"><span class="toc-number">30.</span> <span class="toc-text">JAVA内存模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized底层实现"><span class="toc-number">31.</span> <span class="toc-text">Synchronized底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java并发编程：线程池的使用"><span class="toc-number">32.</span> <span class="toc-text">Java并发编程：线程池的使用</span></a></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1094,86 +1155,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -2568,12 +2549,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2628,12 +2609,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
@@ -2743,12 +2724,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2783,12 +2764,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -2853,23 +2834,21 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
-    
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2886,6 +2865,8 @@
         <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
