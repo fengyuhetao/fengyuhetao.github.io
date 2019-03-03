@@ -409,47 +409,37 @@
 <p>hexdump [filename]  以16进制查看文件</p>
 <p>hexdumlp -C [filename] 以16进制查看文件同时显示ascii码</p>
 </blockquote>
-<p>##7z使用</p>
-<blockquote>
+<h2 id="7z使用"><a href="#7z使用" class="headerlink" title="7z使用"></a>7z使用</h2><blockquote>
 <p>7z x [压缩包]</p>
 </blockquote>
-<p>##binwalk使用</p>
-<blockquote>
+<h2 id="binwalk使用"><a href="#binwalk使用" class="headerlink" title="binwalk使用"></a>binwalk使用</h2><blockquote>
 <p>binwalk [filename] 查看文件信息</p>
 <p>binwalk -e [filename]  提取文件</p>
 </blockquote>
-<p>##strings使用</p>
-<blockquote>
+<h2 id="strings使用"><a href="#strings使用" class="headerlink" title="strings使用"></a>strings使用</h2><blockquote>
 <p>strings -10 [filename] 从二进制文件或普通文件中查找可打印的字符串，-10  设置显示的最小字符串</p>
 </blockquote>
-<p>##base64使用</p>
-<blockquote>
+<h2 id="base64使用"><a href="#base64使用" class="headerlink" title="base64使用"></a>base64使用</h2><blockquote>
 <p>echo [base64字符串] | base64 -d              base64解密</p>
 <p>echo [字符串] | base64                              base64加密</p>
 </blockquote>
-<p>##debin,ubuntu删除所有带 rc 标记的dpkg包</p>
-<blockquote>
+<h2 id="debin-ubuntu删除所有带-rc-标记的dpkg包"><a href="#debin-ubuntu删除所有带-rc-标记的dpkg包" class="headerlink" title="debin,ubuntu删除所有带 rc 标记的dpkg包"></a>debin,ubuntu删除所有带 rc 标记的dpkg包</h2><blockquote>
 <p>dpkg -l | grep ^rc | cut -d’ ‘ -f3 | sudo xargs dpkg –purge</p>
 </blockquote>
-<p>##批量计算文件夹中所有文件md5值</p>
-<blockquote>
+<h2 id="批量计算文件夹中所有文件md5值"><a href="#批量计算文件夹中所有文件md5值" class="headerlink" title="批量计算文件夹中所有文件md5值"></a>批量计算文件夹中所有文件md5值</h2><blockquote>
 <p>md5sum *</p>
 </blockquote>
-<p>##LSB检查</p>
-<blockquote>
+<h2 id="LSB检查"><a href="#LSB检查" class="headerlink" title="LSB检查"></a>LSB检查</h2><blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; &gt;&gt;&gt; <span class="keyword">import</span> Image</span><br><span class="line">&gt; &gt;&gt;&gt; a=Image.open(<span class="string">'zxczxc.png'</span>)</span><br><span class="line">&gt; &gt;&gt;&gt; a.point(<span class="keyword">lambda</span> i: <span class="number">255</span> <span class="keyword">if</span> i&amp;<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span>).show()</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>##查看文件夹下边的某个字符串</p>
-<blockquote>
+<h2 id="查看文件夹下边的某个字符串"><a href="#查看文件夹下边的某个字符串" class="headerlink" title="查看文件夹下边的某个字符串"></a>查看文件夹下边的某个字符串</h2><blockquote>
 <p>grep -rn -A10 -B5 “php_string_shuffle” ./</p>
 <p>grep -rn -A10 -B5 “php_string_shuffle” -l ./          只列出文件名</p>
 </blockquote>
-<p>##监控目录变化</p>
-<blockquote>
+<h2 id="监控目录变化"><a href="#监控目录变化" class="headerlink" title="监控目录变化"></a>监控目录变化</h2><blockquote>
 <p>watch -n2 ls -l /proc/11631/fd/</p>
 </blockquote>
-<p>##dd命令使用</p>
-<blockquote>
+<h2 id="dd命令使用"><a href="#dd命令使用" class="headerlink" title="dd命令使用"></a>dd命令使用</h2><blockquote>
 <p> dd if=carter.jpg of=carter-1.jpg skip=140147 bs=1</p>
 <p> dd if=./test of=./test1 count=1 bs=3 skip=2</p>
 <p> if 从目标文件中提取数据</p>
@@ -459,21 +449,17 @@
 <p> skip 跳过几个块</p>
 <p> 上边的命令就是从test文件中的第6(skip <em> bs = 2 </em> 3)个字节开始，读3（count <em> bs = 1 </em> 3）个字节，写入到test1文件中。</p>
 </blockquote>
-<p>##shell文件去重</p>
-<blockquote>
+<h2 id="shell文件去重"><a href="#shell文件去重" class="headerlink" title="shell文件去重"></a>shell文件去重</h2><blockquote>
 <p>sort filename | uniq</p>
 </blockquote>
-<p>##socat启动一道pwn题目</p>
-<blockquote>
+<h2 id="socat启动一道pwn题目"><a href="#socat启动一道pwn题目" class="headerlink" title="socat启动一道pwn题目"></a>socat启动一道pwn题目</h2><blockquote>
 <p>socat tcp-l:8080,fork exec:./note,reuseaddr</p>
 </blockquote>
-<p>##exiftool使用</p>
-<blockquote>
+<h2 id="exiftool使用"><a href="#exiftool使用" class="headerlink" title="exiftool使用"></a>exiftool使用</h2><blockquote>
 <p>exiftool [picture_name]</p>
 <p>exiftool -Exif:ImageDescription=”%^&amp;*()[]{}” [picture_name]</p>
 </blockquote>
-<p>##curl发送请求</p>
-<blockquote>
+<h2 id="curl发送请求"><a href="#curl发送请求" class="headerlink" title="curl发送请求"></a>curl发送请求</h2><blockquote>
 <p>curl -d “param1=value1&amp;param2=value2” -b “cookie_name1=value1&amp;cookie_name2=value2” url </p>
 </blockquote>
 <blockquote>
@@ -499,24 +485,20 @@
 <p> grep -i “connection” -r ./ –include *.class         # 递归在目录中class结尾的文件中查询字符串</p>
 <p> grep -i “connection” -r ./ –include *.{class|xml}</p>
 </blockquote>
-<p>##查找文件</p>
-<blockquote>
+<h2 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h2><blockquote>
 <p>find / -name “flag”</p>
 </blockquote>
-<p>##ngrep监听80端口</p>
-<blockquote>
+<h2 id="ngrep监听80端口"><a href="#ngrep监听80端口" class="headerlink" title="ngrep监听80端口"></a>ngrep监听80端口</h2><blockquote>
 <p>ngrep -W byline -d eth0 port 80</p>
 </blockquote>
-<p>##scp命令使用</p>
-<blockquote>
+<h2 id="scp命令使用"><a href="#scp命令使用" class="headerlink" title="scp命令使用"></a>scp命令使用</h2><blockquote>
 <p>A.104.238.161.75，B.43.224.34.73</p>
 <p>A服务器下操作，将B服务器下/home/lk目录下所有文件复制到本地/home目录下</p>
 <p>scp -r <a href="mailto:root@43.224.34.73" rel="external nofollow" target="_blank">root@43.224.34.73</a>:/home/lk /home</p>
 <p>在A服务器上将/root/lk目录下所有的文件传输到B的/home/lk/cpfile目录下</p>
 <p>scp -r /root/lk <a href="mailto:root@43.224.34.73" rel="external nofollow" target="_blank">root@43.224.34.73</a>:/home/lk/cpfile</p>
 </blockquote>
-<p>##nc传送文件</p>
-<blockquote>
+<h2 id="nc传送文件"><a href="#nc传送文件" class="headerlink" title="nc传送文件"></a>nc传送文件</h2><blockquote>
 <p>A.104.238.161.75     B.43.224.34.73</p>
 <p>将B服务器文件【test.txt】从B服务器传送到A服务器下</p>
 <p>方案一: </p>
@@ -530,8 +512,7 @@
 <p>B: nc -l [port] | tar xfvz -</p>
 <p>A: tar cfz - * | nc 43.224.34.73 [port]</p>
 </blockquote>
-<p>##tcpdump抓包</p>
-<blockquote>
+<h2 id="tcpdump抓包"><a href="#tcpdump抓包" class="headerlink" title="tcpdump抓包"></a>tcpdump抓包</h2><blockquote>
 <p>sudo tcpdump tcp -c 100 -i ens33  -nn -XX -vv</p>
 <p>-c    抓取的数量</p>
 <p>-i     指定端口</p>
@@ -816,7 +797,7 @@ return promise;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计文件中每个字符串的长度"><span class="toc-number">1.</span> <span class="toc-text">统计文件中每个字符串的长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转化为ascii码"><span class="toc-number">2.</span> <span class="toc-text">Python将16进制字符串转化为ascii码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转为2进制字符串"><span class="toc-number">3.</span> <span class="toc-text">Python将16进制字符串转为2进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python二进制字符串转16进制字符串"><span class="toc-number">4.</span> <span class="toc-text">Python二进制字符串转16进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexdump使用"><span class="toc-number">5.</span> <span class="toc-text">hexdump使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep匹配字符串"><span class="toc-number">6.</span> <span class="toc-text">grep匹配字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时DNS解析网站"><span class="toc-number">7.</span> <span class="toc-text">临时DNS解析网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端端口扫描"><span class="toc-number">8.</span> <span class="toc-text">前端端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大素数分解网站"><span class="toc-number">9.</span> <span class="toc-text">大素数分解网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#centos防火墙"><span class="toc-number">10.</span> <span class="toc-text">centos防火墙</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#统计文件中每个字符串的长度"><span class="toc-number">1.</span> <span class="toc-text">统计文件中每个字符串的长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转化为ascii码"><span class="toc-number">2.</span> <span class="toc-text">Python将16进制字符串转化为ascii码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python将16进制字符串转为2进制字符串"><span class="toc-number">3.</span> <span class="toc-text">Python将16进制字符串转为2进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python二进制字符串转16进制字符串"><span class="toc-number">4.</span> <span class="toc-text">Python二进制字符串转16进制字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexdump使用"><span class="toc-number">5.</span> <span class="toc-text">hexdump使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7z使用"><span class="toc-number">6.</span> <span class="toc-text">7z使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#binwalk使用"><span class="toc-number">7.</span> <span class="toc-text">binwalk使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings使用"><span class="toc-number">8.</span> <span class="toc-text">strings使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#base64使用"><span class="toc-number">9.</span> <span class="toc-text">base64使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#debin-ubuntu删除所有带-rc-标记的dpkg包"><span class="toc-number">10.</span> <span class="toc-text">debin,ubuntu删除所有带 rc 标记的dpkg包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批量计算文件夹中所有文件md5值"><span class="toc-number">11.</span> <span class="toc-text">批量计算文件夹中所有文件md5值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSB检查"><span class="toc-number">12.</span> <span class="toc-text">LSB检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看文件夹下边的某个字符串"><span class="toc-number">13.</span> <span class="toc-text">查看文件夹下边的某个字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监控目录变化"><span class="toc-number">14.</span> <span class="toc-text">监控目录变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dd命令使用"><span class="toc-number">15.</span> <span class="toc-text">dd命令使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shell文件去重"><span class="toc-number">16.</span> <span class="toc-text">shell文件去重</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#socat启动一道pwn题目"><span class="toc-number">17.</span> <span class="toc-text">socat启动一道pwn题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exiftool使用"><span class="toc-number">18.</span> <span class="toc-text">exiftool使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#curl发送请求"><span class="toc-number">19.</span> <span class="toc-text">curl发送请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep匹配字符串"><span class="toc-number">20.</span> <span class="toc-text">grep匹配字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找文件"><span class="toc-number">21.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngrep监听80端口"><span class="toc-number">22.</span> <span class="toc-text">ngrep监听80端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scp命令使用"><span class="toc-number">23.</span> <span class="toc-text">scp命令使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nc传送文件"><span class="toc-number">24.</span> <span class="toc-text">nc传送文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcpdump抓包"><span class="toc-number">25.</span> <span class="toc-text">tcpdump抓包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时DNS解析网站"><span class="toc-number">26.</span> <span class="toc-text">临时DNS解析网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端端口扫描"><span class="toc-number">27.</span> <span class="toc-text">前端端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大素数分解网站"><span class="toc-number">28.</span> <span class="toc-text">大素数分解网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#centos防火墙"><span class="toc-number">29.</span> <span class="toc-text">centos防火墙</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -829,10 +810,6 @@ return promise;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -2318,12 +2295,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2398,12 +2375,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2423,12 +2400,12 @@ return promise;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
@@ -2508,9 +2485,9 @@ return promise;
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
@@ -2520,9 +2497,11 @@ return promise;
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2539,8 +2518,6 @@ return promise;
         <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
