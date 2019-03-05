@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">21,985</span> / Reading time: <span class="post-count">79 min</span></span>
+                        <span>Word count: <span class="post-count">30,123</span> / Reading time: <span class="post-count">109 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -390,7 +390,177 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="Exception和Error的区别，-运行时异常和一般异常的区别"><a href="#Exception和Error的区别，-运行时异常和一般异常的区别" class="headerlink" title="Exception和Error的区别， 运行时异常和一般异常的区别"></a>Exception和Error的区别， 运行时异常和一般异常的区别</h1><p>Exception和Error都继承了-Throwable类，在Java中只有Throwable类型的实例才可以被抛出或者捕获，是异常处理机制的基本组成类型。</p>
+        <h1 id="JAVA多线程："><a href="#JAVA多线程：" class="headerlink" title="JAVA多线程："></a>JAVA多线程：</h1><h2 id="进程和线程："><a href="#进程和线程：" class="headerlink" title="进程和线程："></a>进程和线程：</h2><p><strong>进程：每个进程都有独立的代码和数据空间（进程上下文），进程间的切换会有较大的开销，一个进程包含1–n个线程。（进程是资源分配的最小单位）</strong></p>
+<p><strong>线程：同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器(PC)，线程切换开销小。（线程是cpu调度的最小单位）</strong></p>
+<p>线程和进程一样分为五个阶段：<strong>创建、就绪、运行、阻塞、终止。</strong></p>
+<p>多进程是指操作系统能同时运行多个任务（程序）。</p>
+<p>多线程是指在同一程序中有多个顺序流在执行。</p>
+<p>在java中要想实现多线程，有两种手段，<strong>一种是继续**</strong>Thread类<strong>，</strong>另外一种是实现<strong>Runable接口</strong>.(<strong>其实准确来讲，应该有三种，还有一种是实现Callable接口</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package com.multithread.learning;  </span><br><span class="line"></span><br><span class="line">class Thread1 extends Thread&#123;  </span><br><span class="line">    private String name;  </span><br><span class="line">    public Thread1(String name) &#123;  </span><br><span class="line">       this.name=name;  </span><br><span class="line">    &#125;  </span><br><span class="line">    public void run() &#123;  </span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;  </span><br><span class="line">            System.out.println(name + &quot;运行  :  &quot; + i);  </span><br><span class="line">            try &#123;  </span><br><span class="line">                sleep((int) Math.random() * 10);  </span><br><span class="line">            &#125; catch (InterruptedException e) &#123;  </span><br><span class="line">                e.printStackTrace();  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">         </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">public class Main &#123;  </span><br><span class="line">  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        Thread1 mTh1=new Thread1(&quot;A&quot;);  </span><br><span class="line">        Thread1 mTh2=new Thread1(&quot;B&quot;);  </span><br><span class="line">        mTh1.start();  </span><br><span class="line">        mTh2.start();  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>说明：</strong></p>
+<p><strong>程序启动运行main时候，java虚拟机启动一个进程，主线程main在main()调用时候被创建。随着调用Thread1的两个对象的start方法，另外两个线程也启动了，这样，整个应用就在多线程下运行。</strong></p>
+<p>注意：start()方法的调用后并不是立即执行多线程代码，而是使得该线程变为可运行态（Runnable），什么时候运行是由操作系统决定的。</p>
+<p>从程序运行的结果可以发现，多线程程序是乱序执行。因此，只有乱序执行的代码才有必要设计为多线程。</p>
+<p>Thread.sleep()方法调用目的是不让当前线程独自霸占该进程所获取的CPU资源，以留出一定时间给其他线程执行的机会。</p>
+<p>实际上所有的多线程代码执行顺序都是不确定的，每次执行的结果都是随机的。</p>
+<p> 但是start方法重复调用的话，会出现<code>java.lang.IllegalThreadStateException</code>异常。</p>
+<p>实现Runnable接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package com.multithread.runnable;  </span><br><span class="line">class Thread2 implements Runnable&#123;  </span><br><span class="line">    private String name;  </span><br><span class="line">  </span><br><span class="line">    public Thread2(String name) &#123;  </span><br><span class="line">        this.name=name;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    @Override  </span><br><span class="line">    public void run() &#123;  </span><br><span class="line">          for (int i = 0; i &lt; 5; i++) &#123;  </span><br><span class="line">                System.out.println(name + &quot;运行  :  &quot; + i);  </span><br><span class="line">                try &#123;  </span><br><span class="line">                    Thread.sleep((int) Math.random() * 10);  </span><br><span class="line">                &#125; catch (InterruptedException e) &#123;  </span><br><span class="line">                    e.printStackTrace();  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">          </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">&#125;  </span><br><span class="line">public class Main &#123;  </span><br><span class="line">  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        new Thread(new Thread2(&quot;C&quot;)).start();  </span><br><span class="line">        new Thread(new Thread2(&quot;D&quot;)).start();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>说明：</strong></p>
+<p><strong>Thread2类通过实现Runnable接口，使得该类有了多线程类的特征。run（）方法是多线程程序的一个约定。所有的多线程代码都在run方法里面。Thread类实际上也是实现了Runnable接口的类。</strong></p>
+<p>在启动的多线程的时候，需要先通过Thread类的构造方法Thread(Runnable target) 构造出对象，然后调用Thread对象的start()方法来运行多线程代码。</p>
+<p>实际上所有的多线程代码都是通过运行Thread的start()方法来运行的。因此，不管是扩展Thread类还是实现Runnable接口来实现多线程，最终还是通过Thread的对象的API来控制线程的，熟悉Thread类的API是进行多线程编程的基础。</p>
+<h2 id="Thread和Runnable的区别"><a href="#Thread和Runnable的区别" class="headerlink" title="Thread和Runnable的区别"></a>Thread和Runnable的区别</h2><p><strong>Callable接口与Runnable接口相比，只是Callable接口可以返回值而已。</strong></p>
+<p>如果一个类继承Thread，则不适合资源共享。但是如果实现了Runable接口的话，则很容易的实现资源共享。</p>
+<p><strong>总结：</strong></p>
+<p><strong>实现Runnable接口比继承Thread类所具有的优势：</strong></p>
+<p><strong>1）：适合多个相同的程序代码的线程去处理同一个资源</strong></p>
+<p>​    一个任务可以启动多个线程</p>
+<p><strong>2）：可以避免java中的单继承的限制</strong></p>
+<p>​    实现了一个接口，同时还可以在继承类</p>
+<p><strong>3）：增加程序的健壮性，代码可以被多个线程共享，代码和数据独立</strong></p>
+<p>​    因为一个线程只能启动一次，通过Thread实现线程时，线程和线程所要执行的任务是捆绑在一起的。也就使得一个任务只能启动一个线程，不同的线程执行的任务是不相同的，所以没有必要，也不能让两个线程共享彼此任务中的资源。</p>
+<p>一个任务可以启动多个线程，通过Runnable方式实现的线程，实际是开辟一个线程，将任务传递进去，由此线程执行。可以实例化多个 Thread对象，将同一任务传递进去，也就是一个任务可以启动多个线程来执行它。这些线程执行的是同一个任务，所以他们的资源是共享。</p>
+<p>两种不同的线程实现方式本身就决定了其是否能进行资源共享。    </p>
+<p><strong>4）：线程池只能放入实现Runable或callable类线程，不能直接放入继承Thread的类</strong>????????</p>
+<p>注：main方法其实也是一个线程。在java中所以的线程都是同时启动的，至于什么时候，哪个先执行，完全看谁先得到CPU的资源。</p>
+<p><strong>在java中，每次程序运行至少启动2个线程。一个是main线程，一个是垃圾收集线程。因为每当使用java命令执行一个类的时候，实际上都会启动一个ＪＶＭ，每一个ｊＶＭ在就是在操作系统中启动了一个进程。</strong></p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ol>
+<li><p>线程池改进了一个应用程序的响应时间。由于线程池中的线程已经准备好且等待被分配任务，应用程序可以直接拿来使用而不用新建一个线程。</p>
+</li>
+<li><p>线程池节省了CLR 为每个短生存周期任务创建一个完整的线程的开销并可以在任务完成后回收资源。</p>
+<ol start="3">
+<li><p>线程池根据当前在系统中运行的进程来优化线程时间片。</p>
+</li>
+<li><p>线程池允许我们开启多个任务而不用为每个线程设置属性。</p>
+</li>
+<li><p>线程池允许我们为正在执行的任务的程序参数传递一个包含状态信息的对象引用。</p>
+</li>
+</ol>
+</li>
+<li><p>线程池可以用来解决处理一个特定请求最大线程数量限制问题。</p>
+</li>
+</ol>
+<p>​    本质上来讲，我们使用线程池主要就是为了减少了创建和销毁线程的次数，每个工作线程都可以被重复利用，可执行多个任务；节约应用内存（线程开的越多，消耗的内存也就越大，最后死机）</p>
+<p>如果并发的线程数量很多，并且每个线程都是执行一个时间很短的任务就结束了，这样频繁创建线程就会大大降低系统的效率，因为频繁创建线程和销毁线程需要时间。</p>
+<h2 id="ThreadPoolExecutor类是线程池中最核心的一个类"><a href="#ThreadPoolExecutor类是线程池中最核心的一个类" class="headerlink" title="ThreadPoolExecutor类是线程池中最核心的一个类"></a>ThreadPoolExecutor类是线程池中最核心的一个类</h2><ul>
+<li><p>corePoolSize 核心池的大小</p>
+</li>
+<li><p>maximumPoolSize 线程池允许的最大线程数，他表示最大能创建多少个线程。</p>
+</li>
+<li><p>keepAliveTime 当线程数超过核心池时，线程没有任务执行时等待多长时间会终止。</p>
+</li>
+<li><p>unit：参数keepAliveTime的时间单位</p>
+</li>
+<li><p>workQueue：一个阻塞队列，用来存储等待执行的任务，当线程池中的线程数超过它的corePoolSize的时候，线程会进入阻塞队列进行阻塞等待。通过workQueue，线程池实现了阻塞功能。有三种选择</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">有界任务队列ArrayBlockingQueue; 基于数组的先进先出队列，此队列创建是必须指定大小。</span><br><span class="line">无界任务队列LinkedBlockingQueue; 基于链表的先进先出队列，如果创建时没有指定大侠你，则默认Integer.MAX_VALUE。</span><br><span class="line">直接提交队列SynchronousQueue;它不会保存提交的任务，而是将直接新建一个线程来执行新来的任务</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>threadFactory：线程工厂，主要用来创建线程；</p>
+</li>
+<li><p>handler：表示当拒绝处理任务时的策略，4种策略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</span><br><span class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="线程池实现原理"><a href="#线程池实现原理" class="headerlink" title="线程池实现原理"></a>线程池实现原理</h2><h3 id="线程池的4种状态"><a href="#线程池的4种状态" class="headerlink" title="线程池的4种状态"></a>线程池的4种状态</h3><ul>
+<li>RUNNING=0  执行状态</li>
+<li>SHUTDOWN=1 调用了shutdown()方法，此时线程池不能够接受新的任务，它会等待所有任务执行完毕；</li>
+<li>STOP=2  调用了shutdownNow()方法此时线程池不能接受新的任务，并且会去尝试终止正在执行的任务；</li>
+<li>TERMINATED=3 所有工作线程已经销毁，任务缓存队列已经清空或执行结束后，线程池被设置为TERMINATED状态。</li>
+</ul>
+<h3 id="线程中的方法"><a href="#线程中的方法" class="headerlink" title="线程中的方法"></a>线程中的方法</h3><ul>
+<li>Thread.yield()  线程让步，比如从就绪状态变为运行状态，然后所有线程一块重新竞争，抢占CPU，包括yield线程在内。</li>
+</ul>
+<h3 id="sleep-和wait-差别"><a href="#sleep-和wait-差别" class="headerlink" title="sleep()和wait()差别"></a>sleep()和wait()差别</h3><ul>
+<li>sleep()是属于Thread类中，wait()属于Object类中。</li>
+<li><p>sleep()调用不会释放锁，过了限制时间后自动恢复运行状态。调用wait()方法时，线程会放弃对象锁，进入等待此对象的等待锁定池。只有调动这个对象的notify()方法，才会进入对象锁定池准备 然后等待获得对象锁进入运行状态。</p>
+</li>
+<li><p>AtomicInteger是在使用非阻塞算法实现并发控制，在一些高并发程序中非常适合，但并不能每一种场景都适合，不同场景要使用使用不同的数值类。Atomic包里的类基本都是使用Unsafe实现的包装类。这是由硬件提供原子操作指令实现的，这里面用到了一种并发技术：CAS。在非激烈竞争的情况下，开销更小，速度更快。</p>
+</li>
+</ul>
+<h2 id="线程状态转换"><a href="#线程状态转换" class="headerlink" title="线程状态转换"></a>线程状态转换</h2><p><img src="https://img-blog.csdn.net/20150309140927553" alt=""></p>
+<p>1、新建状态（New）：新创建了一个线程对象。<br>2、就绪状态（Runnable）：线程对象创建后，其他线程调用了该对象的start()方法。该状态的线程位于可运行线程池中，变得可运行，等待获取CPU的使用权。<br>3、运行状态（Running）：就绪状态的线程获取了CPU，执行程序代码。<br>4、阻塞状态（Blocked）：阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：<br>（一）、等待阻塞：运行的线程执行wait()方法，JVM会把该线程放入等待池中。(wait会释放持有的锁)<br>（二）、同步阻塞：运行的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池中。<br>（三）、其他阻塞：运行的线程执行sleep()或join()方法，或者发出了I/O请求时，JVM会把该线程置为阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。（注意,sleep是不会释放持有的锁）</p>
+<p>5、死亡状态（Dead）：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。</p>
+<h2 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h2><p>线程的调度</p>
+<p>1、调整线程优先级：Java线程有优先级，优先级高的线程会获得较多的运行机会。</p>
+<p>Java线程的优先级用整数表示，取值范围是1~10，Thread类有以下三个静态常量：<br>static int MAX_PRIORITY<br>​          线程可以具有的最高优先级，取值为10。<br>static int MIN_PRIORITY<br>​          线程可以具有的最低优先级，取值为1。<br>static int NORM_PRIORITY<br>​          分配给线程的默认优先级，取值为5。</p>
+<p>Thread类的setPriority()和getPriority()方法分别用来设置和获取线程的优先级。<br> 每个线程都有默认的优先级。主线程的默认优先级为Thread.NORM_PRIORITY。<br>线程的优先级有继承关系，比如A线程中创建了B线程，那么B将和A具有相同的优先级。<br>JVM提供了10个线程优先级，但与常见的操作系统都不能很好的映射。如果希望程序能移植到各个操作系统中，应该仅仅使用Thread类有以下三个静态常量作为优先级，这样能保证同样的优先级采用了同样的调度方式。</p>
+<p>2、线程睡眠：Thread.sleep(long millis)方法，使线程转到阻塞状态。millis参数设定睡眠的时间，以毫秒为单位。当睡眠结束后，就转为就绪（Runnable）状态。sleep()平台移植性好。</p>
+<p>3、线程等待：Object类中的wait()方法，导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 唤醒方法。这个两个唤醒方法也是Object类中的方法，行为等价于调用 wait(0) 一样。</p>
+<p>4、线程让步：Thread.yield() 方法，暂停当前正在执行的线程对象，把执行机会让给相同或者更高优先级的线程。</p>
+<p>5、线程加入：join()方法，等待其他线程终止。在当前线程中调用另一个线程的join()方法，则当前线程转入阻塞状态，直到另一个进程运行结束，当前线程再由阻塞转为就绪状态。</p>
+<p>6、线程唤醒：Object类中的notify()方法，唤醒在此对象监视器上等待的单个线程。如果所有线程都在此对象上等待，则会选择唤醒其中一个线程。选择是任意性的，并在对实现做出决定时发生。线程通过调用其中一个 wait 方法，在对象的监视器上等待。 直到当前的线程放弃此对象上的锁定，才能继续执行被唤醒的线程。被唤醒的线程将以常规方式与在该对象上主动同步的其他所有线程进行竞争；例如，唤醒的线程在作为锁定此对象的下一个线程方面没有可靠的特权或劣势。类似的方法还有一个notifyAll()，唤醒在此对象监视器上等待的所有线程。</p>
+<p><strong>注意：Thread中suspend()和resume()两个方法在JDK1.5中已经废除，不再介绍。因为有死锁倾向。</strong></p>
+<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><ul>
+<li><p><strong>sleep(long millis): 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行）</strong></p>
+</li>
+<li><p><strong>join():指等待t线程终止。</strong></p>
+<p>  为什么要用join()方法</p>
+<p>在很多情况下，主线程生成并起动了子线程，如果子线程里要进行大量的耗时的运算，主线程往往将于子线程之前结束，但是如果主线程处理完其他的事务后，需要用到子线程的处理结果，也就是主线程需要等待子线程执行完成之后再结束，这个时候就要用到join()方法了。</p>
+</li>
+<li><p><strong>yield():暂停当前正在执行的线程对象，并执行其他线程。</strong></p>
+<p>​        Thread.yield()方法作用是：暂停当前正在执行的线程对象，并执行其他线程。</p>
+<p>​         <strong>yield()应该做的是让当前运行线程回到可运行状态，以允许具有相同优先级的其他线程获得运行机会。</strong>因此，使用yield()的目的是让相同优先级的线程之间能适当的轮转执行。但是，实际中无法保证yield()达到让步目的，因为让步的线程还有可能被线程调度程序再次选中。</p>
+<p><strong>结论：yield()从未导致线程转到等待/睡眠/阻塞状态</strong>。在大多数情况下，yield()将导致线程从运行状态转到可运行状态，但有可能没有效果。可能调度器立马又调度了该线程运行。</p>
+</li>
+<li><p><strong>setPriority(): 更改线程的优先级。</strong></p>
+<p>MIN_PRIORITY = 1<br>NORM_PRIORITY = 5<br> MAX_PRIORITY = 10</p>
+</li>
+<li><p>interrupt():不要以为它是中断某个线程！它只是线线程发送一个中断信号，让线程在无限等待时（如死锁时）能抛出异常，从而结束线程，但是如果你吃掉了这个异常，那么这个线程还是不会中断的！</p>
+</li>
+<li><p>wait()</p>
+<p>Obj.wait()，与Obj.notify()必须要与synchronized(Obj)一起使用，也就是wait,与notify是针对已经获取了Obj锁进行操作，从语法角度来说就是Obj.wait(),Obj.notify必须在synchronized(Obj){…}语句块内。从功能上来说wait就是说线程在获取对象锁后，主动释放对象锁，同时本线程休眠。直到有其它线程调用对象的notify()唤醒该线程，才能继续获取对象锁，并继续执行。相应的notify()就是对对象锁的唤醒操作。但有一点需要注意的是notify()调用后，并不是马上就释放对象锁的，而是在相应的synchronized(){}语句块执行结束，自动释放锁后，JVM会在wait()对象锁的线程中随机选取一线程，赋予其对象锁，唤醒线程，继续执行。这样就提供了在线程间同步、唤醒的操作。Thread.sleep()与Object.wait()二者都可以暂停当前线程，释放CPU控制权，主要的区别在于Object.wait()在释放CPU同时，释放了对象锁的控制</p>
+</li>
+</ul>
+<h2 id="wait和sleep区别"><a href="#wait和sleep区别" class="headerlink" title="wait和sleep区别"></a>wait和sleep区别</h2><p>共同点： </p>
+<ol>
+<li>他们都是在多线程的环境下，都可以在程序的调用处阻塞指定的毫秒数，并返回。 </li>
+<li>wait()和sleep()都可以通过interrupt()方法 打断线程的暂停状态 ，从而使线程立刻抛出InterruptedException。<br>如果线程A希望立即结束线程B，则可以对线程B对应的Thread实例调用interrupt方法。如果此刻线程B正在wait/sleep /join，则线程B会立刻抛出InterruptedException，在catch() {} 中直接return即可安全地结束线程。<br>需要注意的是，InterruptedException是线程自己从内部抛出的，并不是interrupt()方法抛出的。对某一线程调用 interrupt()时，如果该线程正在执行普通的代码，那么该线程根本就不会抛出InterruptedException。但是，一旦该线程进入到 wait()/sleep()/join()后，就会立刻抛出InterruptedException 。<br>不同点： </li>
+<li>Thread类的方法：sleep(),yield()等<br>Object的方法：wait()和notify()等 </li>
+<li>每个对象都有一个锁来控制同步访问。Synchronized关键字可以和对象的锁交互，来实现线程的同步。<br>sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。 </li>
+<li>wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用 </li>
+<li>sleep必须捕获异常，而wait，notify和notifyAll不需要捕获异常<br>所以sleep()和wait()方法的最大区别是：<br>　　　　sleep()睡眠时，保持对象锁，仍然占有该锁；<br>　　　　而wait()睡眠时，释放对象锁。<br>　　但是wait()和sleep()都可以通过interrupt()方法打断线程的暂停状态，从而使线程立刻抛出InterruptedException（但不建议使用该方法）。<br>sleep（）方法<br>sleep()使当前线程进入停滞状态（阻塞当前线程），让出CPU的使用、目的是不让当前线程独自霸占该进程所获的CPU资源，以留一定时间给其他线程执行的机会;<br>　　 sleep()是Thread类的Static(静态)的方法；因此他不能改变对象的机锁，所以当在一个Synchronized块中调用Sleep()方法是，线程虽然休眠了，但是对象的机锁并木有被释放，其他线程无法访问这个对象（即使睡着也持有对象锁）。<br>　　在sleep()休眠时间期满后，该线程不一定会立即执行，这是因为其它线程可能正在运行而且没有被调度为放弃执行，除非此线程具有更高的优先级。<br>wait（）方法<br>wait()方法是Object类里的方法；当一个线程执行到wait()方法时，它就进入到一个和该对象相关的等待池中，同时失去（释放）了对象的机锁（暂时失去机锁，wait(long timeout)超时时间到后还需要返还对象锁）；其他线程可以访问；<br>　　wait()使用notify或者notifyAlll或者指定睡眠时间来唤醒当前等待池中的线程。<br>　　wiat()必须放在synchronized block中，否则会在program runtime时扔出”java.lang.IllegalMonitorStateException“异常。</li>
+</ol>
+<h2 id="sleep-和yield-的区别"><a href="#sleep-和yield-的区别" class="headerlink" title="sleep()和yield()的区别"></a>sleep()和yield()的区别</h2><p>​        sleep()和yield()的区别):sleep()使当前线程进入停滞状态，所以执行sleep()的线程在指定的时间内肯定不会被执行；yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。<br>​        sleep 方法使当前运行中的线程睡眼一段时间，进入不可运行状态，这段时间的长短是由程序设定的，yield 方法使当前线程让出 CPU 占有权，但让出的时间是不可设定的。实际上，yield()方法对应了如下操作：先检测当前是否有相同优先级的线程处于同可运行状态，如有，则把 CPU  的占有权交给此线程，否则，继续运行原来的线程。所以yield()方法称为“退让”，它把运行机会让给了同等优先级的其他线程<br>​       另外，sleep 方法允许较低优先级的线程获得运行机会，但 yield()  方法执行时，当前线程仍处在可运行状态，所以，不可能让出较低优先级的线程些时获得 CPU 占有权。在一个运行系统中，如果较高优先级的线程没有调用 sleep 方法，又没有受到 I\O 阻塞，那么，较低优先级线程只能等待所有较高优先级的线程运行结束，才有机会运行。 </p>
+<h2 id="常见线程名词解释"><a href="#常见线程名词解释" class="headerlink" title="常见线程名词解释"></a>常见线程名词解释</h2><p><strong>主线程：</strong>JVM调用程序main()所产生的线程。</p>
+<p><strong>当前线程：</strong>这个是容易混淆的概念。一般指通过Thread.currentThread()来获取的进程。</p>
+<p><strong>后台线程：</strong>指为其他线程提供服务的线程，也称为守护线程。JVM的垃圾回收线程就是一个后台线程。<strong>用户线程和守护线程的区别在于，是否等待主线程依赖于主线程结束而结束</strong></p>
+<p><strong>前台线程：</strong>是指接受后台线程服务的线程，其实前台后台线程是联系在一起，就像傀儡和幕后操纵者一样的关系。傀儡是前台线程、幕后操纵者是后台线程。由前台线程创建的线程默认也是前台线程。可以通过isDaemon()和setDaemon()方法来判断和设置一个线程是否为后台线程。</p>
+<p><strong>线程类的一些常用方法： 　　sleep(): 强迫一个线程睡眠Ｎ毫秒。 　　isAlive(): 判断一个线程是否存活。 　　join(): 等待线程终止。 　　activeCount(): 程序中活跃的线程数。 　　enumerate(): 枚举程序中的线程。     currentThread(): 得到当前线程。 　　isDaemon(): 一个线程是否为守护线程。 　　setDaemon(): 设置一个线程为守护线程。(用户线程和守护线程的区别在于，是否等待主线程依赖于主线程结束而结束) 　　setName(): 为线程设置一个名称。 　　wait(): 强迫一个线程等待。 　　notify(): 通知一个线程继续运行。 　　setPriority(): 设置一个线程的优先级。</strong></p>
+<h2 id="线程同步之synchronized关键字"><a href="#线程同步之synchronized关键字" class="headerlink" title="线程同步之synchronized关键字"></a>线程同步之synchronized关键字</h2><p>  1、synchronized关键字的作用域有二种：<br>1）是某个对象实例内，synchronized aMethod(){}可以防止多个线程同时访问这个对象的synchronized方法（如果一个对象有多个synchronized方法，只要一个线程访问了其中的一个synchronized方法，其它线程不能同时访问这个对象中任何一个synchronized方法）。这时，不同的对象实例的synchronized方法是不相干扰的。也就是说，其它线程照样可以同时访问相同类的另一个对象实例中的synchronized方法；<br>2）是某个类的范围，synchronized static aStaticMethod{}防止多个线程同时访问这个类中的synchronized static 方法。它可以对类的所有对象实例起作用。 </p>
+<p>2、除了方法前用synchronized关键字，synchronized关键字还可以用于方法中的某个区块中，表示只对这个区块的资源实行互斥访问。用法是: synchronized(this){/<em>区块</em>/}，它的作用域是当前对象； </p>
+<p>3、synchronized关键字是不能继承的，也就是说，基类的方法synchronized f(){} 在继承类中并不自动是synchronized f(){}，而是变成了f(){}。继承类需要你显式的指定它的某个方法为synchronized方法；   </p>
+<p>注意:</p>
+<p>A．无论synchronized关键字加在方法上还是对象上，它取得的锁都是对象，而不是把一段代码或函数当作锁――而且同步方法很可能还会被其他线程的对象访问。</p>
+<p>B．每个对象只有一个锁（lock）与之相关联。</p>
+<p>C．实现同步是要很大的系统开销作为代价的，甚至可能造成死锁，所以尽量避免无谓的同步控制。</p>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步:"></a>线程同步:</h2><p>1、线程同步的目的是为了保护多个线程反问一个资源时对资源的破坏。</p>
+<p>2、线程同步方法是通过锁来实现，每个对象都有切仅有一个锁，这个锁与一个特定的对象关联，线程一旦获取了对象锁，其他访问该对象的线程就无法再访问该对象的其他非同步方法。</p>
+<p>3、对于静态同步方法，锁是针对这个类的，锁对象是该类的Class对象。静态和非静态方法的锁互不干预。一个线程获得锁，当在一个同步方法中访问另外对象上的同步方法时，会获取这两个对象锁。</p>
+<p>4、对于同步，要时刻清醒在哪个对象上同步，这是关键。</p>
+<p>5、编写线程安全的类，需要时刻注意对多个线程竞争访问资源的逻辑和安全做出正确的判断，对“原子”操作做出分析，并保证原子操作期间别的线程无法访问竞争资源。</p>
+<p>6、当多个线程等待一个对象锁时，没有获取到锁的线程将发生阻塞。</p>
+<p>7、死锁是线程间相互等待锁锁造成的，在实际中发生的概率非常的小。真让你写个死锁程序，不一定好使，呵呵。但是，一旦程序发生死锁，程序将死掉。</p>
+<h2 id="线程数据传递"><a href="#线程数据传递" class="headerlink" title="线程数据传递"></a>线程数据传递</h2><p><strong>1、通过构造方法传递数据</strong><br>在创建线程时，必须要建立一个Thread类的或其子类的实例。因此，我们不难想到在调用start方法之前通过线程类的构造方法将数据传入线程。并将传入的数据使用类变量保存起来，以便线程使用(其实就是在run方法中使用)。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package mythread;   </span><br><span class="line">public class MyThread1 extends Thread   </span><br><span class="line">&#123;   </span><br><span class="line">private String name;   </span><br><span class="line">public MyThread1(String name)   </span><br><span class="line">&#123;   </span><br><span class="line">this.name = name;   </span><br><span class="line">&#125;   </span><br><span class="line">public void run()   </span><br><span class="line">&#123;   </span><br><span class="line">System.out.println(&quot;hello &quot; + name);   </span><br><span class="line">&#125;   </span><br><span class="line">public static void main(String[] args)   </span><br><span class="line">&#123;   </span><br><span class="line">Thread thread = new MyThread1(&quot;world&quot;);   </span><br><span class="line">thread.start();   </span><br><span class="line">&#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于这种方法是在创建线程对象的同时传递数据的，因此，在线程运行之前这些数据就就已经到位了，这样就不会造成数据在线程运行后才传入的现象。如果要传递更复杂的数据，可以使用集合、类等数据结构。使用构造方法来传递数据虽然比较安全，但如果要传递的数据比较多时，就会造成很多不便。由于Java没有默认参数，要想实现类似默认参数的效果，就得使用重载，这样不但使构造方法本身过于复杂，又会使构造方法在数量上大增。因此，要想避免这种情况，就得通过类方法或类变量来传递数据。</p>
+<p><strong>2.通过变量和方法传递数据</strong><br>向对象中传入数据一般有两次机会，第一次机会是在建立对象时通过构造方法将数据传入，另外一次机会就是在类中定义一系列的public的方法或变量（也可称之为字段）。然后在建立完对象后，通过对象实例逐个赋值。下面的代码是对MyThread1类的改版，使用了一个setName方法来设置 name变量： </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package mythread;   </span><br><span class="line">public class MyThread2 implements Runnable   </span><br><span class="line">&#123;   </span><br><span class="line">	private String name;   </span><br><span class="line">    public void setName(String name)   </span><br><span class="line">    &#123;   </span><br><span class="line">        this.name = name;   </span><br><span class="line">    &#125;   </span><br><span class="line">    public void run()   </span><br><span class="line">    &#123;   </span><br><span class="line">        System.out.println(&quot;hello &quot; + name);   </span><br><span class="line">    &#125;   </span><br><span class="line">    public static void main(String[] args)   </span><br><span class="line">    &#123;   </span><br><span class="line">        MyThread2 myThread = new MyThread2();   </span><br><span class="line">        myThread.setName(&quot;world&quot;);   </span><br><span class="line">        Thread thread = new Thread(myThread);   </span><br><span class="line">        thread.start();   </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>3. 通过回调函数传递数据</strong> </p>
+<p>上面讨论的两种向线程中传递数据的方法是最常用的。但这两种方法都是main方法中主动将数据传入线程类的。这对于线程来说，是被动接收这些数据的。然而，在有些应用中需要在线程运行的过程中动态地获取数据，如在下面代码的run方法中产生了3个随机数，然后通过Work类的process方法求这三个随机数的和，并通过Data类的value将结果返回。从这个例子可以看出，在返回value之前，必须要得到三个随机数。也就是说，这个 value是无法事先就传入线程类的。 </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package mythread;   </span><br><span class="line">class Data   </span><br><span class="line">&#123;   </span><br><span class="line">public int value = 0;   </span><br><span class="line">&#125;   </span><br><span class="line">class Work   </span><br><span class="line">&#123;   </span><br><span class="line">public void process(Data data, Integer numbers)   </span><br><span class="line">&#123;   </span><br><span class="line">for (int n : numbers)   </span><br><span class="line">&#123;   </span><br><span class="line">data.value += n;   </span><br><span class="line">&#125;   </span><br><span class="line">&#125;   </span><br><span class="line">&#125;   </span><br><span class="line">public class MyThread3 extends Thread   </span><br><span class="line">&#123;   </span><br><span class="line">private Work work;   </span><br><span class="line">public MyThread3(Work work)   </span><br><span class="line">&#123;   </span><br><span class="line">this.work = work;   </span><br><span class="line">&#125;   </span><br><span class="line">public void run()   </span><br><span class="line">&#123;   </span><br><span class="line">    java.util.Random random = new java.util.Random();   </span><br><span class="line">    Data data = new Data();   </span><br><span class="line">    int n1 = random.nextInt(1000);   </span><br><span class="line">    int n2 = random.nextInt(2000);   </span><br><span class="line">    int n3 = random.nextInt(3000);   </span><br><span class="line">    work.process(data, n1, n2, n3); // 使用回调函数   </span><br><span class="line">    System.out.println(String.valueOf(n1) + &quot;+&quot; + String.valueOf(n2) + &quot;+&quot;   </span><br><span class="line">    + String.valueOf(n3) + &quot;=&quot; + data.value);   </span><br><span class="line">&#125;   </span><br><span class="line">public static void main(String[] args)   </span><br><span class="line">&#123;   </span><br><span class="line">    Thread thread = new MyThread3(new Work());   </span><br><span class="line">    thread.start();   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="IO密集型和CPU密集型比较"><a href="#IO密集型和CPU密集型比较" class="headerlink" title="IO密集型和CPU密集型比较"></a>IO密集型和CPU密集型比较</h2><ul>
+<li>IO密集型指的是系统的CPU性能相对硬盘、内存要好很多，意思就是CPU在等硬盘和内存</li>
+<li>CPU密集型也叫计算密集型，指的是系统的硬盘、内存性能相对CPU要好很多，意思就是硬盘和内存在等CPU</li>
+</ul>
+<h2 id="volatile无法保证线程安全"><a href="#volatile无法保证线程安全" class="headerlink" title="volatile无法保证线程安全"></a><strong>volatile</strong>无法保证线程安全</h2><p>只能在有限的一些情形下使用 volatile 变量替代锁。要使 volatile 变量提供理想的线程安全，必须同时满足下面两个条件：</p>
+<ul>
+<li>对变量的写操作不依赖于当前值。</li>
+<li>该变量没有包含在具有其他变量的不变式中。</li>
+</ul>
+<p>实际上，这些条件表明，可以被写入 volatile 变量的这些有效值独立于任何程序的状态，包括变量的当前状态。</p>
+<p>第一个条件的限制使 volatile 变量不能用作线程安全计数器。虽然增量操作（x++）看上去类似一个单独操作，实际上它是一个由读取－修改－写入操作序列组成的组合操作，必须以原子方式执行，而 volatile 不能提供必须的原子特性。实现正确的操作需要使 x 的值在操作期间保持不变，而 volatile 变量无法实现这点。（然而，如果将值调整为只从单个线程写入，那么可以忽略第一个条件。）</p>
+<p>大多数编程情形都会与这两个条件的其中之一冲突，使得 volatile 变量不能像 synchronized 那样普遍适用于实现线程安全。</p>
+<h1 id="JDK和JRE有什么区别"><a href="#JDK和JRE有什么区别" class="headerlink" title="JDK和JRE有什么区别:"></a>JDK和JRE有什么区别:</h1><h1 id="Exception和Error的区别，-运行时异常和一般异常的区别"><a href="#Exception和Error的区别，-运行时异常和一般异常的区别" class="headerlink" title="Exception和Error的区别， 运行时异常和一般异常的区别"></a>Exception和Error的区别， 运行时异常和一般异常的区别</h1><p>Exception和Error都继承了-Throwable类，在Java中只有Throwable类型的实例才可以被抛出或者捕获，是异常处理机制的基本组成类型。</p>
 <p>Exception和Error体现了Java平台设计者对不同异常情况的分类。Exception是程序正常运行中，可以预料的意外情况，可能并且应该被捕获，进行相应处理。</p>
 <p>Error是指正常情况下，不大可能出现的情况，绝大部分的Error都会导致程序（比如JVM自身）处于非正常的，不可恢复状态。比如OutOfMemoryError之类，都是Error的子类。</p>
 <p>Exception分为可检查异常和不检查异常，可检查异常在源代码里必须显式的进行捕获处理，这是编译器检查的一部分。</p>
@@ -1004,6 +1174,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</span><br><span class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h1 id="TCP-和-UDP-的区别"><a href="#TCP-和-UDP-的区别" class="headerlink" title="TCP 和 UDP 的区别"></a>TCP 和 UDP 的区别</h1><p><a href="https://blog.csdn.net/zhang6223284/article/details/81414149" rel="external nofollow" target="_blank">https://blog.csdn.net/zhang6223284/article/details/81414149</a></p>
 
     </article>
     <!-- license  -->
@@ -1142,7 +1313,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">1.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">2.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">3.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">4.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">5.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">6.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">7.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">8.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">9.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">10.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">11.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">12.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">13.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">14.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">14.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">14.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">14.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">14.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">14.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">15.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">16.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">17.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">18.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">19.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">20.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">21.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">22.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">23.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">24.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">25.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">26.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">27.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">27.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">27.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">27.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">27.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">27.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">27.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">27.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">27.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-消息丢失怎么办？"><span class="toc-number">27.9.</span> <span class="toc-text">9.消息丢失怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">28.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">28.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">28.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">28.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java提供了哪些IO方式？-NIO如何实现多路复用？"><span class="toc-number">29.</span> <span class="toc-text">Java提供了哪些IO方式？ NIO如何实现多路复用？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA内存模型"><span class="toc-number">30.</span> <span class="toc-text">JAVA内存模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized底层实现"><span class="toc-number">31.</span> <span class="toc-text">Synchronized底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java并发编程：线程池的使用"><span class="toc-number">32.</span> <span class="toc-text">Java并发编程：线程池的使用</span></a></li>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA多线程："><span class="toc-number">1.</span> <span class="toc-text">JAVA多线程：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程和线程："><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread和Runnable的区别"><span class="toc-number">1.2.</span> <span class="toc-text">Thread和Runnable的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">1.3.</span> <span class="toc-text">线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadPoolExecutor类是线程池中最核心的一个类"><span class="toc-number">1.4.</span> <span class="toc-text">ThreadPoolExecutor类是线程池中最核心的一个类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池实现原理"><span class="toc-number">1.5.</span> <span class="toc-text">线程池实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的4种状态"><span class="toc-number">1.5.1.</span> <span class="toc-text">线程池的4种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程中的方法"><span class="toc-number">1.5.2.</span> <span class="toc-text">线程中的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sleep-和wait-差别"><span class="toc-number">1.5.3.</span> <span class="toc-text">sleep()和wait()差别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程状态转换"><span class="toc-number">1.6.</span> <span class="toc-text">线程状态转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程调度"><span class="toc-number">1.7.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用函数"><span class="toc-number">1.8.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait和sleep区别"><span class="toc-number">1.9.</span> <span class="toc-text">wait和sleep区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-和yield-的区别"><span class="toc-number">1.10.</span> <span class="toc-text">sleep()和yield()的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见线程名词解释"><span class="toc-number">1.11.</span> <span class="toc-text">常见线程名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步之synchronized关键字"><span class="toc-number">1.12.</span> <span class="toc-text">线程同步之synchronized关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步"><span class="toc-number">1.13.</span> <span class="toc-text">线程同步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程数据传递"><span class="toc-number">1.14.</span> <span class="toc-text">线程数据传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO密集型和CPU密集型比较"><span class="toc-number">1.15.</span> <span class="toc-text">IO密集型和CPU密集型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile无法保证线程安全"><span class="toc-number">1.16.</span> <span class="toc-text">volatile无法保证线程安全</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDK和JRE有什么区别"><span class="toc-number">2.</span> <span class="toc-text">JDK和JRE有什么区别:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">3.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">4.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">5.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">6.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">7.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">8.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">9.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">10.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">11.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">12.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">13.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">14.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">15.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">16.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">16.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">16.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">16.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">16.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">16.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">17.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">18.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">19.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">20.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">21.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">22.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">23.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">24.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">25.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">26.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">27.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">28.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">29.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">29.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">29.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">29.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">29.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">29.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">29.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">29.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">29.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-消息丢失怎么办？"><span class="toc-number">29.9.</span> <span class="toc-text">9.消息丢失怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">30.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">30.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">30.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">30.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java提供了哪些IO方式？-NIO如何实现多路复用？"><span class="toc-number">31.</span> <span class="toc-text">Java提供了哪些IO方式？ NIO如何实现多路复用？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA内存模型"><span class="toc-number">32.</span> <span class="toc-text">JAVA内存模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized底层实现"><span class="toc-number">33.</span> <span class="toc-text">Synchronized底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java并发编程：线程池的使用"><span class="toc-number">34.</span> <span class="toc-text">Java并发编程：线程池的使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-和-UDP-的区别"><span class="toc-number">35.</span> <span class="toc-text">TCP 和 UDP 的区别</span></a></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1155,6 +1326,54 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -2455,12 +2674,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2559,12 +2778,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2619,12 +2838,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2774,12 +2993,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2842,25 +3061,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
