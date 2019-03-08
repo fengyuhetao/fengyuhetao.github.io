@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">30,122</span> / Reading time: <span class="post-count">109 min</span></span>
+                        <span>Word count: <span class="post-count">46,505</span> / Reading time: <span class="post-count">167 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -567,7 +567,103 @@
 <p>实际上，这些条件表明，可以被写入 volatile 变量的这些有效值独立于任何程序的状态，包括变量的当前状态。</p>
 <p>第一个条件的限制使 volatile 变量不能用作线程安全计数器。虽然增量操作（x++）看上去类似一个单独操作，实际上它是一个由读取－修改－写入操作序列组成的组合操作，必须以原子方式执行，而 volatile 不能提供必须的原子特性。实现正确的操作需要使 x 的值在操作期间保持不变，而 volatile 变量无法实现这点。（然而，如果将值调整为只从单个线程写入，那么可以忽略第一个条件。）</p>
 <p>大多数编程情形都会与这两个条件的其中之一冲突，使得 volatile 变量不能像 synchronized 那样普遍适用于实现线程安全。</p>
-<h1 id="JDK和JRE有什么区别"><a href="#JDK和JRE有什么区别" class="headerlink" title="JDK和JRE有什么区别:"></a>JDK和JRE有什么区别:</h1><h1 id="Exception和Error的区别，-运行时异常和一般异常的区别"><a href="#Exception和Error的区别，-运行时异常和一般异常的区别" class="headerlink" title="Exception和Error的区别， 运行时异常和一般异常的区别"></a>Exception和Error的区别， 运行时异常和一般异常的区别</h1><p>Exception和Error都继承了-Throwable类，在Java中只有Throwable类型的实例才可以被抛出或者捕获，是异常处理机制的基本组成类型。</p>
+<h1 id="JAVA之I-O"><a href="#JAVA之I-O" class="headerlink" title="JAVA之I/O:"></a>JAVA之I/O:</h1><h2 id="什么是I-O"><a href="#什么是I-O" class="headerlink" title="什么是I/O"></a>什么是I/O</h2><p>I/O 即输入Input/ 输出Output的缩写，最容易让人联想到的就是屏幕这样的输出设备以及键盘鼠标这一类的输入设备，<strong>其广义上的定义就是：数据在内部存储器和外部存储器或其他周边设备之间的输入和输出；</strong>我们可以从定义上看到问题的核心就是：<strong>数据/ 输入/ 输出</strong>，在Java中，主要就是涉及到磁盘 I/O 和网络 I/O 两种了；</p>
+<p>简单理解Java 流（Stream）通常我们说 I/O 都会涉及到诸如输入流、输出流这样的概念，那么什么是流呢？流是一个抽象但形象的概念，你可以简单理解成<strong>一个数据的序列</strong>，输入流表示从一个源读取数据，输出流则表示向一个目标写数据，在Java程序中，对于数据的输入和输出都是采用 “流” 这样的方式进行的，其设备可以是文件、网络、内存等；流具有方向性，至于是输入流还是输出流则是一个相对的概念，一般以程序为参考，如果数据的流向是程序至设备，我们成为输出流，反之我们称为输入流。</p>
+<h2 id="Java中的-I-O-类库的基本架构"><a href="#Java中的-I-O-类库的基本架构" class="headerlink" title="Java中的 I/O 类库的基本架构"></a>Java中的 I/O 类库的基本架构</h2><p>在 I/O 库上也一直在做持续的优化，例如JDK1.4引入的 NIO，JDK1.7引入的 NIO 2.0，都一定程度上的提升了 I/O 的性能；</p>
+<p>Java的 I/O 操作类在包 java.io下，有将近80个类，这些类大概可以分成如下 4 组：</p>
+<ul>
+<li>基于字节操作的 I/O 接口：InputStream 和 OutputStream；</li>
+<li>基于字符操作的 I/O 接口：Writer 和 Reader；</li>
+<li>基于磁盘操作的 I/O 接口：File；</li>
+<li>基于网络操作的 I/O 接口：Socket；</li>
+</ul>
+<p>前两组主要是传输数据的数据格式，后两组主要是传输数据的方式，虽然Socket类并不在java.io包下，但这里仍然把它们划分在了一起；<strong>I/O 只是人机交互的一种手段，除了它们能够完成这个交互功能外，我们更多的应该是关注如何提高它的运行效率；</strong>00.基于字节的 I/O 操作接口基于字节的 I/O 操作的接口输入和输出分别对应是 InputStream 和 OutputStream，InputStream 的类层次结构如下图：</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/c217b7739fb64f6aa652505b614ff97b.png" alt=""></p>
+<p>输入流根据数据类型和操作方式又被划分成若干个子类，每个子类分别处理不同操作类型，OutputStream 输出流的类层次结构也是类似，如下图所示：</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/a46378584343407aa64cde27daf35b84.png" alt=""></p>
+<p><strong>1）操作数据的方式是可以组合使用的(也就是装饰器模式)：</strong>例如：</p>
+<p>OutputStream out = new BufferedOutputStream(new ObjectOutputStream(new FileOutputStream(“fileName”))；</p>
+<p><strong>2）必须要指定流最终写到什么地方：</strong>要么是写到磁盘，要么是写到网络中，但重点是你必须说明这一点，而且你会发现其实SocketOutputStream是属于FileOutputStream下的，也就是说写网络实际上也是写文件，只不过写网络还有一步需要处理，就是让底层的操作系统知道我这个数据是需要传送到其他地方而不是本地磁盘上的；</p>
+<p>01.基于字符的 I/O 操作接口<strong>不管是磁盘还是网络传输，最小的存储单元都是字节，</strong>而不是字符，所以 I/O 操作的都是字节而不是字符，但是在我们日常的程序中操作的数据几乎都是字符，所以为了操作方便当然要提供一个可以直接写字符的 I/O 接口。而且从字符到字节必须经过编码转换，而这个编码又非常耗时，还经常出现乱码的问题，所以 I/O 的编码问题经常是让人头疼的问题。</p>
+<p>读字符的操作接口中是 int read(char cbuf[], int off, int len)，写字符也类似，返回读到的 n 个字节数，<strong>不管是 Writer 还是 Reader 类它们都只定义了读取或写入的数据字符的方式</strong>，也就是怎么写或读，但是并没有规定数据要写到哪去，写到哪去就是我们后面要讨论的基于磁盘和网络的工作机制。</p>
+<p>01.字节与字符的转化接口另外数据持久化或网络传输都是以字节进行的，所以必须要有字符到字节或字节到字符的转化。字符到字节需要转化，其中读的转化过程如下图所示：</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/ef748d9b87d14dd4856e6e87c825682d.png" alt=""></p>
+<p>InputStreamReader 类是字节到字符的转化桥梁，InputStream 到 Reader 的过程要指定编码字符集，否则将采用操作系统默认字符集，很可能会出现乱码问题。StreamDecoder 正是完成字节到字符的解码的实现类。</p>
+<h2 id="磁盘-I-O-的工作机制"><a href="#磁盘-I-O-的工作机制" class="headerlink" title="磁盘 I/O 的工作机制"></a>磁盘 I/O 的工作机制</h2><p>几种访问文件的方式我们知道，<strong>读取和写入文件 I/O 操作都调用的是操作系统提供给我们的接口</strong>，因为磁盘设备是归操作系统管的，而只要是系统调用都可能存在内核空间地址和用户空间地址切换的问题，这是为了保证用户进程不能直接操作内核，保证内核的安全而设计的，现代的操作系统将虚拟空间划分成了内核空间和用户空间两部分并实现了隔离，但是这样虽然保证了内核程序运行的安全性，但是也必然存在数据可能需要从内核空间向用户用户空间复制的问题；</p>
+<p>如果遇到非常耗时的操作，如磁盘 I/O，数据从磁盘复制到内核空间，然后又从内核空间复制到用户空间，将会非常耗时，<strong>这时操作系统为了加速 I/O 访问，在内核空间使用缓存机制，</strong>也就是将从磁盘读取的文件按照一定的组织方式进行缓存，入股用户程序访问的是同一段磁盘地址的空间数据，那么操作系统将从内核缓存中直接取出返回给用户程序，这样就可以减少 I/O 的响应时间；</p>
+<p>访问文件的方式:</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/1f45409563a6417c9b02f2a8ab63af48.png" alt=""></p>
+<p>读取的方式是，当应用程序调用read()接口时：</p>
+<ul>
+<li>①操作系统首先检查在<strong>内核的高速缓存中是否存在需要的数据</strong>，如果有，那么直接从缓存中返回；</li>
+<li>②如果没有，则<strong>从磁盘中读取，然后缓存在操作系统的缓存中；</strong></li>
+</ul>
+<p>01.直接 I/O 方式</p>
+<p>所谓的直接 I/O 的方式就是应用程序直接访问磁盘数据，而不经过操作系统内核数据缓冲区，<strong>这样做的目的是减少一次从内核缓冲区到用户程序缓存的数据复制；</strong>这种访问文件的方式通常是在对数据的缓存管理由应用程序实现的数据库管理系统中，如在数据库管理系统中，系统明确地知道应该缓存哪些数据，应该失效哪些数据，还可以对一些热点数据做预加载，提前将热点数据加载到内存，可以加速数据的访问效率，而这些情况如果是交给操作系统进行缓存，那么操作系统将不知道哪些数据是热点数据，哪些是只会访问一次的数据，因为它只是简单的缓存最近一次从磁盘读取的数据而已；</p>
+<p>但是直接 I/O 也有负面影响，如果访问的数据不再应用程序缓存之中，那么每次数据都会直接从磁盘进行加载，这种直接加载会非常缓慢，因此直接 I/O 通常与 异步 I/O 进行结合以达到更好的性能；</p>
+<h2 id="Java-序列化技术"><a href="#Java-序列化技术" class="headerlink" title="Java 序列化技术"></a>Java 序列化技术</h2><p><strong>Java序列化就是将一个对象转化成一串二进制表示的字节数组，通过保存或转移这些字节数据来达到持久化的目的。</strong>需要持久化，对象必须继承 java.io.Serializable 接口，或者将其转为字节数组，用于网络传输；注意：一个类的对象想要序列化成功，必须满足两个条件</p>
+<ul>
+<li>①实现上述的接口；</li>
+<li>②保证该类的所有属性必须都是可序列化的，如果不希望某个属性序列化（例如一些敏感信息），可以加上transient关键字；</li>
+</ul>
+<p>或许会有留意到诸如这样的代码：</p>
+<p><code>private static final long serialVersionUID = 876323262645176354L;</code></p>
+<p>就这一长串的东西也不知道是在干嘛的，但这其实<strong>是为了保证序列化版本的兼容性，即在版本升级后序列化仍保持对象的唯一性；</strong>我们通过上述的修改也感受到了其中的一二，<strong>但是问题是：我们并没有在需要序列化的对象中写任何关于这个UID的代码呀？</strong>这是个有趣的问题，通常情况下，如果我们实现了序列化接口，但是没有自己显式的声明这个UID的话，那么JVM就会根据该类的类名、属性名、方法名等自己计算出一个独一无二的变量值，然后将这个变量值一同序列化到文件之中，而在反序列化的时候同样，会根据该类计算出一个独一无二的变量然后进行比较，不一致就会报错，但是我怀着强烈的好奇心去反编译了一下.class文件，并没有发现编译器写了UDI这一类的东西，我看《深入分析 Java Web 技术内幕》中说，实际上是写到了二进制文件里面了；</p>
+<ul>
+<li><strong>不显式声明的缺点：</strong>一旦写好了某一个类，那么想要修改就不行了，所以我们最好自己显式的去声明；</li>
+<li><strong>显式声明的方式：</strong>①使用默认的1L作用UID；②根据类名、接口名等生成一个64位的哈希字段，现在的编译器如IDEA、Eclipse都有这样的功能</li>
+</ul>
+<p>序列化用来干什么？虽然我们上面的程序成功将一个对象序列化保存到磁盘，然后从磁盘还原，但是这样的功能到底可以应用在哪些场景？到底可以干一些什么样的事情呢？下面举一些在实际应用中的例子：</p>
+<ul>
+<li>Web服务器中保存Session对象，如Tomcat会在服务器关闭时把session序列化存储到一个名为session.ser的文件之中，这个过程称为session的钝化；</li>
+<li>网络上传输对象，如分布式应用等；</li>
+</ul>
+<p>关于序列化的一些细节</p>
+<p>1.如果一个类没有实现Serializable接口，但是它的基类实现了，那么这个类也是可以序列化的；</p>
+<p>2.相反，如果一个类实现了Serializable接口，但是它的父类没有实现，那么这个类还是可以序列化（Object是所有类的父类），但是序列化该子类对象，然后反序列化后输出父类定义的某变量的数值，会发现该变量数值与序列化时的数值不同（一般为null或者其他默认值），而且这个父类里面必须有无参的构造方法，不然子类反序列化的时候会报错。</p>
+<h2 id="网络-I-O-工作机制"><a href="#网络-I-O-工作机制" class="headerlink" title="网络 I/O 工作机制"></a>网络 I/O 工作机制</h2><p>数据从一台主机发送到网络中的另一台主机需要经过很多步骤，首先双方需要有沟通的意向，然后要有能够沟通的物理渠道（物理链路），其次，还要保障双方能够正常的进行交流，例如语言一致的问题、说话顺序的问题等等等；</p>
+<p>Java Socket 的工作机制看到有地方说：<strong>网络 I/O 的实质其实就是对 Socket 的读取；</strong>那Socket 这个概念没有对应到一个具体的实体，它是描述计算机之间完成相互通信一种抽象功能。打个比方，可以把 Socket 比作为两个城市之间的交通工具，有了它，就可以在城市之间来回穿梭了。交通工具有多种，每种交通工具也有相应的交通规则。Socket 也一样，也有多种。大部分情况下我们使用的都是基于 TCP/IP 的流套接字，它是一种稳定的通信协议。</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/36e19c2337224a5ba42cafa2b1f69966.png" alt=""></p>
+<p>主机 A 的应用程序要能和主机 B 的应用程序通信，必须通过 Socket 建立连接，而建立 Socket 连接必须需要底层 TCP/IP 协议来建立 TCP 连接。建立 TCP 连接需要底层 IP 协议来寻址网络中的主机。我们知道网络层使用的 IP 协议可以帮助我们根据 IP 地址来找到目标主机，但是一台主机上可能运行着多个应用程序，如何才能与指定的应用程序通信就要通过 TCP 或 UPD 的地址也就是端口号来指定。这样就可以通过一个 Socket 实例唯一代表一个主机上的一个应用程序的通信链路了。</p>
+<p>建立通信链路当客户端要与服务端通信，客户端首先要创建一个 Socket 实例，操作系统将为这个 Socket 实例分配一个没有被使用的本地端口号，并创建一个包含本地和远程地址和端口号的套接字数据结构，这个数据结构将一直保存在系统中直到这个连接关闭。在创建 Socket 实例的构造函数正确返回之前，将要进行 <strong>TCP 的三次握手协议</strong>，TCP 握手协议完成后，Socket 实例对象将创建完成，否则将抛出 IOException 错误。</p>
+<p>与之对应的服务端将创建一个 ServerSocket 实例，ServerSocket 创建比较简单只要指定的端口号没有被占用，一般实例创建都会成功，同时操作系统也会为 ServerSocket 实例创建一个底层数据结构，这个数据结构中包含指定监听的端口号和包含监听地址的通配符，通常情况下都是“*”即监听所有地址。之后当调用 accept() 方法时，将进入阻塞状态，等待客户端的请求。当一个新的请求到来时，将为这个连接创建一个新的套接字数据结构，该套接字数据的信息包含的地址和端口信息正是请求源地址和端口。这个新创建的数据结构将会关联到 ServerSocket 实例的一个未完成的连接数据结构列表中，注意这时服务端与之对应的 Socket 实例并没有完成创建，而要等到与客户端的三次握手完成后，这个服务端的 Socket 实例才会返回，并将这个 Socket 实例对应的数据结构从未完成列表中移到已完成列表中。所以 ServerSocket 所关联的列表中每个数据结构，都代表与一个客户端的建立的 TCP 连接。</p>
+<p>数据传输传输数据是我们建立连接的主要目的，如何通过 Socket 传输数据，下面将详细介绍。</p>
+<p>当连接已经建立成功，服务端和客户端都会拥有一个 Socket 实例，每个 Socket 实例都有一个 InputStream 和 OutputStream，正是通过这两个对象来交换数据。同时我们也知道网络 I/O 都是以字节流传输的。当 Socket 对象创建时，操作系统将会为 InputStream 和 OutputStream 分别分配一定大小的缓冲区，数据的写入和读取都是通过这个缓存区完成的。写入端将数据写到 OutputStream 对应的 SendQ 队列中，当队列填满时，数据将被发送到另一端 InputStream 的 RecvQ 队列中，如果这时 RecvQ 已经满了，那么 OutputStream 的 write 方法将会阻塞直到 RecvQ 队列有足够的空间容纳 SendQ 发送的数据。值得特别注意的是，这个缓存区的大小以及写入端的速度和读取端的速度非常影响这个连接的数据传输效率，由于可能会发生阻塞，所以网络 I/O 与磁盘 I/O 在数据的写入和读取还要有一个协调的过程，如果两边同时传送数据时可能会产生死锁，在后面 NIO 部分将介绍避免这种情况。</p>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO 的工作方式,BIO 带来的挑战,BIO 即阻塞 I/O，不管是磁盘 I/O 还是网络 I/O，数据在写入 OutputStream 或者从 InputStream 读取时都有可能会阻塞。<strong>一旦有线程阻塞将会失去 CPU 的使用权，这在当前的大规模访问量和有性能要求情况下是不能接受的。</strong>虽然当前的网络 I/O 有一些解决办法，如一个客户端一个处理线程，出现阻塞时只是一个线程阻塞而不会影响其它线程工作，还有为了减少系统线程的开销，采用线程池的办法来减少线程创建和回收的成本，但是有一些使用场景仍然是无法解决的。<strong>如当前一些需要大量 HTTP 长连接的情况</strong>，像淘宝现在使用的 Web 旺旺项目，服务端需要同时保持几百万的 HTTP 连接，但是并不是每时每刻这些连接都在传输数据，这种情况下不可能同时创建这么多线程来保持连接。<strong>即使线程的数量不是问题，仍然有一些问题还是无法避免的。</strong>如这种情况，<strong>我们想给某些客户端更高的服务优先级</strong>，很难通过设计线程的优先级来完成，另外一种情况是，<strong>我们需要让每个客户端的请求在服务端可能需要访问一些竞争资源，由于这些客户端是在不同线程中，因此需要同步，而往往要实现这些同步操作要远远比用单线程复杂很多。</strong>以上这些情况都说明，我们需要另外一种新的 I/O 操作方式。</p>
+<p>NIO 的工作机制很多人都把NIO翻译成New IO，但我更觉得No-Block IO更接近它的本意，也就是非阻塞式IO，它虽然是非阻塞式的，但它是同步的，我们先看一下 NIO 涉及到的关联类图，如下：</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/09edb96d9b27457daec65114a055905d.png" alt=""></p>
+<p><strong>上图中有两个关键类：Channel 和 Selector</strong>，它们是 NIO 中两个核心概念。我们还用前面的城市交通工具来继续比喻 NIO 的工作方式，这里的 Channel 要比 Socket 更加具体，它可以比作为某种具体的交通工具，如汽车或是高铁等，而 Selector 可以比作为一个车站的车辆运行调度系统，它将负责监控每辆车的当前运行状态：是已经出战还是在路上等等，也就是它可以轮询每个 Channel 的状态。<strong>这里还有一个 Buffer 类</strong>，它也比 Stream 更加具体化，我们可以将它比作为车上的座位，Channel 是汽车的话就是汽车上的座位，高铁上就是高铁上的座位，它始终是一个具体的概念，与 Stream 不同。Stream 只能代表是一个座位，至于是什么座位由你自己去想象，也就是你在去上车之前并不知道，这个车上是否还有没有座位了，也不知道上的是什么车，因为你并不能选择，这些信息都已经被封装在了运输工具（Socket）里面了，对你是透明的。</p>
+<p><strong>NIO 引入了 Channel、Buffer 和 Selector 就是想把这些信息具体化，让程序员有机会控制它们</strong>，如：当我们调用 write() 往 SendQ 写数据时，当一次写的数据超过 SendQ 长度是需要按照 SendQ 的长度进行分割，这个过程中需要有将用户空间数据和内核地址空间进行切换，而这个切换不是你可以控制的。而在 Buffer 中我们可以控制 Buffer 的 capacity，并且是否扩容以及如何扩容都可以控制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public void selector() throws IOException &#123;</span><br><span class="line">    ByteBuffer buffer = ByteBuffer.allocate(1024);</span><br><span class="line">    Selector selector = Selector.open();</span><br><span class="line">    ServerSocketChannel ssc = ServerSocketChannel.open();</span><br><span class="line">    ssc.configureBlocking(false);//设置为非阻塞方式</span><br><span class="line">    ssc.socket().bind(new InetSocketAddress(8080));</span><br><span class="line">    ssc.register(selector, SelectionKey.OP_ACCEPT);//注册监听的事件</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        Set selectedKeys = selector.selectedKeys();//取得所有key集合</span><br><span class="line">        Iterator it = selectedKeys.iterator();</span><br><span class="line">        while (it.hasNext()) &#123;</span><br><span class="line">            SelectionKey key = (SelectionKey) it.next();</span><br><span class="line">            if ((key.readyOps() &amp; SelectionKey.OP_ACCEPT) == SelectionKey.OP_ACCEPT) &#123;</span><br><span class="line">                ServerSocketChannel ssChannel = (ServerSocketChannel) key.channel();</span><br><span class="line">                SocketChannel sc = ssChannel.accept();//接受到服务端的请求</span><br><span class="line">                sc.configureBlocking(false);</span><br><span class="line">                sc.register(selector, SelectionKey.OP_READ);</span><br><span class="line">                it.remove();</span><br><span class="line">        	&#125; else if</span><br><span class="line">        		((key.readyOps() &amp; SelectionKey.OP_READ) == SelectionKey.OP_READ) &#123;</span><br><span class="line">                SocketChannel sc = (SocketChannel) key.channel();</span><br><span class="line">                while (true) &#123;</span><br><span class="line">                    buffer.clear();</span><br><span class="line">                    int n = sc.read(buffer);//读取数据</span><br><span class="line">                    if (n &lt;= 0) &#123;</span><br><span class="line">                    	break;</span><br><span class="line">            &#125;</span><br><span class="line">            buffer.flip();</span><br><span class="line">        &#125;</span><br><span class="line">        it.remove();</span><br><span class="line">       &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用 Selector 的静态工厂创建一个选择器，创建一个服务端的 Channel 绑定到一个 Socket 对象，并把这个通信信道注册到选择器上，把这个通信信道设置为非阻塞模式。然后就可以调用 Selector 的 selectedKeys 方法来检查已经注册在这个选择器上的所有通信信道是否有需要的事件发生，如果有某个事件发生时，将会返回所有的 SelectionKey，通过这个对象 Channel 方法就可以取得这个通信信道对象从而可以读取通信的数据，而这里读取的数据是 Buffer，这个 Buffer 是我们可以控制的缓冲器。</p>
+<p>在上面的这段程序中，是将 Server 端的监听连接请求的事件和处理请求的事件放在一个线程中，但是在实际应用中，我们通常会把它们放在两个线程中，<strong>一个线程专门负责监听客户端的连接请求，而且是阻塞方式执行的；另外一个线程专门来处理请求，这个专门处理请求的线程才会真正采用 NIO 的方式</strong>，像 Web 服务器 Tomcat 和 Jetty 都是这个处理方式。</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180816/96e67e85f1ae4188b7a40bd20f5bd2d8.png" alt=""></p>
+<p>上图中的 Selector 可以同时监听一组通信信道（Channel）上的 I/O 状态，前提是这个 Selector 要已经注册到这些通信信道中。选择器 Selector 可以调用 select() 方法检查已经注册的通信信道上的是否有 I/O 已经准备好，如果没有至少一个信道 I/O 状态有变化，那么 select 方法会阻塞等待或在超时时间后会返回 0。上图中如果有多个信道有数据，那么将会将这些数据分配到对应的数据 Buffer 中。所以关键的地方是有一个线程来处理所有连接的数据交互，每个连接的数据交互都不是阻塞方式，所以可以同时处理大量的连接请求。</p>
+<p>Java NIO 实例上面从 NIO 中引入了一些概念，下面我们对这些概念再来进行简单的复述和补充：</p>
+<ul>
+<li><strong>缓冲区Buffer：</strong>缓冲区是一个对象，里面存的是数据，NIO进行通讯，传递的数据，都包装到Buffer中，Buffer是一个抽象类。子类有ByteBuffer、CharBuffer等，常用的是字节缓冲区，也就是ByteBuffer；</li>
+<li><strong>通道Channel：</strong>channel是一个通道，通道就是通流某种物质的管道，在这里就是通流数据，他和流的不同之处就在于，流是单向的，只能向一个方向流动，而通道是一个管道，有两端，是双向的，可以进行读操作，也可以写操作，或者两者同时进行；</li>
+<li><strong>多路复用器Selector：</strong>多路复用器是一个大管家，他管理着通道，通道把自己注册到Selector上面，Selector会<strong>轮询</strong>注册到自己的管道，通过判断这个管道的不同的状态，来进行相应的操作；</li>
+</ul>
+<p><strong>NIO 工作机制的核心思想就是：</strong>客户端和服务器端都是使用的通道，通道具有事件，可以将事件注册到多路复选器上，事件有就绪和非就绪两种状态，就绪的状态会放到多路复选器的就绪键的集合中，起一个线程不断地去轮询就绪的状态，根据不同的状态做不同的处理/</p>
+<ol>
+<li><p>NIO 和 IO 的主要区别<strong>面向流与面向缓冲.</strong></p>
+<p>Java NIO和IO之间第一个最大的区别是，IO是面向流的，NIO是面向缓冲区的。Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区。 Java NIO的缓冲导向方法略有不同。数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动。这就增加了处理过程中的灵活性。</p>
+</li>
+<li><p><strong>阻塞与非阻塞IO</strong></p>
+<p>Java IO的各种流是阻塞的。这意味着，当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了。 Java NIO的非阻塞模式，使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。</p>
+</li>
+<li><p><strong>选择器（Selectors）</strong></p>
+<p> Java NIO的选择器允许一个单独的线程来监视多个输入通道，你可以注册多个通道使用一个选择器，然后使用一个单独的线程来“选择”通道：这些通道里已经有可以处理的输入，或者选择已准备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。</p>
+</li>
+</ol>
+<h1 id="JDK和JRE有什么区别"><a href="#JDK和JRE有什么区别" class="headerlink" title="JDK和JRE有什么区别:"></a>JDK和JRE有什么区别:</h1><p>1.JDK</p>
+<p>​       JDK是Java Development Kit的缩写，是Java的开发工具包，主要包含了各种类库和工具，当然也包含了另外一个JRE.。那么为什么要包含另外一个JRE呢？而且&lt;JDK安装目录&gt;/JRE/bin目录下，包含有server一个文件夹~包含一个jvm.dll，这说明JDK提供了一个虚拟机。</p>
+<p>​       另外，JDK的bin目录下有各种Java程序需要用到的命令，与JRE的bin目录最明显的区别就是JDK文件下才有javac，这一点很好理解，因为JRE只是一个运行环境而已，与开发无关。正因为如此，具备开发功能的JDK所包含的JRE下才会同时有server的JVM，而仅仅作为运行环境的JRE下，只需要server的jvm.dll就够了。</p>
+<p>​      注意：JDK所提供的运行环境和工具度需要进行环境变量的配置以后，才能使用，最主要的配置就是把&lt;JDK安装目录&gt;/bin目录设置为Path环境变量值的一部分。</p>
+<p>2.JRE</p>
+<p>​        JRE是Java Runtime Environment的缩写，是Java程序的运行环境。既然是运行，当然要包含JVM，也就是所谓的Java虚拟机，还有所以的Java类库的class文件，都在lib目录下，并且都打包成了jar。</p>
+<h1 id="Exception和Error的区别，-运行时异常和一般异常的区别"><a href="#Exception和Error的区别，-运行时异常和一般异常的区别" class="headerlink" title="Exception和Error的区别， 运行时异常和一般异常的区别"></a>Exception和Error的区别， 运行时异常和一般异常的区别</h1><p>Exception和Error都继承了-Throwable类，在Java中只有Throwable类型的实例才可以被抛出或者捕获，是异常处理机制的基本组成类型。</p>
 <p>Exception和Error体现了Java平台设计者对不同异常情况的分类。Exception是程序正常运行中，可以预料的意外情况，可能并且应该被捕获，进行相应处理。</p>
 <p>Error是指正常情况下，不大可能出现的情况，绝大部分的Error都会导致程序（比如JVM自身）处于非正常的，不可恢复状态。比如OutOfMemoryError之类，都是Error的子类。</p>
 <p>Exception分为可检查异常和不检查异常，可检查异常在源代码里必须显式的进行捕获处理，这是编译器检查的一部分。</p>
@@ -1182,7 +1278,289 @@
 </li>
 </ul>
 <h1 id="TCP-和-UDP-的区别"><a href="#TCP-和-UDP-的区别" class="headerlink" title="TCP 和 UDP 的区别"></a>TCP 和 UDP 的区别</h1><p><a href="https://blog.csdn.net/zhang6223284/article/details/81414149" rel="external nofollow" target="_blank">https://blog.csdn.net/zhang6223284/article/details/81414149</a></p>
-
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p><img src="https://static001.geekbang.org/resource/image/6d/bf/6d1313f51b9dfd7ab454b2cef1cb37bf.jpg" alt=""></p>
+<ul>
+<li>沟通简单，不需要大量的数据结构，处理逻辑和包头字段</li>
+<li>它不会建立连接，但是会监听这个地方，谁都可以传给它数据，它也可以传给任何人数据，甚至可以同时传给多个人数据。</li>
+<li>不会根据网络的情况进行拥塞控制，无论是否丢包，它该怎么发还是怎么发</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景:"></a>应用场景:</h3><ul>
+<li>需要资源少，网络情况稳定的内网，或者对于丢包不敏感的应用，比如 DHCP 就是基于 UDP 协议的。</li>
+<li><p>不需要一对一沟通，建立连接，而是可以广播的应用。因为它不面向连接，所以可以做到一对多，承担广播或者多播的协议。</p>
+</li>
+<li><p>需要处理速度快，可以容忍丢包，但是即使网络拥塞，也毫不退缩，一往无前的时候</p>
+</li>
+</ul>
+<h3 id="具体案例"><a href="#具体案例" class="headerlink" title="具体案例"></a>具体案例</h3><ul>
+<li>直播。直播对实时性的要求比较高，宁可丢包，也不要卡顿的，所以很多直播应用都基于 UDP 实现了自己的视频传输协议</li>
+<li><p>实时游戏。游戏的特点也是实时性比较高，在这种情况下，采用自定义的可靠的 UDP 协议，自定义重传策略，能够把产生的延迟降到最低，减少网络问题对游戏造成的影响</p>
+</li>
+<li><p>物联网。一方面，物联网领域中断资源少，很可能知识个很小的嵌入式系统，而维护 TCP 协议的代价太大了；另一方面，物联网对实时性的要求也特别高。比如 Google 旗下的 Nest 简历 Thread Group，推出了物联网通信协议 Thread，就是基于 UDP 协议的</p>
+</li>
+</ul>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p><img src="https://static001.geekbang.org/resource/image/a7/bf/a795461effcce686a43f48e094c9adbf.jpg" alt=""></p>
+<ul>
+<li>首先，源端口和目标端口是不可少的。</li>
+<li>接下来是包的序号。主要是为了解决乱序问题。不编好号怎么知道哪个先来，哪个后到<br>确认序号。发出去的包应该有确认，这样能知道对方是否收到，如果没收到就应该重新发送，这个解决的是不丢包的问题</li>
+<li><p>状态位。SYN 是发起一个链接，ACK 是回复，RST 是重新连接，FIN 是结束连接。因为 TCP 是面向连接的，因此需要双方维护连接的状态，这些状态位的包会引起双方的状态变更</p>
+</li>
+<li><p>窗口大小，TCP 要做流量控制，需要通信双方各声明一个窗口，标识自己当前的处理能力</p>
+</li>
+</ul>
+<p>通过对 TCP 头的解析，我们知道要掌握 TCP 协议，应该重点关注以下问题：</p>
+<ul>
+<li>顺序问题</li>
+<li>丢包问题</li>
+<li>连接维护</li>
+<li>流量控制</li>
+<li>拥塞控制</li>
+</ul>
+<h3 id="TCP-3次握手"><a href="#TCP-3次握手" class="headerlink" title="TCP 3次握手"></a>TCP 3次握手</h3><p>只需要3次握手:</p>
+<p>在《计算机网络》一书中其中有提到，三次握手的目的是“为了防止已经失效的连接请求报文段突然又传到服务端，因而产生错误”，这种情况是：一端(client)A发出去的第一个连接请求报文并没有丢失，而是因为某些未知的原因在某个网络节点上发生滞留，导致延迟到连接释放以后的某个时间才到达另一端(server)B。本来这是一个早已失效的报文段，但是B收到此失效的报文之后，会误认为是A再次发出的一个新的连接请求，于是B端就向A又发出确认报文，表示同意建立连接。如果不采用“三次握手”，那么只要B端发出确认报文就会认为新的连接已经建立了，但是A端并没有发出建立连接的请求，因此不会去向B端发送数据，B端没有收到数据就会一直等待，这样B端就会白白浪费掉很多资源。如果采用“三次握手”的话就不会出现这种情况，B端收到一个过时失效的报文段之后，向A端发出确认，此时A并没有要求建立连接，所以就不会向B端发送确认，这个时候B端也能够知道连接没有建立。</p>
+<p>简单理解:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A：您好，我是 A </span><br><span class="line">B：您好 A，我是 B </span><br><span class="line">A：您好 B</span><br></pre></td></tr></table></figure>
+<p>​    在三次握手之后，A和B都能确定这么一件事： 我说的话，你能听到； 你说的话，我也能听到。<strong> </strong>这样，就可以开始正常通信了。</p>
+<p>​    注意： HTTP是基于TCP协议的，所以每次都是客户端发送请求，服务器应答，但是TCP还可以给其他应用层提供服务，即可能A、B在建立链接之后，谁都可能先开始通信。</p>
+<p>​    如果两次，那么B无法确定B的信息A是否能收到，所以如果B先说话，可能后面的A都收不到，会出现问题 。</p>
+<p>　　如果四次，那么就造成了浪费，因为在三次结束之后，就已经可以保证A可以给B发信息，A可以收到B的信息； B可以给A发信息，B可以收到A的信息。</p>
+<p><img src="https://static001.geekbang.org/resource/image/66/a2/666d7d20aa907d8317af3770411f5aa2.jpg" alt=""></p>
+<h3 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h3><p>在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.<br>Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。<br>Syn攻击是一个典型的<a href="https://www.centos.bz/tag/ddos/" rel="external nofollow" target="_blank">DDOS</a>攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.在<a href="http://www.centos.bz/" rel="external nofollow" target="_blank">Linux</a>下可以如下命令检测是否被Syn攻击<br><code>netstat -n -p TCP | grep SYN_RECV</code><br>一般较新的TCP/IP协议栈都对这一过程进行修正来防范Syn攻击，修改tcp协议实现。主要方法有SynAttackProtect保护机制、SYN cookies技术、增加最大半连接和缩短超时时间等.<br>但是不能完全防范syn攻击。</p>
+<h3 id="TCP四次握手"><a href="#TCP四次握手" class="headerlink" title="TCP四次握手"></a>TCP四次握手</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A：B 啊，我不想玩了 </span><br><span class="line">B：哦，你不想玩了啊，我知道了 </span><br><span class="line">这个时候，只是 A 不想玩了，即不再发送数据，但是 B 可能还有未发送完的数据，所以需要等待 B 也主动关闭。 </span><br><span class="line">B：A 啊，好吧，我也不玩了，拜拜 </span><br><span class="line">A：好的，拜拜</span><br></pre></td></tr></table></figure>
+<p><img src="https://static001.geekbang.org/resource/image/1f/11/1f6a5e17b34f00d28722428b7b8ccb11.jpg" alt=""></p>
+<p>本质的原因是tcp是全双公的，要实现可靠的连接关闭，A发出结束报文FIN，收到B确认后A知道自己没有数据需要发送了，B知道A不再发送数据了，自己也不会接收数据了，但是此时A还是可以接收数据，B也可以发送数据；当B发出FIN报文的时候此时两边才会真正的断开连接，读写分开。</p>
+<h3 id="MSL（Maximum-Segment-Lifetime），最长报文段寿命"><a href="#MSL（Maximum-Segment-Lifetime），最长报文段寿命" class="headerlink" title="MSL（Maximum Segment Lifetime），最长报文段寿命"></a>MSL（Maximum Segment Lifetime），最长报文段寿命</h3><p>TCP允许不同的实现可以设置不同的MSL值。</p>
+<p>第一，保证客户端发送的最后一个ACK报文能够到达服务器，因为这个ACK报文可能丢失，站在服务器的角度看来，我已经发送了FIN+ACK报文请求断开了，客户端还没有给我回应，应该是我发送的请求断开报文它没有收到，于是服务器又会重新发送一次，而客户端就能在这个2MSL时间段内收到这个重传的报文，接着给出回应报文，并且会重启2MSL计时器。</p>
+<p>第二，防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</p>
+<h3 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h3><p>TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75分钟发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。</p>
+<h3 id="累计确认"><a href="#累计确认" class="headerlink" title="累计确认"></a>累计确认</h3><blockquote>
+<p>TCP 如何实现可靠传输?</p>
+</blockquote>
+<p>首先为了保证顺序性，每个包都有一个 ID。在建立连接的时候会商定起始 ID 是什么，然后按照 ID 一个个发送，为了保证不丢包，需要对发送的包都要进行应答，当然，这个应答不是一个一个来的，而是会应答某个之前的 ID，表示都收到了，这种模式成为累计应答或累计确认。</p>
+<p>为了记录所有发送的包和接收的包，TCP 需要发送端和接收端分别来缓存这些记录，发送端的缓存里是按照包的 ID 一个个排列，根据处理的情况分成四个部分</p>
+<ul>
+<li>发送并且确认的</li>
+<li>发送尚未确认的</li>
+<li>没有发送等待发送的</li>
+<li>没有发送并且暂时不会发送的</li>
+</ul>
+<p>这里的第三部分和第四部分就属于流量控制的内容</p>
+<p>在 TCP 里，接收端会给发送端报一个窗口大小，叫 Advertised window。这个窗口应该等于上面的第二部分加上第三部分，超过这个窗口，接收端做不过来，就不能发送了</p>
+<p>于是，发送端要保持下面的数据结构 </p>
+<p><img src="https://static001.geekbang.org/resource/image/16/7b/16dcd6fb8105a1caa75887b5ffa0bd7b.jpg" alt=""></p>
+<p>对于接收端来讲，它的缓存里面的内容要简单一些</p>
+<ul>
+<li>接收并且确认过的</li>
+<li>还没接收，但是马上就能接收的</li>
+<li>还没接收，但也无法接收的</li>
+</ul>
+<p><img src="https://static001.geekbang.org/resource/image/f7/a4/f7b1d3bc6b6d8e55f0951e82294c8ba4.jpg" alt=""></p>
+<h3 id="顺序问题和丢包问题"><a href="#顺序问题和丢包问题" class="headerlink" title="顺序问题和丢包问题"></a>顺序问题和丢包问题</h3><p>结合上面的图看，在发送端，1、2、3 已发送并确认；4、5、6、7、8、9 都是发送了还没确认；10、11、12 是还没发出的；13、14、15 是接收方没有空间，不准备发的。</p>
+<p>在接收端来看，1、2、3、4、5 是已经完成 ACK 但是还没读取的；6、7 是等待接收的；8、9 是已经接收还没有 ACK 的。</p>
+<p>发送端和接收端当前的状态如下：</p>
+<p>1、2、3 没有问题，双方达成了一致<br>4、5 接收方说 ACK 了，但是发送方还没收到</p>
+<p>6、7、8、9 肯定都发了，但是 8、9 已经到了，6、7 没到，出现了乱序，缓存着但是没办法 ACK。</p>
+<p>根据这个例子可以知道顺序问题和丢包问题都有可能存在，所以我们先来看确认与重传机制。</p>
+<p>假设 4 的确认收到了，5 的 ACK 丢了，6、7 的数据包丢了，该怎么办？</p>
+<p>一种方法是超时重试，即对每一个发送了但是没有 ACK 的包设定一个定时器，超过了一定的事件就重新尝试。这个时间必须大于往返时间，但也不宜过长，否则超时时间变长，访问就变慢了。</p>
+<p>如果过一段时间，5、6、7 都超时了就会重新发送。接收方发现 5 原来接收过，于是丢弃 5；6 收到了，发送 ACK，要求下一个是 7，7 不幸又丢了。当 7 再次超时的时候，TCP 的策略是超时间隔加倍。每当遇到一次超时重传的时候，都会讲下一次超时时间间隔设为先前值的两倍。</p>
+<p>超时重传的机制是超时周期可能相对较长，是否有更快的方式呢？</p>
+<p>有一个快速重传的机制，即当接收方接收到一个序号大于期望的报文段时，就检测到了数据流之间的间隔，于是发送三个冗余的 ACK，客户端接收到之后，知道数据报丢失，于是重传丢失的报文段。</p>
+<p>例如，接收方发现 6、8、9 都接收了，但是 7 没来，所以肯定丢了，于是发送三个 6 的 ACK，要求下一个是 7。客户端接收到 3 个，就会发现 7 的确又丢了，不等超时，马上重发。</p>
+<h3 id="TCP-为什么是可靠连接"><a href="#TCP-为什么是可靠连接" class="headerlink" title="TCP 为什么是可靠连接"></a>TCP 为什么是可靠连接</h3><ul>
+<li>通过 TCP 连接传输的数据无差错，不丢失，不重复，且按顺序到达。</li>
+<li>TCP 报文头里面的序号能使 TCP 的数据按序到达</li>
+<li>报文头里面的确认序号能保证不丢包，累计确认及超时重传机制</li>
+<li>TCP 拥有流量控制及拥塞控制的机制 </li>
+</ul>
+<h3 id="TCP-和-UDP-的区别-1"><a href="#TCP-和-UDP-的区别-1" class="headerlink" title="TCP 和 UDP 的区别"></a>TCP 和 UDP 的区别</h3><ul>
+<li>TCP 是面向连接的，UDP 是面向无连接的</li>
+<li>UDP程序结构较简单</li>
+<li>TCP 是面向字节流的，UDP 是基于数据报的</li>
+<li>TCP 保证数据正确性，UDP 可能丢包</li>
+<li>TCP 保证数据顺序，UDP 不保证</li>
+</ul>
+<ul>
+<li>TCP 有拥塞控制，流量控制</li>
+</ul>
+<h3 id="什么是面向连接，什么是面向无连接"><a href="#什么是面向连接，什么是面向无连接" class="headerlink" title="什么是面向连接，什么是面向无连接"></a>什么是面向连接，什么是面向无连接</h3><p>在互通之前，面向连接的协议会先建立连接，如 TCP 有三次握手，而 UDP 不会</p>
+<h3 id="TCP-的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的"><a href="#TCP-的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的" class="headerlink" title="TCP 的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的"></a>TCP 的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的</h3><p>拥塞控制时通过拥塞窗口来解决的</p>
+<h1 id="JAVA死锁案例"><a href="#JAVA死锁案例" class="headerlink" title="JAVA死锁案例"></a>JAVA死锁案例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class DeadLockTest</span><br><span class="line">&#123;</span><br><span class="line">    private static Object A = new Object(), B = new Object();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        new Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(&quot;线程1开始执行...&quot;);</span><br><span class="line">            synchronized (A)</span><br><span class="line">            &#123;</span><br><span class="line">                try</span><br><span class="line">                &#123;</span><br><span class="line">                    System.out.println(&quot;线程1拿到A锁&quot;);</span><br><span class="line">                    //休眠两秒让线程2有时间拿到B锁</span><br><span class="line">                    Thread.sleep(2000);</span><br><span class="line">                &#125; catch (Exception e)</span><br><span class="line">                &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                synchronized (B)</span><br><span class="line">                &#123;</span><br><span class="line">                    System.out.println(&quot;线程1拿到B锁&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        </span><br><span class="line">        new Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(&quot;线程2开始执行...&quot;);</span><br><span class="line">            synchronized (B)</span><br><span class="line">            &#123;</span><br><span class="line">                try</span><br><span class="line">                &#123;</span><br><span class="line">                    System.out.println(&quot;线程2拿到B锁&quot;);</span><br><span class="line">                    //休眠两秒让线程1有时间拿到A锁</span><br><span class="line">                    Thread.sleep(2000);</span><br><span class="line">                &#125; catch (Exception e)</span><br><span class="line">                &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                synchronized (A)</span><br><span class="line">                &#123;</span><br><span class="line">                    System.out.println(&quot;线程2拿到A锁&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="JAVA锁总结"><a href="#JAVA锁总结" class="headerlink" title="JAVA锁总结:"></a>JAVA锁总结:</h1><ul>
+<li>JAVA锁整体态势</li>
+</ul>
+<ul>
+<li>一. synchronized</li>
+<li>二. 对象锁、类锁、私有锁</li>
+<li>三. ReentrantLock</li>
+<li>四. ReentrantReadWriteLock</li>
+<li>五. CAS</li>
+</ul>
+<h1 id="JAVA-锁整体"><a href="#JAVA-锁整体" class="headerlink" title="JAVA 锁整体:"></a>JAVA 锁整体:</h1><p>在Java中通常实现锁有两种方式，一种是synchronized关键字，另一种是Lock。二者其实并没有什么必然联系，但是各有各的特点，在使用中可以进行取舍的使用。首先我们先对比下两者。</p>
+<h5 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h5><p>首先最大的不同：synchronized是基于JVM层面实现的，而Lock是基于JDK层面实现的。曾经反复的找过synchronized的实现，可惜最终无果。但Lock却是基于JDK实现的，我们可以通过阅读JDK的源码来理解Lock的实现。</p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用:"></a>使用:</h5><p>对于使用者的直观体验上Lock是比较复杂的，需要lock和realse，如果忘记释放锁就会产生死锁的问题，所以，通常需要在finally中进行锁的释放。但是synchronized的使用十分简单，只需要对自己的方法或者关注的同步对象或类使用synchronized关键字即可。但是对于锁的粒度控制比较粗，同时对于实现一些锁的状态的转移比较困难。例如：</p>
+<h5 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h5><table>
+<thead>
+<tr>
+<th>tips</th>
+<th>synchronized</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>锁获取超时</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>获取锁响应中断</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+</tbody>
+</table>
+<h5 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h5><p>在JDK1.5之后synchronized引入了偏向锁，轻量级锁和重量级锁，从而大大的提高了synchronized的性能，同时对于synchronized的优化也在继续进行。期待有一天能更简单的使用java的锁。</p>
+<p>在以前不了解Lock的时候，感觉Lock使用实在是太复杂，但是了解了它的实现之后就被深深吸引了。</p>
+<p>Lock的实现主要有ReentrantLock、ReadLock和WriteLock，后两者接触的不多，所以简单分析一下ReentrantLock的实现和运行机制。</p>
+<p>ReentrantLock类在java.util.concurrent.locks包中，它的上一级的包java.util.concurrent主要是常用的并发控制类.</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>1.6之前，synchronized是重量级锁，效率比较低下。</p>
+<p>1.6开始，进行了很多优化，如偏向锁，轻量级锁，自旋锁，适应性自旋锁，锁销除，锁粗化等技术减少锁操作的开销。</p>
+<p>synchronized同步锁包括4中状态: 无锁，偏向锁，轻量级所，重量级锁，会随着竞争情况逐渐升级。synchronized同步锁可以升级，但是不可以降级（也有说条件非常苛刻），目的是为了提高获取锁和释放锁的效率。</p>
+<h3 id="synchronized的底层原理"><a href="#synchronized的底层原理" class="headerlink" title="synchronized的底层原理:"></a>synchronized的底层原理:</h3><h4 id="synchronized修饰的代码块"><a href="#synchronized修饰的代码块" class="headerlink" title="synchronized修饰的代码块"></a>synchronized修饰的代码块</h4><p>从字节码中可以看到，使用monitorenter和monitorexit指令，其中monitorenter指令指向同步代码块的开始位置，monitorexit指向结束位置。</p>
+<h4 id="synchronized修饰方法"><a href="#synchronized修饰方法" class="headerlink" title="synchronized修饰方法:"></a>synchronized修饰方法:</h4><p>同步方法中包含ACC_SYINCHRONIZED标记符，该标记符指明该方法是一个同步方法，从而执行相应的同步调用。</p>
+<p>它的修饰对象有几种：</p>
+<ol>
+<li>修饰一个类，其作用的范围是synchronized后面括号括起来的部分， 作用的对象是这个类的所有对象。</li>
+<li>修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法， 作用的对象是调用这个方法的对象；</li>
+<li>修改一个静态的方法，其作用的范围是整个静态方法， 作用的对象是这个类的所有对象；</li>
+<li>修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码， 作用的对象是调用这个代码块的对象；</li>
+</ol>
+<h2 id="对象锁，类锁，私有锁"><a href="#对象锁，类锁，私有锁" class="headerlink" title="对象锁，类锁，私有锁"></a>对象锁，类锁，私有锁</h2><p><strong>对象锁</strong>：使用 synchronized 修饰<strong>非静态</strong>的方法以及 synchronized(this) 同步代码块使用的锁是对象锁。</p>
+<p><strong>类锁</strong>：使用 synchronized 修饰<strong>静态</strong>的方法以及 synchronized(class) 同步代码块使用的锁是类锁。</p>
+<p><strong>私有锁</strong>：在类内部声明一个私有属性如private Object lock，在需要加锁的同步块使用 synchronized(lock）</p>
+<p>它们的特性：</p>
+<ul>
+<li>对象锁具有可重入性。</li>
+<li>当一个线程获得了某个对象的对象锁，则该线程仍然可以调用其他任何需要该对象锁的 synchronized 方法或 synchronized(this) 同步代码块。</li>
+<li>当一个线程访问某个对象的一个 synchronized(this) 同步代码块时，其他线程对该对象中所有其它 synchronized(this) 同步代码块的访问将被阻塞，因为访问的是同一个对象锁。</li>
+<li>每个类只有一个类锁，但是类可以实例化成对象，因此每一个对象对应一个对象锁。</li>
+<li>类锁和对象锁不会产生竞争。</li>
+<li>私有锁和对象锁也不会产生竞争。</li>
+<li>使用私有锁可以减小锁的细粒度，减少由锁产生的开销。</li>
+</ul>
+<p>私有锁实现等待/通知机制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Object lock = new Object();</span><br><span class="line"></span><br><span class="line">// 由等待方线程实现</span><br><span class="line">synchronized (lock) &#123;</span><br><span class="line">    while (条件不满足) &#123;</span><br><span class="line">       lock.wait();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 由通知方线程实现</span><br><span class="line">synchronized (lock) &#123;</span><br><span class="line">   条件发生改变</span><br><span class="line">   lock.notify();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>ReentrantLock 是一个独占/排他锁。相对于 synchronized，它更加灵活。但是需要自己写出加锁和解锁的过程。它的灵活性在于它拥有很多特性。</p>
+<blockquote>
+<p>ReentrantLock 需要显示地进行释放锁。特别是在程序异常时，synchronized 会自动释放锁，而 ReentrantLock 并不会自动释放锁，所以必须在 finally 中进行释放锁。</p>
+</blockquote>
+<p>它的特性：</p>
+<ul>
+<li><strong>公平性</strong>：支持公平锁和非公平锁。默认使用了非公平锁。</li>
+<li><strong>可重入</strong></li>
+<li><strong>可中断</strong>：相对于 synchronized，它是可中断的锁，能够对中断作出响应。</li>
+<li><strong>超时机制</strong>：超时后不能获得锁，因此不会造成死锁。</li>
+</ul>
+<p>ReentrantLock 是很多类的基础，例如 ConcurrentHashMap 内部使用的 Segment 就是继承 ReentrantLock，CopyOnWriteArrayList 也使用了 ReentrantLock。</p>
+<h2 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h2><p>它拥有读锁(ReadLock)和写锁(WriteLock)，读锁是一个共享锁，写锁是一个排他锁。</p>
+<p>它的特性：</p>
+<ul>
+<li><strong>公平性</strong>：支持公平锁和非公平锁。默认使用了非公平锁。</li>
+<li><strong>可重入</strong>：读线程在获取读锁之后能够再次获取读锁。写线程在获取写锁之后能够再次获取写锁，同时也可以获取读锁（锁降级）。</li>
+<li><strong>锁降级</strong>：先获取写锁，再获取读锁，然后再释放写锁的过程。锁降级是为了保证数据的可见性。</li>
+</ul>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p>上面提到的 ReentrantLock、ReentrantReadWriteLock 都是基于 AbstractQueuedSynchronizer (AQS)，而 AQS 又是基于 CAS。CAS 的全称是 Compare And Swap（比较与交换），它是一种无锁算法。</p>
+<p>synchronized、Lock 都采用了悲观锁的机制，而 CAS 是一种乐观锁的实现。</p>
+<p>CAS 的特性：</p>
+<ul>
+<li>通过调用 JNI 的代码实现</li>
+<li>非阻塞算法</li>
+<li>非独占锁</li>
+</ul>
+<p>CAS 存在的问题：</p>
+<ul>
+<li><p>ABA</p>
+<p>因为CAS需要在操作值的时候检查下值有没有发生变化，如果没有发生变化则更新，但是如果一个值原来是A，变成了B，又变成了A，那么使用CAS进行检查时会发现它的值没有发生变化，但是实际上却变化了。<strong>ABA问题的解决思路就是使用版本号。在变量前面追加上版本号，每次变量更新的时候把版本号加一，那么A－B－A 就会变成1A-2B－3A。</strong><br>从Java1.5开始JDK的atomic包里提供了一个类AtomicStampedReference来解决ABA问题。这个类的compareAndSet方法作用是<strong>首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志</strong>，如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。</p>
+</li>
+<li><p>循环时间长开销大</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">自旋CAS如果长时间不成功，会给CPU带来非常大的执行开销。如果JVM能支持处理器提供的pause指令那么效率会有一定的提升，pause指令有两个作用，第一它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零。第二它可以避免在退出循环的时候因内存顺序冲突（memory order violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>只能保证一个共享变量的原子操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当对一个共享变量执行操作时，我们可以使用循环CAS的方式来保证原子操作，但是对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁，或者有一个取巧的办法，就是把多个共享变量合并成一个共享变量来操作。比如有两个共享变量i＝2,j=a，合并一下ij=2a，然后用CAS来操作ij。从Java1.5开始JDK提供了AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行CAS操作。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="JAVA快速失败和安全失败"><a href="#JAVA快速失败和安全失败" class="headerlink" title="JAVA快速失败和安全失败"></a>JAVA快速失败和安全失败</h1><h2 id="快速失败（fail—fast）"><a href="#快速失败（fail—fast）" class="headerlink" title="快速失败（fail—fast）"></a>快速失败（fail—fast）</h2><p>在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。</p>
+<p>原理：迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变modCount的值。每当迭代器使用hashNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历。</p>
+<p>注意：这里异常的抛出条件是检测到 modCount！=expectedmodCount 这个条件。如果集合发生变化时修改modCount值刚好又设置为了expectedmodCount值，则异常不会抛出。因此，不能依赖于这个异常是否抛出而进行并发操作的编程，这个异常只建议用于检测并发修改的bug。</p>
+<p>场景： java.util包下的集合类都是快速失败的，不能在多线程下发生并发修改（迭代过程中被修改）。</p>
+<h2 id="安全失败（fail—safe）"><a href="#安全失败（fail—safe）" class="headerlink" title="安全失败（fail—safe）"></a>安全失败（fail—safe）</h2><p>采用安全失败机制的集合容器，在遍历时不是直接在集合内容上访问的，而是先复制原有集合内容，在拷贝的集合上进行遍历。</p>
+<p>原理：由于迭代时是对原集合的拷贝进行遍历，所以在遍历过程中对原集合所作的修改并不能被迭代器检测到，所以不会触发Concurrent Modification Exception。</p>
+<p>缺点：基于拷贝内容的优点是避免了Concurrent Modification Exception，但同样地，迭代器并不能访问到修改后的内容，即：迭代器遍历的是开始遍历那一刻拿到的集合拷贝，在遍历期间原集合发生的修改迭代器是不知道的。</p>
+<p>场景： java.util.concurrent包下的容器都是安全失败，可以在多线程下并发使用，并发修改。</p>
+<h1 id="MYSQL"><a href="#MYSQL" class="headerlink" title="MYSQL"></a>MYSQL</h1><h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>事务（Transaction）及其ACID属性</p>
+<p>事务是由一组SQL语句组成的逻辑处理单元，事务具有以下4个属性，通常简称为事务的ACID属性。</p>
+<ul>
+<li>原子性（Atomicity）：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。</li>
+<li>一致性（Consistent）：在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用于事务的修改，以保持数据的完整性；事务结束时，所有的内部数据结构（如B树索引或双向链表）也都必须是正确的。</li>
+<li>隔离性（Isolation）：数据库系统提供一定的隔离机制，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然。</li>
+<li>持久性（Durable）：事务完成之后，它对于数据的修改是永久性的，即使出现系统故障也能够保持。</li>
+</ul>
+<h2 id="并发事务处理带来的问题"><a href="#并发事务处理带来的问题" class="headerlink" title="并发事务处理带来的问题"></a>并发事务处理带来的问题</h2><p>　　相对于串行处理来说，并发事务处理能大大增加数据库资源的利用率，提高数据库系统的事务吞吐量，从而可以支持更多的用户。但并发事务处理也会带来一些问题，主要包括以下几种情况。</p>
+<p>　　<strong>更新丢失</strong>（Lost Update）：当两个或多个事务选择同一行，然后基于最初选定的值更新该行时，由于每个事务都不知道其他事务的存在，就会发生丢失更新问题－－最后的更 新覆盖了由其他事务所做的更新。例如，两个编辑人员制作了同一文档的电子副本。每个编辑人员独立地更改其副本，然后保存更改后的副本，这样就覆盖了原始文 档。最后保存其更改副本的编辑人员覆盖另一个编辑人员所做的更改。如果在一个编辑人员完成并提交事务之前，另一个编辑人员不能访问同一文件，则可避免此问 题。<br>　　<strong>脏读</strong>（Dirty Reads）：一个事务正在对一条记录做修改，在这个事务完成并提交前，这条记录的数据就处于不一致状态；这时，另一个事务也来读取同一条记录，如果不加 控制，第二个事务读取了这些“脏”数据，并据此做进一步的处理，就会产生未提交的数据依赖关系。这种现象被形象地叫做”脏读”。<br>　　<strong>不可重复读</strong>（Non-Repeatable Reads）：一个事务在读取某些数据后的某个时间，再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了！这种现象就叫做“不可重复读”。<br>　　<strong>幻读</strong>（Phantom Reads）：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。</p>
+<h2 id="各种各样的树"><a href="#各种各样的树" class="headerlink" title="各种各样的树"></a>各种各样的树</h2><h3 id="平衡二叉树："><a href="#平衡二叉树：" class="headerlink" title="平衡二叉树："></a>平衡二叉树：</h3><p>它是一 棵空树或它的左右两个子树的高度差的绝对值不超过1，并且左右两个子树都是一棵平衡二叉树。这个方案很好的解决了二叉查找树退化成链表的问题，把插入，查找，删除的时间复杂度最好情况和最坏情况都维持在O(logN)。但是频繁旋转会使插入和删除牺牲掉O(logN)左右的时间，不过相对二叉查找树来说，时间上稳定了很多。</p>
+<p>平衡二叉树是在构造二叉排序树的过程中，每当插入一个新结点时，首先检查是否因插入新结点而破坏了二叉排序树的平衡性，若是，则找出其中的最小不平衡子树，在保持二叉排序树特性的前提下，调整最小不平衡子树中各结点之间的链接关系，进行相应的旋转，使之成为新的平衡子树。</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树:"></a>红黑树:</h3><p>一种二叉查找树,但在每个节点增加一个存储位表示节点的颜色,可以是red或black. 通过对任何一条从根到叶子的路径上各个节点着色的方式的限制,红黑树确保没有一条路径会比其它路径长出两倍.它是一种弱平衡二叉树(<strong>由于是弱平衡,可以推出,相同的节点情况下,AVL树的高度低于红黑树</strong>),相对于要求严格的AVL树来说,它的旋转次数变少,所以对于搜索,插入,删除操作多的情况下,我们就用红黑树.<strong>每条路径都包含相同的黑节点.</strong>从而保证了红黑树的查找、插入、删除的时间复杂度最坏为O(log n)。</p>
+<p>应用</p>
+<ul>
+<li>广泛用于C++的STL中,map和set都是用红黑树实现的.</li>
+<li>著名的linux进程调度<a href="https://en.wikipedia.org/wiki/Completely_Fair_Scheduler" rel="external nofollow" target="_blank">Completely Fair Scheduler</a>,用红黑树管理进程控制块,进程的虚拟内存区域都存储在一颗红黑树上,每个虚拟地址区域都对应红黑树的一个节点,左指针指向相邻的地址虚拟存储区域,右指针指向相邻的高地址虚拟地址空间.</li>
+<li>IO多路复用epoll的实现采用红黑树组织管理sockfd，以支持快速的增删改查.</li>
+<li>ngnix中,用红黑树管理timer,因为红黑树是有序的,可以很快的得到距离当前最小的定时器.</li>
+<li>java中TreeMap的实现.</li>
+</ul>
+<h3 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h3><p>二叉树的提出其实主要就是为了提高查找效率，比如我们常用的 <code>HashMap</code> 在处理哈希冲突严重时，拉链过长导致查找效率降低，就引入了红黑树。</p>
+<p>我们知道，二分查找可以缩短查找的时间，但是它要求 <strong>查找的数据必须是有序的</strong>。每次查找、操作时都要维护一个有序的数据集，于是有了二叉查找树这个概念。</p>
+<p>二叉查找树（又叫二叉排序树），它是具有下列性质的二叉树：</p>
+<ol>
+<li>若左子树不空，则左子树上所有结点的值均小于它的根结点的值；</li>
+<li>若右子树不空，则右子树上所有结点的值均大于或等于它的根结点的值；</li>
+<li>左、右子树也分别为二叉排序树。</li>
+</ol>
+<p>局限性:</p>
+<p>一个二叉查找树是由n个节点<strong>随机构成</strong>,所以，对于某些情况,二叉查找树会退化成一个有n个节点的线性链.</p>
+<h3 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a>AVL树</h3><p>AVL树是带有平衡条件的二叉查找树,一般是用平衡因子差值判断是否平衡并通过旋转来实现平衡,左右子树树高不超过1,和红黑树相比,它是严格的平衡二叉树,平衡条件必须满足(所有节点的左右子树高度差不超过1).不管我们是执行插入还是删除操作,只要不满足上面的条件,就要通过旋转来保持平衡,而旋转是非常耗时的,由此我们可以知道AVL树适合用于插入删除次数比较少，但查找多的情况。 </p>
+<p>由于维护这种高度平衡所付出的代价比从中获得的效率收益还大,故而实际的应用不多，更多的地方是用追求局部而不是非常严格整体平衡的红黑树.当然,如果应用场景中对插入删除不频繁,只是对查找要求较高,那么AVL还是较优于红黑树.</p>
+<h2 id="B-树和B树"><a href="#B-树和B树" class="headerlink" title="B+树和B树"></a>B+树和B树</h2><p>B树:</p>
+<p>还是直接看图比较清楚，图中所示，B树事实上是一种平衡的多叉查找树，也就是说最多可以开m个叉（m&gt;=2），我们称之为m阶b树，为了体现本博客的良心之处，不同于其他地方都能看到2阶B树，这里特意画了一棵5阶B树 。</p>
+<p><img src="https://images2017.cnblogs.com/blog/758447/201801/758447-20180126165126756-1850778539.png" alt=""></p>
+<p><img src="https://images2017.cnblogs.com/blog/758447/201801/758447-20180126165126756-1850778539.png" alt=""></p>
+<p>总的来说，m阶B树满足以下条件：</p>
+<ul>
+<li>每个节点至多可以拥有m棵子树。</li>
+<li>根节点，只有至少有2个节点（要么极端情况，就是一棵树就一个根节点，单细胞生物，即是根，也是叶，也是树)。</li>
+<li>非根非叶的节点至少有的Ceil(m/2)个子树(Ceil表示向上取整，图中5阶B树，每个节点至少有3个子树，也就是至少有3个叉)。</li>
+<li>非叶节点中的信息包括[n,A0,K1,A1,K2,A2,…,Kn,An]，，其中n表示该节点中保存的关键字个数，K为关键字且Ki&lt;Ki+1，A为指向子树根节点的指针。</li>
+<li>从根到叶子的每一条路径都有相同的长度，也就是说，叶子节在相同的层，并且这些节点不带信息，实际上这些节点就表示找不到指定的值，也就是指向这些节点的指针为空。</li>
+</ul>
+<p>B树的查询过程和二叉排序树比较类似，从根节点依次比较每个结点，<strong>因为每个节点中的关键字和左右子树都是有序的</strong>，所以只要比较节点中的关键字，或者沿着指针就能很快地找到指定的关键字，如果查找失败，则会返回叶子节点，即空指针。</p>
+<p>例如查询图中字母表中的K：</p>
+<ol>
+<li>从根节点P开始，K的位置在P之前，进入左侧指针。</li>
+<li>左子树中，依次比较C、F、J、M，发现K在J和M之间。</li>
+<li>沿着J和M之间的指针，继续访问子树，并依次进行比较，发现第一个关键字K即为指定查找的值。</li>
+</ol>
+<p>B树的特点可以总结为如下：</p>
+<ol>
+<li>关键字集合分布在整颗树中。</li>
+<li>任何一个关键字出现且只出现在一个节点中。</li>
+<li>搜索有可能在非叶子节点结束。</li>
+<li>其搜索性能等价于在关键字集合内做一次二分查找。</li>
+<li>B树在插入删除新的数据记录会破坏B-Tree的性质，因为在插入删除时，需要对树进行一个分裂、合并、转移等操作以保持B-Tree性质。</li>
+</ol>
+<h2 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h2><blockquote>
+<p>ALTER my_table ADD [UNIQUE] INDEX my_index(my_text);<br>CREATE INDEX my_index ON my_table(my_text);</p>
+</blockquote>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2>
     </article>
     <!-- license  -->
     
@@ -1198,8 +1576,8 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/30918/" title="day-day-up">
-                    <div class="nextTitle">day-day-up</div>
+                <a href="/posts/53933/" title="算法刷刷刷">
+                    <div class="nextTitle">算法刷刷刷</div>
                 </a>
             
         </li>
@@ -1320,7 +1698,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA多线程："><span class="toc-number">1.</span> <span class="toc-text">JAVA多线程：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程和线程："><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread和Runnable的区别"><span class="toc-number">1.2.</span> <span class="toc-text">Thread和Runnable的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">1.3.</span> <span class="toc-text">线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadPoolExecutor类是线程池中最核心的一个类"><span class="toc-number">1.4.</span> <span class="toc-text">ThreadPoolExecutor类是线程池中最核心的一个类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池实现原理"><span class="toc-number">1.5.</span> <span class="toc-text">线程池实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的4种状态"><span class="toc-number">1.5.1.</span> <span class="toc-text">线程池的4种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程中的方法"><span class="toc-number">1.5.2.</span> <span class="toc-text">线程中的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sleep-和wait-差别"><span class="toc-number">1.5.3.</span> <span class="toc-text">sleep()和wait()差别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程状态转换"><span class="toc-number">1.6.</span> <span class="toc-text">线程状态转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程调度"><span class="toc-number">1.7.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用函数"><span class="toc-number">1.8.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait和sleep区别"><span class="toc-number">1.9.</span> <span class="toc-text">wait和sleep区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-和yield-的区别"><span class="toc-number">1.10.</span> <span class="toc-text">sleep()和yield()的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见线程名词解释"><span class="toc-number">1.11.</span> <span class="toc-text">常见线程名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步之synchronized关键字"><span class="toc-number">1.12.</span> <span class="toc-text">线程同步之synchronized关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步"><span class="toc-number">1.13.</span> <span class="toc-text">线程同步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程数据传递"><span class="toc-number">1.14.</span> <span class="toc-text">线程数据传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO密集型和CPU密集型比较"><span class="toc-number">1.15.</span> <span class="toc-text">IO密集型和CPU密集型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile无法保证线程安全"><span class="toc-number">1.16.</span> <span class="toc-text">volatile无法保证线程安全</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDK和JRE有什么区别"><span class="toc-number">2.</span> <span class="toc-text">JDK和JRE有什么区别:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">3.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">4.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">5.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">6.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">7.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">8.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">9.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">10.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">11.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">12.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">13.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">14.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">15.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">16.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">16.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">16.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">16.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">16.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">16.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">17.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">18.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">19.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">20.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">21.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">22.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">23.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">24.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">25.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">26.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">27.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">28.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">29.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">29.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">29.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">29.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">29.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">29.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">29.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">29.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">29.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-消息丢失怎么办？"><span class="toc-number">29.9.</span> <span class="toc-text">9.消息丢失怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">30.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">30.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">30.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">30.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java提供了哪些IO方式？-NIO如何实现多路复用？"><span class="toc-number">31.</span> <span class="toc-text">Java提供了哪些IO方式？ NIO如何实现多路复用？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA内存模型"><span class="toc-number">32.</span> <span class="toc-text">JAVA内存模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized底层实现"><span class="toc-number">33.</span> <span class="toc-text">Synchronized底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java并发编程：线程池的使用"><span class="toc-number">34.</span> <span class="toc-text">Java并发编程：线程池的使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-和-UDP-的区别"><span class="toc-number">35.</span> <span class="toc-text">TCP 和 UDP 的区别</span></a></li>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA多线程："><span class="toc-number">1.</span> <span class="toc-text">JAVA多线程：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程和线程："><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread和Runnable的区别"><span class="toc-number">1.2.</span> <span class="toc-text">Thread和Runnable的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">1.3.</span> <span class="toc-text">线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadPoolExecutor类是线程池中最核心的一个类"><span class="toc-number">1.4.</span> <span class="toc-text">ThreadPoolExecutor类是线程池中最核心的一个类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池实现原理"><span class="toc-number">1.5.</span> <span class="toc-text">线程池实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的4种状态"><span class="toc-number">1.5.1.</span> <span class="toc-text">线程池的4种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程中的方法"><span class="toc-number">1.5.2.</span> <span class="toc-text">线程中的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sleep-和wait-差别"><span class="toc-number">1.5.3.</span> <span class="toc-text">sleep()和wait()差别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程状态转换"><span class="toc-number">1.6.</span> <span class="toc-text">线程状态转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程调度"><span class="toc-number">1.7.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用函数"><span class="toc-number">1.8.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait和sleep区别"><span class="toc-number">1.9.</span> <span class="toc-text">wait和sleep区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-和yield-的区别"><span class="toc-number">1.10.</span> <span class="toc-text">sleep()和yield()的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见线程名词解释"><span class="toc-number">1.11.</span> <span class="toc-text">常见线程名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步之synchronized关键字"><span class="toc-number">1.12.</span> <span class="toc-text">线程同步之synchronized关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程同步"><span class="toc-number">1.13.</span> <span class="toc-text">线程同步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程数据传递"><span class="toc-number">1.14.</span> <span class="toc-text">线程数据传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO密集型和CPU密集型比较"><span class="toc-number">1.15.</span> <span class="toc-text">IO密集型和CPU密集型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile无法保证线程安全"><span class="toc-number">1.16.</span> <span class="toc-text">volatile无法保证线程安全</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA之I-O"><span class="toc-number">2.</span> <span class="toc-text">JAVA之I/O:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是I-O"><span class="toc-number">2.1.</span> <span class="toc-text">什么是I/O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的-I-O-类库的基本架构"><span class="toc-number">2.2.</span> <span class="toc-text">Java中的 I/O 类库的基本架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘-I-O-的工作机制"><span class="toc-number">2.3.</span> <span class="toc-text">磁盘 I/O 的工作机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-序列化技术"><span class="toc-number">2.4.</span> <span class="toc-text">Java 序列化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络-I-O-工作机制"><span class="toc-number">2.5.</span> <span class="toc-text">网络 I/O 工作机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NIO"><span class="toc-number">2.6.</span> <span class="toc-text">NIO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JDK和JRE有什么区别"><span class="toc-number">3.</span> <span class="toc-text">JDK和JRE有什么区别:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exception和Error的区别，-运行时异常和一般异常的区别"><span class="toc-number">4.</span> <span class="toc-text">Exception和Error的区别， 运行时异常和一般异常的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String-StringBuffer-StringBuilder的区别是什么？String为什么是不可变的？"><span class="toc-number">5.</span> <span class="toc-text">String,StringBuffer, StringBuilder的区别是什么？String为什么是不可变的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Vector-ArrayList-LinkedList的区别是什么？"><span class="toc-number">6.</span> <span class="toc-text">Vector,ArrayList, LinkedList的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashTable-HashMap，TreeMap区别？"><span class="toc-number">7.</span> <span class="toc-text">HashTable, HashMap，TreeMap区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat，Apache，JBoss的区别？"><span class="toc-number">8.</span> <span class="toc-text">Tomcat，Apache，JBoss的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Session-Cookie区别"><span class="toc-number">9.</span> <span class="toc-text">Session, Cookie区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Statement与PreparedStatement的区别-什么是SQL注入，如何防止SQL注入"><span class="toc-number">10.</span> <span class="toc-text">Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">11.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sendRedirect-foward区别"><span class="toc-number">12.</span> <span class="toc-text">sendRedirect, foward区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统中的monitors"><span class="toc-number">13.</span> <span class="toc-text">操作系统中的monitors</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA中的monitor"><span class="toc-number">14.</span> <span class="toc-text">JAVA中的monitor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL-explain"><span class="toc-number">15.</span> <span class="toc-text">MYSQL explain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#长连接和短连接"><span class="toc-number">16.</span> <span class="toc-text">长连接和短连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DDOS"><span class="toc-number">17.</span> <span class="toc-text">DDOS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ARP"><span class="toc-number">17.1.</span> <span class="toc-text">基于ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于ICMP"><span class="toc-number">17.2.</span> <span class="toc-text">基于ICMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于IP"><span class="toc-number">17.3.</span> <span class="toc-text">基于IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于TCP"><span class="toc-number">17.4.</span> <span class="toc-text">基于TCP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于应用层"><span class="toc-number">17.5.</span> <span class="toc-text">基于应用层</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入一个url-发生了什么事情"><span class="toc-number">18.</span> <span class="toc-text">输入一个url,发生了什么事情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常见OOM"><span class="toc-number">19.</span> <span class="toc-text">常见OOM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#final、finally、-finalize有什么不同"><span class="toc-number">20.</span> <span class="toc-text">final、finally、 finalize有什么不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是写时复制-Copy-On-Write-容器？"><span class="toc-number">21.</span> <span class="toc-text">什么是写时复制(Copy-On-Write)容器？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？"><span class="toc-number">22.</span> <span class="toc-text">谈谈MySQL支持的事务隔离级别，以及悲观锁和乐观锁的原理和应用场景？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS机制"><span class="toc-number">23.</span> <span class="toc-text">CAS机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis"><span class="toc-number">24.</span> <span class="toc-text">Mybatis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么"><span class="toc-number">25.</span> <span class="toc-text">强引用、软引用、弱引用、幻象引用有什么区别？具体使用场景是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-IP"><span class="toc-number">26.</span> <span class="toc-text">TCP/IP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理是基于什么原理"><span class="toc-number">27.</span> <span class="toc-text">动态代理是基于什么原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#int-和-Integer-有什么区别？谈谈-Integer的缓存范围"><span class="toc-number">28.</span> <span class="toc-text">int 和 Integer 有什么区别？谈谈 Integer的缓存范围</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何保证集合是线程安全的-ConcurrentHashMap如何实现高效地线程安全？"><span class="toc-number">29.</span> <span class="toc-text">如何保证集合是线程安全的? ConcurrentHashMap如何实现高效地线程安全？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rabbitmq"><span class="toc-number">30.</span> <span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-如何确保消息正确地发送至RabbitMQ？"><span class="toc-number">30.1.</span> <span class="toc-text">1. 如何确保消息正确地发送至RabbitMQ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-如何确保消息接收方消费了消息？"><span class="toc-number">30.2.</span> <span class="toc-text">2. 如何确保消息接收方消费了消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-如何避免消息重复投递或重复消费？"><span class="toc-number">30.3.</span> <span class="toc-text">3. 如何避免消息重复投递或重复消费？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-消息基于什么传输？"><span class="toc-number">30.4.</span> <span class="toc-text">4. 消息基于什么传输？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-消息如何分发？"><span class="toc-number">30.5.</span> <span class="toc-text">5. 消息如何分发？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-消息怎么路由？"><span class="toc-number">30.6.</span> <span class="toc-text">6. 消息怎么路由？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-如何确保消息不丢失？"><span class="toc-number">30.7.</span> <span class="toc-text">7. 如何确保消息不丢失？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-使用RabbitMQ有什么好处？"><span class="toc-number">30.8.</span> <span class="toc-text">8. 使用RabbitMQ有什么好处？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-消息丢失怎么办？"><span class="toc-number">30.9.</span> <span class="toc-text">9.消息丢失怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#REDIS"><span class="toc-number">31.</span> <span class="toc-text">REDIS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？"><span class="toc-number">31.1.</span> <span class="toc-text">什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB"><span class="toc-number">31.1.0.1.</span> <span class="toc-text">RDB:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？"><span class="toc-number">31.2.</span> <span class="toc-text">假如Redis里面有1亿个key，其中有10w个key是以某个固定的已知的前缀开头的，如果将它们全部找出来？</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#Java提供了哪些IO方式？-NIO如何实现多路复用？"><span class="toc-number">32.</span> <span class="toc-text">Java提供了哪些IO方式？ NIO如何实现多路复用？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA内存模型"><span class="toc-number">33.</span> <span class="toc-text">JAVA内存模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized底层实现"><span class="toc-number">34.</span> <span class="toc-text">Synchronized底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java并发编程：线程池的使用"><span class="toc-number">35.</span> <span class="toc-text">Java并发编程：线程池的使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP-和-UDP-的区别"><span class="toc-number">36.</span> <span class="toc-text">TCP 和 UDP 的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP"><span class="toc-number">36.1.</span> <span class="toc-text">UDP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-number">36.1.1.</span> <span class="toc-text">应用场景:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体案例"><span class="toc-number">36.1.2.</span> <span class="toc-text">具体案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP"><span class="toc-number">36.2.</span> <span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-3次握手"><span class="toc-number">36.2.1.</span> <span class="toc-text">TCP 3次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SYN攻击"><span class="toc-number">36.2.2.</span> <span class="toc-text">SYN攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP四次握手"><span class="toc-number">36.2.3.</span> <span class="toc-text">TCP四次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MSL（Maximum-Segment-Lifetime），最长报文段寿命"><span class="toc-number">36.2.4.</span> <span class="toc-text">MSL（Maximum Segment Lifetime），最长报文段寿命</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？"><span class="toc-number">36.2.5.</span> <span class="toc-text">如果已经建立了连接，但是客户端突然出现故障了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#累计确认"><span class="toc-number">36.2.6.</span> <span class="toc-text">累计确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#顺序问题和丢包问题"><span class="toc-number">36.2.7.</span> <span class="toc-text">顺序问题和丢包问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-为什么是可靠连接"><span class="toc-number">36.2.8.</span> <span class="toc-text">TCP 为什么是可靠连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-和-UDP-的区别-1"><span class="toc-number">36.2.9.</span> <span class="toc-text">TCP 和 UDP 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是面向连接，什么是面向无连接"><span class="toc-number">36.2.10.</span> <span class="toc-text">什么是面向连接，什么是面向无连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的"><span class="toc-number">36.2.11.</span> <span class="toc-text">TCP 的顺序问题，丢包问题，流量控制都是通过滑动窗口来解决的</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA死锁案例"><span class="toc-number">37.</span> <span class="toc-text">JAVA死锁案例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA锁总结"><span class="toc-number">38.</span> <span class="toc-text">JAVA锁总结:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA-锁整体"><span class="toc-number">39.</span> <span class="toc-text">JAVA 锁整体:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实现："><span class="toc-number">39.0.0.0.1.</span> <span class="toc-text">实现：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用"><span class="toc-number">39.0.0.0.2.</span> <span class="toc-text">使用:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#特点："><span class="toc-number">39.0.0.0.3.</span> <span class="toc-text">特点：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#优化："><span class="toc-number">39.0.0.0.4.</span> <span class="toc-text">优化：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized"><span class="toc-number">39.1.</span> <span class="toc-text">synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized的底层原理"><span class="toc-number">39.1.1.</span> <span class="toc-text">synchronized的底层原理:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#synchronized修饰的代码块"><span class="toc-number">39.1.1.1.</span> <span class="toc-text">synchronized修饰的代码块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#synchronized修饰方法"><span class="toc-number">39.1.1.2.</span> <span class="toc-text">synchronized修饰方法:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象锁，类锁，私有锁"><span class="toc-number">39.2.</span> <span class="toc-text">对象锁，类锁，私有锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantLock"><span class="toc-number">39.3.</span> <span class="toc-text">ReentrantLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ReentrantReadWriteLock"><span class="toc-number">39.4.</span> <span class="toc-text">ReentrantReadWriteLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAS"><span class="toc-number">39.5.</span> <span class="toc-text">CAS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA快速失败和安全失败"><span class="toc-number">40.</span> <span class="toc-text">JAVA快速失败和安全失败</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#快速失败（fail—fast）"><span class="toc-number">40.1.</span> <span class="toc-text">快速失败（fail—fast）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全失败（fail—safe）"><span class="toc-number">40.2.</span> <span class="toc-text">安全失败（fail—safe）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL"><span class="toc-number">41.</span> <span class="toc-text">MYSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACID"><span class="toc-number">41.1.</span> <span class="toc-text">ACID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发事务处理带来的问题"><span class="toc-number">41.2.</span> <span class="toc-text">并发事务处理带来的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#各种各样的树"><span class="toc-number">41.3.</span> <span class="toc-text">各种各样的树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#平衡二叉树："><span class="toc-number">41.3.1.</span> <span class="toc-text">平衡二叉树：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树"><span class="toc-number">41.3.2.</span> <span class="toc-text">红黑树:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二叉查找树"><span class="toc-number">41.3.3.</span> <span class="toc-text">二叉查找树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AVL树"><span class="toc-number">41.3.4.</span> <span class="toc-text">AVL树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-树和B树"><span class="toc-number">41.4.</span> <span class="toc-text">B+树和B树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加索引"><span class="toc-number">41.5.</span> <span class="toc-text">添加索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#死锁"><span class="toc-number">41.6.</span> <span class="toc-text">死锁</span></a></li></ol></li>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1333,50 +1711,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -2656,6 +2990,11 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
         </li>
     
@@ -2672,11 +3011,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/53933/">剑指ofer</a>
         </li>
     
     
@@ -2775,12 +3109,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
         </li>
     
     
@@ -2835,12 +3169,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2990,12 +3324,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -3060,13 +3394,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
@@ -3074,9 +3408,9 @@
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -3084,9 +3418,9 @@
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
-    
         <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
