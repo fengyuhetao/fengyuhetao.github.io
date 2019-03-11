@@ -354,85 +354,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/42614/">
-            
-                <span>TokyoWesterns CTF</span>
-        </a>
-        <div class="abstract-content">
-            SimpleAuth123456789101112131415161718192021222324252627282930313233&lt;?phprequire_once 'flag.php';if (!empty($_SERVER['QUERY_STRING'])) &#123;    $query = $_SERVER['QUERY_STRING'];    $res = parse_str($query);    if (!empty($res['action']))&#123;        $action = $res['action'];    &#125;&#125;i...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/12920/">
-            
-                <span>awd准备工作</span>
-        </a>
-        <div class="abstract-content">
-            准备工作源代码备份
-xftp
-
-scp
-
-scp -r -P Port remote_username@remote_ip:remote_folder local_file
-
-
-
-主机发现
-nmap
-
-nmap -sn 192.168.71.0/24
-全端口扫描: nmap -p- -sV ip地址
-
-
-httpscan
-
-https://github.com/zer0h/httpscan
-
-
-
-弱口令
-hydra爆破
-
-爆破redis密码
-
-hydra -P ~/Desktop/wordlist.txt redis://honglanduikburongyiya.xazlsec.com...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/21</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/41139/">
             
                 <span>how2heap-分析总结</span>
@@ -692,6 +613,80 @@ ip2long
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/28940/">
+            
+                <span>ssti</span>
+        </a>
+        <div class="abstract-content">
+            payload大全bypass 各种字符串
+利用request.args
+
+1&#123;&#123;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read
+
+利用字符串拼接
+
+12&#123;&#123;requ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="python安全">python安全</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/45992/">
+            
+                <span>php命令执行函数</span>
+        </a>
+        <div class="abstract-content">
+            代码或命令执行函数：
+
+system                    允许执行一个外部程序并回显输出，类似于 passthru() 
+shell_exec
+exec                        允许执行一个外部程序 
+curl_exec
+popen               可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。
+proc_open               执行一个命令并打开文件指针用于读取以及写入 
+passthru                   允许执行一个外部程序并回显输出 
+pcntl_exec...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
     
 </div>
             
@@ -2103,25 +2098,9 @@ ip2long
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 79
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -2167,11 +2146,6 @@ ip2long
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2266,11 +2240,6 @@ ip2long
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2470,12 +2439,12 @@ ip2long
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
@@ -2553,25 +2522,25 @@ ip2long
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

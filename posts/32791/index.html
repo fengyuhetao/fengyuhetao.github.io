@@ -403,7 +403,7 @@
 <ol>
 <li>编译命令</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>echo 2 &gt; /proc/sys/kernel/randomize_va_space</span><br><span class="line"><span class="meta">$</span>gcc -g -fno-stack-protector -no-pie -o vuln vuln.c</span><br><span class="line"><span class="meta">$</span>sudo chown root vuln</span><br><span class="line"><span class="meta">$</span>sudo chgrp root vuln</span><br><span class="line"><span class="meta">$</span>sudo chmod +s vuln</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> 2 &gt; /proc/sys/kernel/randomize_va_space</span></span><br><span class="line"><span class="meta">$</span><span class="bash">gcc -g -fno-stack-protector -no-pie -o vuln vuln.c</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo chown root vuln</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo chgrp root vuln</span></span><br><span class="line"><span class="meta">$</span><span class="bash">sudo chmod +s vuln</span></span><br></pre></td></tr></table></figure>
 <h2 id="调试代码"><a href="#调试代码" class="headerlink" title="调试代码"></a>调试代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ i func</span><br><span class="line">All defined functions:</span><br><span class="line"></span><br><span class="line">Non-debugging symbols:</span><br><span class="line">0x0000000000400470  _init</span><br><span class="line">0x00000000004004a0  puts@plt</span><br><span class="line">0x00000000004004b0  system@plt</span><br><span class="line">0x00000000004004c0  read@plt</span><br><span class="line">0x00000000004004d0  exit@plt</span><br><span class="line">0x00000000004004e0  _start</span><br><span class="line">0x0000000000400510  _dl_relocate_static_pie</span><br><span class="line">0x0000000000400520  deregister_tm_clones</span><br><span class="line">0x0000000000400550  register_tm_clones</span><br><span class="line">0x0000000000400590  __do_global_dtors_aux</span><br><span class="line">0x00000000004005c0  frame_dummy</span><br><span class="line">0x00000000004005c7  shell</span><br><span class="line">0x00000000004005e6  main</span><br><span class="line">0x0000000000400640  __libc_csu_init</span><br><span class="line">0x00000000004006b0  __libc_csu_fini</span><br><span class="line">0x00000000004006b4  _fini</span><br></pre></td></tr></table></figure>
 <p>首先，我们找到shell函数的地址<code>0x00000000004005c7</code></p>
 <p>再找到ret地址的偏移:</p>
@@ -443,8 +443,8 @@
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/posts/9764/" title="rctf2018学习笔记">
-                    <div class="nextTitle">rctf2018学习笔记</div>
+                <a href="/posts/23527/" title="phpinfo解读">
+                    <div class="nextTitle">phpinfo解读</div>
                 </a>
             
         </li>
@@ -1809,25 +1809,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 79
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -1873,11 +1857,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -1972,11 +1951,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2176,12 +2150,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
@@ -2259,25 +2233,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     

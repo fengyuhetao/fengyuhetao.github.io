@@ -267,7 +267,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">8,979</span> / Reading time: <span class="post-count">32 min</span></span>
+                        <span>Word count: <span class="post-count">9,337</span> / Reading time: <span class="post-count">33 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -427,6 +427,11 @@
 <p>C2 又叫做 Server 编译器，面向的是对峰值性能有要求的服务器端程序，采用的优化手段相对复杂，因此编译时间较长，但同时生成代码的执行效率较高。</p>
 <p>从 Java 7 开始，HotSpot 默认采用分层编译的方式：热点方法首先会被 C1 编译，而后热点方法中的热点会进一步被 C2 编译。</p>
 <p>在计算资源充足的情况下，字节码的解释执行和即时编译可同时进行。编译完成后的机器码会在下次调用该方法时启用，以替换原本的解释执行。</p>
+<p>问题：为什么不把java代码全部编译成机器码？很多服务端应用发布频率不会太频繁，但是对运行时的性能和吞吐量要求较高。如果发布或启动时多花点时间编译，能够带来运行时的持久性能收益，不是很合适么？</p>
+<p>事实上JVM确实有考虑做AOT (ahead of time compilation) 这种事情。AOT能够在线下将Java字节码编译成机器码，主要是用来解决启动性能不好的问题。</p>
+<p>对于这种发布频率不频繁(也就是长时间运行吧？)的程序，其实选择线下编译和即时编译都一样，因为至多一两个小时后该即时编译的都已经编译完成了。另外，即时编译器因为有程序的运行时信息，优化效果更好，也就是说峰值性能更好。  </p>
+<p>问题：如何区别热点代码</p>
+<p>热点代码的区别，在git里面涉及到的热点代码有两种算法，基于采样的热点探测和基于计数器的热点探测。一般采用的都是基于计数器的热点探测。基于计数器的热点探测又有两个计数器，方法调用计数器，回边计数器，他们在C1和C2又有不同的阈值。</p>
 <h1 id="Java的基本类型"><a href="#Java的基本类型" class="headerlink" title="Java的基本类型"></a>Java的基本类型</h1><p>boolean类型:在 Java 虚拟机规范中，boolean 类型则被映射成 int 类型。具体来说，“true”被映射为整数 1，而“false”被映射为整数 0。这个编码规则约束了 Java 字节码的具体实现。</p>
 <p><img src="https://static001.geekbang.org/resource/image/77/45/77dfb788a8ad5877e77fc28ed2d51745.png" alt=""></p>
 <p>在 Java 虚拟机规范中，局部变量区等价于一个数组，并且可以用正整数来索引。除了 long、double 值需要用两个数组单元来存储之外，其他基本类型以及引用类型的值均占用一个数组单元。</p>
@@ -442,9 +447,10 @@
 <p>引用类型：类，接口，数组类，泛型参数，泛型参数会在编译过程中被擦除，实际上只有前三种。数组类有java虚拟机直接生成，其他两种有对应字节流。</p>
 <p>字节流: 主要是Java编译器生成class文件，除此之外，还可以直接在程序内部生成，或者从网络中获取。最终会被加载到Java虚拟机中，成为类或接口。无论哪种类型，Java虚拟机都会对其进行链接和初始化。</p>
 <h3 id="加载"><a href="#加载" class="headerlink" title="加载:"></a>加载:</h3><p>查找字节流，并据此创建类。对于数组而言，没有对应字节流，有Java虚拟机直接生成，对于其他类，Java虚拟机则需要借助类加载器完成查找字节流的过程。</p>
-<p>启动类加载器: C++实现，没有对应Java对象，在Java中只能用null指代。</p>
+<p>启动类加载器: C++实现，没有对应Java对象，负责加载<code>$JAVA_HOME中jre/lib/rt.jar</code>里的所有class，在Java中只能用null指代。</p>
 <p>其他类加载器都是<code>java.lang.ClassLoader</code>的子类，有对应Java对象。这些类加载器有另一个类加载器比如启动类加载器，加载到Java虚拟机中，方能执行类加载。</p>
 <p>双亲委派模型: 每当一个类加载器接收到加载请求是，先将请求转发给父类加载器，在父类加载器没有找到所请求类的情况下，该类加载器才会尝试去加载。</p>
+<p><img src="../../public/assets/jvm/0_1285421756PHyZ.gif" alt=""></p>
 <h4 id="在-Java-9-之前"><a href="#在-Java-9-之前" class="headerlink" title="在 Java 9 之前"></a>在 Java 9 之前</h4><p>启动类加载器负责加载最为基础、最为重要的类，比如存放在 JRE 的 lib 目录下 jar 包中的类（以及由虚拟机参数 -Xbootclasspath 指定的类）。除了启动类加载器之外，另外两个重要的类加载器是扩展类加载器（extension class loader）和应用类加载器（application class loader），均由 Java 核心类库提供。</p>
 <p>扩展类加载器父类是启动类加载器，负责加载相对次要、但又通用的类，比如存放在JRE的lib/ext目录下jar包中的类（以及由系统变量java.ext.dirs指定的类）。</p>
 <p>应用类加载器的父类是扩展类加载器，负责加载应用程序路径（虚拟机参数-cp / -classpath、系统变量java.class.path或者环境变量CLASSPATH所指定的路径）下的类。默认情况下，应用程序中包含的类便是由应用类加载器加载的。</p>
@@ -1952,25 +1958,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 79
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -2016,11 +2006,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/09</span><a class="archive-post-title" href="/posts/41682/">设计模式</a>
         </li>
     
     
@@ -2115,11 +2100,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/54250/">house_of_roman</a>
         </li>
     
     
@@ -2319,12 +2299,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
         </li>
     
     
@@ -2402,25 +2382,25 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
-        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
-    
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
