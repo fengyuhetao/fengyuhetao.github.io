@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">8,563</span> / Reading time: <span class="post-count">45 min</span></span>
+                        <span>Word count: <span class="post-count">8,675</span> / Reading time: <span class="post-count">46 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -430,6 +430,8 @@
 <h2 id="连续子数组的最大和"><a href="#连续子数组的最大和" class="headerlink" title="连续子数组的最大和"></a>连续子数组的最大和</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">使用动态规划</span><br><span class="line">F（i）：以array[i]为末尾元素的子数组的和的最大值，子数组的元素的相对位置不变</span><br><span class="line">F（i）=max（F（i-1）+array[i] ， array[i]）</span><br><span class="line">res：所+有子数组的和的最大值</span><br><span class="line">res=max（res，F（i））</span><br><span class="line"></span><br><span class="line">import java.util.*;</span><br><span class="line">public class Solution &#123;</span><br><span class="line">    public int FindGreatestSumOfSubArray(int[] array) &#123;</span><br><span class="line">        if(array.length == 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int res = array[0];</span><br><span class="line">        int tempsum = array[0];</span><br><span class="line">        for(int i = 1; i &lt; array.length; i++) &#123;</span><br><span class="line">            tempsum = Math.max(tempsum + array[i], array[i]);</span><br><span class="line">            res = Math.max(tempsum, res);</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="数组中重复数字"><a href="#数组中重复数字" class="headerlink" title="数组中重复数字"></a>数组中重复数字</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    // Parameters:</span><br><span class="line">    //    numbers:     an array of integers</span><br><span class="line">    //    length:      the length of array numbers</span><br><span class="line">    //    duplication: (Output) the duplicated number in the array number,length of duplication array is 1,so using duplication[0] = ? in implementation;</span><br><span class="line">    //                  Here duplication like pointor in C/C++, duplication[0] equal *duplication in C/C++</span><br><span class="line">    //    这里要特别注意~返回任意重复的一个，赋值duplication[0]</span><br><span class="line">    // Return value:       true if the input is valid, and there are some duplications in the array number</span><br><span class="line">    //                     otherwise false</span><br><span class="line">    public boolean duplicate(int numbers[],int length,int [] duplication) &#123;</span><br><span class="line">        for(int i = 0; i&lt; length; i++) &#123;</span><br><span class="line">            int index = numbers[i] % length;</span><br><span class="line">            if(numbers[index] &gt;= length) &#123;</span><br><span class="line">                duplication[0] = numbers[i] % length;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            numbers[index] = numbers[index] + length;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">把当前序列当成是一个下标和下标对应值是相同的数组；</span><br><span class="line">遍历数组，判断当前位的值和下标是否相等： 2.1. 若相等，则遍历下一位； 2.2. 若不等，则将当前位置i上的元素和a[i]位置上的元素比较：若它们相等，则成功！若不等，则将它们两交换。换完之后a[i]位置上的值和它的下标是对应的，但i位置上的元素和下标并不一定对应；重复2.2的操作，直到当前位置i的值也为i，将i向后移一位，再重复2.</span><br><span class="line"></span><br><span class="line">链接：https://www.nowcoder.com/questionTerminal/623a5ac0ea5b4e5f95552655361ae0a8</span><br><span class="line">来源：牛客网</span><br><span class="line"></span><br><span class="line">public boolean duplicate(int array[],int length,int [] duplication) &#123;</span><br><span class="line">    if ( array==null ) return false;</span><br><span class="line"></span><br><span class="line">    // 判断数组是否合法（每个数都在0~n-1之间）</span><br><span class="line">    for ( int i=0; i&lt;length; i++ ) &#123;</span><br><span class="line">        if ( array[i]&lt;0 || array[i]&gt;length-1 ) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // key step</span><br><span class="line">    for( int i=0; i&lt;length; i++ )&#123;</span><br><span class="line">        while( i!=array[i] )&#123;</span><br><span class="line">            if ( array[i] == array[array[i]] ) &#123;</span><br><span class="line">                duplication[0] = array[i];</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            int temp = array[i];</span><br><span class="line">            array[i] = array[array[i]];</span><br><span class="line">            array[array[i]] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="跳台阶"><a href="#跳台阶" class="headerlink" title="跳台阶"></a>跳台阶</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public int JumpFloor(int target) &#123;</span><br><span class="line">        if(target &lt;= 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(target == 1) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(target == 2) &#123;</span><br><span class="line">            return 2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        int f_1 = 1;</span><br><span class="line">        int f_2 = 2;</span><br><span class="line">        int result = 0;</span><br><span class="line">        for(int i = 0; i &lt; target - 2; i++) &#123;</span><br><span class="line">            result = f_1 + f_2;</span><br><span class="line">            f_1 = f_2;</span><br><span class="line">            f_2 = result;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="变态跳台阶"><a href="#变态跳台阶" class="headerlink" title="变态跳台阶"></a>变态跳台阶</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public int JumpFloorII(int target) &#123;</span><br><span class="line">        if(target &lt;= 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int a = 1;</span><br><span class="line">        return a &lt;&lt; (target - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="leetcode"><a href="#leetcode" class="headerlink" title="leetcode"></a>leetcode</h1><p><img src="https://images2015.cnblogs.com/blog/975503/201702/975503-20170214211234550-1109833343.png" alt=""></p>
 <h2 id="二叉树两个子节点的公共祖先"><a href="#二叉树两个子节点的公共祖先" class="headerlink" title="二叉树两个子节点的公共祖先"></a>二叉树两个子节点的公共祖先</h2><p>从根节点开始遍历，如果node1和node2中的任一个和root匹配，那么root就是最低公共祖先。 如果都不匹配，则分别递归左、右子树，如果有一个 节点出现在左子树，并且另一个节点出现在右子树，则root就是最低公共祖先.  如果两个节点都出现在左子树，则说明最低公共祖先在左子树中，否则在右子树。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * public class TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode left;</span><br><span class="line"> *     TreeNode right;</span><br><span class="line"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123;</span><br><span class="line">        // 发现目标节点，就通过返回值标记孩子树发现了某个目标节点</span><br><span class="line">        if(root == null || root == p || root == q) return root;</span><br><span class="line">        </span><br><span class="line">        // 查看左子树是否有目标节点，没有返回null</span><br><span class="line">        TreeNode left = lowestCommonAncestor(root.left, p, q);</span><br><span class="line">        </span><br><span class="line">        // 查看右子树是否有目标节点，没有返回null</span><br><span class="line">        TreeNode right = lowestCommonAncestor(root.right, p, q);</span><br><span class="line">        </span><br><span class="line">        //都不为空，说明左 右子树都有目标结点，则公共祖先就是本身  </span><br><span class="line">        if(left != null &amp;&amp; right != null) return root;</span><br><span class="line">        </span><br><span class="line">        // 如果发现了目标节点，则继续向上标记为该目标节点</span><br><span class="line">        return left == null ? right : left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -500,8 +502,8 @@
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/43363/" title="java-面试准备">
-                    <div class="prevTitle">java-面试准备</div>
+                <a href="/posts/44754/" title="dubbo-配置">
+                    <div class="prevTitle">dubbo-配置</div>
                 </a>
             
         </li>
@@ -614,7 +616,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一天刷10道，bat不是梦啊，加油"><span class="toc-number">1.</span> <span class="toc-text">一天刷10道，bat不是梦啊，加油</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#T：-时间复杂度-S：空间复杂度"><span class="toc-number">2.</span> <span class="toc-text">T： 时间复杂度                  S：空间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n个数，大小0-n-1-，判断是否有重复"><span class="toc-number">2.1.</span> <span class="toc-text">n个数，大小0-(n-1)，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是不是素数"><span class="toc-number">2.2.</span> <span class="toc-text">判断是不是素数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n-1个数，大小1-n，判断是否有重复"><span class="toc-number">2.3.</span> <span class="toc-text">n+1个数，大小1-n，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将空格替换为-20"><span class="toc-number">2.4.</span> <span class="toc-text">将空格替换为%20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重建二叉树"><span class="toc-number">2.5.</span> <span class="toc-text">重建二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中只出现一次的数"><span class="toc-number">2.6.</span> <span class="toc-text">数组中只出现一次的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#按之字形打印二叉树"><span class="toc-number">2.7.</span> <span class="toc-text">按之字形打印二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从上到下打印二叉树"><span class="toc-number">2.8.</span> <span class="toc-text">从上到下打印二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树中和为某个值的路径"><span class="toc-number">2.9.</span> <span class="toc-text">二叉树中和为某个值的路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#序列化二叉树-反序列化二叉树"><span class="toc-number">2.10.</span> <span class="toc-text">序列化二叉树+反序列化二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反转链表"><span class="toc-number">2.11.</span> <span class="toc-text">反转链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断链表中是不是有环，以及环的入口"><span class="toc-number">2.12.</span> <span class="toc-text">判断链表中是不是有环，以及环的入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除链表中重复节点"><span class="toc-number">2.13.</span> <span class="toc-text">删除链表中重复节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的深度"><span class="toc-number">2.14.</span> <span class="toc-text">二叉树的深度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从头到尾打印链表"><span class="toc-number">2.15.</span> <span class="toc-text">从头到尾打印链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表中倒数第K个节点"><span class="toc-number">2.16.</span> <span class="toc-text">链表中倒数第K个节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中超过一半的数"><span class="toc-number">2.17.</span> <span class="toc-text">数组中超过一半的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的镜像"><span class="toc-number">2.18.</span> <span class="toc-text">二叉树的镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是否是树的子结构"><span class="toc-number">2.19.</span> <span class="toc-text">判断是否是树的子结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连续子数组的最大和"><span class="toc-number">2.20.</span> <span class="toc-text">连续子数组的最大和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中重复数字"><span class="toc-number">2.21.</span> <span class="toc-text">数组中重复数字</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#leetcode"><span class="toc-number">3.</span> <span class="toc-text">leetcode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树两个子节点的公共祖先"><span class="toc-number">3.1.</span> <span class="toc-text">二叉树两个子节点的公共祖先</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树后序遍历"><span class="toc-number">3.2.</span> <span class="toc-text">二叉树后序遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树先序遍历"><span class="toc-number">3.3.</span> <span class="toc-text">二叉树先序遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的最小深度"><span class="toc-number">3.4.</span> <span class="toc-text">二叉树的最小深度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最多共线点数"><span class="toc-number">3.5.</span> <span class="toc-text">最多共线点数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计算已生成语法树的表达式的值"><span class="toc-number">3.6.</span> <span class="toc-text">计算已生成语法树的表达式的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在O-nlogn-时间内排序链表"><span class="toc-number">3.7.</span> <span class="toc-text">在O(nlogn)时间内排序链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表插入排序"><span class="toc-number">3.8.</span> <span class="toc-text">链表插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并两个排序链表"><span class="toc-number">3.9.</span> <span class="toc-text">合并两个排序链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寻找字符串中没有重复的最长子串"><span class="toc-number">3.10.</span> <span class="toc-text">寻找字符串中没有重复的最长子串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word-pattrern"><span class="toc-number">3.11.</span> <span class="toc-text">word pattrern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相同子集和分割"><span class="toc-number">3.12.</span> <span class="toc-text">相同子集和分割</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#杂项"><span class="toc-number">4.</span> <span class="toc-text">杂项</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何给100亿个数字排序"><span class="toc-number">5.</span> <span class="toc-text">如何给100亿个数字排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA-利用HashMap实现LRU"><span class="toc-number">6.</span> <span class="toc-text">JAVA 利用HashMap实现LRU</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一天刷10道，bat不是梦啊，加油"><span class="toc-number">1.</span> <span class="toc-text">一天刷10道，bat不是梦啊，加油</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#T：-时间复杂度-S：空间复杂度"><span class="toc-number">2.</span> <span class="toc-text">T： 时间复杂度                  S：空间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n个数，大小0-n-1-，判断是否有重复"><span class="toc-number">2.1.</span> <span class="toc-text">n个数，大小0-(n-1)，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是不是素数"><span class="toc-number">2.2.</span> <span class="toc-text">判断是不是素数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#n-1个数，大小1-n，判断是否有重复"><span class="toc-number">2.3.</span> <span class="toc-text">n+1个数，大小1-n，判断是否有重复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将空格替换为-20"><span class="toc-number">2.4.</span> <span class="toc-text">将空格替换为%20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重建二叉树"><span class="toc-number">2.5.</span> <span class="toc-text">重建二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中只出现一次的数"><span class="toc-number">2.6.</span> <span class="toc-text">数组中只出现一次的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#按之字形打印二叉树"><span class="toc-number">2.7.</span> <span class="toc-text">按之字形打印二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从上到下打印二叉树"><span class="toc-number">2.8.</span> <span class="toc-text">从上到下打印二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树中和为某个值的路径"><span class="toc-number">2.9.</span> <span class="toc-text">二叉树中和为某个值的路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#序列化二叉树-反序列化二叉树"><span class="toc-number">2.10.</span> <span class="toc-text">序列化二叉树+反序列化二叉树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反转链表"><span class="toc-number">2.11.</span> <span class="toc-text">反转链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断链表中是不是有环，以及环的入口"><span class="toc-number">2.12.</span> <span class="toc-text">判断链表中是不是有环，以及环的入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除链表中重复节点"><span class="toc-number">2.13.</span> <span class="toc-text">删除链表中重复节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的深度"><span class="toc-number">2.14.</span> <span class="toc-text">二叉树的深度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从头到尾打印链表"><span class="toc-number">2.15.</span> <span class="toc-text">从头到尾打印链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表中倒数第K个节点"><span class="toc-number">2.16.</span> <span class="toc-text">链表中倒数第K个节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中超过一半的数"><span class="toc-number">2.17.</span> <span class="toc-text">数组中超过一半的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的镜像"><span class="toc-number">2.18.</span> <span class="toc-text">二叉树的镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断是否是树的子结构"><span class="toc-number">2.19.</span> <span class="toc-text">判断是否是树的子结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连续子数组的最大和"><span class="toc-number">2.20.</span> <span class="toc-text">连续子数组的最大和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组中重复数字"><span class="toc-number">2.21.</span> <span class="toc-text">数组中重复数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跳台阶"><span class="toc-number">2.22.</span> <span class="toc-text">跳台阶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变态跳台阶"><span class="toc-number">2.23.</span> <span class="toc-text">变态跳台阶</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#leetcode"><span class="toc-number">3.</span> <span class="toc-text">leetcode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树两个子节点的公共祖先"><span class="toc-number">3.1.</span> <span class="toc-text">二叉树两个子节点的公共祖先</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树后序遍历"><span class="toc-number">3.2.</span> <span class="toc-text">二叉树后序遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树先序遍历"><span class="toc-number">3.3.</span> <span class="toc-text">二叉树先序遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树的最小深度"><span class="toc-number">3.4.</span> <span class="toc-text">二叉树的最小深度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最多共线点数"><span class="toc-number">3.5.</span> <span class="toc-text">最多共线点数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计算已生成语法树的表达式的值"><span class="toc-number">3.6.</span> <span class="toc-text">计算已生成语法树的表达式的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在O-nlogn-时间内排序链表"><span class="toc-number">3.7.</span> <span class="toc-text">在O(nlogn)时间内排序链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表插入排序"><span class="toc-number">3.8.</span> <span class="toc-text">链表插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并两个排序链表"><span class="toc-number">3.9.</span> <span class="toc-text">合并两个排序链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寻找字符串中没有重复的最长子串"><span class="toc-number">3.10.</span> <span class="toc-text">寻找字符串中没有重复的最长子串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word-pattrern"><span class="toc-number">3.11.</span> <span class="toc-text">word pattrern</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相同子集和分割"><span class="toc-number">3.12.</span> <span class="toc-text">相同子集和分割</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#杂项"><span class="toc-number">4.</span> <span class="toc-text">杂项</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何给100亿个数字排序"><span class="toc-number">5.</span> <span class="toc-text">如何给100亿个数字排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA-利用HashMap实现LRU"><span class="toc-number">6.</span> <span class="toc-text">JAVA 利用HashMap实现LRU</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1772,83 +1774,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 77
+        Total : 75
         </div>
         <!-- search  -->
         
@@ -1879,11 +1807,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
         </li>
     
     
@@ -2047,12 +1970,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
         </li>
     
     
@@ -2073,11 +1996,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/posts/12920/">awd准备工作</a>
         </li>
     
     
@@ -2162,12 +2080,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
@@ -2202,12 +2120,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
@@ -2272,13 +2190,13 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
-    
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
     
@@ -2302,9 +2220,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
