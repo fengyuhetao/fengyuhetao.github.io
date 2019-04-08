@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">8,675</span> / Reading time: <span class="post-count">46 min</span></span>
+                        <span>Word count: <span class="post-count">8,787</span> / Reading time: <span class="post-count">47 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -433,6 +433,9 @@
 <h2 id="跳台阶"><a href="#跳台阶" class="headerlink" title="跳台阶"></a>跳台阶</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public int JumpFloor(int target) &#123;</span><br><span class="line">        if(target &lt;= 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(target == 1) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(target == 2) &#123;</span><br><span class="line">            return 2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        int f_1 = 1;</span><br><span class="line">        int f_2 = 2;</span><br><span class="line">        int result = 0;</span><br><span class="line">        for(int i = 0; i &lt; target - 2; i++) &#123;</span><br><span class="line">            result = f_1 + f_2;</span><br><span class="line">            f_1 = f_2;</span><br><span class="line">            f_2 = result;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="变态跳台阶"><a href="#变态跳台阶" class="headerlink" title="变态跳台阶"></a>变态跳台阶</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public int JumpFloorII(int target) &#123;</span><br><span class="line">        if(target &lt;= 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        int a = 1;</span><br><span class="line">        return a &lt;&lt; (target - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="leetcode"><a href="#leetcode" class="headerlink" title="leetcode"></a>leetcode</h1><p><img src="https://images2015.cnblogs.com/blog/975503/201702/975503-20170214211234550-1109833343.png" alt=""></p>
+<p>计算从上到下路径和最小的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">     [2],</span><br><span class="line">    [3,4],</span><br><span class="line">   [6,5,7],</span><br><span class="line">  [4,1,8,3]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line">public class Solution &#123;</span><br><span class="line">    public int minimumTotal(ArrayList&lt;ArrayList&lt;Integer&gt;&gt; triangle) &#123;</span><br><span class="line">        int depth = triangle.size();</span><br><span class="line">        for(int i = depth - 2; i &gt;= 0; i--) &#123;</span><br><span class="line">            for(int j = 0; j &lt; triangle.get(i).size(); j++) &#123;</span><br><span class="line">                triangle.get(i).set(j, Math.min(triangle.get(i).get(j) + triangle.get(i + 1).get(j), </span><br><span class="line">                                                         triangle.get(i).get(j) + triangle.get(i + 1).get(j + 1)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return triangle.get(0).get(0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="二叉树两个子节点的公共祖先"><a href="#二叉树两个子节点的公共祖先" class="headerlink" title="二叉树两个子节点的公共祖先"></a>二叉树两个子节点的公共祖先</h2><p>从根节点开始遍历，如果node1和node2中的任一个和root匹配，那么root就是最低公共祖先。 如果都不匹配，则分别递归左、右子树，如果有一个 节点出现在左子树，并且另一个节点出现在右子树，则root就是最低公共祖先.  如果两个节点都出现在左子树，则说明最低公共祖先在左子树中，否则在右子树。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * public class TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode left;</span><br><span class="line"> *     TreeNode right;</span><br><span class="line"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br><span class="line">class Solution &#123;</span><br><span class="line">    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) &#123;</span><br><span class="line">        // 发现目标节点，就通过返回值标记孩子树发现了某个目标节点</span><br><span class="line">        if(root == null || root == p || root == q) return root;</span><br><span class="line">        </span><br><span class="line">        // 查看左子树是否有目标节点，没有返回null</span><br><span class="line">        TreeNode left = lowestCommonAncestor(root.left, p, q);</span><br><span class="line">        </span><br><span class="line">        // 查看右子树是否有目标节点，没有返回null</span><br><span class="line">        TreeNode right = lowestCommonAncestor(root.right, p, q);</span><br><span class="line">        </span><br><span class="line">        //都不为空，说明左 右子树都有目标结点，则公共祖先就是本身  </span><br><span class="line">        if(left != null &amp;&amp; right != null) return root;</span><br><span class="line">        </span><br><span class="line">        // 如果发现了目标节点，则继续向上标记为该目标节点</span><br><span class="line">        return left == null ? right : left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="二叉树后序遍历"><a href="#二叉树后序遍历" class="headerlink" title="二叉树后序遍历"></a>二叉树后序遍历</h2><p>递归:</p>
@@ -468,7 +471,7 @@
 <h2 id="寻找字符串中没有重复的最长子串"><a href="#寻找字符串中没有重复的最长子串" class="headerlink" title="寻找字符串中没有重复的最长子串"></a>寻找字符串中没有重复的最长子串</h2><p>滑动窗口：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">public class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        if(s == null || s.length() == 0) &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 新建一个map进行存储char</span><br><span class="line">        HashMap&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;();</span><br><span class="line">        int leftBound = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        for(int i = 0; i &lt; s.length(); i++) &#123;</span><br><span class="line">            char c = s.charAt(i);</span><br><span class="line">            // 窗口左边可能为下一个char,可能不变</span><br><span class="line">            leftBound = Math.max(leftBound, (map.containsKey(c)) ? map.get(c) + 1 : 0);</span><br><span class="line">            max = Math.max(max, i - leftBound + 1);    // 当前窗口长度</span><br><span class="line">            map.put(c, i);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="word-pattrern"><a href="#word-pattrern" class="headerlink" title="word pattrern"></a>word pattrern</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">public boolean wordPattern(String pattern, String str) &#123;</span><br><span class="line">        if(pattern == null || str == null) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        String[] words = str.split(&quot; &quot;);</span><br><span class="line">        if(words.length != pattern.length()) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;Character, String&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">        for(int i = 0; i&lt; pattern.length(); i++) &#123;</span><br><span class="line">            char c = pattern.charAt(i);</span><br><span class="line">            if(map.containsKey(c)) &#123;</span><br><span class="line">                if(!map.get(c).equals(words[i])) &#123;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;            </span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                if(map.containsValue(words[i])) &#123;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                map.put(c, words[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="相同子集和分割"><a href="#相同子集和分割" class="headerlink" title="相同子集和分割"></a>相同子集和分割</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">package com.offer_shua;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author HT</span><br><span class="line"> * @version V1.0</span><br><span class="line"> * @package com.offer_shua</span><br><span class="line"> * @date 2019-03-16 16:10</span><br><span class="line"> */</span><br><span class="line">public class SumEqual &#123;</span><br><span class="line">    public static void main(String [] args) &#123;</span><br><span class="line">        int [] nums = &#123;1, 5, 10, 5, 1&#125;;</span><br><span class="line">        boolean isCan = canPartition(nums);</span><br><span class="line">        if(isCan) &#123;</span><br><span class="line">            System.out.println(&quot;ok&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean canPartition(int[] nums) &#123;</span><br><span class="line">        int sum = 0;</span><br><span class="line">        for(int num: nums) &#123;</span><br><span class="line">            sum += num;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(sum % 2 == 1) return false;</span><br><span class="line">        int target = sum &gt;&gt; 1;</span><br><span class="line"></span><br><span class="line">        int [] enough = new int[target + 1];</span><br><span class="line">        for(int i = 0; i&lt; target + 1; i++) &#123;</span><br><span class="line">            enough[i] = -1;</span><br><span class="line">        &#125;</span><br><span class="line">        boolean [] dp = new boolean[target + 1];</span><br><span class="line">        dp[0] = true;</span><br><span class="line"></span><br><span class="line">        int j = 0;</span><br><span class="line">        for(int num : nums) &#123;</span><br><span class="line">            for(int i = target; i &gt;= num; --i) &#123;</span><br><span class="line">                dp[i] = dp[i] || dp[i - num];</span><br><span class="line">                if(dp[i] &amp;&amp; enough[i] == -1) &#123;</span><br><span class="line">                    enough[i] = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        while(target != 0) &#123;</span><br><span class="line">            list.add(enough[target]);</span><br><span class="line">            target = target - nums[enough[target]];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        StringBuffer str1 = new StringBuffer(&quot;&quot;);</span><br><span class="line">        StringBuffer str2 = new StringBuffer(&quot;&quot;);</span><br><span class="line">        for(int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">            if(list.contains(i)) &#123;</span><br><span class="line">                str1.append(nums[i]).append(&quot; &quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                str2.append(nums[i]).append(&quot; &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(str1);</span><br><span class="line">        System.out.println(str2);</span><br><span class="line">        return dp[target];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="相同子集和分割"><a href="#相同子集和分割" class="headerlink" title="相同子集和分割"></a>相同子集和分割</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">package com.offer_shua;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author HT</span><br><span class="line"> * @version V1.0</span><br><span class="line"> * @package com.offer_shua</span><br><span class="line"> * @date 2019-03-16 16:10</span><br><span class="line"> */</span><br><span class="line">public class SumEqual &#123;</span><br><span class="line">    public static void main(String [] args) &#123;</span><br><span class="line">        int [] nums = &#123;1, 5, 10, 5, 1&#125;;</span><br><span class="line">        boolean isCan = canPartition(nums);</span><br><span class="line">        if(isCan) &#123;</span><br><span class="line">            System.out.println(&quot;ok&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean canPartition(int[] nums) &#123;</span><br><span class="line">        int sum = 0;</span><br><span class="line">        for(int num: nums) &#123;</span><br><span class="line">            sum += num;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(sum % 2 == 1) return false;</span><br><span class="line">        int target = sum &gt;&gt; 1;</span><br><span class="line"></span><br><span class="line">        int [] enough = new int[target + 1];</span><br><span class="line">        for(int i = 0; i&lt; target + 1; i++) &#123;</span><br><span class="line">            enough[i] = -1;</span><br><span class="line">        &#125;</span><br><span class="line">        boolean [] dp = new boolean[target + 1];</span><br><span class="line">        dp[0] = true;</span><br><span class="line"></span><br><span class="line">        int j = 0;</span><br><span class="line">        for(int num : nums) &#123;</span><br><span class="line">            for(int i = target; i &gt;= num; --i) &#123;</span><br><span class="line">                dp[i] = dp[i] || dp[i - num];</span><br><span class="line">                if(dp[i] &amp;&amp; enough[i] == -1) &#123;</span><br><span class="line">                    enough[i] = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        while(target != 0) &#123;</span><br><span class="line">            list.add(enough[target]);</span><br><span class="line">            target = target - nums[enough[target]];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        StringBuffer str1 = new StringBuffer(&quot;&quot;);</span><br><span class="line">        StringBuffer str2 = new StringBuffer(&quot;&quot;);</span><br><span class="line">        for(int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">            if(list.contains(i)) &#123;</span><br><span class="line">                str1.append(nums[i]).append(&quot; &quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                str2.append(nums[i]).append(&quot; &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(str1);</span><br><span class="line">        System.out.println(str2);</span><br><span class="line">        return dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package com.offer_shua;</span><br><span class="line">import com.sun.org.apache.xpath.internal.SourceTree;</span><br><span class="line"></span><br><span class="line">import java.nio.charset.Charset;</span><br><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author HT</span><br><span class="line"> * @version V1.0</span><br><span class="line"> * @package com.offer_shua</span><br><span class="line"> * @date 2019-03-08 10:48</span><br><span class="line"> */</span><br><span class="line">public class MatchJudger &#123;</span><br><span class="line">    private Map&lt;Character, Character&gt; pair = null;</span><br><span class="line"></span><br><span class="line">    public MatchJudger() &#123;</span><br><span class="line">        pair = new HashMap&lt;&gt;();</span><br><span class="line">        pair.put(&apos;)&apos;, &apos;(&apos;);</span><br><span class="line">        pair.put(&apos;&#125;&apos;, &apos;[&apos;);</span><br><span class="line">        pair.put(&apos;&#125;&apos;, &apos;&#123;&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public boolean isMatch(String s) &#123;</span><br><span class="line">        Stack&lt;Character&gt; sc = new Stack&lt;&gt;();</span><br><span class="line">        for(int i = 0; i&lt; s.length(); i++) &#123;</span><br><span class="line">            Character c = s.charAt(i);</span><br><span class="line">            if(pair.containsValue(c)) &#123;</span><br><span class="line">                sc.push(c);</span><br><span class="line">            &#125; else if(pair.containsKey(c)) &#123;</span><br><span class="line">                if(sc.empty()) &#123;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    if(Objects.equals(sc.peek(), pair.get(c))) &#123;</span><br><span class="line">                        sc.pop();</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        return false;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return sc.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String [] args) &#123;</span><br><span class="line">        MatchJudger matchJudger = new MatchJudger();</span><br><span class="line">        System.out.println(matchJudger.isMatch(&quot;&#123;******&#125;()()&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="如何给100亿个数字排序"><a href="#如何给100亿个数字排序" class="headerlink" title="如何给100亿个数字排序"></a><a href="https://www.cnblogs.com/zhangxuan/p/5948291.html" rel="external nofollow" target="_blank">如何给100亿个数字排序</a></h1><p>实现思路</p>
 <p>1.把这个37GB的大文件，用哈希分成1000个小文件，每个小文件平均38MB左右（理想情况），把100亿个数字对1000取模，模出来的结果在0到999之间，每个结果对应一个文件，所以我这里取的哈希函数是 h = x % 1000，哈希函数取得”好”，能使冲突减小，结果分布均匀。</p>
@@ -502,8 +505,8 @@
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/posts/44754/" title="dubbo-配置">
-                    <div class="prevTitle">dubbo-配置</div>
+                <a href="/posts/43363/" title="java-面试准备">
+                    <div class="prevTitle">java-面试准备</div>
                 </a>
             
         </li>
@@ -1774,9 +1777,172 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 75
+        Total : 76
         </div>
         <!-- search  -->
         
@@ -1807,6 +1973,11 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
         </li>
     
     
@@ -2080,12 +2251,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
         </li>
     
     
@@ -2190,9 +2361,9 @@
     
         <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
     
@@ -2204,9 +2375,9 @@
     
         <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
-    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2220,9 +2391,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
