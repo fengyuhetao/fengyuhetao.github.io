@@ -11,11 +11,11 @@
     <meta name="author" content="Tianji">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Tianji">
-    <meta name="keywords" content="dubbo-配置 | Tianji">
+    <meta name="keywords" content="dubbo-problem | Tianji">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>dubbo-配置 · Tianji&#39;s Blog</title>
+    <title>dubbo-problem · Tianji&#39;s Blog</title>
     <!-- 设置密码 -->
     <script>
         (function(){
@@ -221,7 +221,7 @@
                 <a href="/">Tianji&#39;s Blog.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">dubbo-配置</a>
+                <a href="#" class="post-name">dubbo-problem</a>
             </div>
     </div>
     
@@ -242,7 +242,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            dubbo-配置
+            dubbo-problem
             <!-- 404 -->
             
         </h1>
@@ -261,7 +261,7 @@
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">14</span> / Reading time: <span class="post-count">1 min</span></span>
+                        <span>Word count: <span class="post-count">305</span> / Reading time: <span class="post-count">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -390,7 +390,12 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="API配置"><a href="#API配置" class="headerlink" title="API配置"></a>API配置</h1><h1 id="属性配置"><a href="#属性配置" class="headerlink" title="属性配置"></a>属性配置</h1><h1 id="XML配置"><a href="#XML配置" class="headerlink" title="XML配置"></a>XML配置</h1><h1 id="注解配置"><a href="#注解配置" class="headerlink" title="注解配置"></a>注解配置</h1>
+        <h2 id="记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理"><a href="#记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理" class="headerlink" title="记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理"></a>记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理</h2><h3 id="issuse-619"><a href="#issuse-619" class="headerlink" title="issuse#619"></a>issuse#619</h3><p>代码: org/apache/dubbo/rpc/RpcResult.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Override</span><br><span class="line">    public Object recreate() throws Throwable &#123;</span><br><span class="line">        if (exception != null) &#123;</span><br><span class="line">            // fix issue#619</span><br><span class="line">            try &#123;</span><br><span class="line">                // get Throwable class</span><br><span class="line">                Class clazz = exception.getClass();</span><br><span class="line">                while (!clazz.getName().equals(Throwable.class.getName())) &#123;</span><br><span class="line">                    clazz = clazz.getSuperclass();</span><br><span class="line">                &#125;</span><br><span class="line">                // get stackTrace value</span><br><span class="line">                Field stackTraceField = clazz.getDeclaredField(&quot;stackTrace&quot;);</span><br><span class="line">                stackTraceField.setAccessible(true);</span><br><span class="line">                Object stackTrace = stackTraceField.get(exception);</span><br><span class="line">                if (stackTrace == null) &#123;</span><br><span class="line">                    exception.setStackTrace(new StackTraceElement[0]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                // ignore</span><br><span class="line">            &#125;</span><br><span class="line">            throw exception;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析:"></a>原因分析:</h3><p><a href="https://github.com/edwardlee03/issue-case/blob/master/java/exception/10.%E6%97%A5%E5%BF%97%E6%9C%AA%E6%89%93%E5%8D%B0Java%E5%BC%82%E5%B8%B8%E5%A0%86%E6%A0%88%E8%B7%9F%E8%B8%AAstackTrace.md" rel="external nofollow" target="_blank">https://github.com/edwardlee03/issue-case/blob/master/java/exception/10.%E6%97%A5%E5%BF%97%E6%9C%AA%E6%89%93%E5%8D%B0Java%E5%BC%82%E5%B8%B8%E5%A0%86%E6%A0%88%E8%B7%9F%E8%B8%AAstackTrace.md</a></p>
+<p>简单来说:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JVM 为了性能会做优化，如果频繁地抛出某个异常，会重新编译，不再打印异常堆栈。 解决这个问题也比较简单，如果不想每次都去查前面的 log 去看堆栈， 只要在启动参数加上 -XX:-OmitStackTraceInFastThrow，就可以禁用该优化，强制打印异常堆栈。 这样可能会导致，log 文件过大，不过产线上今天之前的 log 文件都会被压缩，所以感觉问题也不大。</span><br></pre></td></tr></table></figure>
+
     </article>
     <!-- license  -->
     
@@ -528,7 +533,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#API配置"><span class="toc-number">1.</span> <span class="toc-text">API配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#属性配置"><span class="toc-number">2.</span> <span class="toc-text">属性配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XML配置"><span class="toc-number">3.</span> <span class="toc-text">XML配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注解配置"><span class="toc-number">4.</span> <span class="toc-text">注解配置</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理"><span class="toc-number">1.</span> <span class="toc-text">记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#issuse-619"><span class="toc-number">1.1.</span> <span class="toc-text">issuse#619</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原因分析"><span class="toc-number">1.2.</span> <span class="toc-text">原因分析:</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1784,74 +1789,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -1881,6 +1821,11 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/57887/">AtomicInteger代码阅读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
         </li>
     
@@ -1891,7 +1836,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-problem</a>
         </li>
     
     
@@ -1940,7 +1885,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">php调试分析</a>
         </li>
     
     
@@ -2080,12 +2025,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2200,12 +2145,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2282,11 +2227,11 @@
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2300,9 +2245,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

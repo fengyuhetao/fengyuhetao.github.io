@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Tianji">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Tianji">
+    <meta name="keywords" content="AtomicInteger代码阅读 | Tianji">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>AtomicInteger代码阅读 · Tianji&#39;s Blog</title>
+    <!-- 设置密码 -->
+    <script>
+        (function(){
+            if(''){
+                if (prompt('请输入文章密码','') !== ''){
+                    alert('密码错误！');
+                    history.back();
+                }
+            }
+        })();
+    </script>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180721" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180721" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Tianji&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">AtomicInteger代码阅读</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Tianji's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="height:50vh;">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            AtomicInteger代码阅读
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">3,666</span> / Reading time: <span class="post-count">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/18</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;">
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="AtomicInteger深入理解"><a href="#AtomicInteger深入理解" class="headerlink" title="AtomicInteger深入理解"></a>AtomicInteger深入理解</h1><blockquote>
+<p>高并发的情况下，<code>i++</code>无法保证原子性，往往会出现问题，所以引入<code>AtomicInteger</code>类。</p>
+</blockquote>
+<h2 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class TestAtomicInteger &#123;</span><br><span class="line">    private static final int THREADS_COUNT = 2;</span><br><span class="line"></span><br><span class="line">    public static int count = 0;</span><br><span class="line">    public static volatile int countVolatile = 0;</span><br><span class="line">    public static AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line">    public static CountDownLatch countDownLatch = new CountDownLatch(2);</span><br><span class="line"></span><br><span class="line">    public static void increase() &#123;</span><br><span class="line">        count++;</span><br><span class="line">        countVolatile++;</span><br><span class="line">        atomicInteger.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Thread[] threads = new Thread[THREADS_COUNT];</span><br><span class="line">        for(int i = 0; i&lt; threads.length; i++) &#123;</span><br><span class="line">            threads[i] = new Thread(() -&gt; &#123;</span><br><span class="line">                for(int i1 = 0; i1 &lt; 1000; i1++) &#123;</span><br><span class="line">                    increase();</span><br><span class="line">                &#125;</span><br><span class="line">                countDownLatch.countDown();</span><br><span class="line">            &#125;);</span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        countDownLatch.await();</span><br><span class="line"></span><br><span class="line">        System.out.println(count);</span><br><span class="line">        System.out.println(countVolatile);</span><br><span class="line">        System.out.println(atomicInteger.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1974</span><br><span class="line">1990</span><br><span class="line">2000</span><br></pre></td></tr></table></figure>
+<p>通过多次测试，我们可以看到只有<code>AtomicInteger</code>能够真正保证最终结果永远是2000。关于<code>volatile</code>的文章，这里可以推荐一个: <a href="https://mp.weixin.qq.com/s?__biz=MzI4MDYwMDc3MQ==&amp;mid=2247486266&amp;idx=1&amp;sn=7beaca0358914b3606cde78bfcdc8da3&amp;chksm=ebb74296dcc0cb805a45ca9c0501b7c2c37e8f2586295210896d18e3a0c72b01bea765924ce5&amp;mpshare=1&amp;scene=24&amp;srcid=&amp;key=c8fbfa031bd0c4166acd110fd54b85e9b3568f80a3f4c2d80add2f4add0ced46d1d3a0cf139c0ca64877a98635727a7fc593b850f8082d1fcf77a5ebf067fc1476285146d13d691f80b64b930006a341&amp;ascene=0&amp;uin=MjYwNzAzMzYzNw%3D%3D&amp;devicetype=iMac+MacBookAir6%2C2+OSX+OSX+10.14.2+build(18C54" rel="external nofollow" target="_blank">面试官最爱的volatile关键字 </a>&amp;version=12020810&amp;nettype=WIFI&amp;lang=zh_CN&amp;fontScale=100&amp;pass_ticket=hbg9AwR77rok2jxxdwyHyTHBDzwwC7lR8aEfF6HfW4KgJwsj0ruOpw8iNsUK%2B5kK)。</p>
+<p>##代码阅读</p>
+<p>考虑到代码比较长，这里仅仅截取部分代码进行讲解。</p>
+<h3 id="定义的变量"><a href="#定义的变量" class="headerlink" title="定义的变量"></a>定义的变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// setup to use Unsafe.compareAndSwapInt for updates</span><br><span class="line">private static final Unsafe unsafe = Unsafe.getUnsafe();</span><br><span class="line">private static final long valueOffset;</span><br><span class="line"></span><br><span class="line">// 通过Unsafe计算出value变量在对象中的偏移，该偏移值下边会用到</span><br><span class="line">static &#123;</span><br><span class="line">   try &#123;</span><br><span class="line">       valueOffset = unsafe.objectFieldOffset</span><br><span class="line">          (AtomicInteger.class.getDeclaredField(&quot;value&quot;));</span><br><span class="line">   &#125; catch (Exception ex) &#123; throw new Error(ex); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// value保存当前的值</span><br><span class="line">private volatile int value;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>unsafe: 一般来说，Java不像c或者c++那样，可以直接操作内存，<code>Unsafe</code>可以说是一个后门，可以直接操作内存，或者进行线程调度。（以后会专门写一篇关于Unsafe类的文章），能够使用</li>
+<li>valueOffset: 在类初始化的时候，计算出value变量在对象中的偏移</li>
+<li>value: 保存当前的值</li>
+</ul>
+<h3 id="layzSet方法"><a href="#layzSet方法" class="headerlink" title="layzSet方法:"></a>layzSet方法:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Eventually sets to the given value.</span><br><span class="line"> */</span><br><span class="line">public final void lazySet(int newValue) &#123;</span><br><span class="line">    unsafe.putOrderedInt(this, valueOffset, newValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法调用了本地方法Unsafe.putOrderedLong，具体实现见<a href="http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file/9b0ca45cd756/src/share/vm/prims/unsafe.cpp" rel="external nofollow" target="_blank">源码</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;CC&quot;putOrderedObject&quot;,   CC&quot;(&quot;OBJ&quot;J&quot;OBJ&quot;)V&quot;,         FN_PTR(Unsafe_SetOrderedObject)&#125;,</span><br><span class="line">&#123;CC&quot;putOrderedInt&quot;,      CC&quot;(&quot;OBJ&quot;JI)V&quot;,             FN_PTR(Unsafe_SetOrderedInt)&#125;,</span><br><span class="line">&#123;CC&quot;putOrderedLong&quot;,     CC&quot;(&quot;OBJ&quot;JJ)V&quot;,             FN_PTR(Unsafe_SetOrderedLong)&#125;,</span><br></pre></td></tr></table></figure>
+<p>可以看到该方法会调用<code>Unsafe_SetOrderedInt</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UNSAFE_ENTRY(void, Unsafe_SetOrderedInt(JNIEnv *env, jobject unsafe, jobject obj, jlong offset, jint x))</span><br><span class="line">  UnsafeWrapper(&quot;Unsafe_SetOrderedInt&quot;);</span><br><span class="line">  SET_FIELD_VOLATILE(obj, offset, jint, x);</span><br><span class="line">UNSAFE_END</span><br></pre></td></tr></table></figure>
+<p>调用了<code>SET_FIELD_VOLATILE</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#define SET_FIELD_VOLATILE(obj, offset, type_name, x) \</span><br><span class="line">  oop p = JNIHandles::resolve(obj); \</span><br><span class="line">  OrderAccess::release_store_fence((volatile type_name*)index_oop_from_field_offset_long(p, offset), x);</span><br></pre></td></tr></table></figure>
+<p>继续看: <code>OrderAccess::release_store_fence</code>,该方法可见<a href="http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file/9b0ca45cd756/src/os_cpu/linux_x86/vm/orderAccess_linux_x86.inline.hpp" rel="external nofollow" target="_blank">源码</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inline void     OrderAccess::release_store_fence(volatile jint*   p, jint   v) &#123;</span><br><span class="line">  __asm__ volatile (  &quot;xchgl (%2),%0&quot;</span><br><span class="line">                    : &quot;=r&quot; (v)</span><br><span class="line">                    : &quot;0&quot; (v), &quot;r&quot; (p)</span><br><span class="line">                    : &quot;memory&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终采用<code>xchgl</code>指令来实现变量的赋值。</p>
+<p>所以: lazySet方法是由依赖于硬件的系统指令(如x86的xchg)实现的。使用lazySet的话，其他线程在之后的一小段时间里还是可以读到旧的值。个人猜测：lazySet方法相比于<code>set</code>方法可能性能好一点。</p>
+<p>网站上找到的资料:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.首先set()是对volatile变量的一个写操作, 我们知道volatile的write为了保证对其他线程的可见性会追加以下两个Fence(内存屏障)</span><br><span class="line">1)StoreStore // 在intel cpu中, 不存在[写写]重排序, 这个可以直接省略了</span><br><span class="line">2)StoreLoad // 这个是所有内存屏障里最耗性能的</span><br><span class="line">注: 内存屏障相关参考Doug Lea大大的cookbook (http://g.oswego.edu/dl/jmm/cookbook.html)</span><br><span class="line"></span><br><span class="line">2.Doug Lea大大又说了, lazySet()省去了StoreLoad屏障, 只留下StoreStore</span><br></pre></td></tr></table></figure>
+<p>关于为什么会添加<code>lazySet</code>方法，可以参考:<a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6275329" rel="external nofollow" target="_blank">https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6275329</a>。</p>
+<p>简单来说: putOrderedInt 之前的写不会被重排序，之后的写会被重排序。之后会被重排序意味着执行以后对其他线程是没有可见性保证的。</p>
+<blockquote>
+<p>设想如下场景: 设置一个 volatile 变量为 null，让这个对象被 GC 掉，volatile write 是消耗比较大（store-load 屏障）的，但是 putOrderedInt 只会加 store-store 屏障，损耗会小一些。</p>
+</blockquote>
+<h3 id="set方法"><a href="#set方法" class="headerlink" title="set方法"></a>set方法</h3><p>由于使用了<code>volatile</code>关键字，因此set方法可以保证并发情况下不会出现问题。</p>
+<h3 id="incrementAndGet"><a href="#incrementAndGet" class="headerlink" title="incrementAndGet"></a>incrementAndGet</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final int incrementAndGet() &#123;</span><br><span class="line">    return unsafe.getAndAddInt(this, valueOffset, 1) + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用unsafe中的<code>getAndInt</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public final int getAndAddInt(Object var1, long var2, int var4) &#123;</span><br><span class="line">    int var5;</span><br><span class="line">    do &#123;</span><br><span class="line">        // 直接从该对象对应位置取出变量的值</span><br><span class="line">        var5 = this.getIntVolatile(var1, var2);</span><br><span class="line">    &#125; while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line">    return var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>var1: Object</li>
+<li>var2: valueOffset</li>
+<li>var5: 当前该变量在内存中的值</li>
+<li>var5 + var4: 需要写进去的值</li>
+</ul>
+<p>采用CAS机制，不断使用<code>compareAndSwapInt</code>尝试修改该值，如果失败，重新获取。如果并发量小，问题不大。</p>
+<ul>
+<li>并发量大的情况下，由于真正更新成功的线程占少数，容易导致循环次数过多，浪费时间。</li>
+<li>由于需要保证变量真正的共享，缓存行失效，<strong>缓存一致性</strong>开销变大。</li>
+<li>底层开销可能较大，这个我就不追究了。</li>
+<li>该函数做的事较多，不仅增加value，同时还给出返回值，返回值换成void就好了。</li>
+</ul>
+<h3 id="getAndUpdate"><a href="#getAndUpdate" class="headerlink" title="getAndUpdate"></a>getAndUpdate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public final int getAndUpdate(IntUnaryOperator updateFunction) &#123;</span><br><span class="line">    int prev, next;</span><br><span class="line">    do &#123;</span><br><span class="line">        prev = get();</span><br><span class="line">        next = updateFunction.applyAsInt(prev);</span><br><span class="line">    &#125; while (!compareAndSet(prev, next));</span><br><span class="line">    return prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法需要实现<code>IntUnaryOperator</code>接口，然后会调用<code>applyAsInt</code>方法对当前值进行处理，将当前值替换为<code>applyAsInt</code>方法的返回值。</p>
+<p>参考代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class TestAtomicInteger &#123;</span><br><span class="line">    private static final int THREADS_COUNT = 2;</span><br><span class="line"></span><br><span class="line">    public static AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line">    public static CountDownLatch countDownLatch = new CountDownLatch(2);</span><br><span class="line"></span><br><span class="line">    public static void doubleValue() &#123;</span><br><span class="line">        atomicInteger.getAndUpdate(operand -&gt; &#123;</span><br><span class="line">            if(operand % 2 == 0) &#123;</span><br><span class="line">                operand = operand + 11;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                operand = operand + 19;</span><br><span class="line">            &#125;</span><br><span class="line">            return operand;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Thread[] threads = new Thread[THREADS_COUNT];</span><br><span class="line">        for(int i = 0; i&lt; threads.length; i++) &#123;</span><br><span class="line">            threads[i] = new Thread(() -&gt; &#123;</span><br><span class="line">                for(int i1 = 0; i1 &lt; 1000; i1++) &#123;</span><br><span class="line">                    doubleValue();</span><br><span class="line">                &#125;</span><br><span class="line">                countDownLatch.countDown();</span><br><span class="line">            &#125;);</span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        countDownLatch.await();</span><br><span class="line"></span><br><span class="line">        System.out.println(atomicInteger.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果是:30000。</p>
+<h2 id="操作系统级别CAS实现"><a href="#操作系统级别CAS实现" class="headerlink" title="操作系统级别CAS实现"></a>操作系统级别CAS实现</h2><p><strong>摘自</strong><a href="https://blog.csdn.net/a7980718/article/details/82860505" rel="external nofollow" target="_blank">CAS操作在ARM和x86下的不同实现</a>。</p>
+<p>cmpxchg是X86比较交换指令，这个指令在各大底层系统实现的原子操作和各种同步原语中都有广泛的使用，比如linux内核，JVM,GCC编译器等,cmpxchg就是比较交换指令。</p>
+<p>intel P6以及最新系列处理器保证了以下操作是原子的：1.读写一个字节。2.读写16位对齐的字。3.读写32位对齐的双字。4.读写64位对齐的四字。5.读写16位，32位，64位在cache line内的未对齐的字。所以普通的load store指令都是原子的。cache一致性协议保证了不可能有两个cpu同时写一个内存。对于cmpxchg这种比较交换指令肯定不是原子的，intel是CISC复杂指令集架构，在内部流水线执行的时候，肯定会将cmpxchg指令翻译成几条微码执行（对比ARM精简指令集）。所以英特尔对于一些指令提供了LOCK前缀来保证这个指令的原子性。Intel 64和IA-32处理器提供LOCK＃信号，该信号在某些关键存储器操作期间自动置位，以锁定系统总线或等效链路。当该输出信号被断言时，来自其他处理器或总线代理的用于控制总线的请求被阻止。</p>
+<p> 为了更清楚理解cmxchg，需要同时看ARM和x86两种架构下的实现一个RISC,一个CISC，linux内核提供了两种架构下的实现。linux内核的原子变量定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//原子变量</span><br><span class="line">typedef struct &#123;</span><br><span class="line">	volatile int counter; //volatile禁止编译器把变量缓冲到寄存器</span><br><span class="line">&#125; atomic_t;</span><br></pre></td></tr></table></figure>
+<p>先看ARM架构下，ARM架构是精简指令集，没有提供cmpxchg这种复杂指令，和其它所有RISC架构一样提供了LL/SC（链接加载，条件存储）操作，这个操作是很多原子操作的基础。ARMv8指令是LDXR\STXR，属于独占访问，需要有local monitor和global monitor配合使用。这两条指令一般需要成对出现。ldrex是从内存取出数据放到寄存器，然后监视器将此地址标记为独占，strex会先测试是否是当前cpu的独占，如果是则存储成功返回0，如果不是则存储失败返回1。例如cpu0将地址m标记为独占，在strex执行前，线程被调出了，cpu1调用ldrex会清除cpu0的独占，而将自己标记为独占，然后执行strxr，然后cpu0的线程重新被调度，此时执行strex会失败，因为自己的独占位被清除了。这样也会导致后进入ldrex的线程可能比先进入的先执行。标记为独占的地址调用strex后都会清除独占标志。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  比较ptr-&gt;counter和old的值如果相等，则ptr-&gt;counter = new,并且返回old，否则ptr-&gt;counter不变</span><br><span class="line"> * 返回ptr-&gt;counter</span><br><span class="line"> */</span><br><span class="line">static inline int atomic_cmpxchg(atomic_t *ptr, int old, int new)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long oldval, res;</span><br><span class="line"> </span><br><span class="line">	smp_mb(); //内存屏障，保证cmpxchg不会在屏障前执行</span><br><span class="line"> </span><br><span class="line">	do &#123;</span><br><span class="line">		__asm__ __volatile__(&quot;@ atomic_cmpxchg\n&quot;</span><br><span class="line">		&quot;ldrex	%1, [%2]\n&quot; //独占访问，监视器会将此地址标志独占并且将ptr-&gt;counter给oldvalue</span><br><span class="line">		&quot;mov	%0, #0\n&quot;   //res = 0</span><br><span class="line">		&quot;teq	%1, %3\n&quot;   //测试oldvalue是否和old相等也就是ptr-&gt;counter和old</span><br><span class="line"> </span><br><span class="line">		//独占访问成功并且如果相等则把new赋值给ptr-&gt;counter,否则不执行这条指令</span><br><span class="line">		&quot;strexeq %0, %4, [%2]\n&quot; </span><br><span class="line">		    : &quot;=&amp;r&quot; (res), &quot;=&amp;r&quot; (oldval)</span><br><span class="line">		    : &quot;r&quot; (&amp;ptr-&gt;counter), &quot;Ir&quot; (old), &quot;r&quot; (new)</span><br><span class="line">		    : &quot;cc&quot;);</span><br><span class="line">	&#125; while (res);  //while res是因为strexeq指令是独占访存指令从，此时可能未标记访存，而res为1</span><br><span class="line"> </span><br><span class="line">	smp_mb();//内存屏障，保证cmpxchg不会在屏障后执行</span><br><span class="line"> </span><br><span class="line">	return oldval;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>X86架构类似:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*</span><br><span class="line"> *  根据size大小比较交换字节，字或者双字，如果返回old则交换成功，否则交换失败</span><br><span class="line"> */</span><br><span class="line">static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,</span><br><span class="line">				      unsigned long new, int size)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long prev;</span><br><span class="line">	switch (size) &#123;</span><br><span class="line">	case 1:</span><br><span class="line">		__asm__ __volatile__(LOCK_PREFIX &quot;cmpxchgb %b1,%2&quot;</span><br><span class="line">				     : &quot;=a&quot;(prev)</span><br><span class="line">				     : &quot;q&quot;(new), &quot;m&quot;(*__xg(ptr)), &quot;0&quot;(old)</span><br><span class="line">				     : &quot;memory&quot;);</span><br><span class="line">		return prev;</span><br><span class="line">	case 2:</span><br><span class="line">		__asm__ __volatile__(LOCK_PREFIX &quot;cmpxchgw %w1,%2&quot;</span><br><span class="line">				     : &quot;=a&quot;(prev)</span><br><span class="line">				     : &quot;r&quot;(new), &quot;m&quot;(*__xg(ptr)), &quot;0&quot;(old)</span><br><span class="line">				     : &quot;memory&quot;);</span><br><span class="line">		return prev;</span><br><span class="line">//eax = old，比较%2 = ptr-&gt;counter和eax是否相等，如果相等则ZF置位，并把%1 = new赋值给ptr-&gt;counter,返回old值，否则ZF清除，并且将ptr-&gt;counter赋值给eax</span><br><span class="line">	case 4:</span><br><span class="line">		__asm__ __volatile__(LOCK_PREFIX &quot;cmpxchgl %1,%2&quot;</span><br><span class="line">				     : &quot;=a&quot;(prev)</span><br><span class="line">				     : &quot;r&quot;(new), &quot;m&quot;(*__xg(ptr)), &quot;0&quot;(old)  //0表示eax = old</span><br><span class="line">				     : &quot;memory&quot;);</span><br><span class="line">		return prev;</span><br><span class="line">	&#125;</span><br><span class="line">	return old;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码解释:</p>
+<p>以最为常用的4字节交换为例，主要的操作就是汇编指令<code>cmpxchgl %1,%2</code>，注意一下其中的%2，也就是后面的<code>&quot;m&quot;(*__xg(ptr))</code>。<code>__xg</code>是在这个文件中定义的宏：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">struct __xchg_dummy &#123; unsigned long a[100]; &#125;;</span><br><span class="line"></span><br><span class="line">#define __xg(x) ((struct __xchg_dummy *)(x))</span><br></pre></td></tr></table></figure>
+<p>那么%2经过预处理，展开就是<code>&quot;m&quot;(*((struct __xchg_dummy *)(ptr)))</code>，这种做法，就可以达到在cmpxchg中的%2是一个地址，就是ptr指向的地址。如果%2是<code>&quot;m&quot;(ptr)</code>，那么指针本身的值就出现在cmpxchg指令中。</p>
+<p>简单点就是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmpxchg %ecx, %ebx；如果EAX与EBX相等，则ECX送EBX且ZF置1；否则EBX送ECX，且ZF清0</span><br></pre></td></tr></table></figure>
+<p>在cmpxchg指令前加了lock前缀，保证在进行操作的时候，不会让其它cpu操作同一个内存。使得整个操作保持原子性。对比来看虽然X86只用了一条指令，但是处理器内部肯定将这条指令转成了类RISC的微码。</p>
+<h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><p>基于<code>AtomicLong</code>可能性能有点差，所以出现了<code>LongAdder</code>。接下来通过基准测试，来看看两者的性能差别。</p>
+<h3 id="基准测试"><a href="#基准测试" class="headerlink" title="基准测试"></a>基准测试</h3><p>Mode设为<code>Throughput</code>，测试吞吐量。</p>
+<p>Mode设为<code>AverageTime</code>，测试平均耗时。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@OutputTimeUnit(TimeUnit.MICROSECONDS)</span><br><span class="line">@BenchmarkMode(Mode.Throughput)</span><br><span class="line">public class Main &#123;</span><br><span class="line">    private static AtomicLong count = new AtomicLong();</span><br><span class="line"></span><br><span class="line">    private static LongAdder longAdder = new LongAdder();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws RunnerException &#123;</span><br><span class="line">        Options options = (Options) new OptionsBuilder().include(Main.class.getName());</span><br><span class="line">        new Runner(options).run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Benchmark</span><br><span class="line">    @Threads(10)</span><br><span class="line">    public void run0() &#123;</span><br><span class="line">        count.getAndIncrement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Benchmark</span><br><span class="line">    @Threads(10)</span><br><span class="line">    public void run1() &#123;</span><br><span class="line">        longAdder.increment();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量:"></a>吞吐量:</h4><p>线程为1，结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Benchmark   Mode  Cnt    Score   Error   Units</span><br><span class="line">Main.run0  thrpt   25  125.268 ± 2.471  ops/us</span><br><span class="line">Main.run1  thrpt   25   74.587 ± 1.484  ops/us</span><br></pre></td></tr></table></figure>
+<p>线程为10，结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Benchmark   Mode  Cnt    Score   Error   Units</span><br><span class="line">Main.run0  thrpt   25   24.897 ± 2.888  ops/us</span><br><span class="line">Main.run1  thrpt   25  192.474 ± 2.824  ops/us</span><br></pre></td></tr></table></figure>
+<p>线程为30，结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Benchmark   Mode  Cnt    Score   Error   Units</span><br><span class="line">Main.run0  thrpt   25   21.096 ± 1.897  ops/us</span><br><span class="line">Main.run1  thrpt   25  189.732 ± 4.089  ops/us</span><br></pre></td></tr></table></figure>
+<h4 id="平均耗时"><a href="#平均耗时" class="headerlink" title="平均耗时:"></a>平均耗时:</h4><p>线程为1，结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Main.run0  avgt   25  0.008 ±  0.001  us/op</span><br><span class="line">Main.run1  avgt   25  0.013 ±  0.001  us/op</span><br></pre></td></tr></table></figure>
+<p>线程为10，结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Benchmark  Mode  Cnt  Score   Error  Units</span><br><span class="line">Main.run0  avgt   25  0.485 ± 0.048  us/op</span><br><span class="line">Main.run1  avgt   25  0.050 ± 0.001  us/op</span><br></pre></td></tr></table></figure>
+<p>线程为30，结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Benchmark  Mode  Cnt  Score   Error  Units</span><br><span class="line">Main.run0  avgt   25  1.364 ± 0.033  us/op</span><br><span class="line">Main.run1  avgt   25  0.158 ± 0.003  us/op</span><br></pre></td></tr></table></figure>
+<p>可以看到除了线程为1的情况下，其他情况下，LogAdder明显比AtomicLong要好的多。</p>
+<h2 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h2><p>设想如下场景：</p>
+<ol>
+<li>线程1准备用CAS将变量的值由A替换为B。</li>
+<li>在此之前，线程2将变量的值由A替换为C，又由C替换为A，</li>
+<li>然后线程1执行CAS时发现变量的值仍然为A，所以CAS成功。</li>
+</ol>
+<p>但实际上这时的现场已经和最初不同了，尽管CAS成功，但可能存在潜藏的问题。</p>
+<p>比如：</p>
+<ul>
+<li>有一个用单向链表实现的栈，栈顶为A。</li>
+<li>线程T1获取A.next为B，然后希望用CAS将栈顶替换为B，head.compareAndSet(A,B)。</li>
+<li>在T1执行上面这条指令之前，线程T2介入，将A、B出栈，再pushD、C、A。此时B.next为null。</li>
+<li>此时轮到线程T1执行CAS操作，检测发现栈顶仍为A，所以CAS成功，栈顶变为B。</li>
+<li>但实际上B.next为null，其中堆栈中只有B一个元素，C和D组成的链表不再存在于堆栈中，这样就造成C、D被抛弃的现象。</li>
+</ul>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>各种乐观锁的实现中通常都会用版本戳version来对记录或对象标记，避免并发操作带来的问题，在Java中，AtomicStampedReference<e>也实现了这个作用，它通过包装[E,Integer]的元组来对对象标记版本戳stamp，从而避免ABA问题。</e></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://ifeve.com/java-atomic/" rel="external nofollow" target="_blank">http://ifeve.com/java-atomic/</a></li>
+<li><p><a href="http://ifeve.com/juc-atomic-class-lazyset-que/" rel="external nofollow" target="_blank">http://ifeve.com/juc-atomic-class-lazyset-que/</a></p>
+</li>
+<li><p><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6275329" rel="external nofollow" target="_blank">https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6275329</a></p>
+</li>
+<li><p><a href="http://g.oswego.edu/dl/jmm/cookbook.html" rel="external nofollow" target="_blank">http://g.oswego.edu/dl/jmm/cookbook.html</a></p>
+</li>
+<li><p><a href="http://footmanff.com/2018/03/27/2018-03-27-unsafe-lazyset/" rel="external nofollow" target="_blank">http://footmanff.com/2018/03/27/2018-03-27-unsafe-lazyset/</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/a7980718/article/details/82860505" rel="external nofollow" target="_blank">CAS操作在ARM和x86下的不同实现</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/sdr_zd/article/details/81323519" rel="external nofollow" target="_blank">浅谈缓存一致性原则和Java内存模型（JMM）</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/yAvJFZWxfKb38IDMjQd5zg" rel="external nofollow" target="_blank">java计数器探秘</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/zdy0_2004/article/details/48013829" rel="external nofollow" target="_blank">Linux内核中的cmpxchg函数</a></p>
+</li>
+<li><a href="https://www.cnblogs.com/senlinyang/p/7875381.html" rel="external nofollow" target="_blank">Java CAS ABA问题发生的场景分析</a></li>
+</ul>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者: <a href="https://www.tiandiwuji.top">Tianji</a>
+            </p><p>原文链接: <a href="https://www.tiandiwuji.top/posts/57887/">https://www.tiandiwuji.top/posts/57887/</a>
+            </p><p>发表日期: <a href="https://www.tiandiwuji.top/posts/57887/">April 18th 2019, 12:34:32 pm</a>
+            </p><p>版权声明: 本文采用<a rel="external nofollow" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/posts/30918/" title="day-day-up">
+                    <div class="nextTitle">day-day-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/posts/53933/" title="算法刷刷刷">
+                    <div class="prevTitle">算法刷刷刷</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODcyNS8xNTI1Mw==">
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC和WAP自适应版-->
+
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:fengyunhetao@gmail.com" class="iconfont-archer email" title="email" rel="external nofollow" target="_blank"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fengyuhetao" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="external nofollow">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style="top:50vh;">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AtomicInteger深入理解"><span class="toc-number">1.</span> <span class="toc-text">AtomicInteger深入理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码测试"><span class="toc-number">1.1.</span> <span class="toc-text">代码测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义的变量"><span class="toc-number">1.1.1.</span> <span class="toc-text">定义的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#layzSet方法"><span class="toc-number">1.1.2.</span> <span class="toc-text">layzSet方法:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set方法"><span class="toc-number">1.1.3.</span> <span class="toc-text">set方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#incrementAndGet"><span class="toc-number">1.1.4.</span> <span class="toc-text">incrementAndGet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getAndUpdate"><span class="toc-number">1.1.5.</span> <span class="toc-text">getAndUpdate</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统级别CAS实现"><span class="toc-number">1.2.</span> <span class="toc-text">操作系统级别CAS实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能"><span class="toc-number">1.3.</span> <span class="toc-text">性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基准测试"><span class="toc-number">1.3.1.</span> <span class="toc-text">基准测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#吞吐量"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">吞吐量:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#平均耗时"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">平均耗时:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ABA问题"><span class="toc-number">1.4.</span> <span class="toc-text">ABA问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法"><span class="toc-number">1.4.1.</span> <span class="toc-text">解决方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">1.5.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 77
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2099 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href="/posts/30918/">day-day-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/57887/">AtomicInteger代码阅读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href="/posts/43363/">java-面试准备</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-problem</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href="/posts/8880/">Thinkphp5.0.*之RCE漏洞分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href="/posts/56986/">35c3ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href="/posts/7845/">java开发小记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href="/posts/24928/">软件安装相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span><a class="archive-post-title" href="/posts/21890/">内存取证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/15</span><a class="archive-post-title" href="/posts/49664/">xmasctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href="/posts/11772/">hxp-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">php调试分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/36891/">php7.2内核调试环境搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href="/posts/46756/">linux-优化实战笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href="/posts/41159/">RealWorldFinal</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href="/posts/4968/">pwnable.tw练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href="/posts/48844/">bctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href="/posts/23961/">安全域划分的相关问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href="/posts/16617/">code-breaking</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href="/posts/3376/">lctf-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href="/posts/49484/">hctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span><a class="archive-post-title" href="/posts/59104/">SROP-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href="/posts/19071/">tcache-study</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href="/posts/49989/">hitcon-复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/17</span><a class="archive-post-title" href="/posts/30021/">hack-lu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href="/posts/56316/">netty入门到精通-初识NIO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/61088/">php-项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/26</span><a class="archive-post-title" href="/posts/11284/">jvm-深入拆解java虚拟机</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span><a class="archive-post-title" href="/posts/45708/">anheng</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/21</span><a class="archive-post-title" href="/posts/1345/">pwnable.kr_刷刷刷</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/62824/">dubbo项目结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/28842/">zookeeper安装-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/posts/11234/">dubbo-启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/42373/">casw-2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href="/posts/26893/">渗透测试-vulnhub-acid</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href="/posts/32469/">noxctf-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href="/posts/18428/">lamp && lnmp以apt-get的方式安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/04</span><a class="archive-post-title" href="/posts/7418/">websec.fr-writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/posts/42614/">TokyoWesterns CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/posts/39475/">ctfzone-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/13474/">real-world-ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href="/posts/6549/">ISITDTU-CTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/posts/46785/">巅峰极客ctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href="/posts/5109/">php-命令执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/62555/">RSA学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href="/posts/28940/">ssti</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href="/posts/45992/">php命令执行函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href="/posts/16486/">web安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/26</span><a class="archive-post-title" href="/posts/22546/">googlectf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/24</span><a class="archive-post-title" href="/posts/9490/">linux常见文件的作用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/21</span><a class="archive-post-title" href="/posts/32268/">sctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/14</span><a class="archive-post-title" href="/posts/54865/">python多线程和lock和Rlock</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/54897/">linux格式化字符串漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/29112/">pwn备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/posts/5359/">sqlmap使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/50844/">linux安全备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href="/posts/51203/">LRE_PAYLOAD绕过open_basedir</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/17498/">mysql忘记密码/修改密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/62889/">docker使用手册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href="/posts/56136/">linux使用相关</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href="/posts/26365/">suctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/21</span><a class="archive-post-title" href="/posts/32791/">bypassaslr_return2plt</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/08</span><a class="archive-post-title" href="/posts/62655/">cbc翻转</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/07</span><a class="archive-post-title" href="/posts/60875/">misc思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/33488/">常用shell命令及相关工具（shell+python+tools）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/24</span><a class="archive-post-title" href="/posts/15636/">parse_url + curl</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href="/posts/22230/">ddctf2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/65402/">PHP代码审计归纳</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/52452/">xss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href="/posts/24854/">url相对路径和绝对路径</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href="/posts/40688/">python3和python2 base64的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href="/posts/41083/">sql注入大全</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="pwn"><span class="iconfont-archer">&#xe606;</span>pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf_php_debug"><span class="iconfont-archer">&#xe606;</span>ctf_php_debug</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具手册"><span class="iconfont-archer">&#xe606;</span>工具手册</span>
+    
+        <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
+    
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="python安全"><span class="iconfont-archer">&#xe606;</span>python安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="前端"><span class="iconfont-archer">&#xe606;</span>前端</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="安全"><span class="iconfont-archer">&#xe60a;</span>安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Tianji"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

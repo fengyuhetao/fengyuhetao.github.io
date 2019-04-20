@@ -354,6 +354,31 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/1345/">
+            
+                <span>pwnable.kr_刷刷刷</span>
+        </a>
+        <div class="abstract-content">
+            Uaf虚函数，一旦一个类有虚函数，编译器会为这个类建立一张vtable。子类继承父类vtable中所有项，当子类有同名函数时，修改vtable同名函数地址，改为指向子类的函数地址，子类有新的虚函数时，在vtable中添加。记住，私有函数无法继承，但如果私有函数是虚函数，vtable中会有相应的函数地址，所有子类可以通过手段得到父类的虚私有函数。
+vptr每个对象都会有一个，而vptable是每个类有一个vptr指向vtable，一个类中就算有多个虚函数，也只有一个vptr，做多重继承的时候，继承了多个父类，就会有多个vptr
+虚函数表的结构：它是一个函数指针表，每一个表项都指向一个函数。...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/21</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/62824/">
             
                 <span>dubbo项目结构</span>
@@ -493,35 +518,6 @@ git
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/posts/26893/">
-            
-                <span>渗透测试-vulnhub-acid</span>
-        </a>
-        <div class="abstract-content">
-            <p><strong>备忘录,仅用来记录一些操作，具体环境可以参考红日安全</strong></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="渗透测试">渗透测试</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href="/posts/42373/">
             
                 <span>casw-2018</span>
@@ -545,6 +541,35 @@ SSO首先获取auth code:
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
             </div>
             <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/posts/26893/">
+            
+                <span>渗透测试-vulnhub-acid</span>
+        </a>
+        <div class="abstract-content">
+            <p><strong>备忘录,仅用来记录一些操作，具体环境可以参考红日安全</strong></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="渗透测试">渗透测试</a>
+    
+</div>
             
         </div>
     </article>
@@ -680,47 +705,6 @@ sudo apt-get install php-fpm
             <div class="abstract-tags">
     
         <a class="post-tag" href="javascript:void(0);" data-tags="ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/41139/">
-            
-                <span>how2heap-分析总结</span>
-        </a>
-        <div class="abstract-content">
-            前言how2heap有了很大的变化，特在此学习，记录。
-内存分配概述摘自华庭大佬。
-
-分配算法概述，以 32 系统为例，64 位系统类似。
-
-
-小于等于 64 字节：用 pool 算法分配。
-64 到 512 字节之间：在最佳匹配算法分配和 pool 算法分配中取一种合适的。
-大于等于 512 字节：用最佳匹配算法分配。
-大于等于 mmap 分配阈值（默认值 128KB）：根据设置的 mmap 的分配策略进行分配，如果没有开启 mmap 分配阈值的动态调整机制，大于等于 128KB 就直接调用 mmap分配。否则，大于等于 mmap 分配阈值时才直接调用 mmap()分配。
-
-
-ptma...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="pwn">pwn</a>
     
 </div>
             
@@ -2144,74 +2128,9 @@ ptma...
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -2241,6 +2160,11 @@ ptma...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/57887/">AtomicInteger代码阅读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
         </li>
     
@@ -2251,7 +2175,7 @@ ptma...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-problem</a>
         </li>
     
     
@@ -2300,7 +2224,7 @@ ptma...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">php调试分析</a>
         </li>
     
     
@@ -2440,12 +2364,12 @@ ptma...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2560,12 +2484,12 @@ ptma...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2642,11 +2566,11 @@ ptma...
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2660,9 +2584,9 @@ ptma...
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

@@ -379,6 +379,32 @@ https://github.com/wofeiwo...
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/posts/57887/">
+            
+                <span>AtomicInteger代码阅读</span>
+        </a>
+        <div class="abstract-content">
+            AtomicInteger深入理解
+高并发的情况下，i++无法保证原子性，往往会出现问题，所以引入AtomicInteger类。
+
+代码测试123456789101112131415161718192021222324252627282930313233public class TestAtomicInteger &#123;    private static final int THREADS_COUNT = 2;    public static int count = 0;    public static volatile int countVolatile = 0;    p...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/18</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/posts/53933/">
             
                 <span>算法刷刷刷</span>
@@ -438,10 +464,11 @@ S: O(1)
     <article class="index-post">
         <a class="abstract-title" href="/posts/44754/">
             
-                <span>dubbo-配置</span>
+                <span>dubbo-problem</span>
         </a>
         <div class="abstract-content">
-            API配置属性配置XML配置注解配置
+            记录dubbo源码阅读过程中，看到的有趣的问题，以后有时间，在慢慢梳理issuse#619代码: org/apache/dubbo/rpc/RpcResult.java
+123456789101112131415161718192021222324Override    public Object recreate() throws Throwable &#123;        if (exception != null) &#123;            // fix issue#619            try &#123;                // get Thr...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -597,29 +624,6 @@ prepare
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/16</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/posts/49664/">
-            
-                <span>xmasctf</span>
-        </a>
-        <div class="abstract-content">
-            pinkie’s gift1234567891011121314151617181920212223242526from pwn import *debug = int(raw_input(&quot;debug?:&quot;))if debug:    p = process(&quot;./pinkiegift&quot;)    context.log_level = &quot;debug&quot;else:    p = remote(&quot;95.179.163.167&quot;, 10006)p.recvuntil(&quot;Santa: &quot;)bins...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/15</span>
             </div>
             <!-- tags  -->
             
@@ -1959,74 +1963,9 @@ prepare
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -2056,6 +1995,11 @@ prepare
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/57887/">AtomicInteger代码阅读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
         </li>
     
@@ -2066,7 +2010,7 @@ prepare
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-problem</a>
         </li>
     
     
@@ -2115,7 +2059,7 @@ prepare
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">php调试分析</a>
         </li>
     
     
@@ -2255,12 +2199,12 @@ prepare
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2375,12 +2319,12 @@ prepare
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2457,11 +2401,11 @@ prepare
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2475,9 +2419,9 @@ prepare
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

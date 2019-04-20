@@ -419,7 +419,7 @@
 <li>大量等待 CPU 的进程调度也会导致平均负载升高，此时的 CPU使用率也会偏高。      –&gt; 不一致</li>
 </ul>
 <h3 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h3><p>使用工具: stress和sysstat</p>
-<p>stree: 系统压力测试工具</p>
+<p>stress: 系统压力测试工具</p>
 <p>sysstat:Linux性能工具。</p>
 <ul>
 <li>mpstat 常用多核CPU性能分析工具，实时查看每个CPU的性能指标以及所有CPU的平均指标</li>
@@ -430,7 +430,7 @@
 <h2 id="CPU上下文切换"><a href="#CPU上下文切换" class="headerlink" title="CPU上下文切换"></a>CPU上下文切换</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><h4 id="CPU上下文"><a href="#CPU上下文" class="headerlink" title="CPU上下文:"></a>CPU上下文:</h4><p>CPU 都需要知道任务从哪里加载、又从哪里开始运行，也就是<strong>CPU寄存器和程序计数器(PC)</strong>,CPU 寄存器，是 CPU 内置的容量小、但速度极快的内存。而程序计数器则是用来存储 CPU 正在执行的指令位置、或者即将执行的下一一条指令位置。它们都是 CPU 在运行任何任务前，必须的依赖环境，因此也被叫做 CPU 上下文。</p>
 <p><strong>Note: x86 系统中自增的是 IP，用 CS:IP 组合表示正在执行的指令地址，此时 PC 只是一个概念上的说法。在 ARM 体系中 R15 就是 PC，当然 ARM 和 IA-32、x64 都支持高级内存管理，所以「PC」的内容未必是当前指令在内存中的绝对位置。</strong></p>
 <h4 id="操作系统管理的任务"><a href="#操作系统管理的任务" class="headerlink" title="操作系统管理的任务"></a>操作系统管理的任务</h4><p>任务就是进程，或者说任务就是线程。是的，进程和线程正是最常见的任务。但是除此之外，还有没有其他的任务呢？硬件通过触发信号，会导致中断处理程序的调用，也是一种常见的任务。</p>
-<h4 id="CPU上下文切换-1"><a href="#CPU上下文切换-1" class="headerlink" title="CPU上下文切换"></a>CPU上下文切换</h4><p>先把前一个任务的CPU上下文（也就是CPU寄存器和程序计数器）保存起来，然后加载新任务的上下文到这些寄存器和程序计数器，最后在跳转到程序计数器所指的新闻纸，运行新任务。<em>可参考SROP-study深入理解。</em></p>
+<h4 id="CPU上下文切换-1"><a href="#CPU上下文切换-1" class="headerlink" title="CPU上下文切换"></a>CPU上下文切换</h4><p>先把前一个任务的CPU上下文（也就是CPU寄存器和程序计数器）保存起来，然后加载新任务的上下文到这些寄存器和程序计数器，最后在跳转到程序计数器所指的新指令，运行新任务。<em>可参考SROP-study深入理解。</em></p>
 <p>根据操作系统管理的任务不同，CPU的上下文切换可以分布三个不同的场景，也就是<strong>进程上下文切换、线程上下文切换、以及中断上下文切换</strong></p>
 <h3 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h3><h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识:"></a>前置知识:</h4><p>Linux 按照特权等级，把进程的运行空间分为内核空间和用户空间， CPU 特权等级的 Ring 0 和 Ring 3。Ring0权限最高，Ring3最小，只能访问受限资源，不能访问内存等硬件设备，必须通过系统调用陷入内核中，才能访问特权资源。</p>
 <p>进程既会在用户空间运行，也会在内核空间运行。进程在用户空间运行时，被称为进程的用户态，陷入内核空间时，成为进程的内核态。</p>
@@ -2336,74 +2336,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 76
+        Total : 77
         </div>
         <!-- search  -->
         
@@ -2433,6 +2368,11 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/posts/57887/">AtomicInteger代码阅读</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/06</span><a class="archive-post-title" href="/posts/53933/">算法刷刷刷</a>
         </li>
     
@@ -2443,7 +2383,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-配置</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href="/posts/44754/">dubbo-problem</a>
         </li>
     
     
@@ -2492,7 +2432,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">ctf题目-php调试分析</a>
+            <span class="archive-post-date">12/05</span><a class="archive-post-title" href="/posts/31116/">php调试分析</a>
         </li>
     
     
@@ -2632,12 +2572,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/41139/">how2heap-分析总结</a>
+            <span class="archive-post-date">08/06</span><a class="archive-post-title" href="/posts/27029/">0ctf2018-babyheap</a>
         </li>
     
     
@@ -2752,12 +2692,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/23527/">phpinfo解读</a>
+            <span class="archive-post-date">05/22</span><a class="archive-post-title" href="/posts/9764/">rctf2018学习笔记</a>
         </li>
     
     
@@ -2834,11 +2774,11 @@
     
         <span class="sidebar-tag-name" data-tags="dubbo"><span class="iconfont-archer">&#xe606;</span>dubbo</span>
     
-        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
+        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
     
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
     
-        <span class="sidebar-tag-name" data-tags="jvm"><span class="iconfont-archer">&#xe606;</span>jvm</span>
+        <span class="sidebar-tag-name" data-tags="运维"><span class="iconfont-archer">&#xe606;</span>运维</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
@@ -2852,9 +2792,9 @@
     
         <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
     
-        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
-    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全体系建设"><span class="iconfont-archer">&#xe606;</span>安全体系建设</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
